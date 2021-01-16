@@ -10,7 +10,7 @@ from datetime import datetime, timezone, timedelta
 import json
 
 
-class MemTemp(plugins.Plugin):
+class Bitcoin(plugins.Plugin):
     __author__ = 'https://github.com/jfrader'
     __version__ = '0.0.1'
     __license__ = 'GPL3'
@@ -64,7 +64,7 @@ class MemTemp(plugins.Plugin):
         with ui._lock:
             ui.remove_element('bitcoin')
 
-    def on_ui_update(self, ui):
+    def on_internet_available(self, ui):
         prices = fetch_prices()
         current_price = prices[len(prices) - 1]
         if self.options['orientation'] == "vertical":
