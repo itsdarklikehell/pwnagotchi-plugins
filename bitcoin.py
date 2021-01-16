@@ -44,7 +44,7 @@ class Bitcoin(plugins.Plugin):
         else:
             h_pos = (155, 76)
 
-        ui.add_element('bitcoin', LabeledValue(color=BLACK, label='', value=' btc/usd:$ ...',
+        ui.add_element('bitcoin', LabeledValue(color=BLACK, label='', value=' BTC/USD: \n $ ...',
                                                 position=h_pos,
                                                 label_font=fonts.Small, text_font=fonts.Small))
 
@@ -56,4 +56,5 @@ class Bitcoin(plugins.Plugin):
         logging.info("fetching bitcoin price...")
         prices = fetch_prices()
         current_price = prices[len(prices) - 1]
-        ui.set('bitcoin', ' btc/usd: \n $%.2f ' % (current_price))
+        price_text = " BTC/USD: \n $%.2f" % current_price
+        ui.set('bitcoin', price_text)
