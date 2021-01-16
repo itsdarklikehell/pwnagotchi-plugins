@@ -53,6 +53,7 @@ class Bitcoin(plugins.Plugin):
             ui.remove_element('bitcoin')
 
     def on_internet_available(self, ui):
+        logging.info("fetching bitcoin price...")
         prices = fetch_prices()
         current_price = prices[len(prices) - 1]
-        ui.set('bitcoin', ' btc/usd:$ %.2f ' % (current_price))
+        ui.set('bitcoin', ' btc/usd: \n $%.2f ' % (current_price))
