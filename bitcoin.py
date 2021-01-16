@@ -67,10 +67,9 @@ class MemTemp(plugins.Plugin):
     def on_ui_update(self, ui):
         prices = fetch_prices()
         current_price = prices[len(prices) - 1]
-        if self.options['memtemp']['enabled'] == True:
-            if self.options['orientation'] == "vertical":
-                ui.set('bitcoin', ' btc/usd:${}'.format(current_price))
-            else:
-                # default to horizontal
-                ui.set('bitcoin',
-                       ' btc/usd:\n ${} '.format(current_price))
+        if self.options['orientation'] == "vertical":
+            ui.set('bitcoin', ' btc/usd:${}'.format(current_price))
+        else:
+            # default to horizontal
+            ui.set('bitcoin',
+                    ' btc/usd:\n ${} '.format(current_price))
