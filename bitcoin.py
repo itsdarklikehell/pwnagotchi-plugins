@@ -4,9 +4,7 @@ import pwnagotchi.ui.fonts as fonts
 import pwnagotchi.plugins as plugins
 import pwnagotchi
 import logging
-import urllib.request
-from urllib.error import HTTPError
-from datetime import datetime, timezone, timedelta
+import requests
 import json
 
 
@@ -19,16 +17,11 @@ class Bitcoin(plugins.Plugin):
     def on_loaded(self):
         logging.info("bitcoin plugin loaded.")
 
-    def fetch_prices():
-        timeslot_end = datetime.now(timezone.utc)
-        timeslot_start = timeslot_end - timedelta(days=1)
-        req = urllib.request.Request("https://production.api.coindesk.com/v2/price/values/BTC?start_date="
-                                     "%s&end_date=%s&ohlc=false" % (timeslot_start.strftime("%Y-%m-%dT%H:%M"),
-                                                                    timeslot_end.strftime("%Y-%m-%dT%H:%M")))
-        data = urllib.request.urlopen(req).read()
-        external_data = json.loads(data)
-        prices = [entry[1] for entry in external_data['data']['entries']]
-        return prices
+    def fetch_price():
+        bitcoin_api_url = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/'
+        response = requests.get(bitcoin_api_url)
+        response_json = response.json()
+        return float(response_json[0]['price_usd'])
 
     def on_ui_setup(self, ui):
         if ui.is_waveshare_v2():
@@ -54,7 +47,6 @@ class Bitcoin(plugins.Plugin):
 
     def on_internet_available(self, ui):
         logging.info("fetching bitcoin price...")
-        prices = fetch_prices()
-        current_price = prices[len(prices) - 1]
-        price_text = " BTC/USD: \n $%.2f" % current_price
+        price = fetch_price()
+        price_text = " BTC/USD: \n $%.2f" % price
         ui.set('bitcoin', price_text)
