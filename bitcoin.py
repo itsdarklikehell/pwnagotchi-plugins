@@ -59,6 +59,6 @@ class Bitcoin(plugins.Plugin):
         self._has_internet = True
 
     def on_sleep(self):
-        if self._has_internet == True
-        price = self._fetch_price()
-        self._last_price = " BTC/USD: \n $%s " % price
+        if self._has_internet == True:
+            price = self._fetch_price()
+            self._last_price = " BTC/USD: \n $%s " % price
