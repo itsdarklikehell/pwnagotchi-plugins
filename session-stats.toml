@@ -1,0 +1,2 @@
+main.plugins.session-stats.enabled = false
+main.plugins.session-stats.save_directory = "/var/tmp/pwnagotchi/sessions/"

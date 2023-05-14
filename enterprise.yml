@@ -1,0 +1,4 @@
+enterprise:
+  enabled: false
+  interface: wlan0
+  duration: 2

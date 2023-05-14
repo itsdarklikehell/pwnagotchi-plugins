@@ -1,0 +1,4 @@
+main.plugins.gps_more.enabled = false
+main.plugins.gps_more.speed = "9600"
+main.plugins.gps_more.device = "/dev/ttyACM0"
+main.plugins.gps_more.keepGPSOn = true

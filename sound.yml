@@ -1,0 +1,5 @@
+sound:
+  enabled: true
+  sound-dir: default
+  text2speech-use: true
+  text2speech-lang: en-US

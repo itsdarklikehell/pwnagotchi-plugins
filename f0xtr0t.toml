@@ -1,0 +1,5 @@
+main.plugins.f0xtr0t.enabled = false
+main.plugins.f0xtr0t.gpsprovider = "gpsd"
+main.plugins.f0xtr0t.gpsdhost = "127.0.0.1"
+main.plugins.f0xtr0t.gpsdport = 2947
+main.plugins.f0xtr0t.pawgpshost = "http://192.168.44.1:8080/gps.xhtml"

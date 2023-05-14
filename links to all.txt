@@ -1,0 +1,4 @@
+https://github.com/dadav/pwnagotchi-custom-plugins
+https://github.com/Teraskull/pwnagotchi-community-plugins
+https://github.com/flamebarke/DiscoHash
+https://github.com/crahan/pwnagotchi-plugins

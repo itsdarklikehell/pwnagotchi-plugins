@@ -1,0 +1,5 @@
+gps_more:
+  enabled: false
+  speed: "9600"
+  device: "/dev/ttyACM0"
+  keepGPSOn: true

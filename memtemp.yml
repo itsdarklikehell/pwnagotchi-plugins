@@ -1,0 +1,4 @@
+memtemp:
+  enabled: false
+  scale: "celsius"
+  orientation: "horizontal"

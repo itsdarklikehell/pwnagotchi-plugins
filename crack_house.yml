@@ -1,0 +1,9 @@
+crack_house:
+  enabled: false
+  orientation: "vertical"
+  files:
+    - "/root/handshakes/wpa-sec.cracked.potfile"
+    - "/root/handshakes/my.potfile"
+    - "/root/handshakes/OnlineHashCrack.potfile"
+  saving_path: "/root/handshakes/crackhouse.potfile"
+  display_stats: true

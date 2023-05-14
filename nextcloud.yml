@@ -1,0 +1,6 @@
+nextcloud:
+  enabled: false
+  baseurl: "https://your.nextcloud.tld"
+  path: "handshakes"
+  user: "username"
+  pass: "password"

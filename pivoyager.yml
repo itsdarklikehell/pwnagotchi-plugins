@@ -1,0 +1,6 @@
+pivoyager:
+  enabled: false
+  path: "/usr/local/bin/pivoyager"
+  refresh_time: 3
+  bat_x_coord: 171
+  bat_y_coord: 212

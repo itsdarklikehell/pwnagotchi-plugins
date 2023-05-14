@@ -1,0 +1,25 @@
+bt-tether:
+  enabled: true
+  devices:
+    android-phone:
+      enabled: true
+      search_order: 1
+      android-phone.mac: "DC:E5:5B:06:A5:EC"
+      android-phone.ip: "192.168.44.44"
+      android-phone.netmask: 24
+      android-phone.interval: 1
+      android-phone.scantime: 10
+      android-phone.max_tries: 0
+      android-phone.share_internet: true
+      android-phone.priority: 1
+    ios-phone:
+      enabled: false
+      search_order: 2
+      mac: ""
+      ip: "172.20.10.6"
+      netmask: 24
+      interval: 5
+      scantime: 20
+      max_tries: 0
+      share_internet: false
+      priority: 999

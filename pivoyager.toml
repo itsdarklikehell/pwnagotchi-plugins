@@ -1,0 +1,5 @@
+main.plugins.pivoyager.enabled = false
+main.plugins.pivoyager.path = "/usr/local/bin/pivoyager"
+main.plugins.pivoyager.refresh_time = 3
+main.plugins.pivoyager.bat_x_coord = 171
+main.plugins.pivoyager.bat_y_coord = 212

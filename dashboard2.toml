@@ -1,0 +1,16 @@
+main.plugins.dashboard2.enabled = false
+main.plugins.dashboard2.date_format = "%m/%d/%y"
+main.plugins.dashboard2.clock_x_pos = 121
+main.plugins.dashboard2.clock_y_pos = 114
+main.plugins.dashboard2.cpu_x_pos = 224
+main.plugins.dashboard2.cpu_y_pos = 22
+main.plugins.dashboard2.mem_x_pos = 274
+main.plugins.dashboard2.mem_y_pos = 22
+main.plugins.dashboard2.tmp_x_pos = 218
+main.plugins.dashboard2.tmp_y_pos = 60
+main.plugins.dashboard2.deauth_x_pos = 226
+main.plugins.dashboard2.deauth_y_pos = 134
+main.plugins.dashboard2.hand_x_pos = 282
+main.plugins.dashboard2.hand_y_pos = 134
+main.plugins.dashboard2.cracked_x_pos = 218
+main.plugins.dashboard2.cracked_y_pos = 170

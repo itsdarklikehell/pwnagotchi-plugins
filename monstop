@@ -1,0 +1,5 @@
+#!/bin/bash
+interface=wlan1mon
+ifconfig ${interface} down
+sleep 1
+iw dev ${interface} del

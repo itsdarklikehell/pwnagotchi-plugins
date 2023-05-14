@@ -1,0 +1,13 @@
+wigle:
+  enabled: true
+  api_key: "QUlEN2VlZGZkYWU1ODQ1NzJhYzEyODdmMGY2YjQ0OTc5NDY6Zjc3OTZmMjFiMjhhMjE5MTMwMjczNWQ1NDA0YWFiMWM"
+  whitelist:
+    - "B33zH1v3!"
+    - "Downtown-Personeel-2.4G"
+    - "Downtown-Personeel-5G"
+    - "Downtown-Gasten"
+    - "2C:3A:FD:42:88:60"
+    - "2C:3A:FD:42:88:61"
+    - "BC:05:43:13:6F:82"
+    - "DownTown Internet"
+  donate: true

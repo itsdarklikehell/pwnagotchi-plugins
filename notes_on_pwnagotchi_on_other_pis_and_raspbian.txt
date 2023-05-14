@@ -1,0 +1,273 @@
+Physical Setup:
+  My current development setup is a Raspberry Pi 4 running a standard Raspbian installation with two USB devices: 
+  an Alfa AWUS036NHA B/G/N wireless adapter and a GlobalSat BU-353-S4 GPS receiver. An optional GSM Pi HAT occasionally 
+  makes an appearance. The Pi is attached to a RAVPower 26,800mAh portable charger (battery pack), which is attached to a
+  NorthPada 5v 3A micro-USB power supply charger. The power supply charger stays plugged into the input of the battery pack, 
+  so I can quickly and descretly pull out the wall-wart and charge, without disrupting the operating state of the Pi. My 
+  active Pi switches between existing in the nude and sitting in a SmartPi Touch case, with a 7" touchscreen display, so I 
+  can interact with it on the go. Keyboard and mouse also included. All of this garbage sits inside of a OGIO backpack, with
+  the stupid-long 14.75" 9dBi Alfa antenna sticking out one of the deeper pockets. The GPS dongle is usually in one of the 
+  higher pockets or occasionally wired through one of the headphone-jack/accessibility-port holes, to minimize any 
+  interference. The Pi chills in a completely separate, insulated pocket, with absolutely no ventilation, and I'm surprised 
+  my goodest boy hasn't desoldered itself yet. Doesn't matter - captured handshakes. Everything in all of the pockets is wired 
+  together by cables that pass on the outside of the bag, through accessibility ports and zipper holes. I'm real tempted to 
+  poke holes on the inside of the bag, and route everything on the inside, BUT THESE BAGS ARE TOO DAMN NICE TO RUIN!
+
+Software Setup:
+  Installed Raspbian lite, then manually installed the desktop environment so I could switch between the two, depending on what 
+  I was doing that day. Installed a bunch of tools, configured the environment the way I like, etc.
+  
+  Let's talk about the Pwnagotchi installation/config instructions: https://pwnagotchi.ai/installation/
+First things first:
+  "apt-get install golang git build-essential libpcap-dev libusb-1.0-0-dev libnetfilter-queue-dev gpsd gpsd-clients libatlas-base-dev libhdf5-dev libjasper-dev libqtgui4 libqt4-test python3-mpi4py python3-numpy tcpdump"
+    
+### Next, install bettercap using the programming language no one asked for:
+  go get -u github.com/bettercap/bettercap
+  sudo bettercap -eval "caplets.update; ui.update; quit"
+
+### Edit /usr/local/share/bettercap/caplets/pwnagotchi-auto.cap : 
+
+"""
+set wifi.interface wlan1mon
+
+# api listening on http://127.0.0.1:8081/ and ui to http://127.0.0.1
+set api.rest.address 127.0.0.1
+set api.rest.port 8081
+set http.server.address 127.0.0.1
+set http.server.port 80
+set http.server.path /usr/local/share/bettercap/ui
+set api.rest.username PwnagotchiUsername
+set api.rest.password PwnagotchiPassword
+
+# go!
+api.rest on
+http.server on
+"""
+
+### Edit /usr/local/share/bettercap/caplets/pwnagotchi-manual.cap :
+"""
+# enable interface monitor mode and define wifi interface to be mon0
+set wifi.interface wlan1mon
+
+# api listening on http://0.0.0.0:8081/ and ui to http://0.0.0.0
+set api.rest.address 0.0.0.0
+set api.rest.port 8081
+set http.server.address 0.0.0.0
+set http.server.port 80
+set http.server.path /usr/local/share/bettercap/ui
+set api.rest.username PwnagotchiUsername
+set api.rest.password PwnagotchiPassword
+
+# go!
+api.rest on
+http.server on
+"""
+
+### The actual pwnagotchi install instructions fuck up by telling you to edit /etc/systemd/system/bettercap.service, 
+### but you actually want to edit one into 'lib': /lib/systemd/system/bettercap.service
+"""
+[Unit]
+Description=bettercap api.rest service.
+Documentation=https://bettercap.org
+Wants=network.target
+After=pwngrid.service
+RequiredBy=pwnagotchi.service
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+ExecStart=/usr/bin/bettercap-launcher
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+"""
+
+### And let's create our bettercap launcher /usr/bin/bettercap-launcher
+"""
+#!/usr/bin/env bash
+/usr/bin/monstart
+if [[ $(ifconfig | grep usb0 | grep RUNNING) ]] || [[ $(cat /sys/class/net/eth0/carrier) ]]; then
+  # if override file exists, go into auto mode
+  if [ -f /root/.pwnagotchi-auto ]; then
+    /usr/bin/bettercap -no-colors -caplet pwnagotchi-auto -iface wlan1mon
+  else
+    /usr/bin/bettercap -no-colors -caplet pwnagotchi-manual -iface wlan1mon
+  fi
+else
+  /usr/bin/bettercap -no-colors -caplet pwnagotchi-auto -iface wlan1mon
+fi
+"""
+
+### And create /usr/bin/monstart
+"""
+#!/bin/bash
+interface=wlan1mon
+echo "Bring up monitor mode interface ${interface}"
+iw phy phy1 interface add ${interface} type monitor
+ifconfig ${interface} up
+if [ $? -eq 0 ]; then
+	echo "started monitor interface on ${interface}"
+fi
+"""
+
+### And create /usr/bin/monstop
+"""
+#!/bin/bash
+interface=wlan1mon
+ifconfig ${interface} down
+sleep 1
+iw dev ${interface} del
+"""
+
+### Do the pwngrid stuffs:
+wget "https://github.com/evilsocket/pwngrid/releases/download/v1.10.1/pwngrid_linux_amd64_v1.10.1.zip"
+unzip pwngrid_linux_amd64_v1.10.1.zip
+sudo mv pwngrid /usr/bin/
+sudo pwngrid -generate -keys /etc/pwnagotchi
+
+### Again, we create service stubs in lib for /lib/systemd/system/pwngrid-peer.service
+"""
+[Unit]
+Description=pwngrid peer service.
+Documentation=https://pwnagotchi.ai
+Wants=network.target
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+ExecStart=/usr/bin/pwngrid -keys /etc/pwnagotchi -address 127.0.0.1:8666 -client-token /root/.api-enrollment.json -wait -log /var/log/pwngrid-peer.log -iface wlan1mon
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+"""
+
+### Do the pwnagotchi stuff:
+wget "https://github.com/evilsocket/pwnagotchi/archive/v1.0.1.zip"
+unzip v1.0.1.zip
+cd pwnagotchi-1.0.1
+
+### There's a great chance that executing the pwnagotchi pip3 install will fail due to lack of memory:
+sudo pip3 install .
+
+### If it do or you don't want to wait for failure, disable the pip cache:
+sudo pip3 --no-cache-dir install .
+
+### Things like tensorflow, opencv, and keras are fairly massive. 
+### This pip install may also fail if run directly as root, instead of using sudo, though I'm not sure why
+### or if that was a real problem I had or if the problem is between the chair and the keyboard...
+
+### Let's create a service stub for pwnagotchi at /lib/systemd/system/pwnagotchi.service
+"""
+[Unit]
+Description=pwnagotchi
+Documentation=https://pwnagotchi.ai
+After=bettercap.service
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+Environment=LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1.2.0
+ExecStart=/usr/local/bin/pwnagotchi
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+"""
+
+### For some reason, I found it necessary to add the "LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1.2.0" to keep things working with pwnagotchi. Don't know, don't care; fixed.
+
+### Permission everything as expected:
+chmod 755 /usr/bin/monstart
+chmod 755 /usr/bin/monstop
+chmod 755 /usr/bin/bettercap-launcher
+chmod 644 /lib/systemd/system/bettercap.service
+chmod 644 /lib/systemd/system/pwngrid-peer.service
+chmod 644 /lib/systemd/system/pwnagotchi.service
+
+### Copy the default config as the working config:
+cp /etc/pwnagotchi/default.yml /etc/pwnagotchi/config.yml
+
+### Edit the working config as you see fit, though some values should stay in /etc/pwnagotchi/config.yml:
+"""
+...
+# If using GPS:
+      gps:
+        enabled: true
+        speed: 4800 
+        device: /dev/ttyUSB0
+...
+# If using the auto-backup module, remove the scp line because what are the odds?:
+        commands:
+          - 'tar czf /tmp/backup.tar.gz {files}'
+          - 'mv /tmp/backup.tar.gz /tmp/pwnagotchi_backup-$(date +%s).tar.gz'
+
+# monitor interface to use is actually the interface that will become the monitor interface:
+    iface: wlan1
+...
+# Make sure these are these:
+    mon_start_cmd: /usr/bin/monstart
+    mon_stop_cmd: /usr/bin/monstop
+...
+# Turn off the display, unless you're using one, and set the local interface to view the face over network:
+ui:
+    display:
+        enabled: false
+        video:
+            enabled: true
+            address: '0.0.0.0'
+            port: 8080
+...
+# bettercap conf:
+bettercap:
+    # api scheme://hostname:port username and password
+    scheme: http
+    hostname: localhost
+    port: 8081
+    username: PwnagotchiUsername
+    password: PwnagotchiPassword
+...
+"""
+
+### Enable the service stubs we created:
+systemctl enable pwngrid-peer.service
+systemctl enable bettercap.service
+systemctl enable pwnagotchi.service
+
+### The order of the services starting (per how we configured them) is:
+# pwngrid-peer.service
+#         \/
+# bettercap.service
+#         \/
+# pwnagotchi.service
+
+### Now we can either start the services manually or reboot:
+systemctl start pwngrid-peer.service
+systemctl start bettercap.service
+systemctl start pwnagotchi.service
+
+### Stop all pwnagotchi services:
+systemctl stop pwngrid-peer.service
+systemctl stop bettercap.service
+systemctl stop pwnagotchi.service
+
+### Disable all pwnagotchi services from starting on reboot:
+systemctl disable pwngrid-peer.service
+systemctl disable bettercap.service
+systemctl disable pwnagotchi.service
+
+### Check your usual log locations and /var/log/pwnagotchi.log for issues starting.
+### If you want to run them all manually, open up three root terminals and do:
+# Terminal 1
+monstart
+/usr/bin/pwngrid -keys /etc/pwnagotchi -address 127.0.0.1:8666 -client-token /root/.api-enrollment.json -wait -log /var/log/pwngrid-peer.log -iface wlan1mon
+
+# Terminal 2
+/usr/bin/bettercap -no-colors -caplet pwnagotchi-auto -iface wlan1mon
+
+# Terminal 3
+LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1.2.0 pwnagotchi

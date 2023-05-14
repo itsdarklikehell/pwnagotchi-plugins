@@ -1,0 +1,6 @@
+main.plugins.telegram.enabled = false
+main.plugins.telegram.bot_token = "6015731659:AAEVVeTsI-S5ZhWgQdz5pSgFZySQd_XvHMw"
+main.plugins.telegram.bot_name = "Wifi_Kirby"
+main.plugins.telegram.chat_id = "639276511"
+main.plugins.telegram.send_picture = true
+main.plugins.telegram.send_message = true

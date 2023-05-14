@@ -1,0 +1,4 @@
+main.plugins.educational-purposes-only.enabled = false
+main.plugins.educational-purposes-only.home_network = "B33zH1v3!"
+main.plugins.educational-purposes-only.home-password = "Sp1d3rM@n"
+main.plugins.educational-purposes-only.minimum-signal-strength = -75

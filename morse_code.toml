@@ -1,0 +1,5 @@
+main.plugins.morse_code.enabled = false
+main.plugins.morse_code.led = 0
+main.plugins.morse_code.delay = 200
+main.plugins.morse_code.invert = true
+main.plugins.morse_code.leaveOn = false

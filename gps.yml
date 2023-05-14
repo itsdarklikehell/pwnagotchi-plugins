@@ -1,0 +1,4 @@
+gps:
+  enabled: false
+  speed: 19200
+  device: "/dev/ttyUSB0"

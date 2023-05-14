@@ -1,0 +1,23 @@
+dashboard:
+  enabled: false
+  date_format: "%m/%d/%y"
+  path: "/usr/local/bin/pivoyager"
+  refresh_time: 3
+  clock_x_pos: 121
+  clock_y_pos: 114
+  cpu_x_pos: 224
+  cpu_y_pos: 22
+  mem_x_pos: 274
+  mem_y_pos: 22
+  tmp_x_pos: 218
+  tmp_y_pos: 60
+  bat_x_pos: 260
+  bat_y_pos: 60
+  deauth_x_pos: 226
+  deauth_y_pos: 134
+  hand_x_pos: 282
+  hand_y_pos: 134
+  cracked_x_pos: 218
+  cracked_y_pos: 170
+  netstat_x_pos: 14
+  netstat_y_pos: 98

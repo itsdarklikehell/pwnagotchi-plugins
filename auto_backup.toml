@@ -1,0 +1,18 @@
+main.plugins.auto_backup.enabled = false
+main.plugins.auto_backup.interval = "1"
+main.plugins.auto_backup.max_tries = "0"
+main.plugins.auto_backup.files = [
+ "/root/brain.nn",
+ "/root/brain.json",
+ "/root/.api-report.json",
+ "/root/handshakes/",
+ "/root/peers/",
+ "/etc/pwnagotchi/",
+ "/var/log/pwnagotchi.log",
+ "/var/log/pwngrid-peer.log"
+]
+main.plugins.auto_backup.commands = [
+ "'tar czf /tmp/pwnagotchi-backup.tar.gz {files}'",
+ "'mv /tmp/backup.tar.gz /home/pi/pwnagotchi_backup-$(date +%s).tar.gz'",
+ "'mv /tmp/backup.tar.gz /root/pwnagotchi_backup-$(date +%s).tar.gz'"
+]

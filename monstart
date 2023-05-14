@@ -1,0 +1,8 @@
+#!/bin/bash
+interface=wlan1mon
+echo "Bring up monitor mode interface ${interface}"
+iw phy phy1 interface add ${interface} type monitor
+ifconfig ${interface} up
+if [ $? -eq 0 ]; then
+	echo "started monitor interface on ${interface}"
+fi

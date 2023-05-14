@@ -1,0 +1,14 @@
+main.plugins.wpa-sec.enabled = true
+main.plugins.wpa-sec.api_key = "4ce5559bbb9c3852a0c3ac3652836aa0"
+main.plugins.wpa-sec.api_url = "https://wpa-sec.stanev.org/?my_nets"
+main.plugins.wpa-sec.download_results = true
+main.plugins.wpa-sec.whitelist = [
+ "B33zH1v3!",
+ "Downtown-Personeel-2.4G",
+ "Downtown-Personeel-5G",
+ "Downtown-Gasten",
+ "2C:3A:FD:42:88:60",
+ "2C:3A:FD:42:88:61",
+ "BC:05:43:13:6F:82",
+ "DownTown Internet"
+]

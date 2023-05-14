@@ -1,0 +1,3 @@
+main.plugins.discord.enabled = false
+main.plugins.discord.webhook_url = ""
+main.plugins.discord.username = "pwnagotchi"

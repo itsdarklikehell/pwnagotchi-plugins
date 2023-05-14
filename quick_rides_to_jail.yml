@@ -1,0 +1,12 @@
+# Place quick_rides_to_jail.py in pwnagotchi/plugins/default/
+# Add the following to your config, substituting variables as you see fit:
+main:
+  plugins:
+    quick_rides_to_jail:
+      enabled: true
+      wordlist_folder: /opt/wordlists/
+      net_device_path: /sys/class/net/
+      interface: wlan0
+      wpa_supplicant_conf_path: /etc/wpa_supplicant/wpa_supplicant.conf
+# Again, the interface needs to be a free network interface that's not in monitor mode.
+# Does not work if the quickdic plugin is enabled (since they do essentially the same things).

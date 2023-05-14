@@ -1,0 +1,47 @@
+main.plugins.bshim.enabled = false
+
+main.plugins.bshim.buttons.A.command = ""
+main.plugins.bshim.buttons.B.command = ""
+main.plugins.bshim.buttons.C.command = ""
+main.plugins.bshim.buttons.D.command = ""
+main.plugins.bshim.buttons.E.command = ""
+
+main.plugins.bshim.buttons.A.blink.enabled = false
+main.plugins.bshim.buttons.A.blink.red = 0
+main.plugins.bshim.buttons.A.blink.green = 0
+main.plugins.bshim.buttons.A.blink.blue = 0
+main.plugins.bshim.buttons.A.blink.on_time = 0
+main.plugins.bshim.buttons.A.blink.off_time = 0
+main.plugins.bshim.buttons.A.blink.blink_times = 0
+
+main.plugins.bshim.buttons.B.blink.enabled = false
+main.plugins.bshim.buttons.B.blink.red = 0
+main.plugins.bshim.buttons.B.blink.green = 0
+main.plugins.bshim.buttons.B.blink.blue = 0
+main.plugins.bshim.buttons.B.blink.on_time = 0
+main.plugins.bshim.buttons.B.blink.off_time = 0
+main.plugins.bshim.buttons.B.blink.blink_times = 0
+
+main.plugins.bshim.buttons.C.blink.enabled = false
+main.plugins.bshim.buttons.C.blink.red = 0
+main.plugins.bshim.buttons.C.blink.green = 0
+main.plugins.bshim.buttons.C.blink.blue = 0
+main.plugins.bshim.buttons.C.blink.on_time = 0
+main.plugins.bshim.buttons.C.blink.off_time = 0
+main.plugins.bshim.buttons.C.blink.blink_times = 0
+
+main.plugins.bshim.buttons.D.blink.enabled = false
+main.plugins.bshim.buttons.D.blink.red = 0
+main.plugins.bshim.buttons.D.blink.green = 0
+main.plugins.bshim.buttons.D.blink.blue = 0
+main.plugins.bshim.buttons.D.blink.on_time = 0
+main.plugins.bshim.buttons.D.blink.off_time = 0
+main.plugins.bshim.buttons.D.blink.blink_times = 0
+
+main.plugins.bshim.buttons.E.blink.enabled = false
+main.plugins.bshim.buttons.E.blink.red = 0
+main.plugins.bshim.buttons.E.blink.green = 0
+main.plugins.bshim.buttons.E.blink.blue = 0
+main.plugins.bshim.buttons.E.blink.on_time = 0
+main.plugins.bshim.buttons.E.blink.off_time = 0
+main.plugins.bshim.buttons.E.blink.blink_times = 0

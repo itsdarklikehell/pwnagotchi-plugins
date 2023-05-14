@@ -1,0 +1,7 @@
+# The GPSD config is usually located at /etc/default/gpsd
+START_DAEMON="true"
+USBAUTO="true"
+DEVICES="/dev/ttyUSB0"
+GPSD_OPTIONS="-n -r"
+GPSD_SOCKET="/var/run/gpsd.sock"
+# Update this with whatever, and give it the old 'systemctl enable gpsd ; systemctl start gpsd'

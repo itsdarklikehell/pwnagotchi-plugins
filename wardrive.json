@@ -1,0 +1,292 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "30:fd:38:f2:2f:0f",
+        "hostname": "TurdFerguson",
+        "alias": "",
+        "vendor": "Google, Inc.",
+        "first_seen": "2021-05-08T17:51:59.183334241+01:00",
+        "last_seen": "2021-05-08T17:52:40.6316667+01:00",
+        "meta": { "values": {} },
+        "frequency": 2437,
+        "channel": 6,
+        "rssi": -35,
+        "sent": 104,
+        "received": 156,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [
+          {
+            "ipv4": "0.0.0.0",
+            "ipv6": "",
+            "mac": "84:e3:42:32:7c:f6",
+            "hostname": "",
+            "alias": "",
+            "vendor": "Tuya (HK) Limietd",
+            "first_seen": "2021-05-08T17:52:24.741334983+01:00",
+            "last_seen": "2021-05-08T17:52:40.121617987+01:00",
+            "meta": { "values": {} },
+            "frequency": 2442,
+            "channel": 8,
+            "rssi": -59,
+            "sent": 156,
+            "received": 0,
+            "encryption": "",
+            "cipher": "",
+            "authentication": "",
+            "wps": {}
+          }
+        ],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "30:fd:38:f2:2f:46",
+        "hostname": "TurdFerguson",
+        "alias": "",
+        "vendor": "Google, Inc.",
+        "first_seen": "2021-05-08T17:52:00.206014444+01:00",
+        "last_seen": "2021-05-08T17:52:41.65136189+01:00",
+        "meta": { "values": {} },
+        "frequency": 2462,
+        "channel": 11,
+        "rssi": -54,
+        "sent": 933,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "32:fd:38:f2:2f:0c",
+        "hostname": "TurdFerguson-guest",
+        "alias": "",
+        "vendor": "",
+        "first_seen": "2021-05-08T17:51:59.182378685+01:00",
+        "last_seen": "2021-05-08T17:52:40.631632806+01:00",
+        "meta": { "values": {} },
+        "frequency": 2437,
+        "channel": 6,
+        "rssi": -35,
+        "sent": 0,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "32:fd:38:f2:2f:44",
+        "hostname": "TurdFerguson-guest",
+        "alias": "",
+        "vendor": "",
+        "first_seen": "2021-05-08T17:52:00.205527777+01:00",
+        "last_seen": "2021-05-08T17:52:41.651309615+01:00",
+        "meta": { "values": {} },
+        "frequency": 2462,
+        "channel": 11,
+        "rssi": -54,
+        "sent": 0,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "70:3a:cb:ca:c6:b4",
+        "hostname": "JPTR Home",
+        "alias": "",
+        "vendor": "Google, Inc.",
+        "first_seen": "2021-05-08T17:51:58.675978334+01:00",
+        "last_seen": "2021-05-08T17:51:58.676559704+01:00",
+        "meta": { "values": {} },
+        "frequency": 2412,
+        "channel": 1,
+        "rssi": -82,
+        "sent": 0,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "a0:63:91:a4:c6:71",
+        "hostname": "RXECIS54",
+        "alias": "",
+        "vendor": "Netgear",
+        "first_seen": "2021-05-08T17:51:58.675482519+01:00",
+        "last_seen": "2021-05-08T17:51:58.675482519+01:00",
+        "meta": { "values": {} },
+        "frequency": 2412,
+        "channel": 1,
+        "rssi": -82,
+        "sent": 0,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "cc:f4:11:5f:d3:51",
+        "hostname": "googleyeyes",
+        "alias": "",
+        "vendor": "Google, Inc.",
+        "first_seen": "2021-05-08T17:51:58.675756334+01:00",
+        "last_seen": "2021-05-08T17:52:40.121552534+01:00",
+        "meta": { "values": {} },
+        "frequency": 2412,
+        "channel": 1,
+        "rssi": -72,
+        "sent": 0,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "cc:f4:11:67:d6:63",
+        "hostname": "googleyeyes",
+        "alias": "",
+        "vendor": "Google, Inc.",
+        "first_seen": "2021-05-08T17:51:59.182999908+01:00",
+        "last_seen": "2021-05-08T17:52:40.121597214+01:00",
+        "meta": { "values": {} },
+        "frequency": 2437,
+        "channel": 6,
+        "rssi": -71,
+        "sent": 106,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {},
+        "clients": [],
+        "handshake": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.05489383333334, 33.522014]
+      },
+      "properties": {
+        "ipv4": "0.0.0.0",
+        "ipv6": "",
+        "mac": "dc:ef:09:93:79:67",
+        "hostname": "Texaz_2GEXT",
+        "alias": "",
+        "vendor": "Netgear",
+        "first_seen": "2021-05-08T17:51:58.676153+01:00",
+        "last_seen": "2021-05-08T17:52:40.121471719+01:00",
+        "meta": { "values": {} },
+        "frequency": 2412,
+        "channel": 1,
+        "rssi": -69,
+        "sent": 1218,
+        "received": 0,
+        "encryption": "WPA2",
+        "cipher": "CCMP",
+        "authentication": "PSK",
+        "wps": {
+          "RF Bands": "2.4Ghz",
+          "State": "Configured",
+          "UUID-E": "bc48ce311a9c830a3e2789c231f68478",
+          "Version": "2.0"
+        },
+        "clients": [],
+        "handshake": false
+      }
+    }
+  ]
+}

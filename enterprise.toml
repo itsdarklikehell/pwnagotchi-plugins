@@ -1,0 +1,3 @@
+main.plugins.enterprise.enabled = false
+main.plugins.enterprise.interface = "wlan0"
+main.plugins.enterprise.duration = 2
