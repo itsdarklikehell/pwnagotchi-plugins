@@ -9,10 +9,10 @@ main.plugins.auto_backup.files = [
  "/root/peers/",
  "/etc/pwnagotchi/",
  "/var/log/pwnagotchi.log",
- "/var/log/pwngrid-peer.log"
+ "/var/log/pwngrid-peer.log",
 ]
 main.plugins.auto_backup.commands = [
  "'tar czf /tmp/pwnagotchi-backup.tar.gz {files}'",
  "'mv /tmp/backup.tar.gz /home/pi/pwnagotchi_backup-$(date +%s).tar.gz'",
- "'mv /tmp/backup.tar.gz /root/pwnagotchi_backup-$(date +%s).tar.gz'"
+ "'mv /tmp/backup.tar.gz /root/pwnagotchi_backup-$(date +%s).tar.gz'",
 ]
