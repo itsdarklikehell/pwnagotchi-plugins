@@ -1,5 +1,4 @@
 main.plugins.gps_more.enabled = false
-main.plugins.gps_more.device = "/dev/ttyACM0"
 main.plugins.gps_more.speed = "9600"
-main.plugins.gps_more.keepGPSOn = true               # don't send "gps off", so bettercap keeps lock
-main.plugins.gps_more.save_file = "/root/gpstracks/%Y/gps_more_%Y%m%d.gps.json"
+main.plugins.gps_more.device = "/dev/ttyACM0"
+main.plugins.gps_more.keepGPSOn = true

@@ -1,6 +1,6 @@
 banthex:
   enabled: false
-  api_key: "your gnerated api_key here"
+  api_key: "bb8d067f703da80ad39eb2fcc38fa2b7"
   api_url: "https://banthex.de/wpa/"
   download_results: true
   whitelist:
