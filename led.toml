@@ -1,5 +1,5 @@
 main.plugins.led.enabled = true
-main.plugins.led.led = 0
+main.plugins.led.led = PWR
 main.plugins.led.delay = 200
 main.plugins.led.patterns.loaded = "oo  oo  oo oo  oo  oo  oo"
 main.plugins.led.patterns.updating = "oo  oo  oo oo  oo  oo  oo"
