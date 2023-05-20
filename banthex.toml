@@ -10,5 +10,5 @@ main.plugins.banthex.whitelist = [
  "2C:3A:FD:42:88:60",
  "2C:3A:FD:42:88:61",
  "BC:05:43:13:6F:82",
- "DownTown Internet"
+ "DownTown Internet",
 ]
