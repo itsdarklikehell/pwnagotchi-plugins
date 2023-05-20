@@ -1,6 +1,6 @@
 morse_code:
   enabled: false
-  led: 0
+  led: PWR
   delay: 200
   invert: true
   leaveOn: false

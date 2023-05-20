@@ -139,7 +139,7 @@ class MorseCode(plugins.Plugin):
         self._keep_going = True
         self._event = Event()
         self._message = None
-        self._led_file = "/sys/class/leds/led0/brightness"
+        self._led_file = "/sys/class/leds/%d/brightness"
         self._delay = 200
 
 
@@ -162,7 +162,7 @@ class MorseCode(plugins.Plugin):
                     self.options[k] = v
 
 
-            self._led_file = "/sys/class/leds/led%d/brightness" % int(self.options['led'])
+            self._led_file = "/sys/class/leds/%d/brightness" % int(self.options['led'])
             self._delay = int(self.options['delay'])
 
             self._keep_going = True
