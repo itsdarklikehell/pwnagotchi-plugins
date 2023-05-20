@@ -23,13 +23,8 @@ class Led(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-<<<<<<< HEAD
         self._led_file = "/sys/class/leds/led%d/brightness" % self.options["led"]
         self._delay = int(self.options["delay"])
-=======
-        self._led_file = "/sys/class/leds/led%d/brightness" % self.options['led']
-        self._delay = int(self.options['delay'])
->>>>>>> 619336c7de5ac6df028218e38d0a3b6a5e0125b4
 
         logging.info("[led] plugin loaded for %s" % self._led_file)
         self._on_event("loaded")

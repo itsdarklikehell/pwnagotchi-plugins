@@ -1,6 +1,6 @@
 led:
   enabled: true
-  led: PWR
+  led: 0
   delay: 200
   patterns.loaded: "oo  oo  oo oo  oo  oo  oo"
   patterns.updating: "oo  oo  oo oo  oo  oo  oo"
