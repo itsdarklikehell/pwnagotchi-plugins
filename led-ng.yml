@@ -1,4 +1,4 @@
-led:
+led-ng:
   enabled: true
   led: PWR
   delay: 200
