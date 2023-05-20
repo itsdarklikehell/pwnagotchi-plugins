@@ -8,7 +8,7 @@ import pwnagotchi.plugins as plugins
 
 class Led(plugins.Plugin):
     __author__ = 'evilsocket@gmail.com'
-    __version__ = '1.0.0'
+    __version__ = '1.0.1'
     __license__ = 'GPL3'
     __description__ = 'This plugin blinks the PWR led with different patterns depending on the event.'
 
@@ -16,7 +16,7 @@ class Led(plugins.Plugin):
         self._is_busy = False
         self._event = Event()
         self._event_name = None
-        self._led_file = "/sys/class/leds/led0/brightness"
+        self._led_file = "/sys/class/leds/PWR/brightness"
         self._delay = 200
 
     # called when the plugin is loaded
