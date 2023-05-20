@@ -1,4 +1,4 @@
-main.plugins.quick_rides_to_jail.enabled = false
+main.plugins.quick_rides_to_jail.enabled = true
 main.plugins.quick_rides_to_jail.wordlist_folder = "/opt/wordlists/"
 main.plugins.quick_rides_to_jail.net_device_path = "/sys/class/net/"
 main.plugins.quick_rides_to_jail.interface = "wlan0"

@@ -83,7 +83,7 @@ def on_ready(agent):
 
 
 def on_handshake(agent, filename, access_point, client_station):
-    global REPORT 
+    global REPORT
     try:
         reported = REPORT.data_field_or('reported', default=list())
         if filename not in reported:
@@ -108,7 +108,7 @@ def on_ui_update(ui):
 
 
 def _do_crack(agent, filename):
-    config = agent.config()    
+    config = agent.config()
     display = agent._view
 
     try:
@@ -159,12 +159,12 @@ def _reconfigure_wpa_supplicant():
 
     except Exception as e:
         logging.error('[thePolice] Exception while reconfiguring wpa_supplicant: %s', e)
-    
+
 
 def _get_pwnd_networks(handshakes_path):
     pwnd_networks = []
     file_matches = [handshake_file_re.search(file_name) for file_name in os.listdir(handshakes_path) if handshake_file_re.search(file_name) != None]
-    
+
     for file_match in file_matches:
         try:
             with open(os.path.join(handshakes_path, file_match.string),'r') as f:
@@ -173,7 +173,7 @@ def _get_pwnd_networks(handshakes_path):
         except Exception as e:
             logging.error('[thePolice] Exception while processing handshake file: %s', e)
             continue
-    
+
     return pwnd_networks
 
 
@@ -189,10 +189,10 @@ def _add_pwnd_networks_to_wpa_supplicant(handshakes_path):
 
     for pwnd_network in _get_pwnd_networks(handshakes_path):
         new_wpa_supplicant_string = ("network={{\n\tbssid={}\n\tpsk=\"{}\"\n\tkey_mgmt=WPA-PSK\n\tdisabled=1\n}}\n".format(pwnd_network.bssid, pwnd_network.password))
-        
+
         if new_wpa_supplicant_string in wpa_supplicant_text:
             continue
-        
+
         try:
             with open(OPTIONS['wpa_supplicant_conf_path'], 'a') as f:
                 #print(new_wpa_supplicant_string)
@@ -231,10 +231,10 @@ def _do_the_illegal_thing(handshakes_path):
         logging.info('[thePolice] Could not find desired interface in list of local interfaces.')
         return
     logging.info('[thePolice] Found desired interface in list of local interfaces.')
-    
+
     if _device_in_monitor_mode(OPTIONS['interface']):
         logging.info('[thePolice] Desired interface is in monitor mode - cannot use.')
         return
     logging.info('[thePolice] Desired interface is not in monitor mode.')
-    
+
     _add_pwnd_networks_to_wpa_supplicant(handshakes_path)
