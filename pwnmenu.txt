@@ -1,0 +1,9 @@
+0.Back button;/home/pi/firstmenu.sh
+1.Restart AUTO mode;python /home/pi/scripts/powerutilscmd.py restart-auto
+2.Restart MANU mode;python /home/pi/scripts/powerutilscmd.py restart-manual
+3.Reboot AUTO mode;python /home/pi/scripts/powerutilscmd.py reboot-auto
+4.Reboot MANU mode;python /home/pi/scripts/powerutilscmd.py reboot-manual 
+5.System Shutdown;python /home/pi/scripts/powerutilscmd.py shutdown
+6.Mass Deauth;/home/pi/masswifideauth.sh
+7.Update WPA-SEC DB;sudo python /home/pi/powerutilscmd.py wpasec-insert
+8.Upload Backup;python /home/pi/scripts/powerutilscmd.py cloud-backup
