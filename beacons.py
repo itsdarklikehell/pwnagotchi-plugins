@@ -110,7 +110,7 @@ class Beacons(plugins.Plugin):
         iface = self._iface
         #android has some kind of mac filtering for vendors, not all spoofed macs work.
 #        sender = "de:ad:be:ef:de:ad"
-        sender = self._wifimac[0:3] + "13:37:" + self._wifimac[9:] 
+        sender = self._wifimac[0:3] + "13:37:" + self._wifimac[9:]
         dot11 = Dot11(type=0, subtype=8, addr1='ff:ff:ff:ff:ff:ff',addr2=sender, addr3=sender)
         beacon = Dot11Beacon()
         essid = Dot11Elt(ID='SSID',info=SSID, len=len(SSID))

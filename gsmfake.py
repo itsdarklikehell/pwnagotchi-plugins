@@ -218,10 +218,10 @@ if __name__ == '__main__':
         if verbose:
             progress = False
             test.progress = sys.stderr.write
-    
-    # Create a special character file that acts like a GPS device, but is really a shitty GSM hat.    
+
+    # Create a special character file that acts like a GPS device, but is really a shitty GSM hat.
     special_file = test.gsm_gps_add(arguments[0], speed=speed, pred=fakehook, oneshot=singleshot)
-    
+
     print("[+] Set bettercap gps.device value to: {}".format(special_file))
     test.run()
 

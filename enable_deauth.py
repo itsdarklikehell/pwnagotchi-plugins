@@ -16,7 +16,7 @@ class Do_Deauth(plugins.Plugin):
         self._agent = None
         self._count = 0
         pass
-    
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
@@ -54,7 +54,7 @@ class Do_Deauth(plugins.Plugin):
                 pos = [int(x.strip()) for x in pos]
             else:
                 pos = (0,36)
-            
+
             ui.add_element('deauth_count', LabeledValue(color=BLACK, label='D', value='0', position=pos,
                                                         label_font=fonts.BoldSmall, text_font=fonts.Small))
         except Exception as err:

@@ -25,16 +25,16 @@ class hashie(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = '''
                         Attempt to automatically convert pcaps to a crackable format.
-                        If successful, the files  containing the hashes will be saved 
-                        in the same folder as the handshakes. 
+                        If successful, the files  containing the hashes will be saved
+                        in the same folder as the handshakes.
                         The files are saved in their respective Hashcat format:
                           - EAPOL hashes are saved as *.22000
                           - PMKID hashes are saved as *.16800
                         All PCAP files without enough information to create a hash are
                           stored in a file that can be read by the webgpsmap plugin.
-                        
+
                         Why use it?:
-                          - Automatically convert handshakes to crackable formats! 
+                          - Automatically convert handshakes to crackable formats!
                               We dont all upload our hashes online ;)
                           - Repair PMKID handshakes that hcxpcapngtool misses
                           - If running at time of handshake capture, on_handshake can
@@ -42,13 +42,13 @@ class hashie(plugins.Plugin):
                           - Be a completionist! Not enough packets captured to crack a network?
                               This generates an output file for the webgpsmap plugin, use the
                               location data to revisit networks you need more packets for!
-                          
+
                         Additional information:
                           - Currently requires hcxpcapngtool compiled and installed
                           - Attempts to repair PMKID hashes when hcxpcapngtool cant find the SSID
-                            - hcxpcapngtool sometimes has trouble extracting the SSID, so we 
+                            - hcxpcapngtool sometimes has trouble extracting the SSID, so we
                                 use the raw 16800 output and attempt to retrieve the SSID via tcpdump
-                            - When access_point data is available (on_handshake), we leverage 
+                            - When access_point data is available (on_handshake), we leverage
                                 the reported AP name and MAC to complete the hash
                             - The repair is very basic and could certainly be improved!
                         Todo:
@@ -57,7 +57,7 @@ class hashie(plugins.Plugin):
                               Phase 2: Extract/construct 22000/16800 hashes entirely in python
                           Improve the code, a lot
                         '''
-    
+
     def __init__(self):
         logging.info("[hashie] plugin loaded")
         self.lock = Lock()
@@ -65,7 +65,7 @@ class hashie(plugins.Plugin):
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):
         handshake_dir = config['bettercap']['handshakes']
-        
+
         if 'interval' not in self.options or not (self.status.newer_then_hours(self.options['interval'])):
             logging.info('[hashie] Starting batch conversion of pcap files')
             with self.lock:
@@ -76,20 +76,20 @@ class hashie(plugins.Plugin):
             handshake_status = []
             fullpathNoExt = filename.split('.')[0]
             name = filename.split('/')[-1:][0].split('.')[0]
-            
+
             if os.path.isfile(fullpathNoExt +  '.22000'):
                 handshake_status.append('Already have {}.22000 (EAPOL)'.format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append('Created {}.22000 (EAPOL) from pcap'.format(name))
-            
+
             if os.path.isfile(fullpathNoExt +  '.16800'):
                 handshake_status.append('Already have {}.16800 (PMKID)'.format(name))
             elif self._writePMKID(filename, access_point):
                 handshake_status.append('Created {}.16800 (PMKID) from pcap'.format(name))
-            
+
             if handshake_status:
                 logging.info('[hashie] Good news:\n\t' + '\n\t'.join(handshake_status))
-    
+
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split('.')[0]
         filename = fullpath.split('/')[-1:][0].split('.')[0]
@@ -99,7 +99,7 @@ class hashie(plugins.Plugin):
             return True
         else:
             return False
-        
+
     def _writePMKID(self, fullpath, apJSON):
         fullpathNoExt = fullpath.split('.')[0]
         filename = fullpath.split('/')[-1:][0].split('.')[0]
@@ -119,7 +119,7 @@ class hashie(plugins.Plugin):
             else:
                 logging.debug('[hashie] [-] Could not attempt repair of {} as no raw PMKID file was created'.format(filename))
                 return False
-    
+
     def _repairPMKID(self, fullpath, apJSON):
         hashString = ""
         clientString = []
@@ -128,7 +128,7 @@ class hashie(plugins.Plugin):
         logging.debug('[hashie] Repairing {}'.format(filename))
         with open(fullpathNoExt + '.16800','r') as tempFileA:
             hashString = tempFileA.read()
-        if apJSON != "": 
+        if apJSON != "":
             clientString.append('{}:{}'.format(apJSON['mac'].replace(':',''), apJSON['hostname'].encode('hex')))
         else:
             #attempt to extract the AP's name via hcxpcapngtool
@@ -159,7 +159,7 @@ class hashie(plugins.Plugin):
         else:
             os.remove(fullpath.split('.')[0] + '.16800')
             return False
-    
+
     def _process_stale_pcaps(self, handshake_dir):
         handshakes_list = [os.path.join(handshake_dir, filename) for filename in os.listdir(handshake_dir) if filename.endswith('.pcap')]
         failed_jobs = []
@@ -188,7 +188,7 @@ class hashie(plugins.Plugin):
         if lonely_pcaps:
             logging.info('[hashie] Batch job: {} networks without enough packets to create a hash'.format(len(lonely_pcaps)))
             self._getLocations(lonely_pcaps)
-    
+
     def _getLocations(self, lonely_pcaps):
         #export a file for webgpsmap to load
         with open('/root/.incompletePcaps','w') as isIncomplete:
@@ -203,7 +203,7 @@ class hashie(plugins.Plugin):
                 logging.info('[hashie] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)'.format(str(count)))
             else:
                 logging.info('[hashie] Could not find any GPS/GEO/PAW-GPS files for the lonely networks'.format(str(count)))
-        
+
     def _getLocationsCSV(self, lonely_pcaps):
         #in case we need this later, export locations manually to CSV file, needs try/catch/paw-gps format/etc.
         locations = []

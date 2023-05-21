@@ -127,7 +127,7 @@ class Dashboard(plugins.Plugin):
                                                  position=(int(self.options["netstat_x_pos"]),
                                                            int(self.options["netstat_y_pos"])),
                                                  label_font=fonts.Small, text_font=fonts.Small))
-        
+
     def on_internet_available(self, agent):
         # pivoyager: Update RTC if local time is ntp-synced and if RTC is not initialised
         if(not "inits" in self.get_status()["stat"]):
@@ -167,7 +167,7 @@ class Dashboard(plugins.Plugin):
         ui.set('deauth', str(self.deauth_counter))
         ui.set('hand', str(self.handshake_counter))
         ui.set('pivoyager', "{sbat}{voltage}".format(sbat=charge_mapping[status["bat"]], voltage=status["vbat"]))
-        
+
         # check if there is an active Internet connection
         output = os.system('ping -c 1 ' + '8.8.8.8')
         if output == 0:

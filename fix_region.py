@@ -2,7 +2,7 @@
 Special thanks to Dal/FikolmijReturns
 for his network-fix service.
 
-The plugin set a service with the right 
+The plugin set a service with the right
 Region to unlock the channel 12 and 13
 Used outside the US.
 
@@ -98,7 +98,7 @@ class fix_region(plugins.Plugin):
                 return "config error", 500
 
     def on_unload(self, ui):
-        logging.info('[FIX_REGION] plugin unloaded')        
+        logging.info('[FIX_REGION] plugin unloaded')
 
         os.system('rm '+SERV_PATH)
         os.system('rm '+SH_PATH)

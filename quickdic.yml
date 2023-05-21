@@ -1,4 +1,4 @@
 quickdic:
   enabled: false
-  wordlist_folder: /opt/wordlists/
+  wordlist_folder: /opt/wordlists/Passwords
   face: "(·ω·)"

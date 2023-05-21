@@ -49,12 +49,12 @@ class nextcloud(plugins.Plugin):
             elif r.status_code == 404:
                 logging.info("[nextcloud] >> path does not exist!")
                 return False
-            
-            self.session = s           
+
+            self.session = s
         except requests.exceptions.RequestException as e:
             logging.error("nextcloud: Got an exception checking credentials!")
-            raise e 
-    
+            raise e
+
     def _make_dir(self, path):
         try:
             r = self.session.request("MKCOL", path)
@@ -66,7 +66,7 @@ class nextcloud(plugins.Plugin):
                 return False
         except requests.exceptions.RequestException as e:
             logging.error("nextcloud: Got an exception while creating a dir.")
-            raise e 
+            raise e
 
     def _exists_dir(self, path):
         try:
@@ -78,7 +78,7 @@ class nextcloud(plugins.Plugin):
                 return True
         except requests.exceptions.RequestException as e:
             logging.error("nextcloud: Got an exception while checking if a dir exists.")
-            raise e 
+            raise e
 
     def _upload_to_nextcloud(self, path, timeout=30):
         head, tail = os.path.split(path)
@@ -89,7 +89,7 @@ class nextcloud(plugins.Plugin):
                 r = self.session.put(destFile, data=fp.read())
             except requests.exceptions.RequestException as e:
                 logging.error(f"nextcloud: Got an exception while uploading {path} -> {e}")
-                raise e 
+                raise e
 
     def on_loaded(self):
         for opt in ['baseurl', 'user', 'pass', 'path']:

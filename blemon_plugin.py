@@ -59,7 +59,7 @@ class BLEMon(plugins.Plugin):
 
         ui.add_element('blemon_count', LabeledValue(color=BLACK, label='BLE', value='0/0', position=pos,
                                            label_font=fonts.Bold, text_font=fonts.Medium))
-        
+
     # called when the ui is updated
     def on_ui_update(self, ui):
         # update those elements
@@ -184,7 +184,7 @@ class BLEMon(plugins.Plugin):
 
 
     # bettercap BLE events. access everything
-    
+
     def on_bcap_ble_device_new(self, agent, event):
         try:
             logging.info("[BLEMon] BLE device NEW: %s" % repr(event))
@@ -207,7 +207,7 @@ class BLEMon(plugins.Plugin):
                 display.set('status', "Blue buddy %s" % name)
         except Exception as err:
             logging.warning("[BLEMon] ble new Error: %s" % err)
-    
+
     def on_bcap_ble_device_connected(self, agent, event):
         try:
             logging.info("[BLEMon] BLE device CON: %s" % repr(event))
@@ -231,7 +231,7 @@ class BLEMon(plugins.Plugin):
             logging.info("[BLEMon] BLE device DISCON: %s" % repr(event))
         except Exception as err:
             logging.warning("[BLEMon] ble disconn Error: %s" % err)
-          
+
 
     def on_bcap_ble_device_lost(self, agent, event):
         try:
@@ -248,4 +248,4 @@ class BLEMon(plugins.Plugin):
         except Exception as err:
             logging.warning("[BLEMon] ble lost Error: %s" % err)
 
-            
+

@@ -2,8 +2,9 @@ package gps
 
 import (
 	"fmt"
-	"time"
 	"strconv"
+	"time"
+
 	"github.com/bettercap/bettercap/session"
 	"github.com/stratoberry/go-gpsd"
 )

@@ -178,7 +178,7 @@ class PrivacyNightmare(plugins.Plugin):
                   APUID = "%s%%%s" % (hostname,ap['mac'])
                   if APUID in self.ap_list:
                      logging.info("PN: We already know about %s, so ignoring" % APUID)
-                     #TODO: Look at merging metadata here 
+                     #TODO: Look at merging metadata here
                   else:
                       logging.info("PN: NEW AP/mac combo %s" % APUID)
                       logging.info("PN: AP (%s): %s at %s" % (update_type, hostname, latlong))

@@ -8,9 +8,9 @@ __description__ = 'Run a quick dictionary scan against captured handshakes, upda
 Aircrack-ng needed, to install:
 > apt-get install aircrack-ng
 Upload wordlist files in .txt format to folder in config file (Default: /opt/wordlists/)
-Cracked handshakes stored in handshake folder as [essid].pcap.cracked 
+Cracked handshakes stored in handshake folder as [essid].pcap.cracked
 
-Original use-case: 
+Original use-case:
     Emergency communications out to the internet, via distributed out-of-band network of
     pwnagotchi's. My research is in support of developing a PoC prototype mesh network capable
     of using the pwnagotchi's network to courier data over its out-of-band wireless channel
@@ -19,7 +19,7 @@ Original use-case:
     A dieing wish. The traveling pwnagotchi picks up the message, says "I got you bro", and
     takes the message out to civilization, to pass on. The traveling pwnagotchi searches high
     and low for the desert bro's fam, but can't find them. Just then, the traveler connects
-    to a wayward watering hole (i.e. a pwnd access point), and can send out a message, on blast 
+    to a wayward watering hole (i.e. a pwnd access point), and can send out a message, on blast
     to desert bro's fam. Could low-key be a legit means of connectivity in a post-appocalypse
     type situation, but is high-key probably illegal for you to do on anyone else's network.
     Have fun in jail.
@@ -129,10 +129,10 @@ def _do_crack(agent, filename):
     if not crackable_handshake:
         #logging.info('[thePolice] No handshakes found. Aircrack-ng output: %s', result)
         return
-  
+
     logging.info('[thePolice] Confirmed handshakes captured for BSSID: %s', crackable_handshake.group('bssid'))
 
-    try:        
+    try:
         aircrack_execution_2 = subprocess.run(('aircrack-ng -w `echo '+os.path.join(OPTIONS['wordlist_folder'],'*.txt')+' | sed \'s/\ /,/g\'` -l '+filename+'.cracked -q '+filename+' -b '+crackable_handshake.group('bssid')+' -p 1 | grep KEY'),shell=True,stdout=subprocess.PIPE)
         crack_result = aircrack_execution_2.stdout.decode('utf-8').strip()
     except Exception as e:
@@ -151,7 +151,7 @@ def _reconfigure_wpa_supplicant():
     try:
         command = 'wpa_cli -i {} reconfigure'.format(OPTIONS['interface'])
         result = subprocess.check_output(command, shell=True)
-	
+
         if result.strip() == 'OK':
             logging.info('[thePolice] Successfully updated wpa_supplicant for {}.'.format(OPTIONS['interface']))
             return

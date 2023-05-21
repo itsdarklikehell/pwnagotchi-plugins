@@ -60,7 +60,7 @@ class GPS_More(plugins.Plugin):
             except Exception:
                 logging.debug(f"gps_more bettercap gps module was already off")
                 pass
-            
+
             agent.run(f"set gps.device {device}")
             agent.run(f"set gps.baudrate {self.options['speed']}")
             agent.run("gps on")
@@ -84,7 +84,7 @@ class GPS_More(plugins.Plugin):
                     save_file = self.options['save_file'];
                 else:
                     save_file = None
-                    
+
                 # just for debugging
                 if not save_file: save_file = "/root/gpstracks/%Y/gps_more%Y%m%d.gps.json"
 
@@ -150,7 +150,7 @@ class GPS_More(plugins.Plugin):
                 self.coordinates = coords
         except Exception as err:
             logging.warning("[gps more] gps.new err: %s, %s" % (repr(event), repr(err)))
-            
+
     def on_ui_setup(self, ui):
         try:
             # Configure line_spacing
@@ -268,15 +268,15 @@ class GPS_More(plugins.Plugin):
             ui.set("latitude", f"{self.coordinates['Latitude']:.4f} ")
             ui.set("longitude", f"{self.coordinates['Longitude']:.4f} ")
             ui.set("altitude", f"{self.coordinates['Altitude']:.1f}m ")
-            
+
 if __name__ == "__main__":
     gps = GPS_More()
 
     from pwnagotchi.bettercap import Client
-    
-    agent = Client('localhost', port=8081, username="pwnagotchi", password="pwnagotchi");                    
+
+    agent = Client('localhost', port=8081, username="pwnagotchi", password="pwnagotchi");
 
     sess = agent.session()
 
     print(repr(sess['gps']))
-    
+
