@@ -1,2 +1,6 @@
 exp:
   enabled: false
+  lvl_x_coord: 0
+  lvl_y_coord: 210
+  exp_x_coord: 0
+  exp_y_coord: 228
