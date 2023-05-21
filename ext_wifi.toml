@@ -1,0 +1,3 @@
+main.plugins.ext_wifi.enabled = true
+main.plugins.ext_wifi.interface = "wlan0"
+main.plugins.ext_wifi.mode = "external"
