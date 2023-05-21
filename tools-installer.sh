@@ -58,8 +58,9 @@ install_aircrack() {
 
 install_seclists() {
     echo "Installing SecLists..."
+    cd ~
     ssh "$GOTCHI_ADDR" "git clone https://github.com/danielmiessler/SecLists"
-    ssh "$GOTCHI_ADDR" "ln -s /home/pi/SecLists /home/pi/wordlists"
+    ssh "$GOTCHI_ADDR" "ln -s /home/pi/SecLists wordlists"
 }
 
 dns_fix() {
