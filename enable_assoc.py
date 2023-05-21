@@ -53,7 +53,7 @@ class Do_Assoc(plugins.Plugin):
             pos = [int(x.strip()) for x in pos]
         else:
             pos = (0,29)
-            
+
         ui.add_element('assoc_count', LabeledValue(color=BLACK, label='A', value='0', position=pos,
                                                    label_font=fonts.BoldSmall, text_font=fonts.Small))
 

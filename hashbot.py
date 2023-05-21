@@ -31,10 +31,10 @@ bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 async def on_message(ctx, num_hashes=int(1000)):
     try:
         with open('hashes.22000', 'w') as f:
-            channel = bot.get_channel(int(CHANNEL)) 
-            message = channel.history(limit=int(num_hashes)) 
-            async for i in message: 
-                hash_dict = i.embeds[0].to_dict() 
+            channel = bot.get_channel(int(CHANNEL))
+            message = channel.history(limit=int(num_hashes))
+            async for i in message:
+                hash_dict = i.embeds[0].to_dict()
                 hash = hash_dict['fields'][0]['value']
                 f.write(hash[1:-1])
         f.close()

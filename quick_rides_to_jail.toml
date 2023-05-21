@@ -1,5 +1,5 @@
 main.plugins.quick_rides_to_jail.enabled = true
-main.plugins.quick_rides_to_jail.wordlist_folder = "/opt/wordlists/"
+main.plugins.quick_rides_to_jail.wordlist_folder = "/opt/wordlists/passwords"
 main.plugins.quick_rides_to_jail.net_device_path = "/sys/class/net/"
 main.plugins.quick_rides_to_jail.interface = "wlan0"
 main.plugins.quick_rides_to_jail.wpa_supplicant_conf_path = "/etc/wpa_supplicant/wpa_supplicant.conf"

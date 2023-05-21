@@ -134,7 +134,7 @@ def update_hostapd_config(interface, config, password):
     os.system("sed -i 's/^#*\(country_code=\).*$/\\1{1}/' {0}".format(confFilepath, config["certificate"]["country"]))
 
 def generate_certificates(config, password):
-    
+
     caFilepath = "{0}/certs/ca.cnf".format(DIRECTORY_HOSTAPD)
     serverFilepath = "{0}/certs/server.cnf".format(DIRECTORY_HOSTAPD)
 
@@ -193,7 +193,7 @@ class Enterprise(plugins.Plugin):
         }
         self.rebooting = False
         self.ready = False
-    
+
     def on_ready(self, agent):
         self.ready = True
 
@@ -221,7 +221,7 @@ class Enterprise(plugins.Plugin):
             logging.info("[enterprise] interface set")
             privateKeyPassword="whatever" # default password in configuration
 
-            self.rebooting = True 
+            self.rebooting = True
 
             logging.info("[enterprise] Updating config")
             update_hostapd_config(interface, self.config, privateKeyPassword)
@@ -241,7 +241,7 @@ class Enterprise(plugins.Plugin):
         except Exception as ex:
             logging.error(ex)
 
-        
+
     # called when the status is set to bored
     def on_bored(self, agent):
        self.trigger(agent)
@@ -377,7 +377,7 @@ INDEX = """
     }
 
     @media screen and (max-width:700px) {
-        
+
     }
 </style>
 {% endblock %}
@@ -403,7 +403,7 @@ INDEX = """
             <label for="both">TKIP + CCMP</label>
         </fieldset>
     </div>
-    
+
     <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
         <h4>Certificate</h4>
         <label for="country">Country:</label>
@@ -437,14 +437,14 @@ INDEX = """
             {% for ap in access_points %}
                 <tr>
                     <td>
-                        <button 
-                            class="btnSelect" 
-                            type="button" 
+                        <button
+                            class="btnSelect"
+                            type="button"
                             onclick="set(
-                                '{{ ap.mac }}', 
-                                '{{ ap.hostname }}', 
-                                '{{ ap.channel }}', 
-                                '{{ ap.encryption }}', 
+                                '{{ ap.mac }}',
+                                '{{ ap.hostname }}',
+                                '{{ ap.channel }}',
+                                '{{ ap.encryption }}',
                                 '{{ ap.cipher }}'
                             )"
                         >Select</button>
@@ -474,13 +474,13 @@ INDEX = """
             getAndSet("ssid", hostname);
             getAndSet("channel", channel);
             getAndSet("enc", enc);
-            
+
             el = null;
             if (cipher.toUpperCase() === 'CCMP')
                 el = document.getElementById('ccmp');
             else if (cipher.toUpperCase() === 'TKIP')
                 el = document.getElementById('tkip');
-            
+
             if (el)
                 el.click();
         }
@@ -509,7 +509,7 @@ INDEX = """
             else if (document.getElementById("both").checked)
                 config.cipher = document.getElementById("both").value
 
-            
+
             sendJSON("enterprise/update-task", config, function(response) {
                 if (response) {
                     if (response.status == "200") {
@@ -532,7 +532,7 @@ INDEX = """
                 }
             });
         }
-        
+
         function sendJSON(url, data, callback) {
           var xobj = new XMLHttpRequest();
           var csrf = "{{ csrf_token() }}";

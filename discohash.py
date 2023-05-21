@@ -15,21 +15,21 @@ class discohash(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = '''
                     DiscoHash extracts hashes from pcaps (hashcat mode 22000) using hcxpcapngtool,
-                    analyses the hash using hcxhashtool and posts the output to Discord along with 
+                    analyses the hash using hcxhashtool and posts the output to Discord along with
                     any obtained GPS coordinates.
                     '''
 
 
     def __init__(self):
         logging.debug("[*] DiscoHash plugin created")
-    
+
 
     # called when the plugin is loaded
     def on_loaded(self):
         global tether
         tether = False
         logging.info(f"[*] DiscoHash plugin loaded")
-    
+
 
     # called when internet is available
     def on_internet_available(self, agent):
@@ -61,7 +61,7 @@ class discohash(plugins.Plugin):
                     successful_jobs.append('22000: ' + pcapFileName)
                 else:
                     failed_jobs.append('22000: ' + pcapFileName)
-                    if not os.path.isfile(fullpathNoExt + '.22000'): 
+                    if not os.path.isfile(fullpathNoExt + '.22000'):
                         lonely_pcaps.append(handshake)
                         logging.debug('[*] DiscoHash Batch job: added {} to lonely list'.format(pcapFileName))
             if ((num + 1) % 10 == 0) or (num + 1 == len(handshakes_list)):
@@ -70,7 +70,7 @@ class discohash(plugins.Plugin):
             logging.debug('[*] DiscoHash Batch job: {} new handshake files created'.format(len(successful_jobs)))
         if lonely_pcaps:
             logging.debug('[*] DiscoHash Batch job: {} networks without enough packets to create a hash'.format(len(lonely_pcaps)))
-    
+
 
     def write_hash(self, handshake):
         fullpathNoExt = handshake.split('.')[0]
@@ -83,7 +83,7 @@ class discohash(plugins.Plugin):
             return True
         else:
             return False
-    
+
 
     def get_coord(self, fullpathNoExt):
         global lat
@@ -122,7 +122,7 @@ class discohash(plugins.Plugin):
             data = {
                 'embeds': [
                     {
-                    'title': '(ᵔ◡◡ᵔ) {} sniffed a new hash!'.format(pwnagotchi.name()), 
+                    'title': '(ᵔ◡◡ᵔ) {} sniffed a new hash!'.format(pwnagotchi.name()),
                     'color': 289968,
                     'url': 'https://pwnagotchi.ai/pwnfile/#!{}'.format(fingerprint),
                     'description': '__**Hash Information**__',

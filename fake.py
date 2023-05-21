@@ -776,7 +776,7 @@ class TestSession(object):
     def set_predicate(self, pred):
         "Set a default go predicate for the session."
         self.default_predicate = pred
-    
+
     def gsm_gps_add(self, logfile, speed=19200, pred=None, oneshot=False):
         "Add a simulated GPS being fed by the specified logfile."
         self.progress("gpsfake: gsm_gps_add(%s, %d)\n" % (logfile, speed))

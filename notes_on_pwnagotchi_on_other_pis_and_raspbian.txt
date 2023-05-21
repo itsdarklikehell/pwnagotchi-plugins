@@ -1,31 +1,31 @@
 Physical Setup:
-  My current development setup is a Raspberry Pi 4 running a standard Raspbian installation with two USB devices: 
-  an Alfa AWUS036NHA B/G/N wireless adapter and a GlobalSat BU-353-S4 GPS receiver. An optional GSM Pi HAT occasionally 
+  My current development setup is a Raspberry Pi 4 running a standard Raspbian installation with two USB devices:
+  an Alfa AWUS036NHA B/G/N wireless adapter and a GlobalSat BU-353-S4 GPS receiver. An optional GSM Pi HAT occasionally
   makes an appearance. The Pi is attached to a RAVPower 26,800mAh portable charger (battery pack), which is attached to a
-  NorthPada 5v 3A micro-USB power supply charger. The power supply charger stays plugged into the input of the battery pack, 
-  so I can quickly and descretly pull out the wall-wart and charge, without disrupting the operating state of the Pi. My 
-  active Pi switches between existing in the nude and sitting in a SmartPi Touch case, with a 7" touchscreen display, so I 
+  NorthPada 5v 3A micro-USB power supply charger. The power supply charger stays plugged into the input of the battery pack,
+  so I can quickly and descretly pull out the wall-wart and charge, without disrupting the operating state of the Pi. My
+  active Pi switches between existing in the nude and sitting in a SmartPi Touch case, with a 7" touchscreen display, so I
   can interact with it on the go. Keyboard and mouse also included. All of this garbage sits inside of a OGIO backpack, with
-  the stupid-long 14.75" 9dBi Alfa antenna sticking out one of the deeper pockets. The GPS dongle is usually in one of the 
-  higher pockets or occasionally wired through one of the headphone-jack/accessibility-port holes, to minimize any 
-  interference. The Pi chills in a completely separate, insulated pocket, with absolutely no ventilation, and I'm surprised 
-  my goodest boy hasn't desoldered itself yet. Doesn't matter - captured handshakes. Everything in all of the pockets is wired 
-  together by cables that pass on the outside of the bag, through accessibility ports and zipper holes. I'm real tempted to 
+  the stupid-long 14.75" 9dBi Alfa antenna sticking out one of the deeper pockets. The GPS dongle is usually in one of the
+  higher pockets or occasionally wired through one of the headphone-jack/accessibility-port holes, to minimize any
+  interference. The Pi chills in a completely separate, insulated pocket, with absolutely no ventilation, and I'm surprised
+  my goodest boy hasn't desoldered itself yet. Doesn't matter - captured handshakes. Everything in all of the pockets is wired
+  together by cables that pass on the outside of the bag, through accessibility ports and zipper holes. I'm real tempted to
   poke holes on the inside of the bag, and route everything on the inside, BUT THESE BAGS ARE TOO DAMN NICE TO RUIN!
 
 Software Setup:
-  Installed Raspbian lite, then manually installed the desktop environment so I could switch between the two, depending on what 
+  Installed Raspbian lite, then manually installed the desktop environment so I could switch between the two, depending on what
   I was doing that day. Installed a bunch of tools, configured the environment the way I like, etc.
-  
+
   Let's talk about the Pwnagotchi installation/config instructions: https://pwnagotchi.ai/installation/
 First things first:
   "apt-get install golang git build-essential libpcap-dev libusb-1.0-0-dev libnetfilter-queue-dev gpsd gpsd-clients libatlas-base-dev libhdf5-dev libjasper-dev libqtgui4 libqt4-test python3-mpi4py python3-numpy tcpdump"
-    
+
 ### Next, install bettercap using the programming language no one asked for:
   go get -u github.com/bettercap/bettercap
   sudo bettercap -eval "caplets.update; ui.update; quit"
 
-### Edit /usr/local/share/bettercap/caplets/pwnagotchi-auto.cap : 
+### Edit /usr/local/share/bettercap/caplets/pwnagotchi-auto.cap :
 
 """
 set wifi.interface wlan1mon
@@ -63,7 +63,7 @@ api.rest on
 http.server on
 """
 
-### The actual pwnagotchi install instructions fuck up by telling you to edit /etc/systemd/system/bettercap.service, 
+### The actual pwnagotchi install instructions fuck up by telling you to edit /etc/systemd/system/bettercap.service,
 ### but you actually want to edit one into 'lib': /lib/systemd/system/bettercap.service
 """
 [Unit]
@@ -156,7 +156,7 @@ sudo pip3 install .
 ### If it do or you don't want to wait for failure, disable the pip cache:
 sudo pip3 --no-cache-dir install .
 
-### Things like tensorflow, opencv, and keras are fairly massive. 
+### Things like tensorflow, opencv, and keras are fairly massive.
 ### This pip install may also fail if run directly as root, instead of using sudo, though I'm not sure why
 ### or if that was a real problem I had or if the problem is between the chair and the keyboard...
 
@@ -198,7 +198,7 @@ cp /etc/pwnagotchi/default.yml /etc/pwnagotchi/config.yml
 # If using GPS:
       gps:
         enabled: true
-        speed: 4800 
+        speed: 4800
         device: /dev/ttyUSB0
 ...
 # If using the auto-backup module, remove the scp line because what are the odds?:

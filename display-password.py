@@ -1,4 +1,4 @@
-# display-password shows recently cracked passwords on the pwnagotchi display 
+# display-password shows recently cracked passwords on the pwnagotchi display
 #
 #
 ###############################################################

@@ -22,7 +22,7 @@ class QuickDic(plugins.Plugin):
     }
     __defaults__ = {
         'enabled': False,
-        'wordlist_folder': '/opt/wordlists/',
+        'wordlist_folder': '/opt/wordlists/Passwords',
         'face': '(·ω·)',
     }
 

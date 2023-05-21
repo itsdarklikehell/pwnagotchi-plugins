@@ -1,973 +1,1317 @@
 <html class="h-full bg-gray-800">
-
-<head>
+  <head>
     <meta http-equiv="Content-Type" content="text/xml; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>f0xtr0t</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
-    <script type='text/javascript' src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script type='text/javascript'
-        src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js'></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    ></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"
+    ></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style type="text/css">
-        .leaflet-touch .leaflet-control-zoom-in {
-            margin-bottom: 20px;
+      .leaflet-touch .leaflet-control-zoom-in {
+        margin-bottom: 20px;
+      }
+
+      .pwnAPPin path {
+        fill: #ce7575;
+      }
+
+      .pwnAPPinOpen path {
+        fill: #76ce75;
+      }
+
+      /* animated ap marker */
+      .pwnAPPin .ring_outer,
+      .pwnAPPinOpen .ring_outer {
+        animation: opacityPulse 2s cubic-bezier(1, 0.14, 1, 1);
+        animation-iteration-count: infinite;
+        opacity: 0.5;
+      }
+
+      .pwnAPPin .ring_inner,
+      .pwnAPPinOpen .ring_inner {
+        animation: opacityPulse 2s cubic-bezier(0.4, 0.74, 0.56, 0.82);
+        animation-iteration-count: infinite;
+        opacity: 0.8;
+      }
+
+      @keyframes opacityPulse {
+        0% {
+          opacity: 0.1;
         }
 
-        .pwnAPPin path {
-            fill: #ce7575;
+        50% {
+          opacity: 1;
         }
 
-        .pwnAPPinOpen path {
-            fill: #76ce75;
+        100% {
+          opacity: 0.1;
+        }
+      }
+
+      @keyframes bounceInDown {
+        from,
+        60%,
+        75%,
+        90%,
+        to {
+          animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
         }
 
-        /* animated ap marker */
-        .pwnAPPin .ring_outer,
-        .pwnAPPinOpen .ring_outer {
-            animation: opacityPulse 2s cubic-bezier(1, 0.14, 1, 1);
-            animation-iteration-count: infinite;
-            opacity: .5;
+        0% {
+          opacity: 0;
+          transform: translate3d(0, -3000px, 0);
         }
 
-        .pwnAPPin .ring_inner,
-        .pwnAPPinOpen .ring_inner {
-            animation: opacityPulse 2s cubic-bezier(0.4, 0.74, 0.56, 0.82);
-            animation-iteration-count: infinite;
-            opacity: .8;
+        60% {
+          opacity: 1;
+          transform: translate3d(0, 5px, 0);
         }
 
-        @keyframes opacityPulse {
-            0% {
-                opacity: 0.1;
-            }
-
-            50% {
-                opacity: 1.0;
-            }
-
-            100% {
-                opacity: 0.1;
-            }
+        75% {
+          transform: translate3d(0, -3px, 0);
         }
 
-        @keyframes bounceInDown {
-
-            from,
-            60%,
-            75%,
-            90%,
-            to {
-                animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-            }
-
-            0% {
-                opacity: 0;
-                transform: translate3d(0, -3000px, 0);
-            }
-
-            60% {
-                opacity: 1;
-                transform: translate3d(0, 5px, 0);
-            }
-
-            75% {
-                transform: translate3d(0, -3px, 0);
-            }
-
-            90% {
-                transform: translate3d(0, 5px, 0);
-            }
-
-            to {
-                transform: none;
-            }
+        90% {
+          transform: translate3d(0, 5px, 0);
         }
 
-        .bounceInDown {
-            animation-name: bounceInDown;
-            animation-duration: 2s;
-            animation-fill-mode: both;
+        to {
+          transform: none;
         }
+      }
 
-        /* animated radar */
-        .radar {
-            animation: pulsate 1s ease-out;
-            -webkit-animation: pulsate 1s ease-out;
-            -webkit-animation-iteration-count: infinite;
-            /* opacity: 0.0 */
-        }
+      .bounceInDown {
+        animation-name: bounceInDown;
+        animation-duration: 2s;
+        animation-fill-mode: both;
+      }
 
-        #mapdiv {
-            width: 100%;
-            height: 100%;
-        }
+      /* animated radar */
+      .radar {
+        animation: pulsate 1s ease-out;
+        -webkit-animation: pulsate 1s ease-out;
+        -webkit-animation-iteration-count: infinite;
+        /* opacity: 0.0 */
+      }
+
+      #mapdiv {
+        width: 100%;
+        height: 100%;
+      }
     </style>
-</head>
+  </head>
 
-<body class="h-full overflow-hidden">
-
+  <body class="h-full overflow-hidden">
     <div class="h-full flex" x-data="{ isOpen: false }">
-
-        <!-- Narrow sidebar -->
-        <div id="navbar"
-            class="absolute right-6 sm:right-0 top-36 rounded-lg sm:rounded-none sm:top-0 z-40 sm:relative sm:h-full sm:w-28 overflow-hidden sm:block bg-slate-900 bg-opacity-90">
-            <div class="w-full py-6 flex flex-col items-center">
-                <div class="flex-1 w-full px-2 space-y-2 text-center">
-                    <button type="button" @click="isOpen = !isOpen"
-                        class="lg:hidden px-4 text-gray-500 hover:bg-slate-700 py-2 rounded-lg focus:outline-none">
-                        <span class="sr-only">Open sidebar</span>
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h7" />
-                        </svg>
-                    </button>
-                    <a href="#" id="navFullScreen"
-                        class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-white group-hover:text-white h-6 w-6"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                        </svg>
-                        <span class="mt-2">Fullscreen</span>
-                    </a>
-                    <a href="#" id="navPwnagotchi"
-                        class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-white group-hover:text-white h-6 w-6"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span class="mt-2">Pwnagotchi</span>
-                    </a>
-                    <a href="#" id="navUpdate"
-                        class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-white group-hover:text-white h-6 w-6"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        <span class="mt-2">Update</span>
-                    </a>
-                    <a href="#" id="navRefresh"
-                        class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-white group-hover:text-white h-6 w-6"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                        <span class="mt-2">Reload</span>
-                    </a>
-                    <a href="#" id="navMapStyle"
-                        class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-white group-hover:text-white h-6 w-6"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                        </svg>
-                        <span class="mt-2">Map Style</span>
-                    </a>
-                </div>
-            </div>
+      <!-- Narrow sidebar -->
+      <div
+        id="navbar"
+        class="absolute right-6 sm:right-0 top-36 rounded-lg sm:rounded-none sm:top-0 z-40 sm:relative sm:h-full sm:w-28 overflow-hidden sm:block bg-slate-900 bg-opacity-90"
+      >
+        <div class="w-full py-6 flex flex-col items-center">
+          <div class="flex-1 w-full px-2 space-y-2 text-center">
+            <button
+              type="button"
+              @click="isOpen = !isOpen"
+              class="lg:hidden px-4 text-gray-500 hover:bg-slate-700 py-2 rounded-lg focus:outline-none"
+            >
+              <span class="sr-only">Open sidebar</span>
+              <svg
+                class="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
+            </button>
+            <a
+              href="#"
+              id="navFullScreen"
+              class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-white group-hover:text-white h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                />
+              </svg>
+              <span class="mt-2">Fullscreen</span>
+            </a>
+            <a
+              href="#"
+              id="navPwnagotchi"
+              class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-white group-hover:text-white h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span class="mt-2">Pwnagotchi</span>
+            </a>
+            <a
+              href="#"
+              id="navUpdate"
+              class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-white group-hover:text-white h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              <span class="mt-2">Update</span>
+            </a>
+            <a
+              href="#"
+              id="navRefresh"
+              class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-white group-hover:text-white h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+              <span class="mt-2">Reload</span>
+            </a>
+            <a
+              href="#"
+              id="navMapStyle"
+              class="text-indigo-100 hover:bg-slate-900 hover:text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-white group-hover:text-white h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                />
+              </svg>
+              <span class="mt-2">Map Style</span>
+            </a>
+          </div>
         </div>
+      </div>
 
-        <!--
+      <!--
           Mobile menu
           Off-canvas menu for mobile, show/hide based on off-canvas menu state.
         -->
-        <div class="lg:hidden" x-show="isOpen">
-            <div class="fixed inset-0 z-50 flex">
+      <div class="lg:hidden" x-show="isOpen">
+        <div class="fixed inset-0 z-50 flex">
+          <div
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-gray-600 bg-opacity-75"
+            aria-hidden="true"
+          ></div>
 
-                <div x-transition:enter="transition-opacity ease-linear duration-300"
-                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity ease-linear duration-300"
-                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                    class="fixed inset-0 bg-gray-600 bg-opacity-75" aria-hidden="true"></div>
-
-                <div x-transition:enter="transition ease-in-out duration-300 transform"
-                    x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
-                    x-transition:leave="transition ease-in-out duration-300 transform"
-                    x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
-                    class="relative max-w-xs w-full bg-slate-900 pt-5 pb-4 flex-1 flex flex-col">
-
-                    <div class="absolute top-1 right-0 -mr-14 p-1" x-transition:enter="ease-in-out duration-300"
-                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                        x-transition:leave="ease-in-out duration-300" x-transition:leave-start="opacity-100"
-                        x-transition:leave-end="opacity-0">
-                        <button type="button" @click="isOpen = !isOpen"
-                            class="h-12 w-12 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white">
-                            <!-- Heroicon name: outline/x -->
-                            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            <span class="sr-only">Close sidebar</span>
-                        </button>
-                    </div>
-
-                    <div class="flex-shrink-0 px-4 flex items-center">
-                        <img class="h-16 w-auto" src="https://raw.githubusercontent.com/sixt0o/f0xtr0t/main/fox.png"
-                            alt="Workflow">
-                        <span class="text-slate-500 font-bold text-2xl ml-4">f0xtr0t</span>
-                    </div>
-                    <div class="mt-5 flex-1 h-0 px-2 overflow-y-auto">
-
-                        <!-- Secondary menu info (hidden on larger screens) -->
-                        <aside class="block lg:hidden">
-                            <div class="px-2">
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            Total Handshakes
-                                        </dt>
-                                        <dd id="total_positions_menu"
-                                            class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            GPS Provider
-                                        </dt>
-                                        <dd id="current_gps_provider_menu"
-                                            class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            Latitude
-                                        </dt>
-                                        <dd id="current_latitude_menu"
-                                            class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            Longitude
-                                        </dt>
-                                        <dd id="current_longitude_menu"
-                                            class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            Altitude
-                                        </dt>
-                                        <dd id="current_altitude_menu"
-                                            class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            Last GPS/AP Update
-                                        </dt>
-                                        <dd id="coords_updated_menu"
-                                            class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                                <dl class="mt-5 grid grid-cols-1 gap-2">
-                                    <div class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2">
-                                        <dt class="text-md font-medium text-slate-600 truncate">
-                                            Version
-                                        </dt>
-                                        <dd id="version_menu" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                            --
-                                        </dd>
-                                    </div>
-                                </dl>
-                            </div>
-                        </aside>
-
-                    </div>
-                </div>
-
-                <div class="flex-shrink-0 w-14" aria-hidden="true">
-                    <!-- Dummy element to force sidebar to shrink to fit close icon -->
-                </div>
+          <div
+            x-transition:enter="transition ease-in-out duration-300 transform"
+            x-transition:enter-start="-translate-x-full"
+            x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in-out duration-300 transform"
+            x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="-translate-x-full"
+            class="relative max-w-xs w-full bg-slate-900 pt-5 pb-4 flex-1 flex flex-col"
+          >
+            <div
+              class="absolute top-1 right-0 -mr-14 p-1"
+              x-transition:enter="ease-in-out duration-300"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="ease-in-out duration-300"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0"
+            >
+              <button
+                type="button"
+                @click="isOpen = !isOpen"
+                class="h-12 w-12 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white"
+              >
+                <!-- Heroicon name: outline/x -->
+                <svg
+                  class="h-6 w-6 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                <span class="sr-only">Close sidebar</span>
+              </button>
             </div>
-        </div>
 
-        <!-- Content area -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-
-            <!-- Header/Search -->
-            <header class="w-full sm:hidden">
-                <div class="relative z-20 flex-shrink-0 h-16 bg-gray-800 shadow-lg flex">
-                    <div class="flex-1 flex justify-between px-4 sm:px-6">
-                        <div class="flex-1 flex">
-                            <div class="w-full flex lg:ml-0">
-                                <label for="search-field" class="sr-only">Search all files</label>
-                                <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                                        <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd"
-                                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <input type="text" id="search"
-                                        class="bg-gray-800 h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-200 placeholder-slate-600 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400"
-                                        placeholder="#cracked #notcracked AA:BB:CC aabbcc AndroidAP" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
-                            <div class="relative flex-shrink-0">
-                                <div id="matchcount" class="font-bold pl-4 text-indigo-900"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Main content -->
-            <div class="flex-1 flex items-stretch overflow-hidden relative">
-
-                <!-- Notification -->
-                <div id="notification" class="hidden absolute bottom-0 z-50 px-2 py-3 w-96">
-                    <div class="w-full">
-                        <div class="max-w-sm w-full bg-amber-500 bg-opacity-90 shadow-lg rounded-lg overflow-hidden">
-                            <div class="p-4">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 bg-amber-700 rounded-full mt-1">
-                                        <svg class="h-12 w-12 text-amber-200" xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3 w-0 flex-1">
-                                        <p id="notification_title" class="text-lg font-bold text-slate-900">
-                                            Sweet!
-                                        </p>
-                                        <p id="notification_text" class="text-lg text-amber-900">
-                                            f0xtr0t loaded.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <main class="flex-1 overflow-hidden relative">
-                    <!-- GPSD warning -->
-                    <div class="bg-red-900 px-4 py-2 hiddens w-full absolute top-0 z-40 bg-opacity-90 shadow-lg"
-                        id="location_warning">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <!-- Heroicon name: solid/exclamation -->
-                                <svg class="h-8 w-8 text-red-400 animate-pulse" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-md font-bold text-red-400 pt-1">
-                                    Location not found. Waiting for coordinates from <span
-                                        id="location_warning_provider"></span>...
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Primary column -->
-                    <section aria-labelledby="primary-heading"
-                        class="min-w-0 flex-1 h-full flex flex-col lg:order-last relative">
-                        <div id="mapdiv" class="z-10"></div>
-
-                        <!-- pwnagotchi modal -->
-                        <div id="pwnagotchi"
-                            class="mx-auto absolute inset-x-10 bottom-10 z-50 bg-white overflow-hidden shadow-lg h-60 sm:h-80 hidden sm:w-4/5">
-                            <iframe id="iframe_pwnagotchi" src="http://pwnagotchi.local:8080/"
-                                class="w-full h-72 sm:h-96 -mt-10"></iframe>
-                        </div>
-
-                    </section>
-                </main>
-
-                <!-- Secondary column (hidden on smaller screens) -->
-                <aside class="hidden w-96 bg-slate-900 overflow-y-auto lg:block">
-
-                    <div class="px-4">
-
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    Total Positions
-                                </dt>
-                                <dd id="total_positions" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800  overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    GPS Provider
-                                </dt>
-                                <dd id="current_gps_provider" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800  overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    Latitude
-                                </dt>
-                                <dd id="current_latitude" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800  overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    Longitude
-                                </dt>
-                                <dd id="current_longitude" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800  overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    Altitude
-                                </dt>
-                                <dd id="current_altitude" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800  overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    Last GPS/AP Update
-                                </dt>
-                                <dd id="coords_updated" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                        <dl class="mt-5 grid grid-cols-1 gap-5">
-                            <div class="px-4 py-5 border-2 border-slate-900 border-b-slate-800  overflow-hidden sm:p-6">
-                                <dt class="text-md font-medium text-slate-600 truncate">
-                                    Version
-                                </dt>
-                                <dd id="version" class="mt-1 text-3xl font-semibold text-indigo-200">
-                                    --
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
-                </aside>
-
-                <!-- Update modal -->
-                <div id="updateModal" class="hidden fixed z-40 inset-0 overflow-y-auto">
-                    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center">
-                        <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-
-                        <!-- This element is to trick the browser into centering the modal contents. -->
-                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                            aria-hidden="true">&#8203;</span>
-
-                        <div
-                            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                            <div>
-                                <div
-                                    class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                                    </svg>
-                                </div>
-                                <div class="mt-3 text-center sm:mt-5">
-                                    <h3 id="updateModalTitle" class="text-lg leading-6 font-medium text-gray-900"
-                                        id="modal-title">
-                                        Update Found!
-                                    </h3>
-                                    <div class="mt-2">
-                                        <p id="updateModalText" class="text-sm text-gray-500">
-                                            Update now to get the latest version.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                                <button type="button" id="buttonExecuteUpdate"
-                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-4 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
-                                    Update Now
-                                </button>
-                                <button type="button"
-                                    onclick="document.getElementById('updateModal').classList.add('hidden')"
-                                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-4 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="flex-shrink-0 px-4 flex items-center">
+              <img
+                class="h-16 w-auto"
+                src="https://raw.githubusercontent.com/sixt0o/f0xtr0t/main/fox.png"
+                alt="Workflow"
+              />
+              <span class="text-slate-500 font-bold text-2xl ml-4"
+                >f0xtr0t</span
+              >
             </div>
+            <div class="mt-5 flex-1 h-0 px-2 overflow-y-auto">
+              <!-- Secondary menu info (hidden on larger screens) -->
+              <aside class="block lg:hidden">
+                <div class="px-2">
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        Total Handshakes
+                      </dt>
+                      <dd
+                        id="total_positions_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        GPS Provider
+                      </dt>
+                      <dd
+                        id="current_gps_provider_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        Latitude
+                      </dt>
+                      <dd
+                        id="current_latitude_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        Longitude
+                      </dt>
+                      <dd
+                        id="current_longitude_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        Altitude
+                      </dt>
+                      <dd
+                        id="current_altitude_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        Last GPS/AP Update
+                      </dt>
+                      <dd
+                        id="coords_updated_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                  <dl class="mt-5 grid grid-cols-1 gap-2">
+                    <div
+                      class="border-2 border-slate-900 border-b-slate-800 overflow-hidden py-2"
+                    >
+                      <dt class="text-md font-medium text-slate-600 truncate">
+                        Version
+                      </dt>
+                      <dd
+                        id="version_menu"
+                        class="mt-1 text-3xl font-semibold text-indigo-200"
+                      >
+                        --
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </aside>
+            </div>
+          </div>
+
+          <div class="flex-shrink-0 w-14" aria-hidden="true">
+            <!-- Dummy element to force sidebar to shrink to fit close icon -->
+          </div>
         </div>
+      </div>
+
+      <!-- Content area -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header/Search -->
+        <header class="w-full sm:hidden">
+          <div
+            class="relative z-20 flex-shrink-0 h-16 bg-gray-800 shadow-lg flex"
+          >
+            <div class="flex-1 flex justify-between px-4 sm:px-6">
+              <div class="flex-1 flex">
+                <div class="w-full flex lg:ml-0">
+                  <label for="search-field" class="sr-only"
+                    >Search all files</label
+                  >
+                  <div
+                    class="relative w-full text-gray-400 focus-within:text-gray-600"
+                  >
+                    <div
+                      class="pointer-events-none absolute inset-y-0 left-0 flex items-center"
+                    >
+                      <svg
+                        class="flex-shrink-0 h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      id="search"
+                      class="bg-gray-800 h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-200 placeholder-slate-600 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400"
+                      placeholder="#cracked #notcracked AA:BB:CC aabbcc AndroidAP"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6"
+              >
+                <div class="relative flex-shrink-0">
+                  <div
+                    id="matchcount"
+                    class="font-bold pl-4 text-indigo-900"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main content -->
+        <div class="flex-1 flex items-stretch overflow-hidden relative">
+          <!-- Notification -->
+          <div
+            id="notification"
+            class="hidden absolute bottom-0 z-50 px-2 py-3 w-96"
+          >
+            <div class="w-full">
+              <div
+                class="max-w-sm w-full bg-amber-500 bg-opacity-90 shadow-lg rounded-lg overflow-hidden"
+              >
+                <div class="p-4">
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-amber-700 rounded-full mt-1">
+                      <svg
+                        class="h-12 w-12 text-amber-200"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="ml-3 w-0 flex-1">
+                      <p
+                        id="notification_title"
+                        class="text-lg font-bold text-slate-900"
+                      >
+                        Sweet!
+                      </p>
+                      <p id="notification_text" class="text-lg text-amber-900">
+                        f0xtr0t loaded.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <main class="flex-1 overflow-hidden relative">
+            <!-- GPSD warning -->
+            <div
+              class="bg-red-900 px-4 py-2 hiddens w-full absolute top-0 z-40 bg-opacity-90 shadow-lg"
+              id="location_warning"
+            >
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <!-- Heroicon name: solid/exclamation -->
+                  <svg
+                    class="h-8 w-8 text-red-400 animate-pulse"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-md font-bold text-red-400 pt-1">
+                    Location not found. Waiting for coordinates from
+                    <span id="location_warning_provider"></span>...
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Primary column -->
+            <section
+              aria-labelledby="primary-heading"
+              class="min-w-0 flex-1 h-full flex flex-col lg:order-last relative"
+            >
+              <div id="mapdiv" class="z-10"></div>
+
+              <!-- pwnagotchi modal -->
+              <div
+                id="pwnagotchi"
+                class="mx-auto absolute inset-x-10 bottom-10 z-50 bg-white overflow-hidden shadow-lg h-60 sm:h-80 hidden sm:w-4/5"
+              >
+                <iframe
+                  id="iframe_pwnagotchi"
+                  src="http://pwnagotchi.local:8080/"
+                  class="w-full h-72 sm:h-96 -mt-10"
+                ></iframe>
+              </div>
+            </section>
+          </main>
+
+          <!-- Secondary column (hidden on smaller screens) -->
+          <aside class="hidden w-96 bg-slate-900 overflow-y-auto lg:block">
+            <div class="px-4">
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    Total Positions
+                  </dt>
+                  <dd
+                    id="total_positions"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    GPS Provider
+                  </dt>
+                  <dd
+                    id="current_gps_provider"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    Latitude
+                  </dt>
+                  <dd
+                    id="current_latitude"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    Longitude
+                  </dt>
+                  <dd
+                    id="current_longitude"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    Altitude
+                  </dt>
+                  <dd
+                    id="current_altitude"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    Last GPS/AP Update
+                  </dt>
+                  <dd
+                    id="coords_updated"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+              <dl class="mt-5 grid grid-cols-1 gap-5">
+                <div
+                  class="px-4 py-5 border-2 border-slate-900 border-b-slate-800 overflow-hidden sm:p-6"
+                >
+                  <dt class="text-md font-medium text-slate-600 truncate">
+                    Version
+                  </dt>
+                  <dd
+                    id="version"
+                    class="mt-1 text-3xl font-semibold text-indigo-200"
+                  >
+                    --
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </aside>
+
+          <!-- Update modal -->
+          <div
+            id="updateModal"
+            class="hidden fixed z-40 inset-0 overflow-y-auto"
+          >
+            <div
+              class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center"
+            >
+              <div
+                class="fixed inset-0 bg-black bg-opacity-75 transition-opacity"
+                aria-hidden="true"
+              ></div>
+
+              <!-- This element is to trick the browser into centering the modal contents. -->
+              <span
+                class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                aria-hidden="true"
+                >&#8203;</span
+              >
+
+              <div
+                class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
+              >
+                <div>
+                  <div
+                    class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                      />
+                    </svg>
+                  </div>
+                  <div class="mt-3 text-center sm:mt-5">
+                    <h3
+                      id="updateModalTitle"
+                      class="text-lg leading-6 font-medium text-gray-900"
+                      id="modal-title"
+                    >
+                      Update Found!
+                    </h3>
+                    <div class="mt-2">
+                      <p id="updateModalText" class="text-sm text-gray-500">
+                        Update now to get the latest version.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense"
+                >
+                  <button
+                    type="button"
+                    id="buttonExecuteUpdate"
+                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-4 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
+                  >
+                    Update Now
+                  </button>
+                  <button
+                    type="button"
+                    onclick="document.getElementById('updateModal').classList.add('hidden')"
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-4 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script type="text/javascript">
-
-
-        // select your map theme from https://leaflet-extras.github.io/leaflet-providers/preview/
-        var Jawg_Matrix = L.tileLayer('https://{s}.tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
-            attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            minZoom: 0,
-            maxZoom: 22,
-            subdomains: 'abcd',
-            accessToken: 'cc2Ufj6jpMW5ADos7zJYnE97CxNSDZb4DObqj1aV3QSXEYE5TFHjvEghzcISsQMu'
-        });
-
-        var Jawg_Streets = L.tileLayer('https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
-            attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            minZoom: 0,
-            maxZoom: 22,
-            subdomains: 'abcd',
-            accessToken: 'cc2Ufj6jpMW5ADos7zJYnE97CxNSDZb4DObqj1aV3QSXEYE5TFHjvEghzcISsQMu'
-        });
-
-        var Topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 12, attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)' });
-
-        var positionsLoaded = false;
-        var positions = [];
-        var accuracys = [];
-        var markers = [];
-        var marker_pos = [];
-        var markerClusters = L.markerClusterGroup();
-        var lastGPSUpdate = null;
-        var locationMarker = {};
-        var circleMarker = {};
-        var locationLoaded = false;
-        var lastPositionCount = 0;
-        var hostName = null;
-        var mapStyles = [Jawg_Matrix, Jawg_Streets, Topo];
-        var currentMapStyleIndex = 0;
-        var navMinimized = false;
-        var gpsProvider = null;
-
-        var mymap = L.map('mapdiv', { zoomControl: false }).setView([39.82, -98.58], 5);
-        L.control.zoom({
-            position: 'bottomright'
-        }).addTo(mymap);
-        var mapStyleLayer = mapStyles[currentMapStyleIndex].addTo(mymap);
-
-        var svg = '<svg class="pwnAPPin" width="80px" height="60px" viewBox="0 0 44 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><desc>pwnagotchi AP icon.</desc><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FFFFFF" offset="0%"></stop><stop stop-color="#000000" offset="100%"></stop></linearGradient></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="marker"><path class="ring_outer" d="M28.6,8 C34.7,9.4 39,12.4 39,16 C39,20.7 31.3,24.6 21.7,24.6 C12.1,24.6 4.3,20.7 4.3,16 C4.3,12.5 8.5,9.5 14.6,8.1 C15.3,8 14.2,6.6 13.3,6.8 C5.5,8.4 0,12.2 0,16.7 C0,22.7 9.7,27.4 21.7,27.4 C33.7,27.4 43.3,22.6 43.3,16.7 C43.3,12.1 37.6,8.3 29.6,6.7 C28.8,6.5 27.8,7.9 28.6,8.1 L28.6,8 Z" id="Shape" fill="#878787" fill-rule="nonzero"></path><path class="ring_inner" d="M28.1427313,11.0811939 C30.4951542,11.9119726 32.0242291,13.2174821 32.0242291,14.6416742 C32.0242291,17.2526931 27.6722467,19.2702986 22.261674,19.2702986 C16.8511013,19.2702986 12.4991189,17.2526931 12.4991189,14.7603569 C12.4991189,13.5735301 13.4400881,12.505386 15.0867841,11.6746073 C15.792511,11.3185592 14.7339207,9.30095371 13.9105727,9.77568442 C10.6171806,10.9625112 8.5,12.9801167 8.5,15.2350876 C8.5,19.0329333 14.4986784,22.0000002 21.9088106,22.0000002 C29.2013216,22.0000002 35.2,19.0329333 35.2,15.2350876 C35.2,12.861434 32.7299559,10.6064632 28.8484581,9.30095371 C28.0251101,9.18227103 27.4370044,10.8438285 28.0251101,11.0811939 L28.1427313,11.0811939 Z" id="Shape" fill="#5F5F5F" fill-rule="nonzero"></path><g id="ap" transform="translate(13.000000, 0.000000)"><rect id="apfront" fill="#000000" x="0" y="14" width="18" height="4"></rect><polygon id="apbody" fill="url(#linearGradient-1)" points="3.83034404 10 14.169656 10 18 14 0 14"></polygon><circle class="ring_outer" id="led1" fill="#931F1F" cx="3" cy="16" r="1"></circle><circle class="ring_inner" id="led2" fill="#931F1F" cx="7" cy="16" r="1"></circle><circle class="ring_outer" id="led3" fill="#931F1F" cx="11" cy="16" r="1"></circle><circle class="ring_inner" id="led4" fill="#931F1F" cx="15" cy="16" r="1"></circle><polygon id="antenna2" fill="#000000" points="8.8173082 0 9.1826918 0 9.5 11 8.5 11"></polygon><polygon id="antenna3" fill="#000000" transform="translate(15.000000, 5.500000) rotate(15.000000) translate(-15.000000, -5.500000) " points="14.8173082 0 15.1826918 0 15.5 11 14.5 11"></polygon><polygon id="antenna1" fill="#000000" transform="translate(3.000000, 5.500000) rotate(-15.000000) translate(-3.000000, -5.500000) " points="2.8173082 0 3.1826918 0 3.5 11 2.5 11"></polygon></g></g></g></svg>';
-        var svgOpen = '<svg class="pwnAPPinOpen" width="80px" height="60px" viewBox="0 0 44 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><desc>pwnagotchi AP icon.</desc><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FFFFFF" offset="0%"></stop><stop stop-color="#000000" offset="100%"></stop></linearGradient></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="marker"><path class="ring_outer" d="M28.6,8 C34.7,9.4 39,12.4 39,16 C39,20.7 31.3,24.6 21.7,24.6 C12.1,24.6 4.3,20.7 4.3,16 C4.3,12.5 8.5,9.5 14.6,8.1 C15.3,8 14.2,6.6 13.3,6.8 C5.5,8.4 0,12.2 0,16.7 C0,22.7 9.7,27.4 21.7,27.4 C33.7,27.4 43.3,22.6 43.3,16.7 C43.3,12.1 37.6,8.3 29.6,6.7 C28.8,6.5 27.8,7.9 28.6,8.1 L28.6,8 Z" id="Shape" fill="#878787" fill-rule="nonzero"></path><path class="ring_inner" d="M28.1427313,11.0811939 C30.4951542,11.9119726 32.0242291,13.2174821 32.0242291,14.6416742 C32.0242291,17.2526931 27.6722467,19.2702986 22.261674,19.2702986 C16.8511013,19.2702986 12.4991189,17.2526931 12.4991189,14.7603569 C12.4991189,13.5735301 13.4400881,12.505386 15.0867841,11.6746073 C15.792511,11.3185592 14.7339207,9.30095371 13.9105727,9.77568442 C10.6171806,10.9625112 8.5,12.9801167 8.5,15.2350876 C8.5,19.0329333 14.4986784,22.0000002 21.9088106,22.0000002 C29.2013216,22.0000002 35.2,19.0329333 35.2,15.2350876 C35.2,12.861434 32.7299559,10.6064632 28.8484581,9.30095371 C28.0251101,9.18227103 27.4370044,10.8438285 28.0251101,11.0811939 L28.1427313,11.0811939 Z" id="Shape" fill="#5F5F5F" fill-rule="nonzero"></path><g id="ap" transform="translate(13.000000, 0.000000)"><rect id="apfront" fill="#000000" x="0" y="14" width="18" height="4"></rect><polygon id="apbody" fill="url(#linearGradient-1)" points="3.83034404 10 14.169656 10 18 14 0 14"></polygon><circle class="ring_outer" id="led1" fill="#1f9321" cx="3" cy="16" r="1"></circle><circle class="ring_inner" id="led2" fill="#1f9321" cx="7" cy="16" r="1"></circle><circle class="ring_outer" id="led3" fill="#1f9321" cx="11" cy="16" r="1"></circle><circle class="ring_inner" id="led4" fill="#1f9321" cx="15" cy="16" r="1"></circle><polygon id="antenna2" fill="#000000" points="8.8173082 0 9.1826918 0 9.5 11 8.5 11"></polygon><polygon id="antenna3" fill="#000000" transform="translate(15.000000, 5.500000) rotate(15.000000) translate(-15.000000, -5.500000) " points="14.8173082 0 15.1826918 0 15.5 11 14.5 11"></polygon><polygon id="antenna1" fill="#000000" transform="translate(3.000000, 5.500000) rotate(-15.000000) translate(-3.000000, -5.500000) " points="2.8173082 0 3.1826918 0 3.5 11 2.5 11"></polygon></g></g></g></svg>';
-        var myIcon = L.divIcon({
-            className: "leaflet-data-marker",
-            html: svg.replace('#', '%23'),
-            iconAnchor: [40, 30],
-            iconSize: [80, 60],
-            popupAnchor: [0, -30],
-        });
-        var myIconOpen = L.divIcon({
-            className: "leaflet-data-marker",
-            html: svgOpen.replace('#', '%23'),
-            iconAnchor: [40, 30],
-            iconSize: [80, 60],
-            popupAnchor: [0, -30],
-        });
-
-        const loadJSON = (url, callback) => {
-            var xobj = new XMLHttpRequest();
-            xobj.overrideMimeType("application/json");
-            xobj.open('GET', url, true);
-            xobj.onreadystatechange = function () {
-                if (xobj.readyState == 4 && xobj.status == "200") {
-                    callback(xobj.responseText);
-                }
-            };
-            xobj.send(null);
+      // select your map theme from https://leaflet-extras.github.io/leaflet-providers/preview/
+      var Jawg_Matrix = L.tileLayer(
+        "https://{s}.tile.jawg.io/jawg-matrix/{z}/{x}/{y}{r}.png?access-token={accessToken}",
+        {
+          attribution:
+            '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          minZoom: 0,
+          maxZoom: 22,
+          subdomains: "abcd",
+          accessToken:
+            "cc2Ufj6jpMW5ADos7zJYnE97CxNSDZb4DObqj1aV3QSXEYE5TFHjvEghzcISsQMu",
         }
+      );
 
-        const escapeHtml = (unsafe) => {
-            return String(unsafe)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+      var Jawg_Streets = L.tileLayer(
+        "https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token={accessToken}",
+        {
+          attribution:
+            '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          minZoom: 0,
+          maxZoom: 22,
+          subdomains: "abcd",
+          accessToken:
+            "cc2Ufj6jpMW5ADos7zJYnE97CxNSDZb4DObqj1aV3QSXEYE5TFHjvEghzcISsQMu",
         }
+      );
 
-        const formatMacAddress = (macAddress) => {
-            if (macAddress !== null) {
-                macAddress = macAddress.toUpperCase();
-                if (macAddress.length >= 3 && macAddress.length <= 16) {
-                    macAddress = macAddress.replace(/\W/ig, '');
-                    macAddress = macAddress.replace(/(.{2})/g, "$1:");
-                    macAddress = macAddress.replace(/:+$/, '');
-                }
-            }
-            return macAddress;
+      var Topo = L.tileLayer(
+        "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        {
+          maxZoom: 12,
+          attribution:
+            'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
         }
+      );
 
-        const loadPositions = () => {
-            // load positions
-            loadJSON("/plugins/f0xtr0t/all", function (response) {
-                positions = JSON.parse(response);
-                positionsLoaded = true;
-                document.getElementById("total_positions").innerHTML = Object.keys(positions).length
-                document.getElementById("total_positions_menu").innerHTML = Object.keys(positions).length
-                drawPositions();
-            });
-        }
+      var positionsLoaded = false;
+      var positions = [];
+      var accuracys = [];
+      var markers = [];
+      var marker_pos = [];
+      var markerClusters = L.markerClusterGroup();
+      var lastGPSUpdate = null;
+      var locationMarker = {};
+      var circleMarker = {};
+      var locationLoaded = false;
+      var lastPositionCount = 0;
+      var hostName = null;
+      var mapStyles = [Jawg_Matrix, Jawg_Streets, Topo];
+      var currentMapStyleIndex = 0;
+      var navMinimized = false;
+      var gpsProvider = null;
 
-        const updateMap = (coords) => {
-            latlong = new L.LatLng(coords.Latitude, coords.Longitude);
-            document.getElementById("current_latitude").innerHTML = coords.Latitude;
-            document.getElementById("current_longitude").innerHTML = coords.Longitude;
-            document.getElementById("current_altitude").innerHTML = coords.Altitude;
-            document.getElementById("current_latitude_menu").innerHTML = coords.Latitude;
-            document.getElementById("current_longitude_menu").innerHTML = coords.Longitude;
-            document.getElementById("current_altitude_menu").innerHTML = coords.Altitude;
-            if (coords.Latitude && coords.Longitude) {
-                if (!locationLoaded) {
-                    locationMarker = L.marker(latlong).addTo(mymap);
-                    mymap.flyTo(latlong, 18);
-                    setTimeout(() => {
-                        circleMarker = L.circle(latlong, {
-                            color: 'red',
-                            fillColor: 'f03',
-                            fillOpacity: 0.1,
-                            weight: 1,
-                            opacity: 0.75,
-                            radius: 50,
-                        }).setStyle({ 'className': 'radar' }).addTo(mymap)
-                    }, 5000);
-                    locationLoaded = true
-                } else {
-                    locationMarker.setLatLng(latlong);
-                    circleMarker.setLatLng(latlong);
-                    mymap.panTo(latlong);
-                }
-
-                document.getElementById("location_warning").classList.add("hidden");
-            } else {
-                document.getElementById("location_warning").classList.remove("hidden");
-            }
-            loadPositions();
-        }
-
-        const loadGpsCoords = () => {
-            lastGPSUpdate = new Date();
-            document.getElementById("location_warning_provider").innerHTML = gpsProvider;
-            document.getElementById("current_gps_provider_menu").innerHTML = gpsProvider;
-            document.getElementById("current_gps_provider").innerHTML = gpsProvider;
-            switch (gpsProvider) {
-                case 'gpsd':
-
-                    try {
-                        loadJSON("/plugins/f0xtr0t/gpsd", (response) => {
-                            coords = JSON.parse(response);
-                            updateMap(coords);
-                        });
-                    } catch { }
-
-                    break;
-                case 'pawgps':
-
-                    try {
-                        loadJSON("/plugins/f0xtr0t/pawgps", (response) => {
-                            coords = JSON.parse(response);
-                            updateMap(coords);
-                        });
-                    } catch { }
-
-                    break;
-
-            }
-
-        }
-
-        const timeSince = (timeStamp) => {
-            if (timeStamp) {
-                var now = new Date(),
-                    secondsPast = (now.getTime() - timeStamp.getTime()) / 1000;
-                if (secondsPast < 60) {
-                    return parseInt(secondsPast) + 's';
-                }
-                if (secondsPast < 3600) {
-                    return parseInt(secondsPast / 60) + 'm';
-                }
-                if (secondsPast <= 86400) {
-                    return parseInt(secondsPast / 3600) + 'h';
-                }
-                if (secondsPast > 86400) {
-                    day = timeStamp.getDate();
-                    month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
-                    year = timeStamp.getFullYear() == now.getFullYear() ? "" : " " + timeStamp.getFullYear();
-                    return
-                    day + " " + month + year;
-                }
-            }
-        }
-
-        const toggleFullscreen = (elem) => {
-            elem = elem || document.documentElement;
-
-            if (!document.fullscreenElement && !document.mozFullScreenElement &&
-                !document.webkitFullscreenElement && !document.msFullscreenElement) {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
-                } else if (elem.mozRequestFullScreen) {
-                    elem.mozRequestFullScreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                }
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                }
-            }
-        }
-
-        const checkForUpdate = () => {
-            let currentVersion = null;
-            let onlineVersion = null;
-            document.getElementById("notification").classList.remove("hidden");
-            document.getElementById("notification_title").innerHTML = "Please wait...";
-            document.getElementById("notification_text").innerHTML = "Checking version...";
-
-            loadJSON('/plugins/f0xtr0t/currentversion', (versionResponse) => {
-                currentVersion = JSON.parse(versionResponse);
-                document.getElementById("notification_text").innerHTML = `Current version: <span class="font-bold">${currentVersion}</span>, checking for updates...`;
-                loadJSON("/plugins/f0xtr0t/checkupdate", (updateResponse) => {
-                    onlineVersion = JSON.parse(updateResponse);
-                    if (onlineVersion !== currentVersion) {
-                        document.getElementById("notification").classList.add("hidden");
-                        document.getElementById("updateModal").classList.remove("hidden")
-                    } else {
-                        document.getElementById("notification_text").innerHTML = `No updates found.`;
-                        setTimeout(() => {
-                            document.getElementById("notification").classList.add("hidden");
-                        }, 5000);
-                    }
-                });
-            });
-        }
-
-        const drawPositions = () => {
-            count = 0;
-            markerClusters.removeLayers(markers);
-            markerClusters = L.markerClusterGroup();
-            accuracys = [];
-            markers = [];
-            marker_pos = [];
-            filterText = document.getElementById("search").value;
-            Object.keys(positions).forEach(function (key) {
-                if (positions[key].lng) {
-                    filterPattern =
-                        positions[key].ssid + ' ' +
-                        formatMacAddress(positions[key].mac) + ' ' +
-                        positions[key].mac
-                        ;
-                    if (positions[key].pass) {
-                        filterPattern += positions[key].pass + ' #cracked';
-                    } else {
-                        filterPattern += ' #notcracked';
-                    }
-                    filterPattern = filterPattern.toLowerCase();
-                    var matched = true;
-                    if (filterText) {
-                        filterText.split(" ").forEach(function (item) {
-                            if (!filterPattern.includes(item.toLowerCase())) {
-                                matched = false;
-                            }
-                        });
-                    }
-                    if (matched) {
-                        count++;
-                        new_marker_pos = [positions[key].lat, positions[key].lng];
-                        if (positions[key].acc) {
-                            radius = Math.round(Math.min(positions[key].acc, 500));
-                            markerColor = 'red';
-                            markerColorCode = '#f03';
-                            fillOpacity = 0.002;
-                            if (positions[key].pass) {
-                                markerColor = 'green';
-                                markerColorCode = '#1aff00';
-                                fillOpacity = 0.1;
-                            }
-                        }
-                        passInfo = '';
-                        if (positions[key].pass) {
-                            passInfo = '<br/><b>Pass:</b> ' + escapeHtml(positions[key].pass);
-                            newMarker = L.marker(new_marker_pos, { icon: myIconOpen, title: positions[key].ssid }); //.addTo(mymap);
-                        } else {
-                            newMarker = L.marker(new_marker_pos, { icon: myIcon, title: positions[key].ssid }); //.addTo(mymap);
-                        }
-                        newMarker.bindPopup("<b>" + escapeHtml(positions[key].ssid) + "</b><br><nobr>MAC: " + escapeHtml(formatMacAddress(positions[key].mac)) + "</nobr><br/>" + "<nobr>position type: " + escapeHtml(positions[key].type) + "</nobr><br/>" + "<nobr>position accuracy: " + escapeHtml(Math.round(positions[key].acc)) + "</nobr>" + passInfo, { maxWidth: "auto" });
-                        markers.push(newMarker);
-                        marker_pos.push(new_marker_pos);
-                        markerClusters.addLayer(newMarker);
-                    }
-                }
-            });
-            if (filterText) {
-                document.getElementById("matchcount").innerHTML = "Found&nbsp;" + count + "&nbsp;handshakes...";
-            } else {
-                document.getElementById("matchcount").innerHTML = "";
-            }
-            if (count > 0) {
-                mymap.addLayer(markerClusters);
-                if (!locationLoaded) {
-                    var bounds = new L.LatLngBounds(marker_pos);
-                    mymap.fitBounds(bounds);
-                }
-                if (count > lastPositionCount) {
-                    document.getElementById("notification").classList.remove("hidden");
-                    document.getElementById("notification_title").innerHTML = "Sweet!";
-                    document.getElementById("notification_text").innerHTML = `Found ${count - lastPositionCount} handshakes...`;
-                    setTimeout(() => {
-                        document.getElementById("notification").classList.add("hidden");
-                    }, 5000);
-                }
-                lastPositionCount = count;
-            }
-        }
-
-        const node = document.getElementById("search").addEventListener("keyup", function (event) {
-            if (event.key === "Enter") {
-                if (positionsLoaded) {
-                    drawPositions();
-                }
-            }
-        });
-
-        const changeMapStyle = () => {
-            if (currentMapStyleIndex === mapStyles.length - 1) {
-                currentMapStyleIndex = 0
-            } else {
-                currentMapStyleIndex = currentMapStyleIndex + 1;
-            }
-            mymap.removeLayer(mapStyleLayer);
-            mapStyleLayer = mapStyles[currentMapStyleIndex].addTo(mymap);
-        }
-
-        const minimizeNav = () => {
-            if (navMinimized) {
-                document.getElementById('navbar').classList.remove('h-24');
-                document.getElementById('navbar').classList.remove('overflow-hidden');
-                navMinimized = false;
-            } else {
-                document.getElementById('navbar').classList.add('h-24');
-                document.getElementById('navbar').classList.add('overflow-hidden');
-                navMinimized = true
-            }
-        }
-
-        loadGpsCoords();
-        loadJSON("/plugins/f0xtr0t/gpsprovider", function (response) {
-            // Are we using GPSD or PawGPS?
-            gpsProvider = JSON.parse(response).toLowerCase();
-        });
-
-        loadJSON("/plugins/f0xtr0t/hostname", function (response) {
-            let hostname = JSON.parse(response);
-            document.getElementById('iframe_pwnagotchi').src = `http://${hostname}.local:8080`;
-        });
-
-        loadJSON("/plugins/f0xtr0t/currentversion", (response) => {
-            document.getElementById("version").innerHTML = JSON.parse(response);
-            document.getElementById("version_menu").innerHTML = JSON.parse(response);
-        });
-
-        setInterval(() => {
-            if (lastGPSUpdate) {
-                document.getElementById("coords_updated").innerHTML = timeSince(lastGPSUpdate) + " ago";
-                document.getElementById("coords_updated_menu").innerHTML = timeSince(lastGPSUpdate) + " ago";
-            }
-        }, 1000);
-
-        setInterval(() => {
-            loadGpsCoords();
-        }, 5000);
-
-        // Side nav bindings
-        document.getElementById('navRefresh').addEventListener('click', () => {
-            window.location.reload();
-        });
-
-        document.getElementById('navFullScreen').addEventListener('click', () => {
-            toggleFullscreen();
-        });
-
-        document.getElementById('navUpdate').addEventListener('click', () => {
-            checkForUpdate();
-        });
-
-        document.getElementById('navPwnagotchi').addEventListener('click', () => {
-            let pwngotchiDiv = document.getElementById('pwnagotchi');
-            if (pwngotchiDiv.classList.contains('hidden')) {
-                pwngotchiDiv.classList.remove('hidden');
-            } else {
-                pwngotchiDiv.classList.add('hidden');
-            }
-        });
-
-        document.getElementById('navMapStyle').addEventListener('click', () => {
-            changeMapStyle();
-        });
-
-        document.getElementById("buttonExecuteUpdate").addEventListener('click', () => {
-            document.getElementById("updateModal").classList.add("hidden");
-            document.getElementById("notification").classList.remove("hidden");
-            document.getElementById("notification_title").innerHTML = "Please wait...";
-            document.getElementById("notification_text").innerHTML = "Downloading update...";
-
-            loadJSON("/plugins/f0xtr0t/executeupdate", (response) => {
-                document.getElementById("notification_title").innerHTML = "Sweet!";
-                document.getElementById("notification_text").innerHTML = "Update complete! Please restart you device for changes to take effect.";
-                setTimeout(() => {
-                    document.getElementById("notification").classList.add("hidden");
-                }, 5000);
-            });
+      var mymap = L.map("mapdiv", { zoomControl: false }).setView(
+        [39.82, -98.58],
+        5
+      );
+      L.control
+        .zoom({
+          position: "bottomright",
         })
+        .addTo(mymap);
+      var mapStyleLayer = mapStyles[currentMapStyleIndex].addTo(mymap);
 
+      var svg =
+        '<svg class="pwnAPPin" width="80px" height="60px" viewBox="0 0 44 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><desc>pwnagotchi AP icon.</desc><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FFFFFF" offset="0%"></stop><stop stop-color="#000000" offset="100%"></stop></linearGradient></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="marker"><path class="ring_outer" d="M28.6,8 C34.7,9.4 39,12.4 39,16 C39,20.7 31.3,24.6 21.7,24.6 C12.1,24.6 4.3,20.7 4.3,16 C4.3,12.5 8.5,9.5 14.6,8.1 C15.3,8 14.2,6.6 13.3,6.8 C5.5,8.4 0,12.2 0,16.7 C0,22.7 9.7,27.4 21.7,27.4 C33.7,27.4 43.3,22.6 43.3,16.7 C43.3,12.1 37.6,8.3 29.6,6.7 C28.8,6.5 27.8,7.9 28.6,8.1 L28.6,8 Z" id="Shape" fill="#878787" fill-rule="nonzero"></path><path class="ring_inner" d="M28.1427313,11.0811939 C30.4951542,11.9119726 32.0242291,13.2174821 32.0242291,14.6416742 C32.0242291,17.2526931 27.6722467,19.2702986 22.261674,19.2702986 C16.8511013,19.2702986 12.4991189,17.2526931 12.4991189,14.7603569 C12.4991189,13.5735301 13.4400881,12.505386 15.0867841,11.6746073 C15.792511,11.3185592 14.7339207,9.30095371 13.9105727,9.77568442 C10.6171806,10.9625112 8.5,12.9801167 8.5,15.2350876 C8.5,19.0329333 14.4986784,22.0000002 21.9088106,22.0000002 C29.2013216,22.0000002 35.2,19.0329333 35.2,15.2350876 C35.2,12.861434 32.7299559,10.6064632 28.8484581,9.30095371 C28.0251101,9.18227103 27.4370044,10.8438285 28.0251101,11.0811939 L28.1427313,11.0811939 Z" id="Shape" fill="#5F5F5F" fill-rule="nonzero"></path><g id="ap" transform="translate(13.000000, 0.000000)"><rect id="apfront" fill="#000000" x="0" y="14" width="18" height="4"></rect><polygon id="apbody" fill="url(#linearGradient-1)" points="3.83034404 10 14.169656 10 18 14 0 14"></polygon><circle class="ring_outer" id="led1" fill="#931F1F" cx="3" cy="16" r="1"></circle><circle class="ring_inner" id="led2" fill="#931F1F" cx="7" cy="16" r="1"></circle><circle class="ring_outer" id="led3" fill="#931F1F" cx="11" cy="16" r="1"></circle><circle class="ring_inner" id="led4" fill="#931F1F" cx="15" cy="16" r="1"></circle><polygon id="antenna2" fill="#000000" points="8.8173082 0 9.1826918 0 9.5 11 8.5 11"></polygon><polygon id="antenna3" fill="#000000" transform="translate(15.000000, 5.500000) rotate(15.000000) translate(-15.000000, -5.500000) " points="14.8173082 0 15.1826918 0 15.5 11 14.5 11"></polygon><polygon id="antenna1" fill="#000000" transform="translate(3.000000, 5.500000) rotate(-15.000000) translate(-3.000000, -5.500000) " points="2.8173082 0 3.1826918 0 3.5 11 2.5 11"></polygon></g></g></g></svg>';
+      var svgOpen =
+        '<svg class="pwnAPPinOpen" width="80px" height="60px" viewBox="0 0 44 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><desc>pwnagotchi AP icon.</desc><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FFFFFF" offset="0%"></stop><stop stop-color="#000000" offset="100%"></stop></linearGradient></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="marker"><path class="ring_outer" d="M28.6,8 C34.7,9.4 39,12.4 39,16 C39,20.7 31.3,24.6 21.7,24.6 C12.1,24.6 4.3,20.7 4.3,16 C4.3,12.5 8.5,9.5 14.6,8.1 C15.3,8 14.2,6.6 13.3,6.8 C5.5,8.4 0,12.2 0,16.7 C0,22.7 9.7,27.4 21.7,27.4 C33.7,27.4 43.3,22.6 43.3,16.7 C43.3,12.1 37.6,8.3 29.6,6.7 C28.8,6.5 27.8,7.9 28.6,8.1 L28.6,8 Z" id="Shape" fill="#878787" fill-rule="nonzero"></path><path class="ring_inner" d="M28.1427313,11.0811939 C30.4951542,11.9119726 32.0242291,13.2174821 32.0242291,14.6416742 C32.0242291,17.2526931 27.6722467,19.2702986 22.261674,19.2702986 C16.8511013,19.2702986 12.4991189,17.2526931 12.4991189,14.7603569 C12.4991189,13.5735301 13.4400881,12.505386 15.0867841,11.6746073 C15.792511,11.3185592 14.7339207,9.30095371 13.9105727,9.77568442 C10.6171806,10.9625112 8.5,12.9801167 8.5,15.2350876 C8.5,19.0329333 14.4986784,22.0000002 21.9088106,22.0000002 C29.2013216,22.0000002 35.2,19.0329333 35.2,15.2350876 C35.2,12.861434 32.7299559,10.6064632 28.8484581,9.30095371 C28.0251101,9.18227103 27.4370044,10.8438285 28.0251101,11.0811939 L28.1427313,11.0811939 Z" id="Shape" fill="#5F5F5F" fill-rule="nonzero"></path><g id="ap" transform="translate(13.000000, 0.000000)"><rect id="apfront" fill="#000000" x="0" y="14" width="18" height="4"></rect><polygon id="apbody" fill="url(#linearGradient-1)" points="3.83034404 10 14.169656 10 18 14 0 14"></polygon><circle class="ring_outer" id="led1" fill="#1f9321" cx="3" cy="16" r="1"></circle><circle class="ring_inner" id="led2" fill="#1f9321" cx="7" cy="16" r="1"></circle><circle class="ring_outer" id="led3" fill="#1f9321" cx="11" cy="16" r="1"></circle><circle class="ring_inner" id="led4" fill="#1f9321" cx="15" cy="16" r="1"></circle><polygon id="antenna2" fill="#000000" points="8.8173082 0 9.1826918 0 9.5 11 8.5 11"></polygon><polygon id="antenna3" fill="#000000" transform="translate(15.000000, 5.500000) rotate(15.000000) translate(-15.000000, -5.500000) " points="14.8173082 0 15.1826918 0 15.5 11 14.5 11"></polygon><polygon id="antenna1" fill="#000000" transform="translate(3.000000, 5.500000) rotate(-15.000000) translate(-3.000000, -5.500000) " points="2.8173082 0 3.1826918 0 3.5 11 2.5 11"></polygon></g></g></g></svg>';
+      var myIcon = L.divIcon({
+        className: "leaflet-data-marker",
+        html: svg.replace("#", "%23"),
+        iconAnchor: [40, 30],
+        iconSize: [80, 60],
+        popupAnchor: [0, -30],
+      });
+      var myIconOpen = L.divIcon({
+        className: "leaflet-data-marker",
+        html: svgOpen.replace("#", "%23"),
+        iconAnchor: [40, 30],
+        iconSize: [80, 60],
+        popupAnchor: [0, -30],
+      });
+
+      const loadJSON = (url, callback) => {
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open("GET", url, true);
+        xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            callback(xobj.responseText);
+          }
+        };
+        xobj.send(null);
+      };
+
+      const escapeHtml = (unsafe) => {
+        return String(unsafe)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      };
+
+      const formatMacAddress = (macAddress) => {
+        if (macAddress !== null) {
+          macAddress = macAddress.toUpperCase();
+          if (macAddress.length >= 3 && macAddress.length <= 16) {
+            macAddress = macAddress.replace(/\W/gi, "");
+            macAddress = macAddress.replace(/(.{2})/g, "$1:");
+            macAddress = macAddress.replace(/:+$/, "");
+          }
+        }
+        return macAddress;
+      };
+
+      const loadPositions = () => {
+        // load positions
+        loadJSON("/plugins/f0xtr0t/all", function (response) {
+          positions = JSON.parse(response);
+          positionsLoaded = true;
+          document.getElementById("total_positions").innerHTML =
+            Object.keys(positions).length;
+          document.getElementById("total_positions_menu").innerHTML =
+            Object.keys(positions).length;
+          drawPositions();
+        });
+      };
+
+      const updateMap = (coords) => {
+        latlong = new L.LatLng(coords.Latitude, coords.Longitude);
+        document.getElementById("current_latitude").innerHTML = coords.Latitude;
+        document.getElementById("current_longitude").innerHTML =
+          coords.Longitude;
+        document.getElementById("current_altitude").innerHTML = coords.Altitude;
+        document.getElementById("current_latitude_menu").innerHTML =
+          coords.Latitude;
+        document.getElementById("current_longitude_menu").innerHTML =
+          coords.Longitude;
+        document.getElementById("current_altitude_menu").innerHTML =
+          coords.Altitude;
+        if (coords.Latitude && coords.Longitude) {
+          if (!locationLoaded) {
+            locationMarker = L.marker(latlong).addTo(mymap);
+            mymap.flyTo(latlong, 18);
+            setTimeout(() => {
+              circleMarker = L.circle(latlong, {
+                color: "red",
+                fillColor: "f03",
+                fillOpacity: 0.1,
+                weight: 1,
+                opacity: 0.75,
+                radius: 50,
+              })
+                .setStyle({ className: "radar" })
+                .addTo(mymap);
+            }, 5000);
+            locationLoaded = true;
+          } else {
+            locationMarker.setLatLng(latlong);
+            circleMarker.setLatLng(latlong);
+            mymap.panTo(latlong);
+          }
+
+          document.getElementById("location_warning").classList.add("hidden");
+        } else {
+          document
+            .getElementById("location_warning")
+            .classList.remove("hidden");
+        }
+        loadPositions();
+      };
+
+      const loadGpsCoords = () => {
+        lastGPSUpdate = new Date();
+        document.getElementById("location_warning_provider").innerHTML =
+          gpsProvider;
+        document.getElementById("current_gps_provider_menu").innerHTML =
+          gpsProvider;
+        document.getElementById("current_gps_provider").innerHTML = gpsProvider;
+        switch (gpsProvider) {
+          case "gpsd":
+            try {
+              loadJSON("/plugins/f0xtr0t/gpsd", (response) => {
+                coords = JSON.parse(response);
+                updateMap(coords);
+              });
+            } catch {}
+
+            break;
+          case "pawgps":
+            try {
+              loadJSON("/plugins/f0xtr0t/pawgps", (response) => {
+                coords = JSON.parse(response);
+                updateMap(coords);
+              });
+            } catch {}
+
+            break;
+        }
+      };
+
+      const timeSince = (timeStamp) => {
+        if (timeStamp) {
+          var now = new Date(),
+            secondsPast = (now.getTime() - timeStamp.getTime()) / 1000;
+          if (secondsPast < 60) {
+            return parseInt(secondsPast) + "s";
+          }
+          if (secondsPast < 3600) {
+            return parseInt(secondsPast / 60) + "m";
+          }
+          if (secondsPast <= 86400) {
+            return parseInt(secondsPast / 3600) + "h";
+          }
+          if (secondsPast > 86400) {
+            day = timeStamp.getDate();
+            month = timeStamp
+              .toDateString()
+              .match(/ [a-zA-Z]*/)[0]
+              .replace(" ", "");
+            year =
+              timeStamp.getFullYear() == now.getFullYear()
+                ? ""
+                : " " + timeStamp.getFullYear();
+            return;
+            day + " " + month + year;
+          }
+        }
+      };
+
+      const toggleFullscreen = (elem) => {
+        elem = elem || document.documentElement;
+
+        if (
+          !document.fullscreenElement &&
+          !document.mozFullScreenElement &&
+          !document.webkitFullscreenElement &&
+          !document.msFullscreenElement
+        ) {
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+          } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        }
+      };
+
+      const checkForUpdate = () => {
+        let currentVersion = null;
+        let onlineVersion = null;
+        document.getElementById("notification").classList.remove("hidden");
+        document.getElementById("notification_title").innerHTML =
+          "Please wait...";
+        document.getElementById("notification_text").innerHTML =
+          "Checking version...";
+
+        loadJSON("/plugins/f0xtr0t/currentversion", (versionResponse) => {
+          currentVersion = JSON.parse(versionResponse);
+          document.getElementById(
+            "notification_text"
+          ).innerHTML = `Current version: <span class="font-bold">${currentVersion}</span>, checking for updates...`;
+          loadJSON("/plugins/f0xtr0t/checkupdate", (updateResponse) => {
+            onlineVersion = JSON.parse(updateResponse);
+            if (onlineVersion !== currentVersion) {
+              document.getElementById("notification").classList.add("hidden");
+              document.getElementById("updateModal").classList.remove("hidden");
+            } else {
+              document.getElementById(
+                "notification_text"
+              ).innerHTML = `No updates found.`;
+              setTimeout(() => {
+                document.getElementById("notification").classList.add("hidden");
+              }, 5000);
+            }
+          });
+        });
+      };
+
+      const drawPositions = () => {
+        count = 0;
+        markerClusters.removeLayers(markers);
+        markerClusters = L.markerClusterGroup();
+        accuracys = [];
+        markers = [];
+        marker_pos = [];
+        filterText = document.getElementById("search").value;
+        Object.keys(positions).forEach(function (key) {
+          if (positions[key].lng) {
+            filterPattern =
+              positions[key].ssid +
+              " " +
+              formatMacAddress(positions[key].mac) +
+              " " +
+              positions[key].mac;
+            if (positions[key].pass) {
+              filterPattern += positions[key].pass + " #cracked";
+            } else {
+              filterPattern += " #notcracked";
+            }
+            filterPattern = filterPattern.toLowerCase();
+            var matched = true;
+            if (filterText) {
+              filterText.split(" ").forEach(function (item) {
+                if (!filterPattern.includes(item.toLowerCase())) {
+                  matched = false;
+                }
+              });
+            }
+            if (matched) {
+              count++;
+              new_marker_pos = [positions[key].lat, positions[key].lng];
+              if (positions[key].acc) {
+                radius = Math.round(Math.min(positions[key].acc, 500));
+                markerColor = "red";
+                markerColorCode = "#f03";
+                fillOpacity = 0.002;
+                if (positions[key].pass) {
+                  markerColor = "green";
+                  markerColorCode = "#1aff00";
+                  fillOpacity = 0.1;
+                }
+              }
+              passInfo = "";
+              if (positions[key].pass) {
+                passInfo =
+                  "<br/><b>Pass:</b> " + escapeHtml(positions[key].pass);
+                newMarker = L.marker(new_marker_pos, {
+                  icon: myIconOpen,
+                  title: positions[key].ssid,
+                }); //.addTo(mymap);
+              } else {
+                newMarker = L.marker(new_marker_pos, {
+                  icon: myIcon,
+                  title: positions[key].ssid,
+                }); //.addTo(mymap);
+              }
+              newMarker.bindPopup(
+                "<b>" +
+                  escapeHtml(positions[key].ssid) +
+                  "</b><br><nobr>MAC: " +
+                  escapeHtml(formatMacAddress(positions[key].mac)) +
+                  "</nobr><br/>" +
+                  "<nobr>position type: " +
+                  escapeHtml(positions[key].type) +
+                  "</nobr><br/>" +
+                  "<nobr>position accuracy: " +
+                  escapeHtml(Math.round(positions[key].acc)) +
+                  "</nobr>" +
+                  passInfo,
+                { maxWidth: "auto" }
+              );
+              markers.push(newMarker);
+              marker_pos.push(new_marker_pos);
+              markerClusters.addLayer(newMarker);
+            }
+          }
+        });
+        if (filterText) {
+          document.getElementById("matchcount").innerHTML =
+            "Found&nbsp;" + count + "&nbsp;handshakes...";
+        } else {
+          document.getElementById("matchcount").innerHTML = "";
+        }
+        if (count > 0) {
+          mymap.addLayer(markerClusters);
+          if (!locationLoaded) {
+            var bounds = new L.LatLngBounds(marker_pos);
+            mymap.fitBounds(bounds);
+          }
+          if (count > lastPositionCount) {
+            document.getElementById("notification").classList.remove("hidden");
+            document.getElementById("notification_title").innerHTML = "Sweet!";
+            document.getElementById("notification_text").innerHTML = `Found ${
+              count - lastPositionCount
+            } handshakes...`;
+            setTimeout(() => {
+              document.getElementById("notification").classList.add("hidden");
+            }, 5000);
+          }
+          lastPositionCount = count;
+        }
+      };
+
+      const node = document
+        .getElementById("search")
+        .addEventListener("keyup", function (event) {
+          if (event.key === "Enter") {
+            if (positionsLoaded) {
+              drawPositions();
+            }
+          }
+        });
+
+      const changeMapStyle = () => {
+        if (currentMapStyleIndex === mapStyles.length - 1) {
+          currentMapStyleIndex = 0;
+        } else {
+          currentMapStyleIndex = currentMapStyleIndex + 1;
+        }
+        mymap.removeLayer(mapStyleLayer);
+        mapStyleLayer = mapStyles[currentMapStyleIndex].addTo(mymap);
+      };
+
+      const minimizeNav = () => {
+        if (navMinimized) {
+          document.getElementById("navbar").classList.remove("h-24");
+          document.getElementById("navbar").classList.remove("overflow-hidden");
+          navMinimized = false;
+        } else {
+          document.getElementById("navbar").classList.add("h-24");
+          document.getElementById("navbar").classList.add("overflow-hidden");
+          navMinimized = true;
+        }
+      };
+
+      loadGpsCoords();
+      loadJSON("/plugins/f0xtr0t/gpsprovider", function (response) {
+        // Are we using GPSD or PawGPS?
+        gpsProvider = JSON.parse(response).toLowerCase();
+      });
+
+      loadJSON("/plugins/f0xtr0t/hostname", function (response) {
+        let hostname = JSON.parse(response);
+        document.getElementById(
+          "iframe_pwnagotchi"
+        ).src = `http://${hostname}.local:8080`;
+      });
+
+      loadJSON("/plugins/f0xtr0t/currentversion", (response) => {
+        document.getElementById("version").innerHTML = JSON.parse(response);
+        document.getElementById("version_menu").innerHTML =
+          JSON.parse(response);
+      });
+
+      setInterval(() => {
+        if (lastGPSUpdate) {
+          document.getElementById("coords_updated").innerHTML =
+            timeSince(lastGPSUpdate) + " ago";
+          document.getElementById("coords_updated_menu").innerHTML =
+            timeSince(lastGPSUpdate) + " ago";
+        }
+      }, 1000);
+
+      setInterval(() => {
+        loadGpsCoords();
+      }, 5000);
+
+      // Side nav bindings
+      document.getElementById("navRefresh").addEventListener("click", () => {
+        window.location.reload();
+      });
+
+      document.getElementById("navFullScreen").addEventListener("click", () => {
+        toggleFullscreen();
+      });
+
+      document.getElementById("navUpdate").addEventListener("click", () => {
+        checkForUpdate();
+      });
+
+      document.getElementById("navPwnagotchi").addEventListener("click", () => {
+        let pwngotchiDiv = document.getElementById("pwnagotchi");
+        if (pwngotchiDiv.classList.contains("hidden")) {
+          pwngotchiDiv.classList.remove("hidden");
+        } else {
+          pwngotchiDiv.classList.add("hidden");
+        }
+      });
+
+      document.getElementById("navMapStyle").addEventListener("click", () => {
+        changeMapStyle();
+      });
+
+      document
+        .getElementById("buttonExecuteUpdate")
+        .addEventListener("click", () => {
+          document.getElementById("updateModal").classList.add("hidden");
+          document.getElementById("notification").classList.remove("hidden");
+          document.getElementById("notification_title").innerHTML =
+            "Please wait...";
+          document.getElementById("notification_text").innerHTML =
+            "Downloading update...";
+
+          loadJSON("/plugins/f0xtr0t/executeupdate", (response) => {
+            document.getElementById("notification_title").innerHTML = "Sweet!";
+            document.getElementById("notification_text").innerHTML =
+              "Update complete! Please restart you device for changes to take effect.";
+            setTimeout(() => {
+              document.getElementById("notification").classList.add("hidden");
+            }, 5000);
+          });
+        });
     </script>
-</body>
-
+  </body>
 </html>

@@ -62,11 +62,11 @@ TEMPLATE = """
 {% endblock %}
 """
 
-class handshakes:  
-    def __init__(self, name, path, ext):  
-        self.name = name  
-        self.path = path  
-        self.ext = ext 
+class handshakes:
+    def __init__(self, name, path, ext):
+        self.name = name
+        self.path = path
+        self.ext = ext
 
 class HandshakesDL(plugins.Plugin):
     __author__ = 'me@sayakb.com'
@@ -90,17 +90,17 @@ class HandshakesDL(plugins.Plugin):
 
         if path == "/" or not path:
             pcapfiles = glob.glob(os.path.join(self.config['bettercap']['handshakes'], "*.pcap"))
-            
+
             data = []
             for path in pcapfiles:
                 name = os.path.basename(path)[:-5]
                 fullpathNoExt = path[:-5]
                 possibleExt = ['.2500', '.16800', '.22000']
                 foundExt = ['.pcap']
-                for ext in possibleExt: 
+                for ext in possibleExt:
                     if os.path.isfile(fullpathNoExt +  ext):
                         foundExt.append(ext)
-                data.append(handshakes(name, fullpathNoExt, foundExt)) 
+                data.append(handshakes(name, fullpathNoExt, foundExt))
             return render_template_string(TEMPLATE,
                                     title="Handshakes | " + pwnagotchi.name(),
                                     handshakes=data)

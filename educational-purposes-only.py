@@ -28,11 +28,11 @@ class EducationalPurposesOnly(plugins.Plugin):
         global READY
         logging.info("educational-purposes-only loaded")
         READY = 1
-    
+
     def display_text(self, text):
         global STATUS
         STATUS = text
-    
+
     def on_ui_update(self, ui):
         global STATUS
         while STATUS == 'rssi_low':
@@ -108,7 +108,7 @@ class EducationalPurposesOnly(plugins.Plugin):
         time.sleep(10)
         STATUS = 'associated'
         READY = 1
-        
+
     def _restart_monitor_mode(self):
         logging.info('resuming wifi recon and monitor mode...')
         logging.info('stopping wpa_supplicant...')
@@ -125,12 +125,12 @@ class EducationalPurposesOnly(plugins.Plugin):
         subprocess.Popen('iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add mon0 type monitor && ifconfig mon0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         logging.info('telling Bettercap to resume wifi recon...')
         requests.post('http://127.0.0.1:8081/api/session', data='{"cmd":"wifi.recon on"}', auth=('pwnagotchi', 'pwnagotchi'))
-        
+
     def on_epoch(self, ui):
         # If not connected to a wireless network and mon0 doesn't exist, run _restart_monitor_mode function
         if "Not-Associated" in subprocess.Popen('iwconfig wlan0').read() and "Monitor" not in subprocess.Popen('iwconfig mon0').read():
             self._restart_monitor_mode()
-        
+
     def on_wifi_update(self, agent, access_points):
         global READY
         global STATUS

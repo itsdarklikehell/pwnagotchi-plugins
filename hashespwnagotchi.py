@@ -23,11 +23,11 @@ class hashespwnagotchi(plugins.Plugin):
     __version__ = '0.0.1'
     __license__ = 'GPL3'
     __description__ = 'uploads handshakes to https://hashes.pw'
-    
-    @property 
+
+    @property
     def headers(self):
         return {'Authorization': "Bearer %s" % (self.token), 'Content-type': 'application/json'}
-        
+
     def __init__(self):
         self.ready = False
         self.lock = Lock()
@@ -40,7 +40,7 @@ class hashespwnagotchi(plugins.Plugin):
         self.skip = list()
         self.token = None
         self.uuid = None
-        
+
     def on_loaded(self):
         """
         Gets called when the plugin gets loaded
@@ -61,21 +61,21 @@ class hashespwnagotchi(plugins.Plugin):
     def on_config_changed(self, config):
         handshake_dir = config['bettercap']['handshakes']
         self.uuid = str(uuid.uuid5(uuid.NAMESPACE_OID, config['main']['name']))
-        
+
         try:
             self.report = StatusFile('/root/.hashespw_uploads', data_format='json')
         except JSONDecodeError:
             os.remove("/root/.hashespw_uploads")
             self.report = StatusFile('/root/.hashespw_uploads', data_format='json')
-            
+
         if 'interval' not in self.options or not (self.status.newer_then_hours(self.options['interval'])):
             logging.info('[hashie] Starting batch conversion of pcap files')
             with self.lock:
                 self._process_stale_pcaps(handshake_dir)
-                
+
     def on_bored(self, agent):
         self._report_handshakes(agent)
-          
+
     def on_internet_available(self, agent):
         self._report_handshakes(agent)
 
@@ -84,21 +84,21 @@ class hashespwnagotchi(plugins.Plugin):
             handshake_status = []
             fullpathNoExt = filename.split('.')[0]
             name = filename.split('/')[-1:][0].split('.')[0]
-            
+
             if os.path.isfile(fullpathNoExt +  '.22000'):
                 handshake_status.append('Already have {}.22000 (EAPOL)'.format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append('Created {}.22000 (EAPOL) from pcap'.format(name))
                 self._report_handshakes(agent)
-            
+
             if os.path.isfile(fullpathNoExt +  '.16800'):
                 handshake_status.append('Already have {}.16800 (PMKID)'.format(name))
             elif self._writePMKID(filename, access_point):
                 handshake_status.append('Created {}.16800 (PMKID) from pcap'.format(name))
-            
+
             if handshake_status:
                 logging.info('[hashie] Good news:\n\t' + '\n\t'.join(handshake_status))
-    
+
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split('.')[0]
         filename = fullpath.split('/')[-1:][0].split('.')[0]
@@ -108,7 +108,7 @@ class hashespwnagotchi(plugins.Plugin):
             return True
         else:
             return False
-        
+
     def _writePMKID(self, fullpath, apJSON):
         fullpathNoExt = fullpath.split('.')[0]
         filename = fullpath.split('/')[-1:][0].split('.')[0]
@@ -128,7 +128,7 @@ class hashespwnagotchi(plugins.Plugin):
             else:
                 logging.debug('[hashie] [-] Could not attempt repair of {} as no raw PMKID file was created'.format(filename))
                 return False
-    
+
     def _repairPMKID(self, fullpath, apJSON):
         hashString = ""
         clientString = []
@@ -137,7 +137,7 @@ class hashespwnagotchi(plugins.Plugin):
         logging.debug('[hashie] Repairing {}'.format(filename))
         with open(fullpathNoExt + '.16800','r') as tempFileA:
             hashString = tempFileA.read()
-        if apJSON != "": 
+        if apJSON != "":
             clientString.append('{}:{}'.format(apJSON['mac'].replace(':',''), apJSON['hostname'].encode('hex')))
         else:
             #attempt to extract the AP's name via hcxpcapngtool
@@ -168,7 +168,7 @@ class hashespwnagotchi(plugins.Plugin):
         else:
             os.remove(fullpath.split('.')[0] + '.16800')
             return False
-    
+
     def _process_stale_pcaps(self, handshake_dir):
         handshakes_list = [os.path.join(handshake_dir, filename) for filename in os.listdir(handshake_dir) if filename.endswith('.pcap')]
         failed_jobs = []
@@ -197,7 +197,7 @@ class hashespwnagotchi(plugins.Plugin):
         if lonely_pcaps:
             logging.info('[hashie] Batch job: {} networks without enough packets to create a hash'.format(len(lonely_pcaps)))
             self._getLocations(lonely_pcaps)
-        
+
     def _getLocations(self, lonely_pcaps):
         #export a file for webgpsmap to load
         with open('/root/.incompletePcaps','w') as isIncomplete:
@@ -212,7 +212,7 @@ class hashespwnagotchi(plugins.Plugin):
                 logging.info('[hashie] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)'.format(str(count)))
             else:
                 logging.info('[hashie] Could not find any GPS/GEO/PAW-GPS files for the lonely networks'.format(str(count)))
-        
+
     def _getLocationsCSV(self, lonely_pcaps):
         #in case we need this later, export locations manually to CSV file, needs try/catch/paw-gps format/etc.
         locations = []
@@ -238,33 +238,33 @@ class hashespwnagotchi(plugins.Plugin):
             logging.info('[hashie] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!'.format(len(locations)))
 
     def _upload_EAPOL(self, path, pwnagotchi = None):
-        #logging.info(path) 
+        #logging.info(path)
         essid = self._essid_from_path(path)
         #logging.info(essid)
         payload = {
             'name': pwnagotchi,
             'essid': essid,
             'bssid': self._bssid_from_path(path, essid),
-            'value': self._single_line_from_file(path) 
+            'value': self._single_line_from_file(path)
         }
-        
+
         r = self._post("pwnagotchi", payload)
-        
+
         if r.status_code != 200 and r.status_code != 204:
-            try: 
+            try:
                 decode_error = json.loads(r.content)
                 if decode_error['value'][0] == 'already exists':
                     return
             except Exception as e:
                 logging.warn(e)
-            
+
             raise ValueError("failure to create new handshake on hashes.pw: %s" % r.content)
-            
-        
+
+
     def _report_handshakes(self, agent):
         if not self.ready or self.lock.locked() or not self._connected_to_internet():
             return
-        
+
         with self.lock:
             config = agent.config()
             display = agent.view()
@@ -275,7 +275,7 @@ class hashespwnagotchi(plugins.Plugin):
                                filename.endswith('.22000')]
             # handshake_paths = remove_whitelisted(handshake_paths, self.options['whitelist'])
             handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
-            
+
             if handshake_new:
                 logging.info("hashespwnagotchi: have pwns to upload")
                 for idx, handshake in enumerate(handshake_new):
@@ -296,25 +296,25 @@ class hashespwnagotchi(plugins.Plugin):
                         continue
                     except ValueError as v_e:
                         logging.warn("failure to send contents of %s to hashes.pw", handshake)
-                        logging.warn(v_e)                        
+                        logging.warn(v_e)
                         continue
-                        
+
 
                 display.on_normal()
-                
+
     def _validate_or_fetch_token(self) -> None:
         if self.token == None:
             full_path = self._uri_format(self.options['api_url'], 'agent/pwnagotchi')
-            
+
             # let it raise
             r = requests.post(full_path, json={'uuid': self.uuid, 'auth_only': True}, headers={'Authorization': "Token token=%s" % (self.options['api_key'])})
-            
+
             response = json.loads(r.content)
             self.token = response['token']
             # logging.info(self.token)
             if self.token == None:
                 raise ValueError('Failed to obtain a token response')
-                
+
     def _post(self, path, data = {}) -> requests.Response:
         self._validate_or_fetch_token()
         full_path = self._uri_format(self.options['api_url'], path)
@@ -332,27 +332,27 @@ class hashespwnagotchi(plugins.Plugin):
         if uri.endswith('/'):
             uri = uri[:-1]
         return uri
-        
+
     def _single_line_from_file(self, file):
         if os.path.isfile(file):
             with open( file, 'r', encoding="ISO-8859-1", errors="ignore" ) as fp:
                 for _, line in enumerate(fp):
                     return line.strip()
-    
+
     def _essid_from_path(self, path):
         file = path.split("/")[-1]
         if '_' in file:
             return file.split('_')[0]
         else:
             return None
-            
+
     def _bssid_from_path(self, path, essid = None):
         file = path.split("/")[-1]
         if essid == None:
             return file.split(".")[0]
         else:
             return file.split(".")[0].replace(essid + "_", "")
-    
+
     def _connected_to_internet(self):
         try:
             r = requests.get('https://google.com', timeout=5)

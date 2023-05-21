@@ -33,12 +33,12 @@ class EXP(plugins.Plugin):
     #Attention number masking
     def LogInfo(self, text):
         logging.info(TAG + " " +text)
-    
+
     #Attention number masking
     def LogDebug(self, text):
         logging.debug(TAG + " " +text)
-    
-    
+
+
     def __init__(self):
         self.percent=0
         self.calculateInitialXP = False
@@ -69,19 +69,19 @@ class EXP(plugins.Plugin):
             self.LogInfo("Need to calculate Total Exp")
             self.exp_tot = self.calcActualSum(self.lv, self.exp)
             self.Save(self.save_file, self.save_file_mode)
-            
+
         self.expneeded = self.calcExpNeeded(self.lv)
-        
+
     def on_loaded(self):
         #logging.info("Exp plugin loaded for %s" % self.options['device'])
         self.LogInfo("Plugin Loaded")
-        
-    def save_file_modes(self,argument): 
-        switcher = { 
-            "txt": 0, 
-            "json": 1,  
+
+    def save_file_modes(self,argument):
+        switcher = {
+            "txt": 0,
+            "json": 1,
         }
-        return switcher.get(argument, 0) 
+        return switcher.get(argument, 0)
 
     def Save(self, file, save_file_mode):
         self.LogDebug('Saving Exp')
@@ -111,7 +111,7 @@ class EXP(plugins.Plugin):
                     self.exp_tot == int(line)
                 linecounter += 1
             outfile.close()
-    
+
     def saveToJsonFile(self,file):
         data = {
             JSON_KEY_LEVEL : self.lv,
@@ -127,14 +127,14 @@ class EXP(plugins.Plugin):
         data = {}
         with open(file, 'r') as f:
             data = json.loads(f.read())
-        
+
         if bool(data):
             self.lv = data[JSON_KEY_LEVEL]
             self.exp = data[JSON_KEY_EXP]
             self.exp_tot = data[JSON_KEY_EXP_TOT]
         else:
             self.LogInfo("Empty json")
-    
+
     #TODO: one day change save file mode to file date
     def Load(self, file, save_file_mode):
         self.LogDebug('Loading Exp')
@@ -142,7 +142,7 @@ class EXP(plugins.Plugin):
             self.loadFromTxtFile(file)
         if save_file_mode == 1:
             self.loadFromJsonFile(file)
-    
+
     def getSaveFileName(self, save_file_mode):
         file = os.path.dirname(os.path.realpath(__file__))
         file = file + "/" +FILE_SAVE
@@ -154,7 +154,7 @@ class EXP(plugins.Plugin):
             #see switcher
             file = file + ".txt"
         return file
-    
+
     def migrateLegacySave(self):
         legacyFile = os.path.dirname(os.path.realpath(__file__))
         legacyFile = legacyFile + "/" + FILE_SAVE_LEGACY +".txt"
@@ -163,7 +163,7 @@ class EXP(plugins.Plugin):
             self.LogInfo("Migrating Legacy Save...")
             self.Save(self.save_file, self.save_file_mode)
             os.remove(legacyFile)
-    
+
     def on_ui_setup(self, ui):
         ui.add_element('Lv', LabeledValue(color=BLACK, label='Lv', value=0, position=(ui.width() / 2 - 125, 80),
                                            label_font=fonts.Bold, text_font=fonts.Medium))
@@ -172,7 +172,7 @@ class EXP(plugins.Plugin):
     def on_ui_update(self, ui):
         self.expneeded=self.calcExpNeeded(self.lv)
         self.percent=int((self.exp/self.expneeded)*100)
-        bar="╷          ╷"   
+        bar="╷          ╷"
         if self.percent<10:
             bar="╷          ╷"
         elif self.percent>=10 and self.percent<20:
@@ -206,7 +206,7 @@ class EXP(plugins.Plugin):
         if level == 1:
             return 5
         return int((level**3)/2)
-    
+
 
 
     def exp_check(self, agent):
@@ -229,7 +229,7 @@ class EXP(plugins.Plugin):
                     sum += self.parseSessionStatsFile(os.path.join(dir,filename))
                 except:
                     self.LogInfo("ERROR parsing File: "+ filename)
-                
+
         return sum
 
     def parseSessionStatsFile(self, path):
@@ -243,7 +243,7 @@ class EXP(plugins.Plugin):
                 deauths += data["data"][entry]["num_deauths"]
                 handshakes += data["data"][entry]["num_handshakes"]
                 associations += data["data"][entry]["num_associations"]
-            
+
 
         sum += deauths * MULTIPLIER_DEAUTH
         sum += handshakes * MULTIPLIER_HANDSHAKE
@@ -261,15 +261,15 @@ class EXP(plugins.Plugin):
             if plugin == "session-stats":
                 sessionStatsActive = True
                 break
-        
+
         if sessionStatsActive:
             try:
                 self.LogInfo("parsing session-stats")
                 sum = self.parseSessionStats()
             except:
                 self.LogInfo("Error parsing session-stats")
-            
-            
+
+
         else:
             self.LogInfo("parsing last session")
             sum = self.lastSessionPoints(agent)
@@ -278,7 +278,7 @@ class EXP(plugins.Plugin):
         return sum
 
 
-        
+
     #Get Last Sessions Points
     def lastSessionPoints(self, agent):
         summary = 0
@@ -287,14 +287,14 @@ class EXP(plugins.Plugin):
         summary += agent.LastSession.deauthed * MULTIPLIER_DEAUTH
         return summary
 
-    
+
     #Helper function to calculate multiple Levels from a sum of EXPs
     def calcLevelFromSum(self, sum, agent):
         sum1 = sum
         level = 1
         while sum1 > self.calcExpNeeded(level):
             sum1 -= self.calcExpNeeded(level)
-            level += 1         
+            level += 1
         self.lv = level
         self.exp = sum1
         self.expneeded = self.calcExpNeeded(level) - sum1
@@ -310,7 +310,7 @@ class EXP(plugins.Plugin):
             sum += self.calcExpNeeded(lvlCounter)
             lvlCounter += 1
         return sum
-    
+
     def displayLevelUp(self, agent):
         view =  agent.view()
         view.set('face', FACE_LEVELUP)
@@ -323,19 +323,19 @@ class EXP(plugins.Plugin):
         self.exp_tot += MULTIPLIER_ASSOCIATION
         self.exp_check(agent)
         self.Save(self.save_file, self.save_file_mode)
-        
+
     def on_deauthentication(self, agent, access_point, client_station):
         self.exp += MULTIPLIER_DEAUTH
         self.exp_tot += MULTIPLIER_DEAUTH
         self.exp_check(agent)
         self.Save(self.save_file, self.save_file_mode)
-        
+
     def on_handshake(self, agent, filename, access_point, client_station):
         self.exp += MULTIPLIER_HANDSHAKE
         self.exp_tot += MULTIPLIER_HANDSHAKE
         self.exp_check(agent)
         self.Save(self.save_file, self.save_file_mode)
-        
+
     def on_ai_best_reward(self, agent, reward):
         self.exp += MULTIPLIER_AI_BEST_REWARD
         self.exp_tot += MULTIPLIER_AI_BEST_REWARD
@@ -349,4 +349,4 @@ class EXP(plugins.Plugin):
             self.exp_tot = sum
             self.calcLevelFromSum(sum, agent)
             self.Save(self.save_file, self.save_file_mode)
-                
+

@@ -4,7 +4,7 @@
 # educational-purposes-only.py
 # by @cnagy
 # https://github.com/c-nagy/pwnagotchi-educational-purposes-only-plugin/blob/main/educational-purposes-only.py
-# 
+#
 # display-password.py
 # by @abros0000
 # https://github.com/abros0000/pwnagotchi-display-password-plugin/blob/master/display-password.py
@@ -13,7 +13,7 @@
 # If a cracked networks are nearby it will she the nearest on the screen
 #
 # inside config.toml:
-# 
+#
 # main.plugins.crack_house.enabled = true
 # main.plugins.crack_house.orientation = "vertical"
 # main.plugins.crack_house.files = [
@@ -53,7 +53,7 @@ class CrackHouse(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'A plugin to display closest cracked network & it password'
-    
+
     def on_loaded(self):
         global READY
         global CRACK_MENU
@@ -61,7 +61,7 @@ class CrackHouse(plugins.Plugin):
         tmp = list()
         tmp_line = ''
         tmp_list = list()
-        crack_line = list()        
+        crack_line = list()
 
 #       loop to retreive all passwords of all files into a big list without dulicate
         for file_path in self.options['files']:
@@ -75,7 +75,7 @@ class CrackHouse(plugins.Plugin):
                             logging.info(tmp_line)
                             TMP_MENU.append(tmp_line)
                             logging.info(len(TMP_MENU))
-                
+
 
 #            if file_path.lower().endswith('.potfile'):
 #                with open(file_path) as f:
@@ -91,7 +91,7 @@ class CrackHouse(plugins.Plugin):
         with open(self.options['saving_path'], 'w') as f:
             for crack in CRACK_MENU:
                 f.write(crack + '\n')
-                
+
         READY = 1
         logging.info("[CRACK HOUSE] Successfully loaded")
         logging.info('[CRACK HOUSE] all paths: ' + str(self.options['files']))
@@ -133,7 +133,7 @@ class CrackHouse(plugins.Plugin):
 
         if self.options['display_stats']:
             logging.info('[CRACK HOUSE] display stats loaded')
-            
+
             ui.add_element('crack_house_stats', LabeledValue(color=BLACK, label='', value='',
                                                    position=s_pos,
                                                    label_font=fonts.Bold, text_font=fonts.Small))
@@ -142,7 +142,7 @@ class CrackHouse(plugins.Plugin):
         with ui._lock:
             ui.remove_element('crack_house')
             ui.remove_element('crack_house_stats')
-    
+
     def on_wifi_update(self, agent, access_points):
         global READY
         global CRACK_MENU

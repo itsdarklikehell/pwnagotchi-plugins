@@ -38,7 +38,7 @@ class QuickDic(plugins.Plugin):
             self.options['wordlist_folder'] = '/home/pi/wordlists/'
         if 'enabled' not in self.options:
             self.options['enabled'] = False
-            
+
         check = subprocess.run(
             ('/usr/bin/dpkg -l aircrack-ng | grep aircrack-ng | awk \'{print $2, $3}\''), shell=True, stdout=subprocess.PIPE)
         check = check.stdout.decode('utf-8').strip()
@@ -72,4 +72,4 @@ class QuickDic(plugins.Plugin):
                 self.text_to_set = ""
                 display.update(force=True)
                 #plugins.on('cracked', access_point, pwd)
-           
+

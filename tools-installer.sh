@@ -52,13 +52,15 @@ install_sounds() {
 
 install_aircrack() {
     echo "Installing Aircrack..."
-    ssh "$GOTCHI_ADDR" "sudo apt install -y aircrack-ng"
+    ssh "$GOTCHI_ADDR" "sudo apt install -y aircrack-ng nmap macchanger espeak"
+    ssh "$GOTCHI_ADDR" "sudo pip3 install pytz google-api-python-client google-auth-oauthlib SpeechRecognition pyttsx3"
 }
 
 install_seclists() {
     echo "Installing SecLists..."
+    cd ~
     ssh "$GOTCHI_ADDR" "git clone https://github.com/danielmiessler/SecLists"
-    ssh "$GOTCHI_ADDR" "ln -s /home/pi/SecLists /home/pi/wordlists"
+    ssh "$GOTCHI_ADDR" "ln -s /home/pi/SecLists wordlists"
 }
 
 dns_fix() {

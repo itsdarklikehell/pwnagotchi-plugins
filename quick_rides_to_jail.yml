@@ -4,7 +4,7 @@ main:
   plugins:
     quick_rides_to_jail:
       enabled: true
-      wordlist_folder: /opt/wordlists/
+      wordlist_folder: /opt/wordlists/passwords
       net_device_path: /sys/class/net/
       interface: wlan0
       wpa_supplicant_conf_path: /etc/wpa_supplicant/wpa_supplicant.conf

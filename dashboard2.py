@@ -66,7 +66,7 @@ class Dashboard(plugins.Plugin):
                                                  position=(int(self.options["cracked_x_pos"]),
                                                            int(self.options["cracked_y_pos"])),
                                                  label_font=fonts.Bold, text_font=fonts.Bold))
-        
+
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element('clock')
@@ -82,7 +82,7 @@ class Dashboard(plugins.Plugin):
         time_rn = now.strftime(self.date_format + " %I:%M%p")
         status = self.get_status()
         total_cracked = 'uniq -i /root/handshakes/wpa-sec.cracked.potfile | wc -l'
-   
+
         ui.set('clock', time_rn)
         ui.set('cracked', '%s' % (os.popen(total_cracked).read().rstrip()))
         ui.set('ram', str(self.mem_usage()) + "%")
@@ -90,7 +90,7 @@ class Dashboard(plugins.Plugin):
         ui.set('tmp', str(self.cpu_temp()) + "°C")
         ui.set('deauth', str(self.deauth_counter))
         ui.set('hand', str(self.handshake_counter))
-            
+
    # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
         self.deauth_counter += 1

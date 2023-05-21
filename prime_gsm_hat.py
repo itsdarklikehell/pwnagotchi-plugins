@@ -19,7 +19,7 @@ This script clearly doesn't do any sort of error, failure, or success checking, 
 if I can be bothered to write any. I'm not going to make claims about my knowledge of this subject
 matter; all I'm going to say is that it's complicated, ultra-specific, and will not work for anything
 that even slightly deviates from the mashup of SIM800 and SIM900 commands available on the SIM868.
-I haven't actually checked if this script works     XD 
+I haven't actually checked if this script works     XD
 
 References that may help:
 https://simcom.ee/documents/SIM800x/SIM800%20Series_GSM%20Location_Application%20Note_V1.01.pdf
@@ -30,7 +30,7 @@ https://github.com/stanleyhuangyc/Freematics/issues/17
 '''
 
 # I'm too lazy to care, so you figure it out. Powers on if not powered on.
-if not raw_input("Is the GSM/GPRS/GNSS hat powered on? [y/n]: ").lower().strip()[:1] == "y": 
+if not raw_input("Is the GSM/GPRS/GNSS hat powered on? [y/n]: ").lower().strip()[:1] == "y":
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(7, GPIO.OUT)
     GPIO.output(7, GPIO.LOW)

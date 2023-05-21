@@ -29,7 +29,7 @@ class Tweak_View(plugins.Plugin):
     # load from save file, parse JSON. dict maps from view_state_state key to new val
     # store originals when tweaks are applie
 
-    
+
     def __init__(self):
         self._agent = None
         self._start = time.time()
@@ -56,9 +56,9 @@ class Tweak_View(plugins.Plugin):
     def dump_item(self, name, item, prefix=""):
         self._logger.debug("%s[[[%s:%s]]]" % (prefix, name, type(item)))
         res = ""
-        if type(item) is int: 
+        if type(item) is int:
             res += '%s: <input type=text name="%s%s" value="%s">' % (name, prefix, name, item)
-        elif type(item) is str: 
+        elif type(item) is str:
             if item.startswith("{"):
                 #print("********************\n%s JSON %s" % (prefix, item))
                 try:
@@ -69,13 +69,13 @@ class Tweak_View(plugins.Plugin):
                 else:
                     res += '%s: <input type=text name="%s%s" value="%s">' % (name, prefix, name, item)
                     res += "%s%s = '%s'\n" % (prefix, name, item)
-        elif type(item) is float: 
+        elif type(item) is float:
             res += "%s%s = %s\n" % (prefix, name, item)
             res += '%s: <input type=text name="%s%s" value="%s">' % (name, prefix, name, item)
-        elif type(item) is bool: 
+        elif type(item) is bool:
             res += "%s%s is %s\n" % (prefix, name, item)
-        elif type(item) is list: 
-            #if (prefix is ""): 
+        elif type(item) is list:
+            #if (prefix is ""):
             if len(item) > 1: res += "\n"
             res += "%s[%s]\n" % (prefix, name)
             i = 0
@@ -84,10 +84,10 @@ class Tweak_View(plugins.Plugin):
                 self._logger.debug("%s<%i> %s\n" % (prefix, i, key))
                 res += self.dump_item("{%i}" % (i), key, "  %s %s" % (" " * len(prefix), name)) + "\n"
 
-            if (prefix is ""): 
+            if (prefix is ""):
                 res += "%s[%s END]\n" % (prefix, name)
 
-        elif type(item) is dict: 
+        elif type(item) is dict:
             #res += "Dict: [%s] [%s]<ul>\n" % (prefix, name)
             for key in item:
                 self._logger.debug("%s>>> %s:%s" % (prefix, key, type(item[key])))
@@ -125,7 +125,7 @@ class Tweak_View(plugins.Plugin):
                     else:
                         res += '<li>%s["%s"].%s = %s\n' % (prefix, name, html.escape(key),  html.escape("<" + str(type(val).__name__) + ">"))
                         #res += self.dump_item('%s["%s"].%s' % (prefix, name, html.escape(key)), val)
-                    
+
             except Exception as inst:
                 res += "*%s] Error processing %s<br>\n" % (prefix,name)
                 res += "%s, %s<br>\n" % (prefix, type(inst))
@@ -207,7 +207,7 @@ class Tweak_View(plugins.Plugin):
                                 changed = True
                         elif str(val) != str(oldval):
                             res += "<li>^%s.%s != %s, %s (%s)" % (key[1], key[2], html.escape(str(val)), html.escape(str(oldval)), html.escape(str(type(val))))
-                            
+
             if changed:
                 try:
                     with open(self._conf_file, "w") as f:
@@ -215,12 +215,12 @@ class Tweak_View(plugins.Plugin):
                 except Exception as err:
                     ret += "<li><b>Unable to save settings:</b> %s" % repr(err)
 
-                            
+
         except Exception as err:
             res += "<li><b>update from request err:</b> %s" % repr(err)
         res += "</ul>"
         return res
-    
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
@@ -228,7 +228,7 @@ class Tweak_View(plugins.Plugin):
         try:
             if request.method == "GET":
                 if path == "/" or not path:
-                    
+
                     ret = '<html><head><title>Tweak view. Woohoo!</title><meta name="csrf_token" content="{{ csrf_token() }}"></head>'
                     ret += "<body><h1>Tweak View</h1>"
                     ret += '<img src="/ui?%s">' % int(time.time())
@@ -290,7 +290,7 @@ class Tweak_View(plugins.Plugin):
                                     ret += "<li>Saved mods\n"
                             except Exception as err:
                                 ret += "<li><b>Unable to save settings:</b> %s" % repr(err)
-                            
+
                         ret += "</ul>\n"
                     ret += "<h2>Path</h2><code>%s</code><p>" % repr(path)
                     ret += "<h2>Request</h2><code>%s</code><p>" % self.dump_item("Request", request.values)
@@ -313,8 +313,8 @@ class Tweak_View(plugins.Plugin):
                 if path: ret += "<h2>Path</h2><code>%s</code><p>" % repr(path)
                 ret += "</body></html>"
                 return render_template_string(ret)
-                
-                    
+
+
         except Exception as err:
             self._logger.warning("webhook err: %s" % repr(err))
             return "<html><head><title>oops</title></head><body><code>%s</code></body></html>" % html.escape(repr(err))
@@ -329,10 +329,10 @@ class Tweak_View(plugins.Plugin):
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
         self._agent = agent
-        
+
         # load a config file... /etc/pwnagotchi/tweak_view.json for default
         self._conf_file = self.options["filename"] if "filename" in self.options else "/etc/pwnagotchi/tweak_view.json"
-        
+
         try:
             with open(self._conf_file, 'r') as f:
                 self._tweaks = json.load(f)
@@ -362,7 +362,7 @@ class Tweak_View(plugins.Plugin):
                                 setattr(ui._state._state[element], key, value)
                                 self._logger.info("Reverted %s xy to %s" % (element, repr(getattr(ui._state._state[element], key))))
                         except Exception as err:
-                            self._logger.warning("ui unload revert %s: %s, %s" % (tag, repr(err), repr(ui)))                            
+                            self._logger.warning("ui unload revert %s: %s, %s" % (tag, repr(err), repr(ui)))
         except Exception as err:
             self._logger.warning("ui unload: %s, %s" % (repr(err), repr(ui)))
 
@@ -378,7 +378,7 @@ class Tweak_View(plugins.Plugin):
 
     def on_ui_update(self, ui):
         self.update_elements(ui)
-        
+
     def update_elements(self, ui):
         # update those elements
         try:
@@ -416,6 +416,6 @@ class Tweak_View(plugins.Plugin):
                             ui._state._state[element].max_length = int(value)
                 except Exception as err:
                     self._logger.warn("tweak failed for key %s: %s" % (tag, repr(err)))
-                            
+
         except Exception as err:
             self._logger.warning("ui update: %s, %s" % (repr(err), repr(ui)))

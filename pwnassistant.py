@@ -60,7 +60,7 @@ def authenticate_google():
     service = build('calendar', 'v3', credentials=creds)
 
     return service
-    
+
 def get_events(day, service):
     # Call the Calendar API
     date = datetime.datetime.combine(day, datetime.datetime.min.time())
@@ -152,7 +152,7 @@ def note(text):
         f.write(text)
 
     subprocess.Popen(["notepad.exe", file_name])
-	
+
 WAKE = "hey rupert"
 SERVICE = authenticate_google()
 print("Start")
@@ -181,10 +181,10 @@ while True:
                 note_text = get_audio()
                 note(note_text)
                 speak("I've made a note of that.")
-                
+
         PWN_STRS = ["handshakes","handshake","what are you dooing"]
         for phrase in PWN_STRS:
         	if prase in text:
         		speak("Whatsup dude?")
 
-        		
+

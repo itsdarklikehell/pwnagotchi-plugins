@@ -65,7 +65,7 @@ class PiVoyager(plugins.Plugin):
       # enable pivoyager power wakeup function
         run([self.path, "enable", "power-wakeup"])
         logging.info("pivoyager - enable power-wakeup")
-        
+
         logging.info("pivoyager ups plugin loaded.")
 
 
@@ -89,4 +89,4 @@ class PiVoyager(plugins.Plugin):
         if(not "inits" in self.get_status()["stat"]):
             # Update RTC if local time is ntp-synced and RTC is not initialised
             run([self.path, "date", "sync"])
-            logging.info("pivoyager - update RTC from NTP")			
+            logging.info("pivoyager - update RTC from NTP")
