@@ -5,5 +5,6 @@ crack_house:
     - "/root/handshakes/wpa-sec.cracked.potfile"
     - "/root/handshakes/my.potfile"
     - "/root/handshakes/OnlineHashCrack.potfile"
+    - "/root/handshakes/banthex.cracked.potfile"
   saving_path: "/root/handshakes/crackhouse.potfile"
   display_stats: true
