@@ -53,7 +53,7 @@ install_sounds() {
 install_aircrack() {
     echo "Installing Aircrack..."
     ssh "$GOTCHI_ADDR" "sudo apt install -y aircrack-ng nmap macchanger espeak"
-    ssh "$GOTCHI_ADDR" "sudo pip3 install pytz google-api-python-client google-auth-oauthlib SpeechRecognition pyttsx3"
+    ssh "$GOTCHI_ADDR" "sudo pip3 install pytz google-api-python-client google-auth-oauthlib SpeechRecognition pyttsx3 python-telegram-bot"
 }
 
 install_seclists() {
