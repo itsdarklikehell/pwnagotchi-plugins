@@ -25,7 +25,7 @@ class AwayBase(plugins.Plugin):
                 return
         _log("plugin loaded")
         self.ready = 1
-    
+
     def on_wifi_update(self, agent, access_points):
         result = _run('iwconfig wlan0')
         if self.ready == 1 and "Not-Associated" in result:
@@ -70,7 +70,7 @@ class AwayBase(plugins.Plugin):
         if self.status == 'associated':
             ui.set('face', '(ᵔ◡◡ᵔ)')
             ui.set('status', 'Home at last!')
-        
+
     def on_epoch(self, agent, epoch, epoch_data):
         wireless_status = _run('iwconfig wlan0')
         l = wireless_status.splitlines()[0]
@@ -129,7 +129,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     self.status = 'associated'
     self.ready = 1
     _log('finished connecting to home wifi')
-    
+
 def _restart_monitor_mode(self,agent):
     _log('resuming wifi recon and monitor mode...')
     _log('stopping wpa_supplicant...')
