@@ -17,7 +17,22 @@ class BluetoothSniffer(plugins.Plugin):
     __author__ = 'diytechtinker'
     __version__ = '0.1.3'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that sniffs Bluetooth devices and saves their MAC addresses, name and counts to a JSON file'
+    __description__ = 'A plugin that sniffs Bluetooth devices and saves their MAC addresses, name and counts to a JSON file.'
+    __name__ = 'BluetoothSniffer'
+    __help__ = """
+    A plugin that sniffs Bluetooth devices and saves their MAC addresses, name and counts to a JSON file.
+    """
+    __dependencies__ = {
+        'pip': ['datetime']
+    }
+    __defaults__ = {
+        'enabled': False,
+        'timer': 45,
+        'devices_file': '/root/handshakes/bluetooth_devices.json',
+        'count_interval': 86400,
+        'bt_x_coord': 160,
+        'bt_y_coord': 66
+    }
 
     def __init__(self):
         # Defining the instance variables

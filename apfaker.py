@@ -15,6 +15,10 @@ class APFaker(plugins.Plugin):
     __version__ = '2.0.4'
     __license__ = 'GPL3'
     __description__ = 'Creates fake aps.'
+    __name__ = 'APFaker'
+    __help__ = """
+    Creates fake aps.
+    """
     __dependencies__ = {
         'pip': ['scapy'],
     }

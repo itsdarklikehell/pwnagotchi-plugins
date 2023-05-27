@@ -9,13 +9,18 @@ from pwnagotchi.ui.view import BLACK
 class Deauth(plugins.Plugin):
     __author__ = 'scorp'
     __version__ = '2.0.0'
-    __name__ = 'deauthcounter'
     __license__ = 'MIT'
-    __description__ = 'counts the successful deauth attacks of this session '
+    __description__ = 'A plugin that counts the successful deauth attacks of this session.'
+    __name__ = 'deauthcounter'
+    __help__ = """
+    A plugin that counts the successful deauth attacks of this session.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
     __defaults__ = {
         'enabled': False,
     }
-
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0

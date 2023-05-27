@@ -13,10 +13,18 @@ class PwnClock(plugins.Plugin):
     __author__ = 'https://github.com/LoganMD'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Clock/Calendar for pwnagotchi'
+    __description__ = 'Clock/Calendar for pwnagotchi.'
+    __name__ = 'PwnClock'
+    __help__ = """
+    Clock/Calendar for pwnagotchi.
+    """
+    __dependencies__ = {
+        'pip': ['datetime', 'toml', 'yaml']
+    }
     __defaults__ = {
         'enabled': False,
     }
+
 
     def on_loaded(self):
         if 'date_format' in self.options:

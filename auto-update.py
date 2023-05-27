@@ -146,6 +146,17 @@ class AutoUpdate(plugins.Plugin):
     __name__ = 'auto-update'
     __license__ = 'GPL3'
     __description__ = 'This plugin checks when updates are available and applies them when internet is available.'
+    __name__ = 'AutoUpdate'
+    __help__ = """
+    This plugin checks when updates are available and applies them when internet is available.
+    """
+    __dependencies__ = {
+        'apt': ['aircrack-ng'],
+    }
+    __defaults__ = {
+        'enabled': False,
+        'face': '(>.<)',
+    }
 
     def __init__(self):
         self.ready = False

@@ -19,7 +19,17 @@ class Buttonshim(plugins.Plugin):
     __author__ = 'chris@holycityhosting.com'
     __version__ = '0.0.1'
     __license__ = 'GPL3'
-    __description__ = 'Pimoroni Button Shim GPIO Button control'
+    __description__ = 'Pimoroni Button Shim GPIO Button control.'
+    __name__ = 'Buttonshim'
+    __help__ = """
+    Pimoroni Button Shim GPIO Button control.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
 print("""
 Button SHIM: Control Panel

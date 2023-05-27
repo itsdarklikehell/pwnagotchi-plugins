@@ -6,7 +6,17 @@ class Cuffs(plugins.Plugin):
     __author__ = 'idoloninmachina@gmail.com'
     __version__ = '0.1.4'
     __license__ = 'GPL3'
-    __description__ = 'Restricts the pwnagotchi to only attack specified ap\'s'
+    __description__ = 'Restricts the pwnagotchi to only attack specified ap\'s.'
+    __name__ = 'Cuffs'
+    __help__ = """
+    Restricts the pwnagotchi to only attack specified ap\'s.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         logging.debug("[Cuffs] Cuffs plugin created")

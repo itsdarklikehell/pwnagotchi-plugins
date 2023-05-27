@@ -20,9 +20,18 @@ class AutoHotSpot(plugins.Plugin):
     __author__ = "@tjbishop"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = (
-        "A plugin to automatically create a wifi hotspot when in manual mode"
-    )
+    __description__ = 'A plugin to automatically create a wifi hotspot when in manual mode.'
+    __name__ = 'AutoHotSpot'
+    __help__ = """
+    A plugin to automatically create a wifi hotspot when in manual mode.
+    """
+    __dependencies__ = {
+        'apt': ['aircrack-ng'],
+    }
+    __defaults__ = {
+        'enabled': False,
+        'face': '(>.<)',
+    }
 
     def on_loaded(self):
         global READY
@@ -72,7 +81,7 @@ class AutoHotSpot(plugins.Plugin):
         requests.post(
             "http://127.0.0.1:8081/api/session",
             data='{"cmd":"wifi.recon off"}',
-            auth=("pwnagotchi", "pwnagotchi"),
+            auth=("rizzo", "Crims0nDynam0!"),
         )
         logging.info("ensuring all wpa_supplicant processes are terminated...")
         subprocess.Popen(
@@ -274,7 +283,7 @@ class AutoHotSpot(plugins.Plugin):
         requests.post(
             "http://127.0.0.1:8081/api/session",
             data='{"cmd":"wifi.recon on"}',
-            auth=("pwnagotchi", "pwnagotchi"),
+            auth=("rizzo", "Crims0nDynam0!"),
         )
 
     def on_epoch(self, ui):

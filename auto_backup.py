@@ -10,6 +10,13 @@ class AutoBackup(plugins.Plugin):
     __version__ = '2.0.0'
     __license__ = 'GPL3'
     __description__ = 'This plugin backups files when internet is available.'
+    __name__ = 'AutoBackup'
+    __help__ = """
+    This plugin backups files when internet is available.
+    """
+    __dependencies__ = {
+        'apt': ['tar'],
+    }
     __defaults__ = {
         'enabled': False,
         'interval': 1,

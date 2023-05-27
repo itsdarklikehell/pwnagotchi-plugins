@@ -13,6 +13,10 @@ class WpaSec(plugins.Plugin):
     __version__ = '3.0.2'
     __license__ = 'GPL3'
     __description__ = 'This plugin automatically uploads handshakes to https://wpa-sec.stanev.org'
+    __name__ = 'WpaSec'
+    __help__ = """
+    This plugin automatically uploads handshakes to https://wpa-sec.stanev.org
+    """
     __dependencies__ = {
         'pip': ['requests']
     }

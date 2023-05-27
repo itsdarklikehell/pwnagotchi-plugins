@@ -28,6 +28,20 @@ class Banthex(plugins.Plugin):
     __version__ = '1.5.0'
     __license__ = 'GPL3'
     __description__ = 'This plugin automatically uploads handshakes to https://banthex.de/wpa/'
+    __name__ = 'Banthex'
+    __help__ = """
+    This plugin automatically uploads handshakes to https://banthex.de/wpa/
+    """
+    __dependencies__ = {
+        'pip': ['requests']
+    }
+    __defaults__ = {
+        'enabled': False,
+        'api_key': '',
+        'api_url': 'https://banthex.de/wpa/',
+        'download_results': False,
+        'whitelist': [],
+    }
 
     def __init__(self):
         self.ready = False

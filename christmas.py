@@ -11,9 +11,16 @@ class Christmas(plugins.Plugin):
     __author__ = 'https://github.com/LoganMD'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Christmas Countdown timer for pwnagotchi'
+    __description__ = 'Christmas Countdown timer for pwnagotchi.'
+    __name__ = 'Christmas'
+    __help__ = """
+    Christmas Countdown timer for pwnagotchi.
+    """
+    __dependencies__ = {
+        'pip': ['datetime', 'yaml']
+    }
     __defaults__ = {
-        'enabled': False
+        'enabled': False,
     }
 
     def on_loaded(self):

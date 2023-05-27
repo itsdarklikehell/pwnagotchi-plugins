@@ -10,7 +10,18 @@ class AwayBase(plugins.Plugin):
     __author__ = '@nope'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'watches for known networks, connects for a while, then returns to recon'
+    __description__ = 'watches for known networks, connects for a while, then returns to recon.'
+    __name__ = 'AwayBase'
+    __help__ = """
+    watches for known networks, connects for a while, then returns to recon
+    """
+    __dependencies__ = {
+        'apt': ['aircrack-ng'],
+    }
+    __defaults__ = {
+        'enabled': False,
+        'face': '(>.<)',
+    }
 
     def __init__(self):
         self.ready = 0

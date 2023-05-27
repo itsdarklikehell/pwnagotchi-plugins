@@ -11,6 +11,16 @@ class BLEMon(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'An example plugin for pwnagotchi that implements all the available callbacks.'
+    __name__ = 'BLEMon'
+    __help__ = """
+    An example plugin for pwnagotchi that implements all the available callbacks.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         logging.debug("BLEMon plugin created")

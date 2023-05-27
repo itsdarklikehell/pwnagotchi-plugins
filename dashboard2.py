@@ -8,11 +8,21 @@ import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
-class Dashboard(plugins.Plugin):
+class Dashboard2(plugins.Plugin):
     __author__ = 'doki'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Dashboard plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status.'
+    __description__ = 'Dashboard2 plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status.'
+    __name__ = 'Dashboard2'
+    __help__ = """
+    Dashboard2 plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     # Initiate deauthcounter plugin
     def __init__(self):
@@ -25,8 +35,8 @@ class Dashboard(plugins.Plugin):
             self.date_format = self.options['date_format']
         else:
             self.date_format = "%m/%d/%y"
-        logging.debug("[Dashboard]: Clock plugin loaded.")
-        logging.info("[Dashboard]: plugin loaded.")
+        logging.debug("[Dashboard2]: Clock plugin loaded.")
+        logging.info("[Dashboard2]: plugin loaded.")
 
     def mem_usage(self):
         return int(pwnagotchi.mem_usage() * 100)
@@ -66,7 +76,7 @@ class Dashboard(plugins.Plugin):
                                                  position=(int(self.options["cracked_x_pos"]),
                                                            int(self.options["cracked_y_pos"])),
                                                  label_font=fonts.Bold, text_font=fonts.Bold))
-        
+
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element('clock')
@@ -82,7 +92,7 @@ class Dashboard(plugins.Plugin):
         time_rn = now.strftime(self.date_format + " %I:%M%p")
         status = self.get_status()
         total_cracked = 'uniq -i /root/handshakes/wpa-sec.cracked.potfile | wc -l'
-   
+
         ui.set('clock', time_rn)
         ui.set('cracked', '%s' % (os.popen(total_cracked).read().rstrip()))
         ui.set('ram', str(self.mem_usage()) + "%")
@@ -90,7 +100,7 @@ class Dashboard(plugins.Plugin):
         ui.set('tmp', str(self.cpu_temp()) + "°C")
         ui.set('deauth', str(self.deauth_counter))
         ui.set('hand', str(self.handshake_counter))
-            
+
    # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
         self.deauth_counter += 1

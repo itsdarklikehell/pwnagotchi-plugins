@@ -51,7 +51,17 @@ class CrackHouse(plugins.Plugin):
     __author__ = '@V0rT3x'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin to display closest cracked network & it password'
+    __description__ = 'A plugin to display closest cracked network & it password.'
+    __name__ = 'CrackHouse'
+    __help__ = """
+    A plugin to display closest cracked network & it password.
+    """
+    __dependencies__ = {
+        'pip': ['requests']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info(self.options['display_stats'])

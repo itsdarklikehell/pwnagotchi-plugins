@@ -454,7 +454,14 @@ class Buttonshim(plugins.Plugin):
     __author__ = 'gon@o2online.de'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin'
+    __description__ = 'Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin.'
+    __name__ = 'Buttonshim'
+    __help__ = """
+    Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
     __defaults__ = {
         'enabled': False,
         'buttons': {

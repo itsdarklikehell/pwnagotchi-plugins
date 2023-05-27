@@ -14,6 +14,16 @@ class Beacons(plugins.Plugin):
     __version__ = '0.0.2'
     __license__ = 'GPL3'
     __description__ = 'A plugin that advertises pwnagotchi state via valid WiFi beacons.'
+    __name__ = 'Beacons'
+    __help__ = """
+    A plugin that advertises pwnagotchi state via valid WiFi beacons.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     _iface = 'mon0'
     _wifimac = ''

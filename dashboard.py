@@ -17,6 +17,16 @@ class Dashboard(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'Dashboard plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status.'
+    __name__ = 'Dashboard'
+    __help__ = """
+    Dashboard plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     # Initiate deauthcounter plugin
     def __init__(self):
@@ -127,7 +137,7 @@ class Dashboard(plugins.Plugin):
                                                  position=(int(self.options["netstat_x_pos"]),
                                                            int(self.options["netstat_y_pos"])),
                                                  label_font=fonts.Small, text_font=fonts.Small))
-        
+
     def on_internet_available(self, agent):
         # pivoyager: Update RTC if local time is ntp-synced and if RTC is not initialised
         if(not "inits" in self.get_status()["stat"]):
@@ -167,7 +177,7 @@ class Dashboard(plugins.Plugin):
         ui.set('deauth', str(self.deauth_counter))
         ui.set('hand', str(self.handshake_counter))
         ui.set('pivoyager', "{sbat}{voltage}".format(sbat=charge_mapping[status["bat"]], voltage=status["vbat"]))
-        
+
         # check if there is an active Internet connection
         output = os.system('ping -c 1 ' + '8.8.8.8')
         if output == 0:

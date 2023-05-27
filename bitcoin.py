@@ -11,7 +11,17 @@ class Bitcoin(plugins.Plugin):
     __author__ = 'https://github.com/jfrader'
     __version__ = '0.0.1'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that will display the bitcoin price'
+    __description__ = 'A plugin that will display the bitcoin price.'
+    __name__ = 'Bitcoin'
+    __help__ = """
+    A plugin that will display the bitcoin price.
+    """
+    __dependencies__ = {
+        'pip': ['requests']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     _last_price = '...'
     _has_internet = False
