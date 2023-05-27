@@ -22,7 +22,7 @@ class QuickDic(plugins.Plugin):
     }
     __defaults__ = {
         'enabled': False,
-        'wordlist_folder': '/home/pi/wordlists/',
+        'wordlist_folder': '/usr/share/wordlists/passwords/',
         'face': '(·ω·)',
     }
 
@@ -35,7 +35,7 @@ class QuickDic(plugins.Plugin):
         if 'face' not in self.options:
             self.options['face'] = '(·ω·)'
         if 'wordlist_folder' not in self.options:
-            self.options['wordlist_folder'] = '/home/pi/wordlists/'
+            self.options['wordlist_folder'] = '/usr/share/wordlists/passwords/'
         if 'enabled' not in self.options:
             self.options['enabled'] = False
 
@@ -66,10 +66,9 @@ class QuickDic(plugins.Plugin):
                 key = re.search(r'\[(.*)\]', result2)
                 pwd = str(key.group(1))
                 self.text_to_set = "Cracked password: " + pwd
-                #logging.warning('!!! [quickdic] !!! %s' % self.text_to_set)
+                logging.warning('!!! [quickdic] !!! %s' % self.text_to_set)
                 display.set('face', self.options['face'])
                 display.set('status', self.text_to_set)
                 self.text_to_set = ""
                 display.update(force=True)
-                #plugins.on('cracked', access_point, pwd)
-
+                plugins.on('cracked', access_point, pwd)
