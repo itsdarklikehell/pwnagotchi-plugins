@@ -12,7 +12,7 @@ apobj = apprise.Apprise()
 config = apprise.AppriseConfig()
 
 # Add a configuration source:
-config.add('/home/pi/pwnagotchi-plugins-contrib/apprise-config.yml')
+config.add('/home/pi/pwnagotchi-control-center/pwnagotchi-plugins/apprise-config.yml')
 
 # Add another...
 #config.add('https://myserver:8080/path/to/config')
@@ -110,7 +110,7 @@ class Apprise(plugins.Plugin):
         apprise -vv -t 'my title' -b 'my notification body' \
         --config=/home/pi/.config/apprise.yml \
         #--config=https://localhost/my/apprise/config
-        
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
