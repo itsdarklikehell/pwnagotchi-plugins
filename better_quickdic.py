@@ -7,7 +7,7 @@ import re
 '''
 Aircrack-ng needed, to install:
 > apt-get install aircrack-ng
-Upload wordlist files in .txt format to folder in config file (Default: /opt/wordlists/)
+Upload wordlist files in .txt format to folder in config file (Default: /usr/share/wordlists/passwords/)
 Cracked handshakes stored in handshake folder as [essid].pcap.cracked
 '''
 
