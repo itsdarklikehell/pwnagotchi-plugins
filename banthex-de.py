@@ -1,3 +1,18 @@
+# To get the api_key for banthed go there: https://banthex.de/index.php/register/
+# Create an account, connect to the site and go there: https://banthex.de/index.php/wpa-psk-auditor/
+# you will be able to generate an api_key as wpa-sec
+# The plugin and the banthex backend code clones of wpa-sec to run both on the same pwnagotchi
+#
+# main.plugins.banthex.enabled = true
+# main.plugins.banthex.api_key = "your gnerated api_key here"
+# main.plugins.banthex.api_url = "https://banthex.de/wpa/"
+# main.plugins.banthex.download_results = true
+# main.plugins.banthex.whitelist = []
+#
+# by [@banthex](https://github.com/Banthex)
+# you can help to crack password too. The site have a leaderboard of the members.
+# https://github.com/Banthex/help_crack_banthex
+
 import os
 import logging
 import requests
