@@ -1,4 +1,4 @@
 main:
-    plugins:
-        apprise-notify:
-            enabled: true
+  plugins:
+    apprise-notify:
+      enabled: true
