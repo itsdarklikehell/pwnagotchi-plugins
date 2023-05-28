@@ -10,10 +10,6 @@ class hashie(plugins.Plugin):
     __author__ = 'junohea.mail@gmail.com'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __defaults__ = {
-        'enabled': False,
-        'interval': 1,
-    }
     __description__ = '''
                         Attempt to automatically convert pcaps to a crackable format.
                         If successful, the files  containing the hashes will be saved
@@ -44,10 +40,21 @@ class hashie(plugins.Plugin):
                             - The repair is very basic and could certainly be improved!
                         Todo:
                           Make it so users dont need hcxpcaptool (unless it gets added to the base image)
-                              Phase 1: Extract/construct 2500/16800 hashes through tcpdump commands
+          Phase 1: Extract/construct 2500/16800 hashes through tcpdump commands
                               Phase 2: Extract/construct 2500/16800 hashes entirely in python
                           Improve the code, a lot
                         '''
+    __name__ = 'hashie'
+    __help__ = """
+    A plugin that will add age and strength stats based on epochs and trained epochs
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+        'interval': 1,
+    }
 
     def __init__(self):
         logging.info("[hashie] plugin loaded")

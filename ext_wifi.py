@@ -8,7 +8,17 @@ class ext_wifi(plugins.Plugin):
     __author__ = 'chris@holycityhosting.com'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Activates external wifi adapter'
+    __description__ = 'Activates external wifi adapter.'
+    __name__ = 'ext_wifi'
+    __help__ = """
+    Activates external wifi adapter.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.ready = 0

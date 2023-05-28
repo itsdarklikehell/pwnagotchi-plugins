@@ -18,6 +18,16 @@ class GPSPlus(plugins.Plugin):
     __version__ = '1.0.1-1'
     __license__ = 'GPL3'
     __description__ = 'Save GPS coordinates whenever an handshake is captured.'
+    __name__ = 'GPSPlus'
+    __help__ = """
+    Save GPS coordinates whenever an handshake is captured.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     LINE_SPACING = 12
     LABEL_SPACING = 0

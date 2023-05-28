@@ -23,6 +23,16 @@ class hashespwnagotchi(plugins.Plugin):
     __version__ = '0.0.1'
     __license__ = 'GPL3'
     __description__ = 'uploads handshakes to https://hashes.pw'
+    __name__ = 'hashespwnagotchi'
+    __help__ = """
+            uploads handshakes to https://hashes.pw
+            """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     @property
     def headers(self):

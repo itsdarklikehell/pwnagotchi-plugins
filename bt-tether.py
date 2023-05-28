@@ -421,7 +421,17 @@ class BTTether(plugins.Plugin):
     __author__ = '33197631+dadav@users.noreply.github.com'
     __version__ = '1.1.0'
     __license__ = 'GPL3'
-    __description__ = 'This makes the display reachable over bluetooth'
+    __description__ = 'This makes the display reachable over bluetooth.'
+    __name__ = 'BTTether'
+    __help__ = """
+    This makes the display reachable over bluetooth.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
 
     def __init__(self):

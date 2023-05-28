@@ -8,6 +8,18 @@ __description__ = """
                 for a specified number of access points as a txt file.
                 Message the bot with !dumphash [NUMBER].
                 """
+__name__ = 'hashbot'
+__help__ = """
+        This bot will return the hashes obtained using discohash
+        for a specified number of access points as a txt file.
+        Message the bot with !dumphash [NUMBER].
+        """
+__dependencies__ = {
+    'pip': ['scapy']
+}
+__defaults__ = {
+    'enabled': False,
+}
 
 import os
 import discord

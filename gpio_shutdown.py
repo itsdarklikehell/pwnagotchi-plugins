@@ -8,7 +8,11 @@ class GPIOShutdown(plugins.Plugin):
     __author__ = 'tomelleri.riccardo@gmail.com'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __description__ = 'GPIO Shutdown plugin'
+    __description__ = 'GPIO Shutdown plugin.'
+    __name__ = 'GPIOShutdown'
+    __help__ = """
+    GPIO Shutdown plugin.
+    """
     __dependencies__ = {
         'pip': ['RPi.GPIO'],
     }

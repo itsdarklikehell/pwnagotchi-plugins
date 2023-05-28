@@ -9,7 +9,17 @@ class handshaker(plugins.Plugin):
     __author__ = 'Allordacia'
     __version__ = '1.0.1'
     __license__ = 'MIT'
-    __description__ = 'A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH'
+    __description__ = 'A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH.'
+    __name__ = 'handshaker'
+    __help__ = """
+    A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.handshakes = 0

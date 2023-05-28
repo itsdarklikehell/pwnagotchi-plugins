@@ -11,11 +11,20 @@ class Do_Deauth(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads.'
+    __name__ = 'Do_Deauth'
+    __help__ = """
+    Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self._agent = None
         self._count = 0
-        pass
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
@@ -26,14 +35,12 @@ class Do_Deauth(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         self._count = 0
-        pass
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
         if self._agent: self._agent._config['personality']['deauth'] = False
         ui.remove_element('deauth_count')
         logging.info("[Enable_Deauth] unloading: disabled deauth")
-        pass
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
@@ -43,7 +50,6 @@ class Do_Deauth(plugins.Plugin):
 
     def on_deauthentication(self, agent, access_point, client_station):
         self._count += 1
-        pass
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):

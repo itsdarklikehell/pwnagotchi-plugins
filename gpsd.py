@@ -39,6 +39,16 @@ class gpsd_coord(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Talk to GPSD and save coordinates whenever a handshake is captured."
+    __name__ = 'gpsd_coord'
+    __help__ = """
+    Talk to GPSD and save coordinates whenever a handshake is captured.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.gpsd = None

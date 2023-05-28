@@ -45,7 +45,17 @@ class f0xtr0t(plugins.Plugin):
     __version__ = '1.4.2-alpha'
     __name__ = 'f0xtr0t'
     __license__ = 'GPL3'
-    __description__ = 'a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps'
+    __description__ = 'a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps.'
+    __name__ = 'f0xtr0t'
+    __help__ = """
+    a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     ALREADY_SENT = list()
     SKIP = list()

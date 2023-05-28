@@ -16,7 +16,17 @@ class FlipperLink(plugins.Plugin):
     __author__ = 'Allordacia'
     __version__ = '1.0.0'
     __license__ = 'MIT'
-    __description__ = 'A plugin that will add functionality for pwnagotchi to connect to the Flipper Zero'
+    __description__ = 'A plugin that will add functionality for pwnagotchi to connect to the Flipper Zero.'
+    __name__ = 'FlipperLink'
+    __help__ = """
+    A plugin that will add functionality for pwnagotchi to connect to the Flipper Zero.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.running = False
@@ -42,7 +52,7 @@ class FlipperLink(plugins.Plugin):
 
     def on_ui_update(self, ui):
         # Update the UI
-        
+
         if self.flipper_connected == True:
             ui.set('flipperlink', value='Connected')
         else:
@@ -69,6 +79,6 @@ class FlipperLink(plugins.Plugin):
         return flipper_connected
 
 
-            
+
 
         return flipper_connected

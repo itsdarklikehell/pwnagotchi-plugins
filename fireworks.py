@@ -15,9 +15,18 @@ import ledshim
 class Fireworks(plugins.Plugin):
     __author__ = 'iggdawg'
     __version__ = '1.0.0'
-    __name__ = 'fireworks'
     __license__ = 'MIT'
-    __description__ = 'Uses Pimoroni shim to put on a light show '
+    __description__ = 'Uses Pimoroni shim to put on a light show.'
+    __name__ = 'fireworks'
+    __help__ = """
+    Uses Pimoroni shim to put on a light show.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info("Fireworks locked and loaded")

@@ -29,6 +29,16 @@ class EXP(plugins.Plugin):
     __version__ = '1.0.5'
     __license__ = 'GPL3'
     __description__ = 'Get exp every time a handshake get captured.'
+    __name__ = 'EXP'
+    __help__ = """
+    Get exp every time a handshake get captured.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     #Attention number masking
     def LogInfo(self, text):

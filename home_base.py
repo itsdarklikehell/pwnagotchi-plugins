@@ -12,7 +12,14 @@ class HomeBase(plugins.Plugin):
     __author__ = '@troystauffer'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Connects to home network for internet when available'
+    __description__ = 'Connects to home network for internet when available.'
+    __name__ = 'HomeBase'
+    __help__ = """
+    Connects to home network for internet when available.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
 
     def __init__(self):
         self.ready = 0
@@ -26,7 +33,7 @@ class HomeBase(plugins.Plugin):
                 return
         _log("plugin loaded")
         self.ready = 1
-    
+
     def on_unfiltered_ap_list(self, agent, access_points):
         home_network = self.options['ssid']
         result = _run('iwconfig wlan0')
@@ -66,7 +73,7 @@ class HomeBase(plugins.Plugin):
         if self.status == 'associated':
             ui.set('face', '(ᵔ◡◡ᵔ)')
             ui.set('status', 'Home at last!')
-        
+
     def on_epoch(self, agent, epoch, epoch_data):
         if "Not-Associated" in _run('iwconfig wlan0') and "Monitor" not in _run('iwconfig mon0'):
             _restart_monitor_mode(self,agent)
@@ -121,7 +128,7 @@ def _connect_to_target_network(self, agent, network_name, channel):
     self.status = 'associated'
     self.ready = 1
     _log('finished connecting to home wifi')
-    
+
 def _restart_monitor_mode(self,agent):
     _log('resuming wifi recon and monitor mode...')
     _log('stopping wpa_supplicant...')

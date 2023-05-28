@@ -8,7 +8,14 @@ class GPIOButtons(plugins.Plugin):
     __author__ = 'ratmandu@gmail.com'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __description__ = 'GPIO Button support plugin'
+    __description__ = 'GPIO Button support plugin.'
+    __name__ = 'GPIOButtons'
+    __help__ = """
+    GPIO Button support plugin.
+    """
+    __dependencies__ = {
+        'pip': ['RPi.GPIO'],
+    }
     __defaults__ = {
         'enabled': False,
     }

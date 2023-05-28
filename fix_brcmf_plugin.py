@@ -18,8 +18,17 @@ class Fix_BRCMF(plugins.Plugin):
     __author__ = 'xxx@xxx.xxx'
     __version__ = '0.1.0'
     __license__ = 'GPL3'
-    __description__ = 'Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG'
-
+    __description__ = 'Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG.'
+    __name__ = 'Fix_BRCMF'
+    __help__ = """
+    Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.options = dict()

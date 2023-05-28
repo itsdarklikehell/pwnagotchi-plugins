@@ -71,9 +71,17 @@ class HandshakesDL(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'Download handshake captures from web-ui.'
+    __name__ = 'HandshakesDL'
+    __help__ = """
+    Download handshake captures from web-ui.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
     __defaults__ = {
         'enabled': False,
     }
+
 
     def __init__(self):
         self.ready = False
