@@ -18,7 +18,18 @@ class discohash(plugins.Plugin):
                     analyses the hash using hcxhashtool and posts the output to Discord along with
                     any obtained GPS coordinates.
                     '''
-
+    __name__ = 'discohash'
+    __help__ = '''
+                    DiscoHash extracts hashes from pcaps (hashcat mode 22000) using hcxpcapngtool,
+                    analyses the hash using hcxhashtool and posts the output to Discord along with
+                    any obtained GPS coordinates.
+                    '''
+    __dependencies__ = {
+        'pip': ['requests']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         logging.debug("[*] DiscoHash plugin created")

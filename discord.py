@@ -9,6 +9,10 @@ class Discord(plugins.Plugin):
     __version__ = '2.0.0'
     __license__ = 'GPL3'
     __description__ = 'Post recent activity to a Discord channel using webhooks. Requires discord.py module.'
+    __name__ = 'Discord'
+    __help__ = """
+    Post recent activity to a Discord channel using webhooks. Requires discord.py module.
+    """
     __dependencies__ = {
         'pip': ['discord'],
         'webhook_url': '',

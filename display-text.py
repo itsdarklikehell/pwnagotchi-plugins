@@ -5,11 +5,21 @@ import pwnagotchi.ui.fonts as fonts
 import pwnagotchi.plugins as plugins
 import pwnagotchi
 
-class MyPlugin(plugins.Plugin):
+class displaytext(plugins.Plugin):
     __author__ = 'adi1708 made by chatGPT'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that displays text on the waveshare144lcd screen'
+    __description__ = 'A plugin that displays text on the waveshare144lcd screen.'
+    __name__ = 'displaytext'
+    __help__ = """
+    A plugin that displays text on the waveshare144lcd screen.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info("My Plugin loaded.")

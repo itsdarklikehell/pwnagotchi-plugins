@@ -22,7 +22,17 @@ class EducationalPurposesOnly(plugins.Plugin):
     __author__ = '@nagy_craig'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin to automatically authenticate to known networks and perform internal network recon'
+    __description__ = 'A plugin to automatically authenticate to known networks and perform internal network recon.'
+    __name__ = 'EducationalPurposesOnly'
+    __help__ = """
+    A plugin to automatically authenticate to known networks and perform internal network recon.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         global READY

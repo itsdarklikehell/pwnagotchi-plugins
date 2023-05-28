@@ -21,6 +21,7 @@ class Deauth(plugins.Plugin):
     __defaults__ = {
         'enabled': False,
     }
+
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0

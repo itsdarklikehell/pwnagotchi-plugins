@@ -11,6 +11,16 @@ class PwnagotchiVersion(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'A plugin that will add the Pwnagotchi version to the left of the current mode.'
+    __name__ = 'PwnagotchiVersion'
+    __help__ = """
+    A plugin that will add the Pwnagotchi version to the left of the current mode.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info('Pwnagotchi Version Plugin loaded.')

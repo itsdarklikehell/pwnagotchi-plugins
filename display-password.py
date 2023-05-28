@@ -20,7 +20,17 @@ class DisplayPassword(plugins.Plugin):
     __author__ = '@nagy_craig'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin to display recently cracked passwords'
+    __description__ = 'A plugin to display recently cracked passwords.'
+    __name__ = 'DisplayPassword'
+    __help__ = """
+    A plugin to display recently cracked passwords.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info("display-password loaded")
