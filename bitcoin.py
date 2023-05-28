@@ -21,6 +21,8 @@ class Bitcoin(plugins.Plugin):
     }
     __defaults__ = {
         'enabled': False,
+        'api_url': 'https://coindesk.com',
+        'bitcoin_api_url': 'https://api.coindesk.com/v1/bpi/currentprice.json/'
     }
 
     _last_price = '...'
