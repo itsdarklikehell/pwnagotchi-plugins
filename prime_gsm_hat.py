@@ -61,4 +61,3 @@ finally:
     # Aight, fine. A little help.
     if serial_device != None:
         serial_device.close()
-

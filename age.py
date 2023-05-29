@@ -8,7 +8,7 @@ import pwnagotchi.ui.faces as faces
 import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
-
+    
 class Age(plugins.Plugin):
     __author__ = "HannaDiamond"
     __version__ = "1.0.1"

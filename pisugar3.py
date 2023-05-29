@@ -36,7 +36,7 @@ class UPS:
             return chg
         except:
             return chg
-       
+
     def capacity(self):
         battery_level = 0
         # battery_v = self.voltage()
@@ -50,7 +50,17 @@ class PiSugar3(plugins.Plugin):
     __author__ = 'taiyonemo@protonmail.com'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that will add a percentage indicator for the PiSugar 3'
+    __description__ = 'A plugin that will add a percentage indicator for the PiSugar 3.'
+    __name__ = 'PiSugar3'
+    __help__ = """
+    A plugin that will add a percentage indicator for the PiSugar 3.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.ups = None

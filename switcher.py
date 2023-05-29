@@ -104,9 +104,15 @@ def run_task(name, options):
 class Switcher(plugins.Plugin):
     __author__ = '33197631+dadav@users.noreply.github.com'
     __version__ = '1.0.0'
-    __name__ = 'switcher'
     __license__ = 'GPL3'
     __description__ = 'This plugin is a generic task scheduler.'
+    __name__ = 'switcher'
+    __help__ = """
+    This plugin is a generic task scheduler.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
     __defaults__ = {
         'enabled': False,
         'tasks': {},

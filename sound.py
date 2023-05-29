@@ -86,4 +86,3 @@ class Sound(plugins.Plugin):
     logging.info("on_cracked() called in sound-plugin!")
     self.play_my_sound(sys._getframe().f_code.co_name, str(access_point["hostname"]))
 
-

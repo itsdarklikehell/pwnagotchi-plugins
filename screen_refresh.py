@@ -6,7 +6,14 @@ class ScreenRefresh(plugins.Plugin):
     __author__ = 'pwnagotchi [at] rossmarks [dot] uk'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Refresh he e-ink display after X amount of updates'
+    __description__ = 'Refresh he e-ink display after X amount of updates.'
+    __name__ = 'ScreenRefresh'
+    __help__ = """
+    Refresh he e-ink display after X amount of updates.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
     __defaults__ = {
         'enabled': False,
         'refresh_interval': 50,

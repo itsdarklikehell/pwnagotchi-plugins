@@ -17,7 +17,17 @@ class PrivacyNightmare(plugins.Plugin):
     __author__ = 'glenn@pegden.com.com'
     __version__ = '0.0.1'
     __license__ = 'Private (for now)'
-    __description__ = 'Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly)'
+    __description__ = 'Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly).'
+    __name__ = 'PrivacyNightmare'
+    __help__ = """
+    Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly).
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.running = True

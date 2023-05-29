@@ -13,7 +13,17 @@ class PiVoyager(plugins.Plugin):
     __author__ = 'ZTube, doki'
     __version__ = '1.0.2'
     __license__ = 'GPL3'
-    __description__ = 'PiVoyager UPS plugin'
+    __description__ = 'PiVoyager UPS plugin.'
+    __name__ = 'PiVoyager'
+    __help__ = """
+    PiVoyager UPS plugin.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
 
     # Get the current status of the pivoyager
@@ -65,7 +75,7 @@ class PiVoyager(plugins.Plugin):
       # enable pivoyager power wakeup function
         run([self.path, "enable", "power-wakeup"])
         logging.info("pivoyager - enable power-wakeup")
-        
+
         logging.info("pivoyager ups plugin loaded.")
 
 
@@ -89,4 +99,4 @@ class PiVoyager(plugins.Plugin):
         if(not "inits" in self.get_status()["stat"]):
             # Update RTC if local time is ntp-synced and RTC is not initialised
             run([self.path, "date", "sync"])
-            logging.info("pivoyager - update RTC from NTP")			
+            logging.info("pivoyager - update RTC from NTP")

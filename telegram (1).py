@@ -6,22 +6,26 @@ import pwnagotchi
 import glob
 from subprocess import Popen
 
-# See here to make the summary send in auto mode 
+# See here to make the summary send in auto mode
 # https://gist.github.com/alistar79/785b422ab5de846b27e1770550526bce
 
 class Telegram(plugins.Plugin):
     __author__ = 'djerfy@gmail.com'
     __version__ = '2.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Periodically sent messages to Telegram about the recent activity of pwnagotchi'
+    __description__ = 'Periodically sent messages to Telegram about the recent activity of pwnagotchi.'
+    __name__ = 'Telegram'
+    __help__ = """
+    Periodically sent messages to Telegram about the recent activity of pwnagotchi.
+    """
     __dependencies__ = {
-        'pip': ['python-telegram-bot==13.15'],
+        'pip': ['python-telegram-bot'],
     }
     __defaults__ = {
         'enabled': False,
-        'bot_token': None, #Quote me
+        'bot_token': None,
         'bot_name': 'pwnagotchi',
-        'chat_id': None, #Don't quote me
+        'chat_id': None,
         'send_picture': True,
         'send_message': True,
     }
@@ -105,7 +109,7 @@ class Telegram(plugins.Plugin):
                     update_id = 0
                     with open('/root/.tuid', 'w') as f:
                         f.write('%d\n' % update_id)
-                
+
         else:
             logging.info('[telegram] Recevied message: %s', message)
             update_id +=1
@@ -213,7 +217,7 @@ class Telegram(plugins.Plugin):
                     if word in ('up', 'down', 'ok', 'back', 'close', 'stop'):
                         Popen("/root/pwnmenucmd.py " + word, shell=True)
                         repmessage = "(⌐■_■) Pwnmenu command " + word + " sent..."
-                    else:    
+                    else:
                         repmessage = "(☓‿‿☓) Pwnmenu command error"
                 else:
                     repmessage = "(☓‿‿☓) Pwnmenu command error"

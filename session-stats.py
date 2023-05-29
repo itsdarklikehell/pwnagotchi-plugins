@@ -180,6 +180,16 @@ class SessionStats(plugins.Plugin):
     __version__ = '0.1.0'
     __license__ = 'GPL3'
     __description__ = 'This plugin displays stats of the current session.'
+    __name__ = 'SessionStats'
+    __help__ = """
+    This plugin displays stats of the current session.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.lock = threading.Lock()

@@ -36,7 +36,6 @@ def get_audio():
 
     return said.lower()
 
-
 def authenticate_google():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
@@ -184,7 +183,5 @@ while True:
 
         PWN_STRS = ["handshakes","handshake","what are you dooing"]
         for phrase in PWN_STRS:
-        	if prase in text:
-        		speak("Whatsup dude?")
-
-
+            if prase in text:
+                speak("Whatsup dude?")

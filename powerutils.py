@@ -7,7 +7,17 @@ class powerutils(plugins.Plugin):
     __author__ = 'https://gitlab.com/sn0wflake'
     __version__ = '1.0.0'
     __license__ = 'MIT'
-    __description__ = 'A server to shutdown or restart pwnagotchi hardware'
+    __description__ = 'A server to shutdown or restart pwnagotchi hardware.'
+    __name__ = 'powerutils'
+    __help__ = """
+    A server to shutdown or restart pwnagotchi hardware.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.running = True
