@@ -97,7 +97,17 @@ class UPSC(plugins.Plugin):
     __author__ = 'HannaDiamond'
     __version__ = '1.0.1'
     __license__ = 'MIT'
-    __description__ = 'A plugin that will add a battery capacity and charging indicator for the UPS HAT C'
+    __description__ = 'A plugin that will add a battery capacity and charging indicator for the UPS HAT C.'
+    __name__ = 'UPSC'
+    __help__ = """
+    A plugin that will add a battery capacity and charging indicator for the UPS HAT C.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.ups = None

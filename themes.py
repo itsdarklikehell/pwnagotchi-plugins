@@ -9,7 +9,17 @@ class Themes(plugins.Plugin):
     __author__ = '@alistar79'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Theme/script kicker plugin for pwnagotchi'
+    __description__ = 'Theme/script kicker plugin for pwnagotchi.'
+    __name__ = 'Themes'
+    __help__ = """
+    Theme/script kicker plugin for pwnagotchi.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         logging.debug("Pwnagotchi [Themes] plugin created")
@@ -39,7 +49,7 @@ class Themes(plugins.Plugin):
             elif path.startswith('color'):
                 try:
                     Popen('/root/flip_col.sh')
-                    response_data = bytes(self.get_html(), "utf-8") 
+                    response_data = bytes(self.get_html(), "utf-8")
                     response_status = 200
                     response_mimetype = "application/xhtml+xml"
                     response_header_contenttype = 'text/html'
@@ -49,7 +59,7 @@ class Themes(plugins.Plugin):
             elif path.startswith('faces'):
                 try:
                     Popen('/root/flip_faces.sh')
-                    response_data = bytes(self.get_html(), "utf-8") 
+                    response_data = bytes(self.get_html(), "utf-8")
                     response_status = 200
                     response_mimetype = "application/xhtml+xml"
                     response_header_contenttype = 'text/html'
@@ -59,7 +69,7 @@ class Themes(plugins.Plugin):
             elif path.startswith('led'):
                 try:
                     Popen('/root/flip_led.sh')
-                    response_data = bytes(self.get_html(), "utf-8") 
+                    response_data = bytes(self.get_html(), "utf-8")
                     response_status = 200
                     response_mimetype = "application/xhtml+xml"
                     response_header_contenttype = 'text/html'
@@ -86,7 +96,7 @@ class Themes(plugins.Plugin):
                 <body>4😋4 for bad boys</body>
                 </html>''', "utf-8")
             response_status = 404
-            
+
         try:
             r = Response(response=response_data, status=response_status, mimetype=response_mimetype)
             if response_header_contenttype is not None:

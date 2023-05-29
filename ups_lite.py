@@ -50,6 +50,13 @@ class UPSLite(plugins.Plugin):
     __version__ = '2.0.0'
     __license__ = 'GPL3'
     __description__ = 'A plugin that will add a voltage indicator for the UPS Lite v1.1'
+    __name__ = 'UPSLite'
+    __help__ = """
+    A plugin that will add a voltage indicator for the UPS Lite v1.1
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
     __defaults__ = {
         'enabled': False,
     }

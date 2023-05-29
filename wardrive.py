@@ -16,7 +16,17 @@ class Wardrive(plugins.Plugin):
     __author__ = '@tjbishop'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'Wardriving plugin for pwnagotchi'
+    __description__ = 'Wardriving plugin for pwnagotchi.'
+    __name__ = 'Wardrive'
+    __help__ = """
+    Wardriving plugin for pwnagotchi.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.data = None

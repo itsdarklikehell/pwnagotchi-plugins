@@ -1,5 +1,5 @@
 # Based on UPS Lite v1.1 from https://github.com/xenDE
-# Made specifically to address the problems caused by the hardware changes in 1.3.  Oh yeah I also removed the auto-shutdown feature because it's kind of broken. 
+# Made specifically to address the problems caused by the hardware changes in 1.3.  Oh yeah I also removed the auto-shutdown feature because it's kind of broken.
 #
 # To setup, see page six of this manual to see how to enable i2c:
 # https://github.com/linshuqin329/UPS-Lite/blob/master/UPS-Lite_V1.3_CW2015/Instructions%20for%20UPS-Lite%20V1.3.pdf
@@ -10,10 +10,10 @@
 # Now, install this plugin by copying this to the 'available-plugins' folder in your pwnagotchi, install and enable the plugin with the commands:
 # sudo pwnagotchi plugins install upslite_plugin_1_3
 # sudo pwnagotchi plugins enable upslite_plugin_1_3
-# 
+#
 # Now restart raspberry pi. Once back up ensure upslite_plugin_1_3 plugin is turned on in the WebUI. If there is still '0%' on your battery meter
-# run the script we saved earlier and ensure that the pwnagotchi is plugged in both at the battery and the raspberry pi. The script should start trying to 
-# read the battery, and should be successful once there's a USB cable running power to the battery supply. 
+# run the script we saved earlier and ensure that the pwnagotchi is plugged in both at the battery and the raspberry pi. The script should start trying to
+# read the battery, and should be successful once there's a USB cable running power to the battery supply.
 
 import logging
 import struct
@@ -71,6 +71,16 @@ class UPSLite(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'A plugin that will add a voltage indicator for the UPS Lite v1.3'
+    __name__ = 'UPSLite'
+    __help__ = """
+    A plugin that will add a voltage indicator for the UPS Lite v1.1
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.ups = None

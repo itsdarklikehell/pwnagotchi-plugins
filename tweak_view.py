@@ -17,6 +17,16 @@ class Tweak_View(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'Edit the UI layout. Ugly interface, no guardrails. Be careful!!!'
+    __name__ = 'Tweak_View'
+    __help__ = """
+    Edit the UI layout. Ugly interface, no guardrails. Be careful!!!
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     myFonts = {"Small": fonts.Small,
                "BoldSmall": fonts.BoldSmall,
