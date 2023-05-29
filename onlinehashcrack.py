@@ -15,6 +15,10 @@ class OnlineHashCrack(plugins.Plugin):
     __version__ = '2.1.5'
     __license__ = 'GPL3'
     __description__ = 'This plugin automatically uploads handshakes to https://onlinehashcrack.com'
+    __name__ = 'OnlineHashCrack'
+    __help__ = """
+    This plugin automatically uploads handshakes to https://onlinehashcrack.com
+    """
     __dependencies__ = {
         'pip': ['requests']
     }

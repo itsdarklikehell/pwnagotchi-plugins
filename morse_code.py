@@ -23,6 +23,16 @@ class MorseCode(plugins.Plugin):
     __description__ = (
         "An example plugin for pwnagotchi that implements all the available callbacks."
     )
+    __name__ = 'MorseCode'
+    __help__ = """
+    An example plugin for pwnagotchi that implements all the available callbacks.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     # Dictionary representing the morse code chart
     MORSE_CODE_DICT = {

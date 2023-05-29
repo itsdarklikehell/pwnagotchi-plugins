@@ -12,22 +12,32 @@ class MyCrackedPasswords(plugins.Plugin):
     __author__ = '@silentree12th'
     __version__ = '5.1.1'
     __license__ = 'GPL3'
-    __description__ = 'A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat'
+    __description__ = 'A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat.'
+    __name__ = 'MyCrackedPasswords'
+    __help__ = """
+    A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info("[mycracked_pw] loaded]")
         if not os.path.exists('/usr/share/wordlists/passwords/'):
             os.makedirs('/usr/share/wordlists/passwords/')
-            
+
         if not os.path.exists('/home/pi/qrcodes/'):
             os.makedirs('/home/pi/qrcodes/')
-            
+
         self._update_all()
-        
+
     def on_handshake(self, agent, filename, access_point, client_station):
         self._update_all()
-        
-        
+
+
     def _update_all(self):
         all_passwd=[]
         all_bssid=[]
@@ -42,7 +52,7 @@ class MyCrackedPasswords(plugins.Plugin):
         except:
             logging.error('[mycracked_pw] encountered a problem in wpa-sec.cracked.potfile')
         f.close()
-        
+
         h = open('/root/handshakes/onlinehashcrack.cracked', 'r+', encoding='utf-8')
         try:
             for line_h in csv.DictReader(h):
@@ -56,19 +66,19 @@ class MyCrackedPasswords(plugins.Plugin):
         except:
             logging.error('[mycracked_pw] encountered a problem in onlinehashcrack.cracked')
         h.close()
-        
+
         #save all the wifi-qrcodes
         security="WPA"
         for ssid,password in zip(all_ssid, all_passwd):
-            
+
             filename = ssid+'-'+password+'.txt'
             filepath = '/home/pi/qrcodes/'+filename
-            
+
             if os.path.exists(filepath):
                 continue
-                
+
             wifi_config = 'WIFI:S:'+ssid+';T:'+security+';P:'+password+';;'
-            
+
             # Create the QR code object
             qr_code = qrcode.QRCode(
                 version=None,
@@ -78,7 +88,7 @@ class MyCrackedPasswords(plugins.Plugin):
             )
             qr_code.add_data(wifi_config)
             qr_code.make(fit=True)
-            
+
             try:
                 with open(filepath, 'w+') as file:
                     qr_code.print_ascii(out=file)
@@ -91,14 +101,14 @@ class MyCrackedPasswords(plugins.Plugin):
                 logging.error("[mycracked_pw] something went wrong generating qrcode")
             logging.info("[mycracked_pw] qrcode generated.")
 
-                    
+
             # start with blank file
             open('/usr/share/wordlists/passwords/mycracked.txt', 'w+').close()
-        
+
             #create pw list
             new_lines = sorted(set(all_passwd))
             with open('/usr/share/wordlists/passwords/mycracked.txt','w+') as g:
                 for i in new_lines:
                     g.write(i+"\n")
-        
+
             logging.info("[mycracked_pw] pw list updated")

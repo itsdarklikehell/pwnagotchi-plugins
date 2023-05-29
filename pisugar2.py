@@ -12,11 +12,21 @@ import pwnagotchi.plugins as plugins
 import pwnagotchi
 import time
 
-class PiSugar(plugins.Plugin):
+class PiSugar2(plugins.Plugin):
     __author__ = "10230718+tisboyo@users.noreply.github.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"
-    __description__ = "A plugin that will add a voltage indicator for the PiSugar 2"
+    __description__ = "A plugin that will add a voltage indicator for the PiSugar 2."
+    __name__ = 'PiSugar2'
+    __help__ = """
+    A plugin that will add a voltage indicator for the PiSugar 2.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.ps = None

@@ -16,13 +16,23 @@ from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
 
-class MorseCode(plugins.Plugin):
+class MorseCodeNG(plugins.Plugin):
     __author__ = "sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (
         "An example plugin for pwnagotchi that implements all the available callbacks."
     )
+    __name__ = 'MorseCodeNG'
+    __help__ = """
+    An example plugin for pwnagotchi that implements all the available callbacks.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     # Dictionary representing the morse code chart
     MORSE_CODE_DICT = {
