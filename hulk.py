@@ -10,9 +10,17 @@ class Hulk(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'This will put pwnagotchi in hulk mode. Hulk is always angry!'
+    __name__ = 'Hulk'
+    __help__ = """
+    This will put pwnagotchi in hulk mode. Hulk is always angry!
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
     __defaults__ = {
         'enabled': False,
     }
+
 
     def __init__(self):
         self.options = dict()

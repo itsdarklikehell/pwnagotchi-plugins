@@ -1,10 +1,30 @@
 import logging
 
+import pwnagotchi
+import pwnagotchi.plugins as plugins
+import pwnagotchi.ui.faces as faces
+from pwnagotchi.ui.components import LabeledValue
+from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.hw.base import DisplayImpl
 
 
-class LcdHat(DisplayImpl):
+class LcdHat(plugins.Plugin):
+    __author__ = "HannaDiamond"
+    __version__ = "1.0.1"
+    __license__ = "MIT"
+    __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
+    __name__ = 'Age'
+    __help__ = """
+    A plugin that will add age and strength stats based on epochs and trained epochs
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
+
     def __init__(self, config):
         super(LcdHat, self).__init__(config, 'lcdhat')
         self._display = None

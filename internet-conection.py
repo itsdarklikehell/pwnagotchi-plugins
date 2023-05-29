@@ -10,7 +10,17 @@ class InternetConnectionPlugin(plugins.Plugin):
     __author__ = 'adi1708 made by chatGPT'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that displays the Internet connection status on the pwnagotchi display'
+    __description__ = 'A plugin that displays the Internet connection status on the pwnagotchi display.'
+    __name__ = 'InternetConnectionPlugin'
+    __help__ = """
+    A plugin that displays the Internet connection status on the pwnagotchi display.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info("Internet Connection Plugin loaded.")

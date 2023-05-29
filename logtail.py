@@ -236,7 +236,19 @@ class Logtail(plugins.Plugin):
     __author__ = '33197631+dadav@users.noreply.github.com'
     __version__ = '0.1.0'
     __license__ = 'GPL3'
-    __description__ = 'This plugin tails the logfile.'
+    __description__ = (
+        'This plugin tails the logfile.'
+    )
+    __name__ = 'Logtail'
+    __help__ = """
+    This plugin tails the logfile.
+    """
+    __dependencies__ = {
+        'pip': ['scapy']
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.lock = threading.Lock()
