@@ -12,6 +12,13 @@ class Watchdog(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'Restart pwnagotchi when blindbug is detected.'
+    __name__ = 'Watchdog'
+    __help__ = """
+    Restart pwnagotchi when blindbug is detected.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
     __defaults__ = {
         'enabled': False,
     }

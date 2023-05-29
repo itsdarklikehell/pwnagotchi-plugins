@@ -467,6 +467,16 @@ class WebConfig(plugins.Plugin):
     __version__ = '1.0.0'
     __license__ = 'GPL3'
     __description__ = 'This plugin allows the user to make runtime changes.'
+    __name__ = 'WebConfig'
+    __help__ = """
+    This plugin allows the user to make runtime changes.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def __init__(self):
         self.ready = False

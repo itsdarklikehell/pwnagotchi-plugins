@@ -23,11 +23,14 @@ from dateutil.parser import parse
 
 
 class Webgpsmap(plugins.Plugin):
-    __name__ = 'webgpsmap'
     __author__ = 'https://github.com/xenDE and https://github.com/dadav'
     __version__ = '2.0.2'
     __license__ = 'GPL3'
     __description__ = 'a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser'
+    __name__ = 'webgpsmap'
+    __help__ = """
+    A plugin that will add age and strength stats based on epochs and trained epochs
+    """
     __dependencies__ = {
         'pip': ['flask']
     }

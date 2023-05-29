@@ -7,10 +7,20 @@ import pwnagotchi.plugins as plugins
 import pwnagotchi
 
 class WeatherForecast(plugins.Plugin):
-    __author__ = 'Your Name'
+    __author__ = 'Bauke Molenaar'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin that displays the weather forecast on the pwnagotchi screen'
+    __description__ = 'A plugin that displays the weather forecast on the pwnagotchi screen.'
+    __name__ = 'WeatherForecast'
+    __help__ = """
+    A plugin that displays the weather forecast on the pwnagotchi screen.
+    """
+    __dependencies__ = {
+        'pip': ['scapy'],
+    }
+    __defaults__ = {
+        'enabled': False,
+    }
 
     def on_loaded(self):
         logging.info("Weather Forecast Plugin loaded.")
