@@ -14,31 +14,33 @@ class potfilesorter(plugins.Plugin):
     __version__ = "1.0.1"
     __license__ = "MIT"
     __description__ = (
-        "A plugin that will add age and strength stats based on epochs and trained epochs"
+        "A plugin that will sort a potfile and output its to a usable wpa_supplicant.conf."
 	)
-    __name__ = 'Age'
+    __name__ = 'potfilesorter'
     __help__ = """
-    A plugin that will add age and strength stats based on epochs and trained epochs
+    A plugin that will sort a potfile and output its to a usable wpa_supplicant.conf.
     """
     __dependencies__ = {
-        'pip': ['scapy'],
+        'pip': ['scapy', 'shutil'],
     }
     __defaults__ = {
         'enabled': False,
+        'potfile_source': '/home/pi/wpa-sec.founds.potfile',
+        'dlurl': 'https://wpa-sec.stanev.org/?api&dl=1',
+        'wpa_source': '/etc/wpa_supplicant/wpa_supplicant.conf',
     }
 
-    potfile_source = '/home/rizzo/wpa-sec.founds.potfile'
-    dlurl = 'https://wpa-sec.stanev.org/?api&dl=1'
+    # potfile_source = '/home/pi/wpa-sec.founds.potfile'
+    # dlurl = 'https://wpa-sec.stanev.org/?api&dl=1'
 
-    wpa_source = "/etc/wpa_supplicant/wpa_supplicant.conf"
     wpa_backup = "/tmp/wpa_supplicant.bak"
     wpa_tmp = "/tmp/wpa_supplicant.tmp"
 
-    wificonfigstore_source = "/home/rizzo/WiFiConfigStore.xml"
+    wificonfigstore_source = "/home/pi/WiFiConfigStore.xml"
     wificonfigstore_backup = "/tmp/wificonfigstore.bak"
     wificonfigstore_tmp = "/tmp/wificonfigstore.tmp"
 
-    wificonfigstoresoftap_source = "/home/rizzo/WiFiConfigStoreSoftAp.xml"
+    wificonfigstoresoftap_source = "/home/pi/WiFiConfigStoreSoftAp.xml"
     wificonfigstoresoftap_backup = "/tmp/wificonfigstoresoftap.bak"
     wificonfigstoresoftap_tmp = "/tmp/wificonfigstoresoftap.tmp"
 
@@ -55,7 +57,7 @@ class potfilesorter(plugins.Plugin):
         print('To: ' + potfile_source)
         #urllib.request.urlretrieve(dlurl, potfile_source)
 
-    def backup_configs(self):
+    def backup_configs(self, wpa_tmp,wpa_source, wpa_backup, wificonfigstore_tmp, wificonfigstore_source, wificonfigstore_backup, wificonfigstoresoftap_tmp, wificonfigstoresoftap_source, wificonfigstoresoftap_backup):
         if os.path.exists(wpa_tmp):
             os.remove(wpa_tmp)
         else:
@@ -83,7 +85,7 @@ class potfilesorter(plugins.Plugin):
             print('Create tempfile to work with in: ' + wificonfigstoresoftap_tmp)
             copyfile(wificonfigstoresoftap_source, wificonfigstoresoftap_tmp)
 
-    def copy_config(self):
+    def copy_config(self, wpa_tmp,wpa_source, wificonfigstore_tmp, wificonfigstore_source, wificonfigstoresoftap_tmp, wificonfigstoresoftap_source):
         if os.path.exists(wpa_tmp):
             print('Copying new created config to: ' + wpa_source)
             copyfile(wpa_tmp, wpa_source)
@@ -117,7 +119,7 @@ class potfilesorter(plugins.Plugin):
         print(search_str + ' is not found in: ' + checklines.name)
         return False
 
-    def readpotfiledata(self):
+    def readpotfiledata(self, checkwpaconfig, potfile_source, wpa_tmp, wificonfigstore_tmp, wificonfigstoresoftap_tmp):
         with open(potfile_source, 'r') as checkpotfile:
             print('Reading: ' + checkpotfile.name + ' Data.')
             for line in checkpotfile:
