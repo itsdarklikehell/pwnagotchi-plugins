@@ -1,4 +1,5 @@
 import sys, os, subprocess, json, logging
+import requests
 import urllib.request
 from shutil import copyfile
 
@@ -26,7 +27,8 @@ class potfilesorter(plugins.Plugin):
     __defaults__ = {
         'enabled': False,
         'potfile_source': '/home/pi/wpa-sec.founds.potfile',
-        'dlurl': 'https://wpa-sec.stanev.org/?api&dl=1',
+        'api_key': '',
+        'api_url': 'https://wpa-sec.stanev.org',
         'wpa_source': '/etc/wpa_supplicant/wpa_supplicant.conf',
     }
 
@@ -45,78 +47,94 @@ class potfilesorter(plugins.Plugin):
     wificonfigstoresoftap_tmp = "/tmp/wificonfigstoresoftap.tmp"
 
     def __init__(self):
-        logging.debug("Potfilesorter plugin created")
+        logging.info("Potfilesorter plugin created")
         self.epochs = 0
         self.train_epochs = 0
 
     def on_loaded(self):
-        logging.debug("Potfilesorter plugin loaded")
+        logging.info("Potfilesorter plugin loaded")
         data_path = "/root/brain.json"
         self.load_data(data_path)
 
-    def on_webhook(self, get_potfile, backup_configs, copy_config, checkwpaconfig, readpotfiledata):
-        logging.debug("Webhook clicked!")
-        get_potfile()
+    def on_webhook(self, _download_from_wpasec, backup_configs, copy_config, checkwpaconfig, readpotfiledata):
+        logging.info("Webhook clicked!")
+        _download_from_wpasec()
         backup_configs()
         copy_config()
         checkwpaconfig()
         readpotfiledata()
 
+    def _download_from_wpasec(self, output, timeout=30):
+        """
+        Downloads the results from wpasec and safes them to output
 
-    def get_potfile(self, dlurl, potfile_source):
-        logging.debug("Download your potfile from: " + dlurl)
-        logging.debug('To: ' + potfile_source)
-        urllib.request.urlretrieve(dlurl, potfile_source)
+        Output-Format: bssid, station_mac, ssid, password
+        """
+        api_url = self.options['api_url']
+        if not api_url.endswith('/'):
+            api_url = f"{api_url}/"
+        api_url = f"{api_url}?api&dl=1"
+
+        cookie = {'key': self.options['api_key']}
+        try:
+            result = requests.get(api_url, cookies=cookie, timeout=timeout)
+            with open(output, 'wb') as output_file:
+                output_file.write(result.content)
+        except requests.exceptions.RequestException as req_e:
+            raise req_e
+        except OSError as os_e:
+            raise os_e
+
 
     def backup_configs(self, wpa_tmp,wpa_source, wpa_backup, wificonfigstore_tmp, wificonfigstore_source, wificonfigstore_backup, wificonfigstoresoftap_tmp, wificonfigstoresoftap_source, wificonfigstoresoftap_backup):
         if os.path.exists(wpa_tmp):
             os.remove(wpa_tmp)
         else:
-            logging.debug('Backing up: ' + wpa_source)
-            logging.debug('To: ' + wpa_backup)
+            logging.info('Backing up: ' + wpa_source)
+            logging.info('To: ' + wpa_backup)
             copyfile(wpa_source, wpa_backup)
-            logging.debug('Create tempfile to work with in: ' + wpa_tmp)
+            logging.info('Create tempfile to work with in: ' + wpa_tmp)
             copyfile(wpa_source, wpa_tmp)
 
         if os.path.exists(wificonfigstore_tmp):
             os.remove(wificonfigstore_tmp)
         else:
-            logging.debug('Backing up: ' + wificonfigstore_source)
-            logging.debug('To: ' + wpa_backup)
+            logging.info('Backing up: ' + wificonfigstore_source)
+            logging.info('To: ' + wpa_backup)
             copyfile(wificonfigstore_source, wificonfigstore_backup)
-            logging.debug('Create tempfile to work with in: ' + wificonfigstore_tmp)
+            logging.info('Create tempfile to work with in: ' + wificonfigstore_tmp)
             copyfile(wificonfigstore_source, wificonfigstore_tmp)
 
         if os.path.exists(wificonfigstoresoftap_tmp):
             os.remove(wificonfigstoresoftap_tmp)
         else:
-            logging.debug('Backing up: ' + wificonfigstoresoftap_source)
-            logging.debug('To: ' + wificonfigstoresoftap_backup)
+            logging.info('Backing up: ' + wificonfigstoresoftap_source)
+            logging.info('To: ' + wificonfigstoresoftap_backup)
             copyfile(wificonfigstoresoftap_source, wificonfigstoresoftap_backup)
-            logging.debug('Create tempfile to work with in: ' + wificonfigstoresoftap_tmp)
+            logging.info('Create tempfile to work with in: ' + wificonfigstoresoftap_tmp)
             copyfile(wificonfigstoresoftap_source, wificonfigstoresoftap_tmp)
 
     def copy_config(self, wpa_tmp,wpa_source, wificonfigstore_tmp, wificonfigstore_source, wificonfigstoresoftap_tmp, wificonfigstoresoftap_source):
         if os.path.exists(wpa_tmp):
-            logging.debug('Copying new created config to: ' + wpa_source)
+            logging.info('Copying new created config to: ' + wpa_source)
             copyfile(wpa_tmp, wpa_source)
             os.remove(wpa_tmp)
         else:
-            logging.debug('Cannot copy: ' + wpa_tmp + ' to: ' + wpa_source)
-            logging.debug('Are you ROOT?')
+            logging.info('Cannot copy: ' + wpa_tmp + ' to: ' + wpa_source)
+            logging.info('Are you ROOT?')
             exit()
 
         if os.path.exists(wificonfigstore_tmp):
-            logging.debug('Copying new created config to: ' + wificonfigstore_source)
+            logging.info('Copying new created config to: ' + wificonfigstore_source)
             copyfile(wificonfigstore_tmp, wificonfigstore_source)
             os.remove(wificonfigstore_tmp)
         else:
-            logging.debug('Cannot copy: ' + wpa_tmp + ' to: ' + wpa_source)
-            logging.debug('Are you ROOT?')
+            logging.info('Cannot copy: ' + wpa_tmp + ' to: ' + wpa_source)
+            logging.info('Are you ROOT?')
             exit()
 
         if os.path.exists(wificonfigstoresoftap_tmp):
-            logging.debug('Copying new created config to: ' + wificonfigstore_source)
+            logging.info('Copying new created config to: ' + wificonfigstore_source)
             copyfile(wificonfigstoresoftap_tmp, wificonfigstoresoftap_source)
             os.remove(wificonfigstoresoftap_tmp)
             exit()
@@ -125,31 +143,31 @@ class potfilesorter(plugins.Plugin):
         with open(wpa_tmp, 'r') as checklines:
             for line in checklines:
                 if search_str in line:
-                    logging.debug(search_str + ' is already in the file: ' + checklines.name)
+                    logging.info(search_str + ' is already in the file: ' + checklines.name)
                     return True
-        logging.debug(search_str + ' is not found in: ' + checklines.name)
+        logging.info(search_str + ' is not found in: ' + checklines.name)
         return False
 
     def readpotfiledata(self, checkwpaconfig, potfile_source, wpa_tmp, wificonfigstore_tmp, wificonfigstoresoftap_tmp):
         with open(potfile_source, 'r') as checkpotfile:
-            logging.debug('Reading: ' + checkpotfile.name + ' Data.')
+            logging.info('Reading: ' + checkpotfile.name + ' Data.')
             for line in checkpotfile:
                 potfiledata = line.split(':')
                 latitude = potfiledata[0].rstrip()
                 longitude = potfiledata[1].rstrip()
                 bssid = potfiledata[2].rstrip()
                 wpapassword = potfiledata[3].rstrip()
-                logging.debug('FOUND:')
-                logging.debug('BSSID: ' + bssid)
-                logging.debug('WpaPassword: ' + wpapassword)
-                logging.debug('Latitude: ' + latitude)
-                logging.debug('Longitude: ' + longitude)
+                logging.info('FOUND:')
+                logging.info('BSSID: ' + bssid)
+                logging.info('WpaPassword: ' + wpapassword)
+                logging.info('Latitude: ' + latitude)
+                logging.info('Longitude: ' + longitude)
                 if checkwpaconfig(wpa_tmp, bssid):
-                    logging.debug(bssid + ' Found, Skipping.')
+                    logging.info(bssid + ' Found, Skipping.')
                 else:
                     with open(wpa_tmp, 'a+') as outputfile:
-                        logging.debug('Found new network: ' + bssid)
-                        logging.debug('Appending to: ' + outputfile.name)
+                        logging.info('Found new network: ' + bssid)
+                        logging.info('Appending to: ' + outputfile.name)
                         outputfile.writelines('\n')
                         outputfile.writelines('network={' + '\n')
                         outputfile.writelines('  scan_ssid=1' + '\n')
@@ -159,8 +177,8 @@ class potfilesorter(plugins.Plugin):
                         outputfile.writelines('\n')
 
                     with open(wificonfigstore_tmp, 'a+') as outputfile:
-                        logging.debug('Found new network: ' + bssid)
-                        logging.debug('Appending to: ' + outputfile.name)
+                        logging.info('Found new network: ' + bssid)
+                        logging.info('Appending to: ' + outputfile.name)
                         outputfile.writelines('\n')
                         outputfile.writelines('network={' + '\n')
                         outputfile.writelines('  scan_ssid=1' + '\n')
@@ -170,8 +188,8 @@ class potfilesorter(plugins.Plugin):
                         outputfile.writelines('\n')
 
                     with open(wificonfigstoresoftap_tmp, 'a+') as outputfile:
-                        logging.debug('Found new network: ' + bssid)
-                        logging.debug('Appending to: ' + outputfile.name)
+                        logging.info('Found new network: ' + bssid)
+                        logging.info('Appending to: ' + outputfile.name)
                         outputfile.writelines('\n')
                         outputfile.writelines('network={' + '\n')
                         outputfile.writelines('  scan_ssid=1' + '\n')
