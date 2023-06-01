@@ -2,6 +2,7 @@ import sys, os, subprocess, json, logging
 import requests
 import urllib.request
 from shutil import copyfile
+from datetime import datetime
 
 import pwnagotchi
 import pwnagotchi.plugins as plugins
@@ -26,10 +27,11 @@ class potfilesorter(plugins.Plugin):
     }
     __defaults__ = {
         'enabled': False,
-        'potfile_source': '/home/pi/wpa-sec.founds.potfile',
+        'potfile_source': '/root/wpa-sec.founds.potfile',
         'api_key': '',
         'api_url': 'https://wpa-sec.stanev.org',
         'wpa_source': '/etc/wpa_supplicant/wpa_supplicant.conf',
+        'download_results': True
     }
 
     # potfile_source = '/home/pi/wpa-sec.founds.potfile'
@@ -53,10 +55,17 @@ class potfilesorter(plugins.Plugin):
 
     def on_loaded(self):
         logging.info("Potfilesorter plugin loaded")
+        if not self.options['api_key']:
+            logging.error('[wpasec] API-KEY isn\'t set. Can\'t upload.')
+            return
+        if not self.options['api_url']:
+            logging.error('[wpasec] API-URL isn\'t set. Can\'t upload, no endpoint configured.')
+            return
         data_path = "/root/brain.json"
         self.load_data(data_path)
+        self.ready = True
 
-    def on_webhook(self, _download_from_wpasec, backup_configs, copy_config, checkwpaconfig, readpotfiledata):
+    def on_webhook(self, _download_from_wpasec, backup_configs, copy_config, checkwpaconfig, readpotfiledata, agent):
         logging.info("Webhook clicked!")
         _download_from_wpasec()
         backup_configs()
@@ -64,12 +73,30 @@ class potfilesorter(plugins.Plugin):
         checkwpaconfig()
         readpotfiledata()
 
+    def on_internet_available(self, agent):
+        config = agent.config()
+        handshake_dir = config['bettercap']['handshakes']
+        if 'download_results' in self.options and self.options['download_results']:
+            cracked_file = os.path.join(handshake_dir, 'wpa-sec.cracked.potfile')
+            if os.path.exists(cracked_file):
+                last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                if last_check is not None and ((datetime.now() - last_check).seconds / (60 * 60)) < 1:
+                    return
+            try:
+                self._download_from_wpasec(os.path.join(handshake_dir, 'wpa-sec.cracked.potfile'))
+                logging.info('[wpasec] Downloaded cracked passwords.')
+            except requests.exceptions.RequestException as req_e:
+                logging.debug('[wpasec] %s', req_e)
+            except OSError as os_e:
+                logging.debug('[wpasec] %s', os_e)
+
     def _download_from_wpasec(self, output, timeout=30):
         """
         Downloads the results from wpasec and safes them to output
 
         Output-Format: bssid, station_mac, ssid, password
         """
+        logging.info("Downloading wpa-sec clicked!")
         api_url = self.options['api_url']
         if not api_url.endswith('/'):
             api_url = f"{api_url}/"
@@ -84,7 +111,6 @@ class potfilesorter(plugins.Plugin):
             raise req_e
         except OSError as os_e:
             raise os_e
-
 
     def backup_configs(self, wpa_tmp,wpa_source, wpa_backup, wificonfigstore_tmp, wificonfigstore_source, wificonfigstore_backup, wificonfigstoresoftap_tmp, wificonfigstoresoftap_source, wificonfigstoresoftap_backup):
         if os.path.exists(wpa_tmp):
@@ -149,7 +175,7 @@ class potfilesorter(plugins.Plugin):
         return False
 
     def readpotfiledata(self, checkwpaconfig, potfile_source, wpa_tmp, wificonfigstore_tmp, wificonfigstoresoftap_tmp):
-        with open(potfile_source, 'r') as checkpotfile:
+        with open(os.path.join(handshake_dir, 'wpa-sec.cracked.potfile'), 'r') as checkpotfile:
             logging.info('Reading: ' + checkpotfile.name + ' Data.')
             for line in checkpotfile:
                 potfiledata = line.split(':')
