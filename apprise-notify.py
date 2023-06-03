@@ -6,6 +6,31 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
+apobj = apprise.Apprise()
+
+# Create an Config instance
+config = apprise.AppriseConfig()
+
+# Add a configuration source:
+config.add('/home/pi/pwnagotchi-control-center/pwnagotchi-plugins/apprise-config.yml')
+
+# Add another...
+#config.add('https://myserver:8080/path/to/config')
+
+# Make sure to add our config into our apprise object
+apobj.add(config)
+
+# You can mix and match; add an entry directly if you want too
+# In this entry we associate the 'admin' tag with our notification
+# apobj.add('mailto://bauke.molenaar:mypass@gmail.com', tag='admin')
+
+# Then notify these services any time you desire. The below would
+# notify all of the services that have not been bound to any specific
+# tag.
+# apobj.notify(
+#     body='what a great notification service!',
+#     title='my notification title',
+# )
 
 class Apprise(plugins.Plugin):
     __author__ = 'bauke.molenaar@gmail.com'
@@ -24,84 +49,6 @@ class Apprise(plugins.Plugin):
         'enabled': False,
         'face': '(>.<)',
     }
-    apobj = apprise.Apprise()
-
-    # Create an Config instance
-    config = apprise.AppriseConfig()
-
-    # Add a configuration source:
-    config.add('/home/pi/pwnagotchi-control-center/pwnagotchi-plugins/apprise-config.yml')
-
-    # Add another...
-    #config.add('https://myserver:8080/path/to/config')
-
-    # Make sure to add our config into our apprise object
-    apobj.add(config)
-
-    # You can mix and match; add an entry directly if you want too
-    # In this entry we associate the 'admin' tag with our notification
-    # apobj.add('mailto://bauke.molenaar:mypass@gmail.com', tag='admin')
-
-    # Then notify these services any time you desire. The below would
-    # notify all of the services that have not been bound to any specific
-    # tag.
-    # apobj.notify(
-    #     body='what a great notification service!',
-    #     title='my notification title',
-    # )
-
-    # Tagging allows you to specifically target only specific notification
-    # services you've loaded:
-    # apobj.notify(
-    #     body='send a notification to our admin group',
-    #     title='Attention Admins',
-    #     # notify any services tagged with the 'admin' tag
-    #     tag='admin',
-    # )
-
-    # If you want to notify absolutely everything (reguardless of whether
-    # it's been tagged or not), just use the reserved tag of 'all':
-    # apobj.notify(
-    #     body='send a notification to our admin group',
-    #     title='Attention Admins',
-    #     # notify absolutely everything loaded, regardless on wether
-    #     # it has a tag associated with it or not:
-    #     tag='all',
-    # )
-
-    # Then send your attachment.
-    # apobj.notify(
-    #     title='A rare photo of a pwnagotchi.',
-    #     body='They are often well hidden from plain sight! but not this one, hah! :)',
-    #     attach='/home/pi/pwnagotchi-splashscreen.png',
-    # )
-
-    # Send a web based attachment too! In the below example, we connect to a home
-    # security camera and send a live image to an email. By default remote web
-    # content is cached but for a security camera, we might want to call notify
-    # again later in our code so we want our last image retrieved to expire(in
-    # this case after 3 seconds).
-    # apobj.notify(
-    #     title='Latest security image',
-    #     attach='http:/admin:password@hikvision-cam01/ISAPI/Streaming/channels/101/picture?cache=3'
-    # )
-
-    # Now add all of the entries we're intrested in:
-    # attach = (
-    #     # ?name= allows us to rename the actual jpeg as found on the site
-    #     # to be another name when sent to our receipient(s)
-    #     'https://i.redd.it/my2t4d2fx0u31.jpg?name=FlyingToMars.jpg',
-
-    #     # Now add another:
-    #     '/path/to/funny/joke.gif',
-    # )
-
-    # # Send your multiple attachments with a single notify call:
-    # apobj.notify(
-    #     title='Some good jokes.',
-    #     body='Hey guys, check out these!',
-    #     attach=attach,
-    # )
 
     def __init__(self):
         self.text_to_set = ""
