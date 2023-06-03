@@ -42,7 +42,7 @@ class Apprise(plugins.Plugin):
 
         # You can mix and match; add an entry directly if you want too
         # In this entry we associate the 'admin' tag with our notification
-        apobj.add('mailto://bauke.molenaar:mypass@gmail.com', tag='admin')
+        # apobj.add('mailto://bauke.molenaar:mypass@gmail.com', tag='admin')
 
         # Then notify these services any time you desire. The below would
         # notify all of the services that have not been bound to any specific
@@ -83,10 +83,10 @@ class Apprise(plugins.Plugin):
         # content is cached but for a security camera, we might want to call notify
         # again later in our code so we want our last image retrieved to expire(in
         # this case after 3 seconds).
-        apobj.notify(
-            title='Latest security image',
-            attach='http:/admin:password@hikvision-cam01/ISAPI/Streaming/channels/101/picture?cache=3'
-        )
+        # apobj.notify(
+        #     title='Latest security image',
+        #     attach='http:/admin:password@hikvision-cam01/ISAPI/Streaming/channels/101/picture?cache=3'
+        # )
 
         # Now add all of the entries we're intrested in:
         attach = (
