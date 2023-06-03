@@ -356,10 +356,10 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-  def on_cracked(self, agent, access_point):
-    title=("[apprise]")
-    body=("I have cracked the password for: " + access_point)
-    apobj.notify(
-        title=title,
-        body=body,
-    )
+    def on_cracked(self, agent, access_point):
+        title=("[apprise]")
+        body=("I have cracked the password for: " + access_point)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
