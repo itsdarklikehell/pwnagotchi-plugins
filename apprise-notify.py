@@ -109,10 +109,11 @@ class Apprise(plugins.Plugin):
 
     def __init__(self):
         self.text_to_set = ""
-        Title = ("")
-        Body = ("")
+        Title = ("[apprise]")
+        Body = ("plugin created")
+        logging.info(Title)
+        logging.info(Body)
 
-        logging.info("[apprise] plugin created")
         #apprise -vv -t 'plugin created' -b 'Apprise plugin created' --config=/home/pi/.config/apprise.yml
         #--config=https://localhost/my/apprise/config
 
@@ -120,143 +121,227 @@ class Apprise(plugins.Plugin):
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
-        logging.info("[apprise] Webhook clicked!")
+        Title = ("[apprise]")
+        Body = ("Webhook clicked! " + path + " " + request)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.info("[apprise] plugin loaded")
+        Title = ("[apprise]")
+        Body = ("plugin loaded")
+        logging.info(Title)
+        logging.info(Body)
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
-        logging.info("[apprise] plugin unloaded")
+        Title = ("[apprise]")
+        Body = ("plugin unloaded")
+        logging.info(Title)
+        logging.info(Body)
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
-        logging.info("[apprise] I now have internet.")
+        Title = ("[apprise]")
+        Body = ("I now have internet.")
+        logging.info(Title)
+        logging.info(Body)
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
         # add custom UI elements
-        logging.info("[apprise] Setting up UI elements")
+        Title = ("[apprise]")
+        Body = ("Setting up UI elements")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the ui is updated
     def on_ui_update(self, ui):
-        logging.info("[apprise] The UI is updated")
+        Title = ("[apprise]")
+        Body = ("The UI is updated")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
-        logging.info("[apprise] plugin created")
+        Title = ("[apprise]")
+        Body = ("plugin created")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
-        logging.info("[apprise] unit is ready!")
+        Title = ("[apprise]")
+        Body = ("unit is ready!")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the AI finished loading
     def on_ai_ready(self, agent):
-        logging.info("[apprise] The AI is finished loading")
+        Title = ("[apprise]")
+        Body = ("The AI is finished loading")
+        logging.info(Title)
+        logging.info(Body)
+
 
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
-        logging.info("[apprise] I have found a new set of parameters.")
-        logging.info("[apprise] policy: " + policy)
+        Title = ("[apprise]")
+        Body = ("I have found a new set of parameters. Policy: " + policy)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
-        logging.info("[apprise] The AI has started training.")
-        logging.info("[apprise] epochs: " + epochs)
+        Title = ("[apprise]")
+        Body = ("The AI has started training. Epochs: " + epochs)
+        logging.info(Title)
+        logging.info(Body)
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
-        logging.info("[apprise] The AI has completed training for an epoch.")
+        Title = ("[apprise]")
+        Body = ("The AI has completed training for an epoch.")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the AI has done training
     def on_ai_training_end(self, agent):
-        logging.info("[apprise] The AI is done with training.")
+        Title = ("[apprise]")
+        Body = ("The AI is done with training.")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
-        logging.info("[apprise] The AI just got its best reward so far.")
-        logging.info(reward)
+        Title = ("[apprise]")
+        Body = ("The AI just got its best reward so far. Reward: " + reward)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
-        logging.info("[apprise] The AI just got its worst reward so far.")
-        logging.info(reward)
+        Title = ("[apprise]")
+        Body = ("The AI just got its worst reward so far. Reward: " + reward)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
-        logging.info("[apprise] I just found a non overlapping wifi channel: " + channel + " that is free.")
+        Title = ("[apprise]")
+        Body = ("I just found a non overlapping wifi channel: " + channel + " that is free.")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the status is set to bored
     def on_bored(self, agent):
-        logging.info("[apprise] I am so bored right now...")
+        Title = ("[apprise]")
+        Body = ("I am so bored right now...")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the status is set to sad
     def on_sad(self, agent):
-        logging.info("[apprise] I am so sad...")
+        Title = ("[apprise]")
+        Body = ("I am so sad...")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the status is set to excited
     def on_excited(self, agent):
-        logging.info("[apprise] I am so excited...")
+        Title = ("[apprise]")
+        Body = ("I am so excited...")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
-        logging.info("[apprise] I am so loneley, nobody wants to play with me...")
+        Title = ("[apprise]")
+        Body = ("I am so loneley, nobody wants to play with me...")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
-        logging.info("[apprise] I am going to reboot now.")
+        Title = ("[apprise]")
+        Body = ("I am going to reboot now.")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
-        logging.info("[apprise] Waiting for " + t + " seconds...")
+        Title = ("[apprise]")
+        Body = ("Waiting for " + t + " seconds...")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
-        logging.info("[apprise] Sleeping for " + t + " seconds ...")
+        Title = ("[apprise]")
+        Body = ("Sleeping for " + t + " seconds ...")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
-        logging.info("[apprise] I have refreshed my list of access points...")
-        logging.info("[apprise] access points: " + access_points)
+        Title = ("[apprise]")
+        Body = ("I have refreshed my list of access points. Access points: " + access_points)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
     def on_unfiltered_ap_list(self, agent, access_points):
-        logging.info("[apprise] I have refreshed my list of unfilteted access points...")
-        logging.info("[apprise] access points: " + access_points)
+        Title = ("[apprise]")
+        Body = ("I have refreshed my list of unfilteted access points. Access points: " + access_points)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
-        logging.info("[apprise] I am sending " + access_point + " an association frame now...")
+        Title = ("[apprise]")
+        Body = ("I am sending " + access_point + " an association frame now.")
+        logging.info(Title)
+        logging.info(Body)
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
-        logging.info("[apprise] I am deauthenticating " + client_station + "from " + access_point)
+        Title = ("[apprise]")
+        Body = ("I am deauthenticating " + client_station + "from " + access_point)
+        logging.info(Title)
+        logging.info(Body)
 
-    # callend when the agent is tuning on a specific channel
+    # called when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
-        logging.info("[apprise] I am running on " + channel)
+        Title = ("[apprise]")
+        Body = ("I am running on " + channel)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when a new handshake is captured, access_point and client_station are json objects
     # if the agent could match the BSSIDs to the current list, otherwise they are just the strings of the BSSIDs
     def on_handshake(self, agent, filename, access_point, client_station):
-        logging.info("[apprise] I have captured a handshake...")
-        logging.info("[apprise] filename: " + filename)
-        logging.info("[apprise] access point: " + access_point)
-        logging.info("[apprise] client_station: " + client_station)
+        Title = ("[apprise]")
+        Body = ("I have captured a handshake. \nFilename: " + filename + "\nClient station: " + client_station + "\nAccess point: " + access_point)
+        logging.info(Title)
+        logging.info(Body)
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
-        logging.info("I have completed a whole epoch...")
-        logging.info("[apprise] epoch: " + epoch)
-        logging.info("[apprise] epoch data: " + epoch_data)
+        Title = ("[apprise]")
+        Body = ("I have completed a whole epoch. \nEpoch: " + epoch + "\nEpoch data: " + epoch_data)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
-        logging.info("[apprise] I have found a new peer...")
-        logging.info("[apprise] peer: " + peer)
+        Title = ("[apprise]")
+        Body = ("I have found a new peer. \nPeer: " + peer)
+        logging.info(Title)
+        logging.info(Body)
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
-        logging.info("[apprise] I have lost contact with a peer...")
-        logging.info("[apprise] peer: " + peer)
+        Title = ("[apprise]")
+        Body = ("I have lost contact with a peer. \nPeer: " + peer)
+        logging.info(Title)
+        logging.info(Body)
