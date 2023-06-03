@@ -95,8 +95,8 @@ class Apprise(plugins.Plugin):
         logging.info(title)
         logging.info(body)
         apobj.notify(
-            title="[apprise]",
-            body="plugin unloaded",
+            title=title,
+            body=body,
         )
 
     # called hen there's internet connectivity
@@ -122,16 +122,16 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-    # called when the ui is updated
-    def on_ui_update(self, ui):
-        title=("[apprise]")
-        body=("The UI is updated")
-        logging.info(title)
-        logging.info(body)
-        apobj.notify(
-            title=title,
-            body=body,
-        )
+    # # called when the ui is updated
+    # def on_ui_update(self, ui):
+    #     title=("[apprise]")
+    #     body=("The UI is updated")
+    #     logging.info(title)
+    #     logging.info(body)
+    #     apobj.notify(
+    #         title=title,
+    #         body=body,
+    #     )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
