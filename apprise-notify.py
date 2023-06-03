@@ -158,12 +158,12 @@ class Apprise(plugins.Plugin):
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
         logging.info("[apprise] I have found a new set of parameters.")
-        logging.info(policy)
+        logging.info("[apprise] policy: " + policy)
 
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
         logging.info("[apprise] The AI has started training.")
-        logging.info(epochs)
+        logging.info("[apprise] epochs: " + epochs)
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
@@ -218,18 +218,17 @@ class Apprise(plugins.Plugin):
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
         logging.info("[apprise] I have refreshed my list of access points...")
-        logging.info(access_points)
+        logging.info("[apprise] access points: " + access_points)
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
     def on_unfiltered_ap_list(self, agent, access_points):
         logging.info("[apprise] I have refreshed my list of unfilteted access points...")
-        logging.info(access_points)
+        logging.info("[apprise] access points: " + access_points)
 
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
         logging.info("[apprise] I am sending " + access_point + " an association frame now...")
-
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
@@ -249,15 +248,15 @@ class Apprise(plugins.Plugin):
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
         logging.info("I have completed a whole epoch...")
-        logging.info("[apprise] " + epoch)
-        logging.info("[apprise] " + epoch_data)
+        logging.info("[apprise] epoch: " + epoch)
+        logging.info("[apprise] epoch data: " + epoch_data)
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
         logging.info("[apprise] I have found a new peer...")
-        logging.info("[apprise] " + peer)
+        logging.info("[apprise] peer: " + peer)
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
         logging.info("[apprise] I have lost contact with a peer...")
-        logging.info("[apprise] " + peer)
+        logging.info("[apprise] peer: " + peer)
