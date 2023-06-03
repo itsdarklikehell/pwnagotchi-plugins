@@ -6,7 +6,7 @@ urls:
       - tag: desktop
 
   - tgram://:
-      - bot_token: "6015731659:AAEVVeTsI-S5ZhWgQdz5pSgFZySQd_XvHMw"
-      - chat_id: "639276511"
+      - bot_token: 6015731659:AAEVVeTsI-S5ZhWgQdz5pSgFZySQd_XvHMw
+      - chat_id: 639276511
       - image: Yes
       - tag: mobile
