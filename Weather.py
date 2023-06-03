@@ -1,10 +1,22 @@
+import os
 import logging
+import re
+import subprocess
+from io import TextIOWrapper
+from pwnagotchi import plugins
+from pwnagotchi.utils import StatusFile
 import requests
 import pwnagotchi.ui.components as components
 import pwnagotchi.ui.view as view
 import pwnagotchi.ui.fonts as fonts
 import pwnagotchi.plugins as plugins
 import pwnagotchi
+import pwnagotchi.ui.fonts as fonts
+import pwnagotchi.plugins as plugins
+import datetime
+import toml
+import yaml
+import json
 
 class WeatherForecast(plugins.Plugin):
     __author__ = 'Bauke Molenaar'
@@ -26,16 +38,23 @@ class WeatherForecast(plugins.Plugin):
         logging.info("Weather Forecast Plugin loaded.")
 
     def on_ui_setup(self, ui):
+        config_is_toml = True if os.path.exists(
+            '/etc/pwnagotchi/config.toml') else False
+        config_path = '/etc/pwnagotchi/config.toml' if config_is_toml else '/etc/pwnagotchi/config.yml'
+        with open(config_path) as f:
+            data = toml.load(f) if config_is_toml else yaml.load(
+                f, Loader=yaml.FullLoader)
+
         # add a LabeledValue element to the UI with the given label and value
         # the position and font can also be specified
         ui.add_element('weather_forecast', components.LabeledValue(color=view.BLACK, label='', value='',
                                                                    position=(120, 80), label_font=fonts.Small, text_font=fonts.Small))
 
     def on_ui_update(self, ui):
-        location = "Enter your location here"
+        location = "Leeuwarden"
 
         # replace "API_KEY" with your own API key from OpenWeatherMap
-        api_key = "API_KEY"
+        api_key = "3d34a7f2abb93ca1fd5a5e4aa28db151"
         weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
         forecast_url = f"https://api.openweathermap.org/data/2.5/forecast?q={location}&units=metric&appid={api_key}"
 
