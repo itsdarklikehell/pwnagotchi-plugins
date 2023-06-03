@@ -112,6 +112,7 @@ class Apprise(plugins.Plugin):
         # add custom UI elements
         title=("[apprise]")
         body=("Setting up UI elements")
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
@@ -119,17 +120,15 @@ class Apprise(plugins.Plugin):
         )
 
     # # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title=("[apprise]")
-    #     body=("The UI is updated")
-    #     attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
-    #     logging.info(title)
-    #     logging.info(body)
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #         attach=attach,
-    #     )
+    def on_ui_update(self, ui):
+        title=("[apprise]")
+        body=("The UI is updated")
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=attach,
+        )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
@@ -256,6 +255,7 @@ class Apprise(plugins.Plugin):
     def on_sad(self, agent):
         title=("[apprise]")
         body=("I am so sad...")
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
