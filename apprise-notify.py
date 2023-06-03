@@ -143,8 +143,8 @@ class Apprise(plugins.Plugin):
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
-        title=("[apprise]")
-        body=("plugin unloaded")
+        title="[apprise]"
+        body="plugin unloaded"
         logging.info(title)
         logging.info(body)
         apobj.notify(
