@@ -54,7 +54,7 @@ class Apprise(plugins.Plugin):
         self.text_to_set = ""
         title=("[apprise] A rare photo of a pwnagotchi.")
         body=("They are often well hidden from plain sight! but not this one, hah!")
-        attach=("/home/pi/pwnagotchi-splashscreen.png")
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
@@ -67,6 +67,7 @@ class Apprise(plugins.Plugin):
     def on_webhook(self, path, request):
         title=("[apprise]")
         body=("Webhook clicked! " + path + " " + request)
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
@@ -76,6 +77,7 @@ class Apprise(plugins.Plugin):
     def on_loaded(self):
         title=("[apprise]")
         body=("plugin loaded")
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
@@ -94,9 +96,11 @@ class Apprise(plugins.Plugin):
     def on_internet_available(self, agent):
         title=("[apprise]")
         body=("I now have internet.")
+        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
+            attach=attach,
         )
 
     # called to setup the ui elements
