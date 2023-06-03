@@ -44,7 +44,6 @@ class Apprise(plugins.Plugin):
     An Apprise plugin for pwnagotchi that implements all the available callbacks.
     """
     __dependencies__ = {
-        'apt': ['wget', 'libttspico0', 'libttspico-utils'],
         'pip': ['apprise'],
     }
     __defaults__ = {
@@ -116,14 +115,14 @@ class Apprise(plugins.Plugin):
         )
 
     # # called when the ui is updated
-    def on_ui_update(self, ui):
-        title=("[apprise]")
-        body=("The UI is updated")
-        apobj.notify(
-            title=title,
-            body=body,
-            attach=picture,
-        )
+    # def on_ui_update(self, ui):
+    #     title=("[apprise]")
+    #     body=("The UI is updated")
+    #     apobj.notify(
+    #         title=title,
+    #         body=body,
+    #         attach=picture,
+    #     )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
