@@ -47,29 +47,29 @@ class Apprise(plugins.Plugin):
         # Then notify these services any time you desire. The below would
         # notify all of the services that have not been bound to any specific
         # tag.
-        apobj.notify(
-            body='what a great notification service!',
-            title='my notification title',
-        )
+        # apobj.notify(
+        #     body='what a great notification service!',
+        #     title='my notification title',
+        # )
 
         # Tagging allows you to specifically target only specific notification
         # services you've loaded:
-        apobj.notify(
-            body='send a notification to our admin group',
-            title='Attention Admins',
-            # notify any services tagged with the 'admin' tag
-            tag='admin',
-        )
+        # apobj.notify(
+        #     body='send a notification to our admin group',
+        #     title='Attention Admins',
+        #     # notify any services tagged with the 'admin' tag
+        #     tag='admin',
+        # )
 
         # If you want to notify absolutely everything (reguardless of whether
         # it's been tagged or not), just use the reserved tag of 'all':
-        apobj.notify(
-            body='send a notification to our admin group',
-            title='Attention Admins',
-            # notify absolutely everything loaded, regardless on wether
-            # it has a tag associated with it or not:
-            tag='all',
-        )
+        # apobj.notify(
+        #     body='send a notification to our admin group',
+        #     title='Attention Admins',
+        #     # notify absolutely everything loaded, regardless on wether
+        #     # it has a tag associated with it or not:
+        #     tag='all',
+        # )
 
         # Then send your attachment.
         apobj.notify(
@@ -89,30 +89,33 @@ class Apprise(plugins.Plugin):
         # )
 
         # Now add all of the entries we're intrested in:
-        attach = (
-            # ?name= allows us to rename the actual jpeg as found on the site
-            # to be another name when sent to our receipient(s)
-            'https://i.redd.it/my2t4d2fx0u31.jpg?name=FlyingToMars.jpg',
+        # attach = (
+        #     # ?name= allows us to rename the actual jpeg as found on the site
+        #     # to be another name when sent to our receipient(s)
+        #     'https://i.redd.it/my2t4d2fx0u31.jpg?name=FlyingToMars.jpg',
 
-            # Now add another:
-            '/path/to/funny/joke.gif',
-        )
+        #     # Now add another:
+        #     '/path/to/funny/joke.gif',
+        # )
 
-        # Send your multiple attachments with a single notify call:
-        apobj.notify(
-            title='Some good jokes.',
-            body='Hey guys, check out these!',
-            attach=attach,
-        )
+        # # Send your multiple attachments with a single notify call:
+        # apobj.notify(
+        #     title='Some good jokes.',
+        #     body='Hey guys, check out these!',
+        #     attach=attach,
+        # )
 
         self.text_to_set = ""
         title=("[apprise]")
         body=("plugin created")
         logging.info(title)
         logging.info(body)
-
-        #apprise -vv -t 'plugin created' -b 'Apprise plugin created' --config=/home/pi/.config/apprise.yml
-        #--config=https://localhost/my/apprise/config
+        # Then send your attachment.
+        apobj.notify(
+            title=title,
+            body=body,
+            attach='/home/pi/pwnagotchi-splashscreen.png',
+        )
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
