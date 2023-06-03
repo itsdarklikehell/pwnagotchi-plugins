@@ -7,10 +7,6 @@ from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
 
-#####################################################################
-
-
-
 class Apprise(plugins.Plugin):
     __author__ = 'bauke.molenaar@gmail.com'
     __version__ = '1.0.0'
