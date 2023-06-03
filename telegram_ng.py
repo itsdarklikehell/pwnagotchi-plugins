@@ -24,8 +24,8 @@ class Telegram(plugins.Plugin):
     __defaults__ = {
         'enabled': False,
         'bot_token': None,
-        'bot_name': 'pwnagotchi',
-        'chat_id': None,
+        'bot_name': 'WifiKirby_bot',
+        'chat_id': 639276511,
         'send_picture': True,
         'send_message': True,
     }
