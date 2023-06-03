@@ -61,6 +61,20 @@ class Apprise(plugins.Plugin):
             attach=picture,
         )
 
+    def on_config_changed(self, config):
+        self.config = config
+        self.ready = True
+
+    # # called when the ui is updated
+    # def on_ui_update(self, ui):
+    #     title=("[apprise]")
+    #     body=("The UI is updated")
+    #     apobj.notify(
+    #         title=title,
+    #         body=body,
+    #         attach=picture,
+    #     )
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
@@ -113,16 +127,6 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
-
-    # # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title=("[apprise]")
-    #     body=("The UI is updated")
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #         attach=picture,
-    #     )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
