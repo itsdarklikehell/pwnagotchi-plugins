@@ -55,9 +55,6 @@ class Apprise(plugins.Plugin):
         title=("[apprise] A rare photo of a pwnagotchi.")
         body=("They are often well hidden from plain sight! but not this one, hah!")
         attach=("/home/pi/pwnagotchi-splashscreen.png")
-        logging.info(title)
-        logging.info(body)
-        # Then send your attachment.
         apobj.notify(
             title=title,
             body=body,
@@ -70,8 +67,6 @@ class Apprise(plugins.Plugin):
     def on_webhook(self, path, request):
         title=("[apprise]")
         body=("Webhook clicked! " + path + " " + request)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -81,8 +76,6 @@ class Apprise(plugins.Plugin):
     def on_loaded(self):
         title=("[apprise]")
         body=("plugin loaded")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -92,8 +85,6 @@ class Apprise(plugins.Plugin):
     def on_unload(self, ui):
         title=("[apprise]")
         body=("plugin unloaded")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -103,8 +94,6 @@ class Apprise(plugins.Plugin):
     def on_internet_available(self, agent):
         title=("[apprise]")
         body=("I now have internet.")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -115,8 +104,6 @@ class Apprise(plugins.Plugin):
         # add custom UI elements
         title=("[apprise]")
         body=("Setting up UI elements")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -137,8 +124,6 @@ class Apprise(plugins.Plugin):
     def on_display_setup(self, display):
         title=("[apprise]")
         body=("plugin created")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -148,8 +133,6 @@ class Apprise(plugins.Plugin):
     def on_ready(self, agent):
         title=("[apprise]")
         body=("unit is ready!")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -159,8 +142,6 @@ class Apprise(plugins.Plugin):
     def on_ai_ready(self, agent):
         title=("[apprise]")
         body=("The AI is finished loading")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -170,8 +151,6 @@ class Apprise(plugins.Plugin):
     def on_ai_policy(self, agent, policy):
         title=("[apprise]")
         body=("I have found a new set of parameters. Policy: " + policy)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -181,8 +160,6 @@ class Apprise(plugins.Plugin):
     def on_ai_training_start(self, agent, epochs):
         title=("[apprise]")
         body=("The AI has started training. Epochs: " + epochs)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -192,8 +169,6 @@ class Apprise(plugins.Plugin):
     def on_ai_training_step(self, agent, _locals, _globals):
         title=("[apprise]")
         body=("The AI has completed training for an epoch.")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -203,8 +178,6 @@ class Apprise(plugins.Plugin):
     def on_ai_training_end(self, agent):
         title=("[apprise]")
         body=("The AI is done with training.")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -214,8 +187,6 @@ class Apprise(plugins.Plugin):
     def on_ai_best_reward(self, agent, reward):
         title=("[apprise]")
         body=("The AI just got its best reward so far. Reward: " + reward)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -225,8 +196,6 @@ class Apprise(plugins.Plugin):
     def on_ai_worst_reward(self, agent, reward):
         title=("[apprise]")
         body=("The AI just got its worst reward so far. Reward: " + reward)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -236,8 +205,6 @@ class Apprise(plugins.Plugin):
     def on_free_channel(self, agent, channel):
         title=("[apprise]")
         body=("I just found a non overlapping wifi channel: " + channel + " that is free.")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -247,8 +214,6 @@ class Apprise(plugins.Plugin):
     def on_bored(self, agent):
         title=("[apprise]")
         body=("I am so bored right now...")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -258,8 +223,6 @@ class Apprise(plugins.Plugin):
     def on_sad(self, agent):
         title=("[apprise]")
         body=("I am so sad...")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -269,8 +232,6 @@ class Apprise(plugins.Plugin):
     def on_excited(self, agent):
         title=("[apprise]")
         body=("I am so excited...")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -280,8 +241,6 @@ class Apprise(plugins.Plugin):
     def on_lonely(self, agent):
         title=("[apprise]")
         body=("I am so loneley, nobody wants to play with me...")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -291,8 +250,6 @@ class Apprise(plugins.Plugin):
     def on_rebooting(self, agent):
         title=("[apprise]")
         body=("I am going to reboot now.")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -302,8 +259,6 @@ class Apprise(plugins.Plugin):
     def on_wait(self, agent, t):
         title=("[apprise]")
         body=("Waiting for " + t + " seconds...")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -313,8 +268,6 @@ class Apprise(plugins.Plugin):
     def on_sleep(self, agent, t):
         title=("[apprise]")
         body=("Sleeping for " + t + " seconds ...")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -324,8 +277,6 @@ class Apprise(plugins.Plugin):
     def on_wifi_update(self, agent, access_points):
         title=("[apprise]")
         body=("I have refreshed my list of access points. Access points: " + access_points)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -336,8 +287,6 @@ class Apprise(plugins.Plugin):
     def on_unfiltered_ap_list(self, agent, access_points):
         title=("[apprise]")
         body=("I have refreshed my list of unfilteted access points. Access points: " + access_points)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -347,8 +296,6 @@ class Apprise(plugins.Plugin):
     def on_association(self, agent, access_point):
         title=("[apprise]")
         body=("I am sending " + access_point + " an association frame now.")
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -358,8 +305,6 @@ class Apprise(plugins.Plugin):
     def on_deauthentication(self, agent, access_point, client_station):
         title=("[apprise]")
         body=("I am deauthenticating " + client_station + "from " + access_point)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -369,8 +314,6 @@ class Apprise(plugins.Plugin):
     def on_channel_hop(self, agent, channel):
         title=("[apprise]")
         body=("I am running on " + channel)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -381,8 +324,6 @@ class Apprise(plugins.Plugin):
     def on_handshake(self, agent, filename, access_point, client_station):
         title=("[apprise]")
         body=("I have captured a handshake. \nFilename: " + filename + "\nClient station: " + client_station + "\nAccess point: " + access_point)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -392,8 +333,6 @@ class Apprise(plugins.Plugin):
     def on_epoch(self, agent, epoch, epoch_data):
         title=("[apprise]")
         body=("I have completed a whole epoch. \nEpoch: " + epoch + "\nEpoch data: " + epoch_data)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -403,8 +342,6 @@ class Apprise(plugins.Plugin):
     def on_peer_detected(self, agent, peer):
         title=("[apprise]")
         body=("I have found a new peer. \nPeer: " + peer)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
@@ -414,8 +351,6 @@ class Apprise(plugins.Plugin):
     def on_peer_lost(self, agent, peer):
         title=("[apprise]")
         body=("I have lost contact with a peer. \nPeer: " + peer)
-        logging.info(title)
-        logging.info(body)
         apobj.notify(
             title=title,
             body=body,
