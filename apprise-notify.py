@@ -106,15 +106,16 @@ class Apprise(plugins.Plugin):
         # )
 
         self.text_to_set = ""
-        title=("[apprise]")
-        body=("plugin created")
+        title=("[apprise] A rare photo of a pwnagotchi.")
+        body=("They are often well hidden from plain sight! but not this one, hah!")
+        attach=("/home/pi/pwnagotchi-splashscreen.png")
         logging.info(title)
         logging.info(body)
         # Then send your attachment.
         apobj.notify(
             title=title,
             body=body,
-            attach='/home/pi/pwnagotchi-splashscreen.png',
+            attach=attach,
         )
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
