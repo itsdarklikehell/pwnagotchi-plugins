@@ -188,6 +188,16 @@ class Apprise(plugins.Plugin):
             attach=picture,
         )
 
+    def on_unread_messages(self, count, total, agent, unread_messages, total_messages):
+        s = 's' if count > 1 else ''
+        title=("[apprise]")
+        body=('You have {count} new message{plural}!').format(count=count, plural=s)
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=picture,
+        )
+
     # called when the AI has done training
     def on_ai_training_end(self, agent):
         title=("[apprise]")
