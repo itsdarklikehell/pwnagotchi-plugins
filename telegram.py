@@ -43,7 +43,8 @@ class Telegram(plugins.Plugin):
 
             logging.info('[telegram] Detected new activity and internet, time to send a message!')
 
-            picture = '/root/pwnagotchi.png'
+            picture = '/var/tmp/pwnagotchi/pwnagotchi.png' if os.path.exists(
+                "/var/tmp/pwnagotchi/pwnagotchi.png") else '/root/pwnagotchi.png'
             display.on_manual_mode(last_session)
             display.image().save(picture, 'png')
             display.update(force=True)
