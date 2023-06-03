@@ -24,8 +24,6 @@ class Apprise(plugins.Plugin):
         'enabled': False,
         'face': '(>.<)',
     }
-
-    def __init__(self):
         apobj = apprise.Apprise()
 
         # Create an Config instance
@@ -105,6 +103,7 @@ class Apprise(plugins.Plugin):
         #     attach=attach,
         # )
 
+    def __init__(self):
         self.text_to_set = ""
         title=("[apprise] A rare photo of a pwnagotchi.")
         body=("They are often well hidden from plain sight! but not this one, hah!")
