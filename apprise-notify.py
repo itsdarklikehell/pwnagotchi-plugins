@@ -148,10 +148,10 @@ class Apprise(plugins.Plugin):
         body=("plugin unloaded")
         logging.info(title)
         logging.info(body)
-        apobj.notify(
-            title=title,
-            body=body,
-        )
+        # apobj.notify(
+        #     title=title,
+        #     body=body,
+        # )
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
