@@ -126,6 +126,10 @@ class Apprise(plugins.Plugin):
         body=("Webhook clicked! " + path + " " + request)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when the plugin is loaded
     def on_loaded(self):
@@ -133,6 +137,10 @@ class Apprise(plugins.Plugin):
         body=("plugin loaded")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
@@ -140,6 +148,10 @@ class Apprise(plugins.Plugin):
         body=("plugin unloaded")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
@@ -147,6 +159,10 @@ class Apprise(plugins.Plugin):
         body=("I now have internet.")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
@@ -155,6 +171,10 @@ class Apprise(plugins.Plugin):
         body=("Setting up UI elements")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when the ui is updated
     # def on_ui_update(self, ui):
@@ -162,6 +182,10 @@ class Apprise(plugins.Plugin):
     #     body=("The UI is updated")
     #     logging.info(title)
     #     logging.info(body)
+    #     apobj.notify(
+    #         title=title,
+    #         body=body,
+    #     )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
@@ -169,6 +193,10 @@ class Apprise(plugins.Plugin):
         body=("plugin created")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
@@ -176,6 +204,11 @@ class Apprise(plugins.Plugin):
         body=("unit is ready!")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the AI finished loading
     def on_ai_ready(self, agent):
@@ -183,6 +216,11 @@ class Apprise(plugins.Plugin):
         body=("The AI is finished loading")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
 
     # called when the AI finds a new set of parameters
@@ -191,6 +229,11 @@ class Apprise(plugins.Plugin):
         body=("I have found a new set of parameters. Policy: " + policy)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
@@ -198,6 +241,11 @@ class Apprise(plugins.Plugin):
         body=("The AI has started training. Epochs: " + epochs)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
@@ -205,6 +253,11 @@ class Apprise(plugins.Plugin):
         body=("The AI has completed training for an epoch.")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the AI has done training
     def on_ai_training_end(self, agent):
@@ -212,6 +265,11 @@ class Apprise(plugins.Plugin):
         body=("The AI is done with training.")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
@@ -219,6 +277,11 @@ class Apprise(plugins.Plugin):
         body=("The AI just got its best reward so far. Reward: " + reward)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
@@ -226,6 +289,11 @@ class Apprise(plugins.Plugin):
         body=("The AI just got its worst reward so far. Reward: " + reward)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
@@ -233,6 +301,11 @@ class Apprise(plugins.Plugin):
         body=("I just found a non overlapping wifi channel: " + channel + " that is free.")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the status is set to bored
     def on_bored(self, agent):
@@ -240,6 +313,11 @@ class Apprise(plugins.Plugin):
         body=("I am so bored right now...")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the status is set to sad
     def on_sad(self, agent):
@@ -247,6 +325,11 @@ class Apprise(plugins.Plugin):
         body=("I am so sad...")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the status is set to excited
     def on_excited(self, agent):
@@ -254,6 +337,11 @@ class Apprise(plugins.Plugin):
         body=("I am so excited...")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
@@ -261,6 +349,11 @@ class Apprise(plugins.Plugin):
         body=("I am so loneley, nobody wants to play with me...")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
@@ -268,6 +361,11 @@ class Apprise(plugins.Plugin):
         body=("I am going to reboot now.")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
@@ -275,6 +373,11 @@ class Apprise(plugins.Plugin):
         body=("Waiting for " + t + " seconds...")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
@@ -282,6 +385,11 @@ class Apprise(plugins.Plugin):
         body=("Sleeping for " + t + " seconds ...")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
@@ -289,6 +397,11 @@ class Apprise(plugins.Plugin):
         body=("I have refreshed my list of access points. Access points: " + access_points)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
@@ -297,6 +410,11 @@ class Apprise(plugins.Plugin):
         body=("I have refreshed my list of unfilteted access points. Access points: " + access_points)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
@@ -304,6 +422,11 @@ class Apprise(plugins.Plugin):
         body=("I am sending " + access_point + " an association frame now.")
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
@@ -311,6 +434,11 @@ class Apprise(plugins.Plugin):
         body=("I am deauthenticating " + client_station + "from " + access_point)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
 
     # called when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
@@ -318,6 +446,10 @@ class Apprise(plugins.Plugin):
         body=("I am running on " + channel)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when a new handshake is captured, access_point and client_station are json objects
     # if the agent could match the BSSIDs to the current list, otherwise they are just the strings of the BSSIDs
@@ -326,12 +458,22 @@ class Apprise(plugins.Plugin):
         body=("I have captured a handshake. \nFilename: " + filename + "\nClient station: " + client_station + "\nAccess point: " + access_point)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
+
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
         title=("[apprise]")
         body=("I have completed a whole epoch. \nEpoch: " + epoch + "\nEpoch data: " + epoch_data)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
@@ -339,6 +481,10 @@ class Apprise(plugins.Plugin):
         body=("I have found a new peer. \nPeer: " + peer)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
@@ -346,3 +492,7 @@ class Apprise(plugins.Plugin):
         body=("I have lost contact with a peer. \nPeer: " + peer)
         logging.info(title)
         logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
