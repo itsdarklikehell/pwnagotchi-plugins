@@ -12,19 +12,24 @@ urls:
   # over-ride entries.  One of the most likely entry to be used here
   # is the tag entry.  This gets extended to the global tag (if defined)
   # above
-  - windows://:
+  - gnome://:
       # 'tag' is a special keyword that allows you to associate tags with your
       # services:
       - tag: desktop
 
+  - dbus://:
+      - tag: desktop
+
   - tgram://:
-      - bot_token: bottoken
-      - chat_id: chatid
-      - image: yes
+      - bot_token: "bottoken"
+      - chat_id: "chatid"
+      - image: Yes
+      - tag: mobile
 
   - twitter://:
-      - ScreenName: ScreenName
-      - ConsumerKey: ConsumerKey
-      - ConsumerSecret: ConsumerSecret
-      - AccessToken: AccessToken
-      - AccessSecret: AccessSecret
+      - ScreenName: "ScreenName"
+      - ConsumerKey: "ConsumerKey"
+      - ConsumerSecret: "ConsumerSecret"
+      - AccessToken: "AccessToken"
+      - AccessSecret: "AccessSecret"
+      - tag: social
