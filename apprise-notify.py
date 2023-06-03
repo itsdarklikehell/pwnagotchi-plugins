@@ -72,11 +72,11 @@ class Apprise(plugins.Plugin):
         # )
 
         # Then send your attachment.
-        apobj.notify(
-            title='A rare photo of a pwnagotchi.',
-            body='They are often well hidden from plain sight! but not this one, hah! :)',
-            attach='/home/pi/pwnagotchi-splashscreen.png',
-        )
+        # apobj.notify(
+        #     title='A rare photo of a pwnagotchi.',
+        #     body='They are often well hidden from plain sight! but not this one, hah! :)',
+        #     attach='/home/pi/pwnagotchi-splashscreen.png',
+        # )
 
         # Send a web based attachment too! In the below example, we connect to a home
         # security camera and send a live image to an email. By default remote web
@@ -177,15 +177,15 @@ class Apprise(plugins.Plugin):
         )
 
     # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title=("[apprise]")
-    #     body=("The UI is updated")
-    #     logging.info(title)
-    #     logging.info(body)
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #     )
+    def on_ui_update(self, ui):
+        title=("[apprise]")
+        body=("The UI is updated")
+        logging.info(title)
+        logging.info(body)
+        apobj.notify(
+            title=title,
+            body=body,
+        )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
@@ -209,7 +209,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the AI finished loading
     def on_ai_ready(self, agent):
         title=("[apprise]")
@@ -220,8 +219,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
-
 
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
@@ -234,7 +231,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
         title=("[apprise]")
@@ -245,7 +241,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
@@ -258,7 +253,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the AI has done training
     def on_ai_training_end(self, agent):
         title=("[apprise]")
@@ -269,7 +263,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
@@ -282,7 +275,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
         title=("[apprise]")
@@ -293,7 +285,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
@@ -306,7 +297,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the status is set to bored
     def on_bored(self, agent):
         title=("[apprise]")
@@ -317,7 +307,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when the status is set to sad
     def on_sad(self, agent):
@@ -330,7 +319,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the status is set to excited
     def on_excited(self, agent):
         title=("[apprise]")
@@ -341,7 +329,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
@@ -354,7 +341,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
         title=("[apprise]")
@@ -365,7 +351,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
@@ -378,7 +363,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
         title=("[apprise]")
@@ -390,7 +374,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
         title=("[apprise]")
@@ -401,7 +384,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
@@ -415,7 +397,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
         title=("[apprise]")
@@ -427,7 +408,6 @@ class Apprise(plugins.Plugin):
             body=body,
         )
 
-
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
         title=("[apprise]")
@@ -438,7 +418,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
@@ -462,7 +441,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
