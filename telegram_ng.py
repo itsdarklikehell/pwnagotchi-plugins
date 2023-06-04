@@ -146,7 +146,7 @@ class Telegram(plugins.Plugin):
                 bot.sendMessage(chat_id=self.options['chat_id'], text=repmessage, disable_web_page_preview=True)
             elif message == "/passwords":
                 files = [
-                        "/root/handshakes/wpa-sec.founds.potfile",
+                        "/root/handshakes/wpa-sec.cracked.potfile",
                         "/root/handshakes/banthex.cracked.potfile",
                         "/root/handshakes/onlinehashcrack.cracked",
                         ]

@@ -42,7 +42,7 @@ class MyCrackedPasswords(plugins.Plugin):
         all_passwd=[]
         all_bssid=[]
         all_ssid=[]
-        f=open('/root/handshakes/wpa-sec.founds.potfile', 'r+', encoding='utf-8')
+        f=open('/root/handshakes/wpa-sec.cracked.potfile', 'r+', encoding='utf-8')
         try:
             for line_f in f:
                 pwd_f = line_f.split(':')
@@ -50,7 +50,7 @@ class MyCrackedPasswords(plugins.Plugin):
                 all_bssid.append(str(pwd_f[0]))
                 all_ssid.append(str(pwd_f[-2]))
         except:
-            logging.error('[mycracked_pw] encountered a problem in wpa-sec.founds.potfile')
+            logging.error('[mycracked_pw] encountered a problem in wpa-sec.cracked.potfile')
         f.close()
 
         h = open('/root/handshakes/onlinehashcrack.cracked', 'r+', encoding='utf-8')

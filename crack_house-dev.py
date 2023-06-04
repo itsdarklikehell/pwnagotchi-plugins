@@ -17,7 +17,7 @@
 # main.plugins.crack_house.enabled = true
 # main.plugins.crack_house.orientation = "vertical"
 # main.plugins.crack_house.files = [
-#  '/root/handshakes/wpa-sec.founds.potfile',
+#  '/root/handshakes/wpa-sec.cracked.potfile',
 #  '/root/handshakes/my.potfile',
 #  '/root/handshakes/OnlineHashCrack.potfile',
 # ]
@@ -197,7 +197,7 @@ class CrackHouse(plugins.Plugin):
             ui.set('crack_house',
                         '%s' % (msg_ch))
         else:
-            last_line = 'tail -n 1 /root/handshakes/wpa-sec.founds.potfile | awk -F: \'{printf $3 "\\n" $4}\''
+            last_line = 'tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: \'{printf $3 "\\n" $4}\''
             ui.set('crack_house',
                         "%s" % (os.popen(last_line).read().rstrip()))
 

@@ -148,13 +148,13 @@ class WpaSec(plugins.Plugin):
                         continue
 
             if 'download_results' in self.options and self.options['download_results']:
-                cracked_file = os.path.join(handshake_dir, 'wpa-sec.founds.potfile')
+                cracked_file = os.path.join(handshake_dir, 'wpa-sec.cracked.potfile')
                 if os.path.exists(cracked_file):
                     last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
                     if last_check is not None and ((datetime.now() - last_check).seconds / (60 * 60)) < 1:
                         return
                 try:
-                    self._download_from_wpasec(os.path.join(handshake_dir, 'wpa-sec.founds.potfile'))
+                    self._download_from_wpasec(os.path.join(handshake_dir, 'wpa-sec.cracked.potfile'))
                     logging.info('[wpasec] Downloaded cracked passwords.')
                 except requests.exceptions.RequestException as req_e:
                     logging.debug('[wpasec] %s', req_e)
