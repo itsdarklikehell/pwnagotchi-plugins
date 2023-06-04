@@ -32,6 +32,8 @@ apobj.add(config)
 #     title='my notification title',
 # )
 
+picture = '/var/tmp/pwnagotchi/pwnagotchi.png' if os.path.exists("/var/tmp/pwnagotchi/pwnagotchi.png") else '/root/pwnagotchi.png'
+
 class Apprise(plugins.Plugin):
     __author__ = 'bauke.molenaar@gmail.com'
     __version__ = '1.0.0'
@@ -42,7 +44,6 @@ class Apprise(plugins.Plugin):
     An Apprise plugin for pwnagotchi that implements all the available callbacks.
     """
     __dependencies__ = {
-        'apt': ['wget', 'libttspico0', 'libttspico-utils'],
         'pip': ['apprise'],
     }
     __defaults__ = {
@@ -54,11 +55,23 @@ class Apprise(plugins.Plugin):
         self.text_to_set = ""
         title=("[apprise] A rare photo of a pwnagotchi.")
         body=("They are often well hidden from plain sight! but not this one, hah!")
-        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
-            attach=attach,
+        )
+
+    def on_config_changed(self, config):
+        self.config = config
+        self.ready = True
+
+    # # called when the ui is updated
+    def on_ui_update(self, ui):
+        title=("[apprise]")
+        body=("The UI is updated")
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=picture,
         )
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
@@ -67,7 +80,6 @@ class Apprise(plugins.Plugin):
     def on_webhook(self, path, request):
         title=("[apprise]")
         body=("Webhook clicked! " + path + " " + request)
-        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
@@ -77,7 +89,6 @@ class Apprise(plugins.Plugin):
     def on_loaded(self):
         title=("[apprise]")
         body=("plugin loaded")
-        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
@@ -96,11 +107,9 @@ class Apprise(plugins.Plugin):
     def on_internet_available(self, agent):
         title=("[apprise]")
         body=("I now have internet.")
-        attach=("/var/tmp/pwnagotchi/pwnagotchi.png")
         apobj.notify(
             title=title,
             body=body,
-            attach=attach,
         )
 
     # called to setup the ui elements
@@ -112,17 +121,6 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
         )
-
-    # # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title=("[apprise]")
-    #     body=("The UI is updated")
-    #     logging.info(title)
-    #     logging.info(body)
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #     )
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
@@ -173,6 +171,15 @@ class Apprise(plugins.Plugin):
     def on_ai_training_step(self, agent, _locals, _globals):
         title=("[apprise]")
         body=("The AI has completed training for an epoch.")
+        apobj.notify(
+            title=title,
+            body=body,
+        )
+
+    def on_unread_messages(self, count, total, agent, unread_messages, total_messages):
+        s = 's' if count > 1 else ''
+        title=("[apprise]")
+        body=('You have {count} new message{plural}!').format(count=count, plural=s)
         apobj.notify(
             title=title,
             body=body,

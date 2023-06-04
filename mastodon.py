@@ -55,7 +55,8 @@ class MastodonStatus(plugins.Plugin):
                     api_base_url=api_base_url,
                     to_file=client_cred
                 )
-            picture = '/root/pwnagotchi.png'
+            picture = '/var/tmp/pwnagotchi/pwnagotchi.png' if os.path.exists(
+                "/var/tmp/pwnagotchi/pwnagotchi.png") else '/root/pwnagotchi.png'
             display.on_manual_mode(last_session)
             display.image().save(picture, 'png')
             display.update(force=True)

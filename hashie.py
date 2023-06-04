@@ -63,6 +63,8 @@ class hashie(plugins.Plugin):
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):
         handshake_dir = config['bettercap']['handshakes']
+        self.uuid = str(uuid.uuid5(uuid.NAMESPACE_OID, config['main']['name']))
+
 
         if 'interval' not in self.options or not (self.status.newer_then_hours(self.options['interval'])):
             logging.info('[hashie] Starting batch conversion of pcap files')

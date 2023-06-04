@@ -124,7 +124,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     time.sleep(5)
     _log('writing to wpa_supplicant.conf file...')
     with open('/tmp/wpa_supplicant.conf', 'w') as wpa_supplicant_conf:
-        wpa_supplicant_conf.write("ctrl_interface=DIR=/var/run/wpa_supplicant\nupdate_config=1\ncountry=GB\n\nnetwork={\n\tssid=\"%s\"\n\tpsk=\"%s\"\n}\n" % (network_name, password))
+        wpa_supplicant_conf.write("ctrl_interface=DIR=/var/run/wpa_supplicant\nupdate_config=1\ncountry=NL\n\nnetwork={\n\tssid=\"%s\"\n\tpsk=\"%s\"\n}\n" % (network_name, password))
     _log('starting wpa_supplicant background process...')
     subprocess.run('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
     subprocess.run('wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")

@@ -41,7 +41,8 @@ class Twitter(plugins.Plugin):
 
             logging.info('[twitter] detected a new session and internet connectivity!')
 
-            picture = '/root/pwnagotchi.png'
+            picture = '/var/tmp/pwnagotchi/pwnagotchi.png' if os.path.exists(
+                "/var/tmp/pwnagotchi/pwnagotchi.png") else '/root/pwnagotchi.png'
 
             display.on_manual_mode(last_session)
             with display.block_update(force=True):
