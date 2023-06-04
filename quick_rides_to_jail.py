@@ -47,14 +47,14 @@ PwndNetwork = namedtuple('PwndNetwork', 'ssid bssid password')
 handshake_file_re = re.compile('^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cracked$')
 crackable_handshake_re = re.compile('\s+\d+\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\s+(?P<ssid>.+?)\s+((\([1-9][0-9]* handshake(, with PMKID)?\))|(\(\d+ handshake, with PMKID\)))')
 
-class Age(plugins.Plugin):
+class quick_rides_to_jail(plugins.Plugin):
     __author__ = "HannaDiamond"
     __version__ = "1.0.1"
     __license__ = "MIT"
     __description__ = (
         "A plugin that will add age and strength stats based on epochs and trained epochs"
 	)
-    __name__ = 'Age'
+    __name__ = 'quick_rides_to_jail'
     __help__ = """
     A plugin that will add age and strength stats based on epochs and trained epochs
     """
