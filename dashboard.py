@@ -161,7 +161,7 @@ class Dashboard(plugins.Plugin):
         now = datetime.datetime.now()
         time_rn = now.strftime(self.date_format + " %I:%M%p")
         status = self.get_status()
-        total_cracked = 'uniq -i /root/handshakes/wpa-sec.cracked.potfile | wc -l'
+        total_cracked = 'uniq -i /root/handshakes/wpa-sec.founds.potfile | wc -l'
         charge_mapping = {
                 "charging": "▲",
                 "discharging": "▼",

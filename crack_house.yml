@@ -2,7 +2,7 @@ crack_house:
   enabled: false
   orientation: "vertical"
   files:
-    - "/root/handshakes/wpa-sec.cracked.potfile"
+    - "/root/handshakes/wpa-sec.founds.potfile"
     - "/root/handshakes/my.potfile"
     - "/root/handshakes/OnlineHashCrack.potfile"
     - "/root/handshakes/banthex.cracked.potfile"

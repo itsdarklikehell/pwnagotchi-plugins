@@ -77,13 +77,13 @@ class potfilesorter(plugins.Plugin):
         config = agent.config()
         handshake_dir = config['bettercap']['handshakes']
         if 'download_results' in self.options and self.options['download_results']:
-            cracked_file = os.path.join(handshake_dir, 'wpa-sec.cracked.potfile')
+            cracked_file = os.path.join(handshake_dir, 'wpa-sec.founds.potfile')
             if os.path.exists(cracked_file):
                 last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
                 if last_check is not None and ((datetime.now() - last_check).seconds / (60 * 60)) < 1:
                     return
             try:
-                self._download_from_wpasec(os.path.join(handshake_dir, 'wpa-sec.cracked.potfile'))
+                self._download_from_wpasec(os.path.join(handshake_dir, 'wpa-sec.founds.potfile'))
                 logging.info('[wpasec] Downloaded cracked passwords.')
             except requests.exceptions.RequestException as req_e:
                 logging.debug('[wpasec] %s', req_e)
@@ -175,7 +175,7 @@ class potfilesorter(plugins.Plugin):
         return False
 
     def readpotfiledata(self, checkwpaconfig, potfile_source, wpa_tmp, wificonfigstore_tmp, wificonfigstoresoftap_tmp):
-        with open(os.path.join(handshake_dir, 'wpa-sec.cracked.potfile'), 'r') as checkpotfile:
+        with open(os.path.join(handshake_dir, 'wpa-sec.founds.potfile'), 'r') as checkpotfile:
             logging.info('Reading: ' + checkpotfile.name + ' Data.')
             for line in checkpotfile:
                 potfiledata = line.split(':')

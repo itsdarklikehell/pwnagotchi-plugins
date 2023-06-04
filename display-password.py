@@ -70,6 +70,6 @@ class DisplayPassword(plugins.Plugin):
             ui.remove_element('display-password')
 
     def on_ui_update(self, ui):
-        last_line = 'tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: \'{printf $3 "\\n" $4}\''
+        last_line = 'tail -n 1 /root/handshakes/wpa-sec.founds.potfile | awk -F: \'{printf $3 "\\n" $4}\''
         ui.set('display-password',
                     "%s" % (os.popen(last_line).read().rstrip()))

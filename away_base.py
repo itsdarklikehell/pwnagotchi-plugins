@@ -40,7 +40,7 @@ class AwayBase(plugins.Plugin):
     def on_wifi_update(self, agent, access_points):
         result = _run('iwconfig wlan0')
         if self.ready == 1 and "Not-Associated" in result:
-            potfile = _run('cat /root/handshakes/wpa-sec.cracked.potfile | awk -F: \'{print $3 ":" $4}\'').splitlines()
+            potfile = _run('cat /root/handshakes/wpa-sec.founds.potfile | awk -F: \'{print $3 ":" $4}\'').splitlines()
             pwned_networks = {}
             for line in potfile:
                 network = line.split(":")
