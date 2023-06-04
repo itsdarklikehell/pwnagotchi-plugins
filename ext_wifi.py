@@ -18,6 +18,8 @@ class ext_wifi(plugins.Plugin):
     }
     __defaults__ = {
         'enabled': False,
+        'interface': "wlan0",
+        'mode': "external",
     }
 
     def __init__(self):
