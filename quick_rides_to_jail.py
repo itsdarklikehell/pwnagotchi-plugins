@@ -1,8 +1,3 @@
-__author__ = 'forrest'
-__version__ = '1.0.1'
-__name__ = 'quick_rides_to_jail'
-__license__ = 'GPL3'
-__description__ = 'Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail.'
 
 '''
 Aircrack-ng needed, to install:
@@ -37,6 +32,7 @@ import string
 import re
 from collections import namedtuple
 from pwnagotchi.utils import StatusFile
+import pwnagotchi.plugins as plugins
 
 READY = False
 OPTIONS = dict()
@@ -48,15 +44,13 @@ handshake_file_re = re.compile('^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cr
 crackable_handshake_re = re.compile('\s+\d+\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\s+(?P<ssid>.+?)\s+((\([1-9][0-9]* handshake(, with PMKID)?\))|(\(\d+ handshake, with PMKID\)))')
 
 class quick_rides_to_jail(plugins.Plugin):
-    __author__ = "HannaDiamond"
-    __version__ = "1.0.1"
-    __license__ = "MIT"
-    __description__ = (
-        "A plugin that will add age and strength stats based on epochs and trained epochs"
-	)
+    __author__ = 'forrest'
+    __version__ = '1.0.1'
+    __license__ = 'GPL3'
+    __description__ = 'Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail.'
     __name__ = 'quick_rides_to_jail'
     __help__ = """
-    A plugin that will add age and strength stats based on epochs and trained epochs
+    Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail.
     """
     __dependencies__ = {
         'pip': ['scapy'],
