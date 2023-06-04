@@ -26,8 +26,8 @@ class MyCrackedPasswords(plugins.Plugin):
 
     def on_loaded(self):
         logging.info("[mycracked_pw] loaded]")
-        if not os.path.exists('/usr/share/wordlists/passwords/'):
-            os.makedirs('/usr/share/wordlists/passwords/')
+        if not os.path.exists('/home/pi/wordlists/passwords/'):
+            os.makedirs('/home/pi/wordlists/passwords/')
 
         if not os.path.exists('/home/pi/qrcodes/'):
             os.makedirs('/home/pi/qrcodes/')
@@ -103,11 +103,11 @@ class MyCrackedPasswords(plugins.Plugin):
 
 
             # start with blank file
-            open('/usr/share/wordlists/passwords/mycracked.txt', 'w+').close()
+            open('/home/pi/wordlists/passwords/mycracked.txt', 'w+').close()
 
             #create pw list
             new_lines = sorted(set(all_passwd))
-            with open('/usr/share/wordlists/passwords/mycracked.txt','w+') as g:
+            with open('/home/pi/wordlists/passwords/mycracked.txt','w+') as g:
                 for i in new_lines:
                     g.write(i+"\n")
 

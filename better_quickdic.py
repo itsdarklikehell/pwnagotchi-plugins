@@ -7,7 +7,7 @@ import re
 '''
 Aircrack-ng needed, to install:
 > apt-get install aircrack-ng
-Upload wordlist files in .txt format to folder in config file (Default: /usr/share/wordlists/passwords/)
+Upload wordlist files in .txt format to folder in config file (Default: /home/pi/wordlists/passwords/)
 Cracked handshakes stored in handshake folder as [essid].pcap.cracked
 '''
 
@@ -26,7 +26,7 @@ class QuickDic(plugins.Plugin):
     }
     __defaults__ = {
         'enabled': False,
-        'wordlist_folder': '/usr/share/wordlists/passwords/',
+        'wordlist_folder': '/home/pi/wordlists/passwords/',
         'face': '(·ω·)',
     }
 
@@ -39,7 +39,7 @@ class QuickDic(plugins.Plugin):
         if 'face' not in self.options:
             self.options['face'] = '(·ω·)'
         if 'wordlist_folder' not in self.options:
-            self.options['wordlist_folder'] = '/usr/share/wordlists/passwords/'
+            self.options['wordlist_folder'] = '/home/pi/wordlists/passwords/'
         if 'enabled' not in self.options:
             self.options['enabled'] = False
 

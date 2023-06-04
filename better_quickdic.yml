@@ -1,4 +1,4 @@
 better_quickdic:
   enabled: false
-  wordlist_folder: /usr/share/wordlists/passwords/
+  wordlist_folder: /home/pi/wordlists/passwords/
   face: "(·ω·)"
