@@ -16,7 +16,7 @@ class dropbox(plugins.Plugin):
     __description__ = 'This plugin automatically uploads handshakes to a dropbox app'
     __name__ = 'dropbox'
     __help__ = """
-    A plugin that will add age and strength stats based on epochs and trained epochs
+    This plugin automatically uploads handshakes to a dropbox app
     """
     __dependencies__ = {
         'pip': ['scapy']
