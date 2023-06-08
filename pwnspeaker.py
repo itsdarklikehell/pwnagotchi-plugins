@@ -5,7 +5,6 @@ from pwnagotchi import plugins
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
-from pwnagotchi import plugins
 
 # object creation
 engine = pyttsx3.init()
@@ -50,7 +49,7 @@ class Pwnspeak(plugins.Plugin):
         'enabled': False,
     }
 
-    def __init__(self, agent):
+    def __init__(self):
         title = ("status")
         body = ("Pwnspeak plugin created")
 
