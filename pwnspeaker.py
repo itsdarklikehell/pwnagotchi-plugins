@@ -1,5 +1,5 @@
 import logging
-import os
+import os, subprocess
 import pyttsx3
 from pwnagotchi import plugins
 from pwnagotchi.ui.components import LabeledValue
@@ -61,6 +61,8 @@ class Pwnspeak(plugins.Plugin):
         display = agent.view()
         display.set(title, body)
         display.update()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
