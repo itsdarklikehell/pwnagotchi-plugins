@@ -1,10 +1,11 @@
 import logging
 import os
 import pyttsx3
-import pwnagotchi.plugins as plugins
+from pwnagotchi import plugins
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
+from pwnagotchi import plugins
 
 # object creation
 engine = pyttsx3.init()
@@ -49,11 +50,18 @@ class Pwnspeak(plugins.Plugin):
         'enabled': False,
     }
 
-    def __init__(self):
-        logging.debug("Pwnspeak plugin created")
-        engine.say("Pwnspeak plugin created")
+    def __init__(self, agent):
+        title = ("status")
+        body = ("Pwnspeak plugin created")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+
+        display = agent.view()
+        display.set(title, body)
+        display.update()
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page

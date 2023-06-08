@@ -32,6 +32,7 @@ apobj.add(config)
 #     title='my notification title',
 # )
 
+
 picture = '/var/tmp/pwnagotchi/pwnagotchi.png' if os.path.exists("/var/tmp/pwnagotchi/pwnagotchi.png") else '/root/pwnagotchi.png'
 
 class Apprise(plugins.Plugin):
