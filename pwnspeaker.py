@@ -49,7 +49,7 @@ class Pwnspeak(plugins.Plugin):
         'enabled': False,
     }
 
-    def __init__(self):
+    def __init__(self, agent):
         title = ("status")
         body = ("Pwnspeak plugin created")
 
