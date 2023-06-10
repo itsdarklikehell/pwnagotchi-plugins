@@ -130,20 +130,20 @@ class Pwnspeak(plugins.Plugin):
         subprocess.run(["aplay", outputfile])
 
     # called when the ui is updated
-    def on_ui_update(self, ui):
-        title = ("[pwnspeaker]")
-        body = ("The UI is updated")
-        outputfile = ("/tmp/output.wav")
+    # def on_ui_update(self, ui):
+    #     title = ("[pwnspeaker]")
+    #     body = ("The UI is updated")
+    #     outputfile = ("/tmp/output.wav")
 
-        logging.debug(title + " " + body)
-        engine.say(body)
-        engine.runAndWait()
-        engine.stop()
-        # some_voltage = 0.1
-        # some_capacity = 100.0
-        # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
-        subprocess.run(["pico2wave", "-w", outputfile, body])
-        subprocess.run(["aplay", outputfile])
+    #     logging.debug(title + " " + body)
+    #     engine.say(body)
+    #     engine.runAndWait()
+    #     engine.stop()
+    #     # some_voltage = 0.1
+    #     # some_capacity = 100.0
+    #     # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+    #     subprocess.run(["pico2wave", "-w", outputfile, body])
+    #     subprocess.run(["aplay", outputfile])
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
