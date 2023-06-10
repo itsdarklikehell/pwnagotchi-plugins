@@ -58,7 +58,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        ¨"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
