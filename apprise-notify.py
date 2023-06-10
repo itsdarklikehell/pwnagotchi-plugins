@@ -75,8 +75,7 @@ class Apprise(plugins.Plugin):
         apobj.notify(
             title=title,
             body=body,
-            attach=picture,
-            attach=outputfile,
+            attach=picture + outputfile,
         )
         pass
 
