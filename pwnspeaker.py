@@ -58,7 +58,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        ¨"])
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
@@ -72,7 +72,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the plugin is loaded
     def on_loaded(self):
@@ -84,7 +84,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
@@ -96,7 +96,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
@@ -108,7 +108,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
@@ -121,7 +121,7 @@ class Pwnspeak(plugins.Plugin):
         engine.stop()
         #ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 - 25, 0), label_font=fonts.Bold, text_font=fonts.Medium))
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the ui is updated
     def on_ui_update(self, ui):
@@ -136,7 +136,7 @@ class Pwnspeak(plugins.Plugin):
         # some_capacity = 100.0
         # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
         # subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        # subprocess.run(["aplay /tmp/output.wav"])
+        # subprocess.run(["aplay", "/tmp/output.wav"])
         pass
 
     # called when the hardware display setup is done, display is an hardware specific object
@@ -149,7 +149,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
@@ -161,7 +161,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
         # you can run custom bettercap commands if you want
         #   agent.run('ble.recon on')
@@ -178,7 +178,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
@@ -190,7 +190,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
@@ -202,7 +202,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
@@ -214,7 +214,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the AI has done training
     def on_ai_training_end(self, agent):
@@ -226,7 +226,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
@@ -238,7 +238,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
@@ -250,7 +250,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
@@ -262,7 +262,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the status is set to bored
     def on_bored(self, agent):
@@ -274,7 +274,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the status is set to sad
     def on_sad(self, agent):
@@ -286,7 +286,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the status is set to excited
     def on_excited(self, agent):
@@ -298,7 +298,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
@@ -310,7 +310,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
@@ -322,7 +322,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
@@ -334,7 +334,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
@@ -346,7 +346,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
@@ -358,7 +358,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
@@ -371,7 +371,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
@@ -383,7 +383,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
@@ -395,7 +395,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # callend when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
@@ -407,7 +407,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when a new handshake is captured, access_point and client_station are json objects
     # if the agent could match the BSSIDs to the current list, otherwise they are just the strings of the BSSIDs
@@ -420,7 +420,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
@@ -432,7 +432,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
@@ -444,7 +444,7 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
@@ -456,4 +456,4 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
-        subprocess.run(["aplay /tmp/output.wav"])
+        subprocess.run(["aplay", "/tmp/output.wav"])
