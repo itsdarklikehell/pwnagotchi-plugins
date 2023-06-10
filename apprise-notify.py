@@ -60,13 +60,9 @@ class Apprise(plugins.Plugin):
         apobj.notify(
             title=title,
             body=body,
-            attach=picture,
+            attach=picture and outputfile,
         )
-        apobj.notify(
-            title=title,
-            body=body,
-            attach=outputfile,
-        )
+
 
     def on_config_changed(self, config):
         self.config = config
@@ -82,11 +78,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture and outputfile,
         )
-        apobj.notify(
-            title=title,
-            body=body,
-            attach=outputfile,
-        )
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
