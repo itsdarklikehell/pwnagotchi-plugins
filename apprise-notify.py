@@ -69,14 +69,14 @@ class Apprise(plugins.Plugin):
 
     # # called when the ui is updated
     def on_ui_update(self, ui):
-        # title=("[apprise]")
-        # body=("The UI is updated")
-        # logging.debug(title + " " + body)
-        # apobj.notify(
-        #     title=title,
-        #     body=body,
-        #     attach=picture,
-        # )
+        title=("[apprise]")
+        body=("The UI is updated")
+        logging.debug(title + " " + body)
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=picture,
+        )
         pass
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
