@@ -68,26 +68,26 @@ class Apprise(plugins.Plugin):
             attach=outputfile,
         )
 
-
+    # called when the config is updated
     def on_config_changed(self, config):
         self.config = config
         self.ready = True
 
-    # # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title=("[apprise]")
-    #     body=("The UI is updated")
-    #     logging.debug(title + " " + body)
-    #   apobj.notify(
-    #        title=title,
-    #        body=body,
-    #        attach=picture,
-    #    )
-    #    apobj.notify(
-    #        title=title,
-    #        body=body,
-    #        attach=outputfile,
-    #    )
+    # called when the ui is updated
+    def on_ui_update(self, ui):
+        title=("[apprise]")
+        body=("The UI is updated")
+        logging.debug(title + " " + body)
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=picture,
+        )
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=outputfile,
+        )
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
