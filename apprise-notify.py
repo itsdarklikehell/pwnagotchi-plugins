@@ -76,6 +76,7 @@ class Apprise(plugins.Plugin):
             title=title,
             body=body,
             attach=picture,
+            attach=outputfile,
         )
         pass
 
