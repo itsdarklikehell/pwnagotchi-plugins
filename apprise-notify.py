@@ -52,7 +52,11 @@ class Apprise(plugins.Plugin):
         'face': '(>.<)',
     }
 
-    def send(self, title, body, picture, outputfile):
+    def __init__(self):
+        self.text_to_set = ""
+        title=("[apprise] A rare photo of a pwnagotchi.")
+        body=("They are often well hidden from plain sight! but not this one, hah!")
+        logging.info(title + " " + body)
         apobj.notify(
             title=title,
             body=body,
@@ -64,14 +68,6 @@ class Apprise(plugins.Plugin):
             attach=outputfile,
         )
 
-    def __init__(self):
-        self.text_to_set = ""
-        title=("[apprise] A rare photo of a pwnagotchi.")
-        body=("They are often well hidden from plain sight! but not this one, hah!")
-        logging.info(title + " " + body)
-        send(title, body, picture, outputfile)
-
-
     def on_config_changed(self, config):
         self.config = config
         self.ready = True
@@ -81,8 +77,16 @@ class Apprise(plugins.Plugin):
         title=("[apprise]")
         body=("The UI is updated")
         logging.info(title + " " + body)
-        send(title, body, picture, outputfile)
-
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=picture and outputfile,
+        )
+        apobj.notify(
+            title=title,
+            body=body,
+            attach=outputfile,
+        )
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
