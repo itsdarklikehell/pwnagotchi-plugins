@@ -60,7 +60,7 @@ class Apprise(plugins.Plugin):
         apobj.notify(
             title=title,
             body=body,
-            attach=picture + outputfile,
+            attach=picture,
         )
 
     def on_config_changed(self, config):
