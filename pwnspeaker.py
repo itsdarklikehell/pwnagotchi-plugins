@@ -49,7 +49,7 @@ class Pwnspeak(plugins.Plugin):
         'enabled': False,
     }
 
-    def __init__(self, agent):
+    def __init__(self):
         title = ("status")
         body = ("Pwnspeak plugin created")
 
@@ -57,10 +57,6 @@ class Pwnspeak(plugins.Plugin):
         engine.say(body)
         engine.runAndWait()
         engine.stop()
-
-        display = agent.view()
-        display.set(title, body)
-        display.update()
         subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
         subprocess.run(["aplay /tmp/output.wav"])
 
@@ -68,65 +64,105 @@ class Pwnspeak(plugins.Plugin):
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
-        engine.say("Webhook clicked!")
+        title = ("Webhook clicked!")
+        body = ("Webhook clicked!")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.debug("Pwnspeak plugin loaded")
-        engine.say("Pwnspeak plugin loaded")
+        title = ("Pwnspeak plugin loaded")
+        body = ("Pwnspeak plugin loaded")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
-        logging.debug("Pwnspeak plugin unloaded")
-        engine.say("Pwnspeak plugin unloaded")
+        title = ("Pwnspeak plugin unloaded")
+        body = ("Pwnspeak plugin unloaded")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
-        logging.debug("I now have internet.")
-        engine.say("I have detected a internet connection")
+        title = ("I now have internet.")
+        body = ("I now have internet.")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
-        # add custom UI elements
-        logging.debug("Setting up UI elements")
-        engine.say("Setting up UI elements")
+        title = ("Setting up UI elements")
+        body = ("Setting up UI elements")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
         #ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 - 25, 0), label_font=fonts.Bold, text_font=fonts.Medium))
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the ui is updated
     def on_ui_update(self, ui):
-        # update those elements
-        #logging.debug("The UI is updated")
-        #engine.say("The UI updated")
-        #engine.runAndWait()
-        #engine.stop()
-        #some_voltage = 0.1
-        #some_capacity = 100.0
-        #ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+        # title = ("The UI is updated")
+        # body = ("The UI is updated")
+
+        # logging.debug(body)
+        # engine.say(body)
+        # engine.runAndWait()
+        # engine.stop()
+        # some_voltage = 0.1
+        # some_capacity = 100.0
+        # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+        # subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        # subprocess.run(["aplay /tmp/output.wav"])
         pass
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
-        logging.debug("Pwnspeak plugin created")
-        engine.say("Pwnspeak plugin created")
+        title = ("Pwnspeak plugin created")
+        body = ("Pwnspeak plugin created")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
-        logging.info("unit is ready!")
-        engine.say("The unit is ready!")
+        title = ("The unit is ready!")
+        body = ("The unit is ready!")
+
+        logging.info(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
+
         # you can run custom bettercap commands if you want
         #   agent.run('ble.recon on')
         # or set a custom state
@@ -134,172 +170,290 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the AI finished loading
     def on_ai_ready(self, agent):
-        logging.debug("The AI is finished loading")
-        engine.say("My AI is finished loading, I now have become sentient!")
+        title = ("My AI is finished loading, I now have become sentient!")
+        body = ("My AI is finished loading, I now have become sentient!")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
-        logging.debug("I have found a new set of parameters.")
-        engine.say("I have found a new set of parameters.")
+        title = ("I have found a new set of parameters. " + policy)
+        body = ("I have found a new set of parameters. " + policy)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
-        logging.debug("The AI has started training.")
-        engine.say("I have started training.")
+        title = ("The AI has started training for " + epochs + "epochs.")
+        body = ("The AI has started training for " + epochs + "epochs.")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
-
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
-        logging.debug("The AI has completed training for an epoch.")
-        engine.say("I have completed my training for the last epoch.")
+        title = ("The AI has completed training for an epoch." + _locals + _globals)
+        body = ("The AI has completed training for an epoch." + _locals + _globals)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the AI has done training
     def on_ai_training_end(self, agent):
-        logging.debug("The AI is done with training.")
-        engine.say("I have finished my training.")
+        title = ("I have finished my training.")
+        body = ("I have finished my training.")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
-        logging.debug("The AI just got its best reward so far.")
-        engine.say("I just got my best reward so far, this is my best day ever!")
+        title = ("I just got my best reward so far, this is my best day ever!" + reward)
+        body = ("I just got my best reward so far, this is my best day ever!" + reward)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
-        logging.debug("The AI just got its worst reward so far.")
-        engine.say("I just got the worst reward so far, my life sucks!")
+        title = ("I just got the worst reward so far, my life sucks!" + reward)
+        body = ("I just got the worst reward so far, my life sucks!" + reward)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
-        logging.debug("I just found a non overlapping wifi channel that is free.")
-        engine.say("I just found a non overlapping wifi channel that is free.")
+        title = ("I just found that channel " + channel + "is free.")
+        body = ("I just found that channel " + channel + "is free.")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the status is set to bored
     def on_bored(self, agent):
-        logging.debug("I am so bored right now...")
-        engine.say("I am so bored right now...")
+        title = ("I am so bored right now...")
+        body = ("I am so bored right now...")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the status is set to sad
     def on_sad(self, agent):
-        logging.debug("I am so sad...")
-        engine.say("I am so sad...")
+        title = ("I am so sad...")
+        body = ("I am so sad...")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the status is set to excited
     def on_excited(self, agent):
-        logging.debug("I am so excited...")
-        engine.say("I am so excited...")
+        title = ("I am so excited...")
+        body = ("I am so excited...")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
-        logging.debug("I am so loneley, nobody wants to play with me...")
-        engine.say("I am so lonenly, nobody wants to play wiith me...")
+        title = ("I am so loneley, nobody wants to play with me...")
+        body = ("I am so loneley, nobody wants to play with me...")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
-        logging.debug("I am going to reboot now.")
-        engine.say("I am going to reboot now.")
+        title = ("I am going to reboot now.")
+        body = ("I am going to reboot now.")
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
-        logging.debug("Waiting for a few seconds...")
-        engine.say("Waiting for a few seconds...")
-        engine.runAndWait()
-        engine.stop()
+        title = ("Waiting for " + t + "seconds...")
+        body = ("Waiting for " + t + "seconds...")
 
-    # called when the agent is sleeping for t secondsI have lost contact with a peer...")
-    def on_sleep(self, agent, t):
-        logging.debug("Sleeping for a few seconds ...")
-        engine.say("Sleeping for a few seconds...")
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
+
+    # called when the agent is sleeping for t seconds
+    def on_sleep(self, agent, t):
+        title = ("Sleeping for " + t + " seconds ...")
+        body = ("Sleeping for " + t + " seconds ...")
+
+        logging.debug(body)
+        engine.say(body)
+        engine.runAndWait()
+        engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
-        logging.debug("I have refreshed my list of access points...")
-        engine.say("I have refreshed my list of access points...")
+        title = ("I have refreshed my list of access points: " + access_points)
+        body = ("I have refreshed my list of access points: " + access_points)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
     def on_unfiltered_ap_list(self, agent, access_points):
-        logging.debug("I have refreshed my list of unfilteted access points...")
-        engine.say("I have refreshed my list of unfiltered access points...")
+        title = ("I have refreshed my list of unfilteted access points: " + access_points)
+        body = ("I have refreshed my list of unfilteted access points: " + access_points)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
-        logging.debug("I am sending an association frame now...")
-        engine.say("I am sending an association frame now...")
+        title = ("I am sending an association frame to: " + access_point)
+        body = ("I am sending an association frame to: " + access_point)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
-        logging.debug("I am deauthenticating a client from its access point...")
-        engine.say("I am deauthenticating a client from its access point...")
+        title = ("I am deauthenticating" + client_station + "from" + access_point)
+        body = ("I am deauthenticating" + client_station + "from" + access_point)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # callend when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
-        #logging.debug("I am running on channel C...")
-        #engine.say("I am running on channel C...")
-        #engine.runAndWait()
-        #engine.stop()
-        pass
+        title = ("I am running on channel: " + channel)
+        body = ("I am running on channel: " + channel)
+
+        logging.debug(body)
+        engine.say(body)
+        engine.runAndWait()
+        engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when a new handshake is captured, access_point and client_station are json objects
     # if the agent could match the BSSIDs to the current list, otherwise they are just the strings of the BSSIDs
     def on_handshake(self, agent, filename, access_point, client_station):
-        logging.debug("I have captured a handshake...")
-        engine.say("I have captured a handshake...")
+        title = ("Handshake captured")
+        body = ("Handshake captured from" + client_station + "tryning to connect to" + access_point + "saved to" + filename)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
-        logging.debug("I have completed a whole epoch...")
-        engine.say("I have completed a whole epoch...")
+        title = ("I have completed epoch number: " + epoch + "with data: " + epoch_data)
+        body = ("I have completed epoch number: " + epoch + "with data: " + epoch_data)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
-        logging.debug("I have found a new peer...")
-        engine.say("I have found a new peer...")
+        title = ("I have found a new peer:" + peer)
+        body = ("I have found a new peer:" + peer)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
-        logging.debug("I have lost contact with a peer...")
-        engine.say("I have lost contact with a peer...")
+        title = ("I have lost contact with" + peer)
+        body = ("I have lost contact with" + peer)
+
+        logging.debug(body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
+        subprocess.run(["pico2wave", "-w", "/tmp/output.wav", body])
+        subprocess.run(["aplay /tmp/output.wav"])
