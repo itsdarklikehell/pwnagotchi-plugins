@@ -109,7 +109,7 @@ class Pwnspeak(plugins.Plugin):
         outputfile = ("/tmp/output.wav")
 
         logging.info(title + " " + body)
-        engine.say(title + " " + body)
+        engine.say(body)
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", outputfile, body])
