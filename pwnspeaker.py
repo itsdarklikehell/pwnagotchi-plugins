@@ -54,7 +54,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Pwnspeak plugin created")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -69,7 +69,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Webhook clicked!")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -82,7 +82,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Pwnspeak plugin loaded")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -95,7 +95,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Pwnspeak plugin unloaded")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -108,7 +108,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I now have internet.")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -121,7 +121,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Setting up UI elements")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -135,7 +135,7 @@ class Pwnspeak(plugins.Plugin):
         # body = ("The UI is updated")
         # outputfile = ("/tmp/output.wav")
 
-        # logging.info(title + " " + body)
+        # logging.debug(title + " " + body)
         # engine.say(body)
         # engine.runAndWait()
         # engine.stop()
@@ -152,7 +152,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Pwnspeak plugin created")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -165,7 +165,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("The unit is ready!")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -183,7 +183,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("My AI is finished loading, I now have become sentient!")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -196,7 +196,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have found a new set of parameters. " + policy)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -209,7 +209,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("The AI has started training for " + epochs + "epochs.")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -222,7 +222,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("The AI has completed training for an epoch." + _locals + _globals)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -235,7 +235,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have finished my training.")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -248,7 +248,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I just got my best reward so far, this is my best day ever!" + reward)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -261,7 +261,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I just got the worst reward so far, my life sucks!" + reward)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -274,7 +274,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I just found that channel " + channel + "is free.")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -287,7 +287,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am so bored right now...")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -300,7 +300,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am so sad...")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -313,7 +313,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am so excited...")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -326,7 +326,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am so loneley, nobody wants to play with me...")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -339,7 +339,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am going to reboot now.")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -352,7 +352,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Waiting for " + t + "seconds...")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -365,7 +365,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Sleeping for " + t + " seconds ...")
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -378,7 +378,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have refreshed my list of access points: " + access_points)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -392,7 +392,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have refreshed my list of unfilteted access points: " + access_points)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -405,7 +405,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am sending an association frame to: " + access_point)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -418,7 +418,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am deauthenticating" + client_station + "from" + access_point)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -431,7 +431,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I am running on channel: " + channel)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -445,7 +445,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("Handshake captured from" + client_station + "tryning to connect to" + access_point + "saved to" + filename)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -458,7 +458,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have completed epoch number: " + epoch + "with data: " + epoch_data)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -471,7 +471,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have found a new peer:" + peer)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -484,7 +484,7 @@ class Pwnspeak(plugins.Plugin):
         body = ("I have lost contact with" + peer)
         outputfile = ("/tmp/output.wav")
 
-        logging.info(title + " " + body)
+        logging.debug(title + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
