@@ -70,6 +70,37 @@ class Pwnspeak(plugins.Plugin):
         self.config = config
         self.ready = True
 
+    # called when the ui is updated
+    # def on_ui_update(self, ui):
+    #     title = ("[pwnspeaker]")
+    #     short = ("on_ui_update")
+    #     body = ("The UI is updated")
+    #     outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+
+    #     logging.debug(title + " " + short + " " + body)
+    #     engine.say(body)
+    #     engine.runAndWait()
+    #     engine.stop()
+    #     # some_voltage = 0.1
+    #     # some_capacity = 100.0
+    #     # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+    #     subprocess.run(["pico2wave", "-w", outputfile, body])
+    #     subprocess.run(["aplay", outputfile])
+
+    # called hen there's internet connectivity
+    # def on_internet_available(self, agent):
+    #     title = ("[pwnspeaker]")
+    #     short = ("on_internet_available")
+    #     body = ("I now have internet.")
+    #     outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+
+    #     logging.debug(title + " " + short + " " + body)
+    #     engine.say(body)
+    #     engine.runAndWait()
+    #     engine.stop()
+    #     subprocess.run(["pico2wave", "-w", outputfile, body])
+    #     subprocess.run(["aplay", outputfile])
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
@@ -114,20 +145,6 @@ class Pwnspeak(plugins.Plugin):
         subprocess.run(["pico2wave", "-w", outputfile, body])
         subprocess.run(["aplay", outputfile])
 
-    # called hen there's internet connectivity
-    def on_internet_available(self, agent):
-        title = ("[pwnspeaker]")
-        short = ("on_internet_available")
-        body = ("I now have internet.")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
-
-        logging.debug(title + " " + short + " " + body)
-        engine.say(body)
-        engine.runAndWait()
-        engine.stop()
-        subprocess.run(["pico2wave", "-w", outputfile, body])
-        subprocess.run(["aplay", outputfile])
-
     # called to setup the ui elements
     def on_ui_setup(self, ui):
         title = ("[pwnspeaker]")
@@ -140,23 +157,6 @@ class Pwnspeak(plugins.Plugin):
         engine.runAndWait()
         engine.stop()
         #ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 - 25, 0), label_font=fonts.Bold, text_font=fonts.Medium))
-        subprocess.run(["pico2wave", "-w", outputfile, body])
-        subprocess.run(["aplay", outputfile])
-
-    # called when the ui is updated
-    def on_ui_update(self, ui):
-        title = ("[pwnspeaker]")
-        short = ("on_ui_update")
-        body = ("The UI is updated")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
-
-        logging.debug(title + " " + short + " " + body)
-        engine.say(body)
-        engine.runAndWait()
-        engine.stop()
-        # some_voltage = 0.1
-        # some_capacity = 100.0
-        # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
         subprocess.run(["pico2wave", "-w", outputfile, body])
         subprocess.run(["aplay", outputfile])
 
