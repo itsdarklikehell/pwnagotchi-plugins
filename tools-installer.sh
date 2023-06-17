@@ -74,12 +74,11 @@ reboot() {
 
 dns_fix
 raspi-config
-
-# update_apt
-# update_pwnagotchi
+update_apt
+update_pwnagotchi
 # bettercaplets
-# edit_pwnlib
-# edit_interfaces
-# install_sounds
-# install_aircrack
+edit_pwnlib
+edit_interfaces
+install_sounds
+install_aircrack
 # reboot
