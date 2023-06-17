@@ -295,6 +295,7 @@ class Apprise(plugins.Plugin):
             attach=outputfilepath,
         )
 
+    # called when there are unread messages
     def on_unread_messages(self, count, total, agent, unread_messages, total_messages):
         s = 's' if count > 1 else ''
         title = ("[apprise]")
@@ -675,6 +676,7 @@ class Apprise(plugins.Plugin):
             attach=outputfilepath,
         )
 
+    # called when a password is cracked
     def on_cracked(self, agent, access_point):
         title = ("[apprise]")
         short = ("on_cracked")

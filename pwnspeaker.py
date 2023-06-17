@@ -245,6 +245,21 @@ class Pwnspeak(plugins.Plugin):
         subprocess.run(["pico2wave", "-w", outputfile, body])
         subprocess.run(["aplay", outputfile])
 
+    # called when there are unread messages
+    def on_unread_messages(self, count, total, agent, unread_messages, total_messages):
+        s = 's' if count > 1 else ''
+        title = ("[pwnspeaker]")
+        short = ("on_unread_messages")
+        body = ('You have {count} new message{plural}!').format(count=count, plural=s)
+        outputfile = '/tmp/' + short + '.wav'
+
+        logging.debug(title + " " + short + " " + body)
+        engine.say(body)
+        engine.runAndWait()
+        engine.stop()
+        subprocess.run(["pico2wave", "-w", outputfile, body])
+        subprocess.run(["aplay", outputfile])
+
     # called when the AI has done training
     def on_ai_training_end(self, agent):
         title = ("[pwnspeaker]")
@@ -513,20 +528,6 @@ class Pwnspeak(plugins.Plugin):
         subprocess.run(["pico2wave", "-w", outputfile, body])
         subprocess.run(["aplay", outputfile])
 
-    def on_unread_messages(self, count, total, agent, unread_messages, total_messages):
-        s = 's' if count > 1 else ''
-        title = ("[pwnspeaker]")
-        short = ("on_unread_messages")
-        body = ('You have {count} new message{plural}!').format(count=count, plural=s)
-        outputfile = '/tmp/' + short + '.wav'
-
-        logging.debug(title + " " + short + " " + body)
-        engine.say(body)
-        engine.runAndWait()
-        engine.stop()
-        subprocess.run(["pico2wave", "-w", outputfile, body])
-        subprocess.run(["aplay", outputfile])
-
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
         title = ("[pwnspeaker]")
@@ -541,6 +542,7 @@ class Pwnspeak(plugins.Plugin):
         subprocess.run(["pico2wave", "-w", outputfile, body])
         subprocess.run(["aplay", outputfile])
 
+    # called when a password is cracked
     def on_cracked(self, agent, access_point):
         title = ("[pwnspeaker]")
         short = ("on_cracked")
