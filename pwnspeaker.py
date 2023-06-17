@@ -341,8 +341,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
-        title = ("[pwnspeaker] on_lonely")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_lonely")
         body = ("I am so loneley, nobody wants to play with me...")
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -355,8 +355,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
-        title = ("[pwnspeaker] on_rebooting")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_rebooting")
         body = ("Hasta La Vista baby, I am going to reboot now.")
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -369,8 +369,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
-        title = ("[pwnspeaker] on_wait")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_wait")
         body = ("Waiting for " + t + "seconds...")
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -383,8 +383,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
-        title = ("[pwnspeaker] on_sleep")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_sleep")
         body = ("Sleeping for " + t + " seconds ...")
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -397,8 +397,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
-        title = ("[pwnspeaker] on_wifi_update")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_wifi_update")
         body = ("I have refreshed my list of access points: " + access_points)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -412,8 +412,8 @@ class Pwnspeak(plugins.Plugin):
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
     def on_unfiltered_ap_list(self, agent, access_points):
-        title = ("[pwnspeaker] on_unfiltered_ap_list")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_unfiltered_ap_list")
         body = ("I have refreshed my list of unfilteted access points: " + access_points)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -440,8 +440,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
-        title = ("[pwnspeaker] on_deauthentication")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_deauthentication")
         body = ("I am deauthenticating" + client_station + "from" + access_point)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -454,8 +454,8 @@ class Pwnspeak(plugins.Plugin):
 
     # callend when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
-        title = ("[pwnspeaker] on_channel_hop")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_channel_hop")
         body = ("I am running on channel: " + channel)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -469,8 +469,8 @@ class Pwnspeak(plugins.Plugin):
     # called when a new handshake is captured, access_point and client_station are json objects
     # if the agent could match the BSSIDs to the current list, otherwise they are just the strings of the BSSIDs
     def on_handshake(self, agent, filename, access_point, client_station):
-        title = ("[pwnspeaker] on_handshake")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_handshake")
         body = ("Handshake captured from" + client_station + "tryning to connect to" + access_point + "saved to" + filename)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -483,8 +483,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
-        title = ("[pwnspeaker] on_epoch")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_epoch")
         body = ("I have completed epoch number: " + epoch + "with data: " + epoch_data)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -497,8 +497,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
-        title = ("[pwnspeaker] on_peer_detected")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_peer_detected")
         body = ("I have found a new peer:" + peer)
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -511,8 +511,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
-        title = ("[pwnspeaker] on_peer_lost")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_peer_lost")
         body = ("I have lost contact with" + peer)
         outputfile = ("/tmp/" + short + ".wav")
 
