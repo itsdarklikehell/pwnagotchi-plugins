@@ -299,8 +299,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to bored
     def on_bored(self, agent):
-        title = ("[pwnspeaker] on_bored")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_bored")
         body = ("I am so bored right now...")
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -313,8 +313,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to sad
     def on_sad(self, agent):
-        title = ("[pwnspeaker] on_sad")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_sad")
         body = ("I am so sad...")
         outputfile = ("/tmp/" + short + ".wav")
 
@@ -327,8 +327,8 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to excited
     def on_excited(self, agent):
-        title = ("[pwnspeaker] on_excited")
-        short = ("")
+        title = ("[pwnspeaker]")
+        short = ("on_excited")
         body = ("I am so excited...")
         outputfile = ("/tmp/" + short + ".wav")
 
