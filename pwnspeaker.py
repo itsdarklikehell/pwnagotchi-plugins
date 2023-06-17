@@ -53,13 +53,18 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("__init__")
         body = ("plugin created")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
         subprocess.run(["pico2wave", "-w", outputfile, body])
         subprocess.run(["aplay", outputfile])
+
+    # called when the config is updated
+    def on_config_changed(self, config):
+        self.config = config
+        self.ready = True
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
@@ -68,7 +73,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_webhook")
         body = ("Webhook clicked!")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -82,7 +87,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_loaded")
         body = ("plugin loaded")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -96,7 +101,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_unload")
         body = ("plugin unloaded")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -110,7 +115,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_internet_available")
         body = ("I now have internet.")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -124,7 +129,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ui_setup")
         body = ("Setting up UI elements")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -139,7 +144,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ui_update")
         body = ("The UI is updated")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -156,7 +161,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_display_setup")
         body = ("Pwnspeak plugin created")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -170,7 +175,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ready")
         body = ("The unit is ready!")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -189,7 +194,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_ready")
         body = ("My AI is finished loading, I now have become sentient!")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -203,7 +208,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_policy")
         body = ("I have found a new set of parameters. " + policy)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -217,7 +222,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_training_start")
         body = ("The AI has started training for " + epochs + "epochs.")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -231,7 +236,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_training_step")
         body = ("The AI has completed training for an epoch." + _locals + _globals)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -245,7 +250,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_training_end")
         body = ("I have finished my training.")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -259,7 +264,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_best_reward")
         body = ("I just got my best reward so far, this is my best day ever!" + reward)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -273,7 +278,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_ai_worst_reward")
         body = ("I just got the worst reward so far, my life sucks!" + reward)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -287,7 +292,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_free_channel")
         body = ("I just found that channel " + channel + "is free.")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -301,7 +306,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_bored")
         body = ("I am so bored right now...")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -315,7 +320,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_sad")
         body = ("I am so sad...")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -329,7 +334,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_excited")
         body = ("I am so excited...")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -343,7 +348,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_lonely")
         body = ("I am so loneley, nobody wants to play with me...")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -357,7 +362,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_rebooting")
         body = ("Hasta La Vista baby, I am going to reboot now.")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -371,7 +376,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_wait")
         body = ("Waiting for " + t + "seconds...")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -385,7 +390,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_sleep")
         body = ("Sleeping for " + t + " seconds ...")
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -399,7 +404,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_wifi_update")
         body = ("I have refreshed my list of access points: " + access_points)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -414,7 +419,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_unfiltered_ap_list")
         body = ("I have refreshed my list of unfilteted access points: " + access_points)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -428,7 +433,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker] on_association")
         short = ("")
         body = ("I am sending an association frame to: " + access_point)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -442,7 +447,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_deauthentication")
         body = ("I am deauthenticating" + client_station + "from" + access_point)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -456,7 +461,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_channel_hop")
         body = ("I am running on channel: " + channel)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -471,7 +476,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_handshake")
         body = ("Handshake captured from" + client_station + "tryning to connect to" + access_point + "saved to" + filename)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -485,7 +490,7 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_epoch")
         body = ("I have completed epoch number: " + epoch + "with data: " + epoch_data)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -499,7 +504,21 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_peer_detected")
         body = ("I have found a new peer:" + peer)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
+
+        logging.debug(title + " " + short + " " + body)
+        engine.say(body)
+        engine.runAndWait()
+        engine.stop()
+        subprocess.run(["pico2wave", "-w", outputfile, body])
+        subprocess.run(["aplay", outputfile])
+
+    def on_unread_messages(self, count, total, agent, unread_messages, total_messages):
+        s = 's' if count > 1 else ''
+        title = ("[pwnspeaker]")
+        short = ("on_unread_messages")
+        body = ('You have {count} new message{plural}!').format(count=count, plural=s)
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
@@ -513,7 +532,20 @@ class Pwnspeak(plugins.Plugin):
         title = ("[pwnspeaker]")
         short = ("on_peer_lost")
         body = ("I have lost contact with" + peer)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
+        outputfile = '/tmp/' + short + '.wav'
+
+        logging.debug(title + " " + short + " " + body)
+        engine.say(body)
+        engine.runAndWait()
+        engine.stop()
+        subprocess.run(["pico2wave", "-w", outputfile, body])
+        subprocess.run(["aplay", outputfile])
+
+    def on_cracked(self, agent, access_point):
+        title = ("[pwnspeaker]")
+        short = ("on_cracked")
+        body = ("I have cracked the password for: " + access_point)
+        outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
         engine.say(body)
