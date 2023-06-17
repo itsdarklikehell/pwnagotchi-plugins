@@ -1,5 +1,5 @@
 import logging
-import os, subprocess
+import os, subprocess, time
 import pyttsx3
 from pwnagotchi import plugins
 from pwnagotchi.ui.components import LabeledValue

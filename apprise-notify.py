@@ -1,5 +1,5 @@
 import logging
-import os
+import os, time
 import apprise
 import pwnagotchi.plugins as plugins
 from pwnagotchi.ui.components import LabeledValue
@@ -65,6 +65,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -89,6 +90,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -108,6 +110,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -129,6 +132,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -148,6 +152,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -167,6 +172,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -187,6 +193,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -206,6 +213,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -225,6 +233,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -244,6 +253,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -263,6 +273,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -282,6 +293,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -301,6 +313,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -321,6 +334,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -340,6 +354,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -359,6 +374,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -378,6 +394,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -397,6 +414,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -416,6 +434,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -435,6 +454,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -454,6 +474,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -473,6 +494,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -492,6 +514,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -511,6 +534,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -530,6 +554,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -549,6 +574,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -569,6 +595,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -588,6 +615,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -607,6 +635,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -626,6 +655,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -646,6 +676,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -665,6 +696,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -684,6 +716,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -703,6 +736,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
@@ -722,6 +756,7 @@ class Apprise(plugins.Plugin):
             body=body,
             attach=picture,
         )
+        time.sleep(1)
         apobj.notify(
             title=title,
             body=body,
