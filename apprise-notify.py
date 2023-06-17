@@ -59,7 +59,7 @@ class Apprise(plugins.Plugin):
         short = ("__init__")
         body = ("They are often well hidden from plain sight! but not this one, hah!")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -83,7 +83,7 @@ class Apprise(plugins.Plugin):
     #     short = ("on_ui_update")
     #     body = ("The UI is updated")
     #     logging.debug(title + " " + short + " " + body)
-    #     outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+    #     outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
     #     apobj.notify(
     #         title=title,
@@ -102,7 +102,7 @@ class Apprise(plugins.Plugin):
     #     short = ("on_internet_available")
     #     body = ("I now have internet.")
     #     logging.debug(title + " " + short + " " + body)
-    #     outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+    #     outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
     #     apobj.notify(
     #         title=title,
@@ -123,7 +123,7 @@ class Apprise(plugins.Plugin):
         short = ("on_webhook")
         body = ("Webhook clicked! " + path + " " + request)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -142,7 +142,7 @@ class Apprise(plugins.Plugin):
         short = ("on_loaded")
         body = ("plugin loaded")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -161,7 +161,7 @@ class Apprise(plugins.Plugin):
         short = ("on_unload")
         body = ("plugin unloaded")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -181,7 +181,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ui_setup")
         body = ("Setting up UI elements")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -200,7 +200,7 @@ class Apprise(plugins.Plugin):
         short = ("on_display_setup")
         body = ("plugin created")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -219,7 +219,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ready")
         body = ("unit is ready!")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -238,7 +238,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_ready")
         body = ("The AI is finished loading")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -257,7 +257,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_policy")
         body = ("I have found a new set of parameters. Policy: " + policy)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -276,7 +276,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_training_start")
         body = ("The AI has started training. Epochs: " + epochs)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -295,7 +295,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_training_step")
         body = ("The AI has completed training for an epoch.")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -315,7 +315,7 @@ class Apprise(plugins.Plugin):
         short = ("on_unread_messages")
         body = ('You have {count} new message{plural}!').format(count=count, plural=s)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -334,7 +334,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_training_end")
         body = ("The AI is done with training.")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -353,7 +353,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_best_reward")
         body = ("The AI just got its best reward so far. Reward: " + reward)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -372,7 +372,7 @@ class Apprise(plugins.Plugin):
         short = ("on_ai_worst_reward")
         body = ("The AI just got its worst reward so far. Reward: " + reward)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -391,7 +391,7 @@ class Apprise(plugins.Plugin):
         short = ("on_free_channel")
         body = ("I just found a non overlapping wifi channel: " + channel + " that is free.")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -410,7 +410,7 @@ class Apprise(plugins.Plugin):
         short = ("on_bored")
         body = ("I am so bored right now...")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -429,7 +429,7 @@ class Apprise(plugins.Plugin):
         short = ("on_sad")
         body = ("I am so sad...")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -448,7 +448,7 @@ class Apprise(plugins.Plugin):
         short = ("on_excited")
         body = ("I am so excited...")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -467,7 +467,7 @@ class Apprise(plugins.Plugin):
         short = ("on_lonely")
         body = ("I am so loneley, nobody wants to play with me...")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -486,7 +486,7 @@ class Apprise(plugins.Plugin):
         short = ("on_rebooting")
         body = ("I am going to reboot now.")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -505,7 +505,7 @@ class Apprise(plugins.Plugin):
         short = ("on_wait")
         body = ("Waiting for " + t + " seconds...")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -524,7 +524,7 @@ class Apprise(plugins.Plugin):
         short = ("on_sleep")
         body = ("Sleeping for " + t + " seconds ...")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -543,7 +543,7 @@ class Apprise(plugins.Plugin):
         short = ("on_wifi_update")
         body = ("I have refreshed my list of access points. Access points: " + access_points)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -563,7 +563,7 @@ class Apprise(plugins.Plugin):
         short = ("on_unfiltered_ap_list")
         body = ("I have refreshed my list of unfilteted access points. Access points: " + access_points)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -582,7 +582,7 @@ class Apprise(plugins.Plugin):
         short = ("on_association")
         body = ("I am sending " + access_point + " an association frame now.")
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -601,7 +601,7 @@ class Apprise(plugins.Plugin):
         short = ("on_deauthentication")
         body = ("I am deauthenticating " + client_station + "from " + access_point)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -620,7 +620,7 @@ class Apprise(plugins.Plugin):
         short = ("on_channel_hop")
         body = ("I am running on " + channel)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -640,7 +640,7 @@ class Apprise(plugins.Plugin):
         short = ("on_handshake")
         body = ("I have captured a handshake. \nFilename: " + filename + "\nClient station: " + client_station + "\nAccess point: " + access_point)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -659,7 +659,7 @@ class Apprise(plugins.Plugin):
         short = ("on_epoch")
         body = ("I have completed a whole epoch. \nEpoch: " + epoch + "\nEpoch data: " + epoch_data)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -678,7 +678,7 @@ class Apprise(plugins.Plugin):
         short = ("on_peer_detected")
         body = ("I have found a new peer. \nPeer: " + peer)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -697,7 +697,7 @@ class Apprise(plugins.Plugin):
         short = ("on_peer_lost")
         body = ("I have lost contact with a peer. \nPeer: " + peer)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,
@@ -716,7 +716,7 @@ class Apprise(plugins.Plugin):
         short = ("on_cracked")
         body = ("I have cracked the password for: " + access_point)
         logging.debug(title + " " + short + " " + body)
-        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else outputfile
+        outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
         apobj.notify(
             title=title,

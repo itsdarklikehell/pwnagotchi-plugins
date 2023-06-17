@@ -27,7 +27,7 @@ voices = engine.getProperty('voices')
 #engine.setProperty('voice', voices[1].id)
 
 picture = '/var/tmp/pwnagotchi/pwnagotchi.png' if os.path.exists("/var/tmp/pwnagotchi/pwnagotchi.png") else '/root/pwnagotchi.png'
-outputfile = '/tmp/output.wav'
+outputfile = '/tmp/' + short + '.wav' if os.path.exists('/tmp/' + short + '.wav') else '/tmp/output.wav'
 
 class Pwnspeak(plugins.Plugin):
     __author__ = 'bauke.molenaar@gmail.com'
