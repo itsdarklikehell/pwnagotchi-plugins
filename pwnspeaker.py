@@ -70,35 +70,35 @@ class Pwnspeak(plugins.Plugin):
         self.ready = True
 
     # called when the ui is updated
-    def on_ui_update(self, ui):
-        title = ("[pwnspeaker]")
-        short = ("on_ui_update")
-        body = ("The UI is updated")
-        outputfile = '/tmp/' + short + '.wav'
+    # def on_ui_update(self, ui):
+    #     title = ("[pwnspeaker]")
+    #     short = ("on_ui_update")
+    #     body = ("The UI is updated")
+    #     outputfile = '/tmp/' + short + '.wav'
 
-        logging.debug(title + " " + short + " " + body)
-        engine.say(body)
-        engine.runAndWait()
-        engine.stop()
-        # some_voltage = 0.1
-        # some_capacity = 100.0
-        # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
-        subprocess.run(["pico2wave", "-w", outputfile, body])
-        subprocess.run(["aplay", outputfile])
+    #     logging.debug(title + " " + short + " " + body)
+    #     engine.say(body)
+    #     engine.runAndWait()
+    #     engine.stop()
+    #     # some_voltage = 0.1
+    #     # some_capacity = 100.0
+    #     # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+    #     subprocess.run(["pico2wave", "-w", outputfile, body])
+    #     subprocess.run(["aplay", outputfile])
 
     # called hen there's internet connectivity
-    def on_internet_available(self, agent):
-        title = ("[pwnspeaker]")
-        short = ("on_internet_available")
-        body = ("I now have internet.")
-        outputfile = '/tmp/' + short + '.wav'
+    # def on_internet_available(self, agent):
+    #     title = ("[pwnspeaker]")
+    #     short = ("on_internet_available")
+    #     body = ("I now have internet.")
+    #     outputfile = '/tmp/' + short + '.wav'
 
-        logging.debug(title + " " + short + " " + body)
-        engine.say(body)
-        engine.runAndWait()
-        engine.stop()
-        subprocess.run(["pico2wave", "-w", outputfile, body])
-        subprocess.run(["aplay", outputfile])
+    #     logging.debug(title + " " + short + " " + body)
+    #     engine.say(body)
+    #     engine.runAndWait()
+    #     engine.stop()
+    #     subprocess.run(["pico2wave", "-w", outputfile, body])
+    #     subprocess.run(["aplay", outputfile])
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
@@ -224,7 +224,7 @@ class Pwnspeak(plugins.Plugin):
     def on_ai_training_start(self, agent, epochs):
         title = ("[pwnspeaker]")
         short = ("on_ai_training_start")
-        body = ("The AI has started training for " + epochs + "epochs.")
+        body = ("The AI has started training for " + epochs + " epochs.")
         outputfile = '/tmp/' + short + '.wav'
 
         logging.debug(title + " " + short + " " + body)
