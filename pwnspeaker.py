@@ -51,10 +51,11 @@ class Pwnspeak(plugins.Plugin):
 
     def __init__(self):
         title = ("[pwnspeaker]")
+        short = ("__init__")
         body = ("plugin created")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -66,10 +67,11 @@ class Pwnspeak(plugins.Plugin):
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
         title = ("[pwnspeaker]")
+        short = ("on_webhook")
         body = ("Webhook clicked!")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -79,10 +81,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         title = ("[pwnspeaker]")
+        short = ("on_loaded")
         body = ("plugin loaded")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -92,10 +95,11 @@ class Pwnspeak(plugins.Plugin):
     # called before the plugin is unloaded
     def on_unload(self, ui):
         title = ("[pwnspeaker]")
+        short = ("on_unload")
         body = ("plugin unloaded")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -105,10 +109,11 @@ class Pwnspeak(plugins.Plugin):
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
         title = ("[pwnspeaker]")
+        short = ("on_internet_available")
         body = ("I now have internet.")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -118,10 +123,11 @@ class Pwnspeak(plugins.Plugin):
     # called to setup the ui elements
     def on_ui_setup(self, ui):
         title = ("[pwnspeaker]")
+        short = ("on_ui_setup")
         body = ("Setting up UI elements")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -130,28 +136,30 @@ class Pwnspeak(plugins.Plugin):
         subprocess.run(["aplay", outputfile])
 
     # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title = ("[pwnspeaker]")
-    #     body = ("The UI is updated")
-    #     outputfile = ("/tmp/output.wav")
+    def on_ui_update(self, ui):
+        title = ("[pwnspeaker]")
+        short = ("on_ui_update")
+        body = ("The UI is updated")
+        outputfile = ("/tmp/" + short + ".wav")
 
-    #     logging.debug(title + " " + body)
-    #     engine.say(body)
-    #     engine.runAndWait()
-    #     engine.stop()
-    #     # some_voltage = 0.1
-    #     # some_capacity = 100.0
-    #     # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
-    #     subprocess.run(["pico2wave", "-w", outputfile, body])
-    #     subprocess.run(["aplay", outputfile])
+        logging.debug(title + " " + short + " " + body)
+        engine.say(body)
+        engine.runAndWait()
+        engine.stop()
+        # some_voltage = 0.1
+        # some_capacity = 100.0
+        # ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+        subprocess.run(["pico2wave", "-w", outputfile, body])
+        subprocess.run(["aplay", outputfile])
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
         title = ("[pwnspeaker]")
+        short = ("on_display_setup")
         body = ("Pwnspeak plugin created")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -161,10 +169,11 @@ class Pwnspeak(plugins.Plugin):
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
         title = ("[pwnspeaker]")
+        short = ("on_ready")
         body = ("The unit is ready!")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -179,10 +188,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the AI finished loading
     def on_ai_ready(self, agent):
         title = ("[pwnspeaker]")
+        short = ("on_ai_ready")
         body = ("My AI is finished loading, I now have become sentient!")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -192,10 +202,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
         title = ("[pwnspeaker]")
+        short = ("on_ai_policy")
         body = ("I have found a new set of parameters. " + policy)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -205,10 +216,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
         title = ("[pwnspeaker]")
+        short = ("on_ai_training_start")
         body = ("The AI has started training for " + epochs + "epochs.")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -218,10 +230,11 @@ class Pwnspeak(plugins.Plugin):
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
         title = ("[pwnspeaker]")
+        short = ("on_ai_training_step")
         body = ("The AI has completed training for an epoch." + _locals + _globals)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -231,10 +244,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the AI has done training
     def on_ai_training_end(self, agent):
         title = ("[pwnspeaker]")
+        short = ("on_ai_training_end")
         body = ("I have finished my training.")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -244,10 +258,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
         title = ("[pwnspeaker]")
+        short = ("on_ai_best_reward")
         body = ("I just got my best reward so far, this is my best day ever!" + reward)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -257,10 +272,11 @@ class Pwnspeak(plugins.Plugin):
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
         title = ("[pwnspeaker]")
+        short = ("on_ai_worst_reward")
         body = ("I just got the worst reward so far, my life sucks!" + reward)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -270,10 +286,11 @@ class Pwnspeak(plugins.Plugin):
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
         title = ("[pwnspeaker]")
+        short = ("on_free_channel")
         body = ("I just found that channel " + channel + "is free.")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -282,11 +299,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to bored
     def on_bored(self, agent):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_bored")
+        short = ("")
         body = ("I am so bored right now...")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -295,11 +313,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to sad
     def on_sad(self, agent):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_sad")
+        short = ("")
         body = ("I am so sad...")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -308,11 +327,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to excited
     def on_excited(self, agent):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_excited")
+        short = ("")
         body = ("I am so excited...")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -321,11 +341,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the status is set to lonely
     def on_lonely(self, agent):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_lonely")
+        short = ("")
         body = ("I am so loneley, nobody wants to play with me...")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -334,11 +355,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is rebooting the board
     def on_rebooting(self, agent):
-        title = ("[pwnspeaker]")
-        body = ("I am going to reboot now.")
-        outputfile = ("/tmp/output.wav")
+        title = ("[pwnspeaker] on_rebooting")
+        short = ("")
+        body = ("Hasta La Vista baby, I am going to reboot now.")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -347,11 +369,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_wait")
+        short = ("")
         body = ("Waiting for " + t + "seconds...")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -360,11 +383,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_sleep")
+        short = ("")
         body = ("Sleeping for " + t + " seconds ...")
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -373,11 +397,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent refreshed its access points list
     def on_wifi_update(self, agent, access_points):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_wifi_update")
+        short = ("")
         body = ("I have refreshed my list of access points: " + access_points)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -387,11 +412,12 @@ class Pwnspeak(plugins.Plugin):
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
     def on_unfiltered_ap_list(self, agent, access_points):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_unfiltered_ap_list")
+        short = ("")
         body = ("I have refreshed my list of unfilteted access points: " + access_points)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -400,11 +426,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is sending an association frame
     def on_association(self, agent, access_point):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_association")
+        short = ("")
         body = ("I am sending an association frame to: " + access_point)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -413,11 +440,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_deauthentication")
+        short = ("")
         body = ("I am deauthenticating" + client_station + "from" + access_point)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -426,11 +454,12 @@ class Pwnspeak(plugins.Plugin):
 
     # callend when the agent is tuning on a specific channel
     def on_channel_hop(self, agent, channel):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_channel_hop")
+        short = ("")
         body = ("I am running on channel: " + channel)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -440,11 +469,12 @@ class Pwnspeak(plugins.Plugin):
     # called when a new handshake is captured, access_point and client_station are json objects
     # if the agent could match the BSSIDs to the current list, otherwise they are just the strings of the BSSIDs
     def on_handshake(self, agent, filename, access_point, client_station):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_handshake")
+        short = ("")
         body = ("Handshake captured from" + client_station + "tryning to connect to" + access_point + "saved to" + filename)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -453,11 +483,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_epoch")
+        short = ("")
         body = ("I have completed epoch number: " + epoch + "with data: " + epoch_data)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -466,11 +497,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_peer_detected")
+        short = ("")
         body = ("I have found a new peer:" + peer)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
@@ -479,11 +511,12 @@ class Pwnspeak(plugins.Plugin):
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
-        title = ("[pwnspeaker]")
+        title = ("[pwnspeaker] on_peer_lost")
+        short = ("")
         body = ("I have lost contact with" + peer)
-        outputfile = ("/tmp/output.wav")
+        outputfile = ("/tmp/" + short + ".wav")
 
-        logging.debug(title + " " + body)
+        logging.debug(title + " " + short + " " + body)
         engine.say(body)
         engine.runAndWait()
         engine.stop()
