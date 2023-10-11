@@ -10,7 +10,7 @@ class AircrackOnly(plugins.Plugin):
     __author__ = "pwnagotchi [at] rossmarks [dot] uk"
     __version__ = "2.0.0"
     __license__ = "GPL3"
-    __description__ = "confirm pcap contains handshake/PMKID or delete it'
+    __description__ = "confirm pcap contains handshake/PMKID or delete it"
     __name__ = 'AircrackOnly'
     __help__ = """
     confirm pcap contains handshake/PMKID or delete it.
