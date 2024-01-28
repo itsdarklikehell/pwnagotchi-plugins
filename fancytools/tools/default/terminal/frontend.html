@@ -1,0 +1,5 @@
+{% if request.remote_addr.startswith('::ffff:10.0.') %}
+    <iframe src="http://10.0.0.2:7681" title="WebSSH" id="webssh" style="width:calc(100vw - 80px); height:calc(100vh - 47px);" ></iframe>
+{% elif request.remote_addr.startswith('::ffff:192.168.') %}
+    <iframe src="http://192.168.44.44:7681" title="WebSSH" id="webssh" style="width:calc(100vw - 80px); height:calc(100vh - 47px);" ></iframe>
+{% endif %}

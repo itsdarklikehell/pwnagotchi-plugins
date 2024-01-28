@@ -1,0 +1,67 @@
+[info]
+name = 'fancygotchi'
+__version__ = '2023.09.1'
+# File where the __version__ 
+online_path = 'https://raw.githubusercontent.com/V0r-T3x/pwnagotchi-fancygotchi/master/pwnagotchi/ui/fancygotchi.py'
+# The main subprocess need for the tool, it is used to verify if the tool is installed
+subprocess = []
+
+[services]
+
+[files]
+# All files needed for the tools, and stored with the same path inside the files folder
+# The relatives path for the pwnagotchi folder:
+pwnagotchi = [
+'ui/components.py',
+'ui/state.py',
+'ui/view.py',
+'ui/fancygotchi.py',
+'ui/hw/libs/waveshare/lcdhat144/epd.py',
+'ui/web/handler.py',
+'ui/web/templates/base.html',
+'ui/web/templates/fancygotchi.html',
+'ui/web/static/css/style.css',
+'identity.py',
+'ui/themes/240x240/config-h.toml',
+'ui/themes/240x240/config-v.toml',
+'ui/themes/250x122/config-h.toml',
+'ui/themes/250x122/config-v.toml',
+'ui/themes/200x96/config-h.toml',
+'ui/themes/200x96/config-v.toml',
+'ui/themes/296x128/config-h.toml',
+'ui/themes/296x128/config-v.toml',
+'ui/themes/config.toml',
+'ui/themes/200x200/config-h.toml',
+'ui/themes/200x200/config-v.toml',
+'ui/themes/img/icons/favicon-w.png',
+'ui/themes/img/icons/favicon-g.png',
+'ui/themes/img/icons/favicon-bg.png',
+'ui/themes/img/icons/favicon.png',
+'ui/themes/264x176/config-h.toml',
+'ui/themes/264x176/config-v.toml',
+'ui/themes/128x128/config-h.toml',
+'ui/themes/128x128/config-v.toml',
+'ui/themes/212x104/config-h.toml',
+'ui/themes/212x104/config-v.toml',
+'ui/themes/480x320/config-h.toml',
+'ui/themes/480x320/config-v.toml',
+'ui/themes/style.css',
+'ui/themes/128x64/config-h.toml',
+'ui/themes/128x64/config-v.toml',
+'ui/themes/320x240/config-h.toml',
+'ui/themes/320x240/config-v.toml',
+]
+# The absolute path for the system files:
+system = [
+'/usr/share/fonts/truetype/font-awesome-solid.otf',
+]
+
+[commands]
+# Each commands are formated with eval(cmd)
+# and are executed with os.system(formated_cmd)
+install = [
+    "'ls %s' % (ROOT_PATH)",
+    "f'ls {ROOT_PATH}'",
+    "'ls /usr'",
+]
+uninstall = []

@@ -1,0 +1,10 @@
+main.plugins.crack_house.display_stats = true
+main.plugins.crack_house.enabled = false
+main.plugins.crack_house.files = [
+  "/root/handshakes/wpa-sec.cracked.potfile",
+  "/root/handshakes/my.potfile",
+  "/root/handshakes/OnlineHashCrack.potfile",
+  "/root/handshakes/banthex.cracked.potfile",
+]
+main.plugins.crack_house.orientation = "vertical"
+main.plugins.crack_house.saving_path = "/root/handshakes/crackhouse.potfile"

@@ -1,0 +1,27 @@
+name: release
+
+on:
+  push:
+    tags: ["*"]
+
+jobs:
+  build:
+    uses: ./.github/workflows/backend.yml
+  publish:
+    needs: [build]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - run: |
+          mkdir build
+          for file in ttyd.*/*; do
+            target=$(echo $file | awk -F/ '{print $1}')
+            [[ $file == *.exe ]] && target="$target.exe"
+            mv $file build/$target
+          done
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/*
+          allowUpdates: true
+          draft: true

@@ -1,0 +1,6 @@
+main.plugins.telegram_ng.bot_name = "WifiKirby_bot"
+main.plugins.telegram_ng.bot_token = "6015731659:AAEVVeTsI-S5ZhWgQdz5pSgFZySQd_XvHMw"
+main.plugins.telegram_ng.chat_id = "639276511"
+main.plugins.telegram_ng.enabled = true
+main.plugins.telegram_ng.send_message = true
+main.plugins.telegram_ng.send_picture = true

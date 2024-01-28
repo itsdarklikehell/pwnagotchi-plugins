@@ -1,0 +1,3 @@
+main.plugins.beacons.enabled = false
+ui.display.enabled = false
+ui.fps = 0.25

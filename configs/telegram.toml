@@ -1,0 +1,6 @@
+main.plugins.telegram.bot_name = ""
+main.plugins.telegram.bot_token = ""
+main.plugins.telegram.chat_id = ""
+main.plugins.telegram.enabled = true
+main.plugins.telegram.send_message = true
+main.plugins.telegram.send_picture = true

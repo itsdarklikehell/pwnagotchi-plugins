@@ -1,0 +1,15 @@
+# Required: Enable or Disable the plugin
+main.plugins.wanmon.enabled = true
+
+# Optional: Set the IP that will be ping-ed to test if IP access to the network is working. This can be an internal or external IP.
+#           If nothing is set in the config, the default IP is "8.8.8.8".
+main.plugins.wanmon.testip = "8.8.8.8"
+
+# Optional: Set the Domain name that will be ping-ed to test if DNS is working.
+#           If nothing is set in the config, the default IP is "google.com".
+main.plugins.wanmon.testdns = "google.com"
+
+# Optional: The X/Y position on your display that the WAN status will be report.
+#           If nothing is set, a best guess will be made to put status at the top-middle of the display.
+main.plugins.wanmon.position_x = "102"
+main.plugins.wanmon.position_y = "0"

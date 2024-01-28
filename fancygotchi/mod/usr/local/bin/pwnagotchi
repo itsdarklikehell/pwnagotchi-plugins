@@ -62,7 +62,8 @@ def do_auto_mode(agent):
                 agent.set_channel(ch)
 
                 if not agent.is_stale() and agent.any_activity():
-                    logging.info("%d access points on channel %d" % (len(aps), ch))
+                    logging.info("%d access points on channel %d" %
+                                 (len(aps), ch))
 
                 # for each ap on this channel
                 for ap in aps:
@@ -86,12 +87,15 @@ def do_auto_mode(agent):
 
         except Exception as e:
             if str(e).find("wifi.interface not set") > 0:
-                logging.exception("main loop exception due to unavailable wifi device, likely programmatically disabled (%s)", e)
-                logging.info("sleeping 60 seconds then advancing to next epoch to allow for cleanup code to trigger")
+                logging.exception(
+                    "main loop exception due to unavailable wifi device, likely programmatically disabled (%s)", e)
+                logging.info(
+                    "sleeping 60 seconds then advancing to next epoch to allow for cleanup code to trigger")
                 time.sleep(60)
                 agent.next_epoch()
             else:
                 logging.exception("main loop exception (%s)", e)
+
 
 def load_theme(config):
     custom_path = config['main']['custom_plugins']
@@ -100,16 +104,18 @@ def load_theme(config):
     if os.path.exists('%s/fancygotchi.py' % (custom_path)):
         fancy_path = custom_path
     else:
-        fancy_path = '/usr/local/lib/python3.7/dist-packages/pwnagotchi/plugins/default'
+        fancy_path = '/usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default'
     if not config['main']['plugins']['fancygotchi']['theme'] == '':
         th_select = str(config['main']['plugins']['fancygotchi']['theme'])
     else:
         th_select = '.default'
-    logging.info('%s/fancygotchi/themes/%s/%s/config.toml' % (fancy_path, th_select, config['ui']['display']['type']))
+    logging.info('%s/fancygotchi/themes/%s/%s/config.toml' %
+                 (fancy_path, th_select, config['ui']['display']['type']))
     with open('%s/fancygotchi/themes/%s/%s/config.toml' % (fancy_path, th_select, config['ui']['display']['type']), 'r') as f:
         setattr(pwnagotchi, '_theme', toml.load(f))
-        #pwnagotchi._theme = toml.load(f)
+        # pwnagotchi._theme = toml.load(f)
         logging.info(pwnagotchi._theme)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -120,7 +126,8 @@ if __name__ == '__main__':
     parser.add_argument('-U', '--user-config', action='store', dest='user_config', default='/etc/pwnagotchi/config.toml',
                         help='If this file exists, configuration will be merged and this will override default values.')
 
-    parser.add_argument('--manual', dest="do_manual", action="store_true", default=False, help="Manual mode.")
+    parser.add_argument('--manual', dest="do_manual",
+                        action="store_true", default=False, help="Manual mode.")
     parser.add_argument('--skip-session', dest="skip_session", action="store_true", default=False,
                         help="Skip last session parsing in manual mode.")
 
@@ -139,10 +146,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if plugins_cmd.used_plugin_cmd(args):
-      config = utils.load_config(args)
-      log.setup_logging(args, config)
-      rc = plugins_cmd.handle_cmd(args, config)
-      sys.exit(rc)
+        config = utils.load_config(args)
+        log.setup_logging(args, config)
+        rc = plugins_cmd.handle_cmd(args, config)
+        sys.exit(rc)
 
     if args.version:
         print(pwnagotchi.__version__)
@@ -163,19 +170,17 @@ if __name__ == '__main__':
 
     pwnagotchi.config = config
 
-    
-
     fs.setup_mounts(config)
     log.setup_logging(args, config)
     load_theme(config)
     fonts.init(config)
-    
+
     pwnagotchi.set_name(config['main']['name'])
 
     plugins.load(config)
 
     display = Display(config=config, state={'name': '%s>' % pwnagotchi.name()})
-    
+
     if args.do_clear:
         do_clear(display)
         sys.exit(0)

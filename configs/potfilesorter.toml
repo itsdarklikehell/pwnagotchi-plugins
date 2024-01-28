@@ -1,0 +1,6 @@
+main.plugins.potfilesorter.api_key = ''
+main.plugins.potfilesorter.api_url = 'https://wpa-sec.stanev.org'
+main.plugins.potfilesorter.download_results = true
+main.plugins.potfilesorter.enabled = true
+main.plugins.potfilesorter.potfile_source = '/root/wpa-sec.cracked.potfile'
+main.plugins.potfilesorter.wpa_source = '/etc/wpa_supplicant/wpa_supplicant.conf'

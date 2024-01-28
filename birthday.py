@@ -1,65 +1,79 @@
-from pwnagotchi.ui.components import LabeledValue
-from pwnagotchi.ui.view import BLACK
-import pwnagotchi.ui.fonts as fonts
-import pwnagotchi.plugins as plugins
-import pwnagotchi
+import os
+import json
 import logging
 import datetime
-import math
+from dateutil.relativedelta import relativedelta
 
-month = (7)
-day = (3)
+import pwnagotchi
+import pwnagotchi.plugins as plugins
+import pwnagotchi.ui.fonts as fonts
+from pwnagotchi.ui.components import LabeledValue
+from pwnagotchi.ui.view import BLACK
+
+
 class Birthday(plugins.Plugin):
-    __author__ = 'https://github.com/LoganMD'
-    __version__ = '1.3.5'
-    __license__ = 'GPL3'
-    __description__ = 'Birthday Counter for pwnagotchi.'
-    __name__ = 'Birthday'
-    __help__ = """
-    Birthday Counter for pwnagotchi.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
-    __defaults__ = {
-        'enabled': False,
-    }
+    __author__ = 'nullm0ose'
+    __version__ = '1.0.'
+    __license__ = 'MIT'
+    __description__ = 'A plugin that shows the age and birthday of your Pwnagotchi.'
+
+    def __init__(self):
+        self.born_at = 0
 
     def on_loaded(self):
-        logging.info("Birthday Counter Plugin loaded.")
+        data_path = '/root/brain.json'
+        self.load_data(data_path)
 
     def on_ui_setup(self, ui):
-        emenable = False
+        if self.options['show_age']:
+            ui.add_element('Age', LabeledValue(color=BLACK, label=' ♥ Age ', value='',
+                                               position=(int(self.options['age_x_coord']),
+                                                         int(self.options['age_y_coord'])),
+                                               label_font=fonts.Bold, text_font=fonts.Medium))
+        elif self.options['show_birthday']:
+            ui.add_element('Birthday', LabeledValue(color=BLACK, label=' ♥ Born: ', value='',
+                                                    position=(int(self.options['age_x_coord']),
+                                                              int(self.options['age_y_coord'])),
+                                                    label_font=fonts.Bold, text_font=fonts.Medium))
 
-        with open('/etc/pwnagotchi/config.toml', 'r') as f:
-            config = f.read().splitlines()
-
-        if "main.plugins.memtemp.enabled = true" in config:
-            memenable = True
-            logging.info(
-                "Birthday Counter Plugin: memtemp is enabled")
-
-        if ui.is_waveshare_v2():
-            pos = (160, 95) if memenable else (160, 95)
-            ui.add_element('birthday', LabeledValue(color=BLACK, label='', value='birthday\n',
-                                                     position=pos,
-                                                     label_font=fonts.Small, text_font=fonts.Small))
+    def on_unload(self, ui):
+        if self.options['show_age']:
+            with ui._lock:
+                ui.remove_element('Age')
+        elif self.options['show_birthday']:
+            with ui._lock:
+                ui.remove_element('Birthday')
 
     def on_ui_update(self, ui):
-        now = datetime.datetime.now()
-        birthday = datetime.datetime(now.year, month, day)
-        if now > birthday:
-            birthday = birthday.replace(year=now.year + 1)
+        if self.options['show_age']:
+            age = self.calculate_age()
+            age_labels = []
+            if age[0] == 1:
+                age_labels.append(f'{age[0]}Yr')
+            elif age[0] > 1:
+                age_labels.append(f'{age[0]}Yrs')
+            if age[1] > 0:
+                age_labels.append(f'{age[1]}m')
+            if age[2] > 0:
+                if age[0] < 1:
+                    age_labels.append(f'{age[2]} days')
+                else:
+                    age_labels.append(f'{age[2]}d')
+            age_string = ' '.join(age_labels)
+            ui.set('Age', age_string)
+        elif self.options['show_birthday']:
+            born_date = datetime.datetime.fromtimestamp(self.born_at)
+            birthday_string = born_date.strftime('%b %d \'%y')
+            ui.set('Birthday', birthday_string)
 
-        difference = (birthday - now)
+    def load_data(self, data_path):
+        if os.path.exists(data_path):
+            with open(data_path) as f:
+                data = json.load(f)
+                self.born_at = data['born_at']
 
-        days = difference.days
-        hours = difference.seconds // 3600
-        minutes = (difference.seconds % 3600) // 60
-
-        if now.month == {month} and now.day == {day}:
-            ui.set('birthday', "Happy bd!")
-        elif days == 0:
-            ui.set('birthday', "(%dH)" % (hours))
-        else:
-            ui.set('birthday', "(%dD)" % (days))
+    def calculate_age(self):
+        born_date = datetime.datetime.fromtimestamp(self.born_at)
+        today = datetime.datetime.now()
+        age = relativedelta(today, born_date)
+        return age.years, age.months, age.days
