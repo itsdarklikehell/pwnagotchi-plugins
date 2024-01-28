@@ -10,18 +10,7 @@ class AwayBase(plugins.Plugin):
     __author__ = '@nope'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'watches for known networks, connects for a while, then returns to recon.'
-    __name__ = 'AwayBase'
-    __help__ = """
-    watches for known networks, connects for a while, then returns to recon
-    """
-    __dependencies__ = {
-        'apt': ['aircrack-ng'],
-    }
-    __defaults__ = {
-        'enabled': False,
-        'face': '(>.<)',
-    }
+    __description__ = 'watches for known networks, connects for a while, then returns to recon'
 
     def __init__(self):
         self.ready = 0
@@ -36,7 +25,7 @@ class AwayBase(plugins.Plugin):
                 return
         _log("plugin loaded")
         self.ready = 1
-
+    
     def on_wifi_update(self, agent, access_points):
         result = _run('iwconfig wlan0')
         if self.ready == 1 and "Not-Associated" in result:
@@ -81,7 +70,7 @@ class AwayBase(plugins.Plugin):
         if self.status == 'associated':
             ui.set('face', '(ᵔ◡◡ᵔ)')
             ui.set('status', 'Home at last!')
-
+        
     def on_epoch(self, agent, epoch, epoch_data):
         wireless_status = _run('iwconfig wlan0')
         l = wireless_status.splitlines()[0]
@@ -124,7 +113,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     time.sleep(5)
     _log('writing to wpa_supplicant.conf file...')
     with open('/tmp/wpa_supplicant.conf', 'w') as wpa_supplicant_conf:
-        wpa_supplicant_conf.write("ctrl_interface=DIR=/var/run/wpa_supplicant\nupdate_config=1\ncountry=NL\n\nnetwork={\n\tssid=\"%s\"\n\tpsk=\"%s\"\n}\n" % (network_name, password))
+        wpa_supplicant_conf.write("ctrl_interface=DIR=/var/run/wpa_supplicant\nupdate_config=1\ncountry=GB\n\nnetwork={\n\tssid=\"%s\"\n\tpsk=\"%s\"\n}\n" % (network_name, password))
     _log('starting wpa_supplicant background process...')
     subprocess.run('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
     subprocess.run('wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
@@ -140,7 +129,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     self.status = 'associated'
     self.ready = 1
     _log('finished connecting to home wifi')
-
+    
 def _restart_monitor_mode(self,agent):
     _log('resuming wifi recon and monitor mode...')
     _log('stopping wpa_supplicant...')

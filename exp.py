@@ -10,14 +10,14 @@ import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
-#Static Variables
+# Static Variables
 MULTIPLIER_ASSOCIATION = 1
 MULTIPLIER_DEAUTH = 2
 MULTIPLIER_HANDSHAKE = 3
 MULTIPLIER_AI_BEST_REWARD = 5
 TAG = "[EXP Plugin]"
 FACE_LEVELUP = '(≧◡◡≦)'
-BAR_ERROR = "╷   error  ╷"
+BAR_ERROR = "|   error  |"
 FILE_SAVE = "exp_stats"
 FILE_SAVE_LEGACY = "exp"
 JSON_KEY_LEVEL = "level"
@@ -29,69 +29,59 @@ class EXP(plugins.Plugin):
     __version__ = '1.0.5'
     __license__ = 'GPL3'
     __description__ = 'Get exp every time a handshake get captured.'
-    __name__ = 'EXP'
-    __help__ = """
-    Get exp every time a handshake get captured.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
-    __defaults__ = {
-        'enabled': False,
-    }
 
-    #Attention number masking
+    # Attention number masking
     def LogInfo(self, text):
         logging.info(TAG + " " +text)
-
-    #Attention number masking
+    
+    # Attention number masking
     def LogDebug(self, text):
         logging.debug(TAG + " " +text)
-
-
+    
+    
     def __init__(self):
         self.percent=0
         self.calculateInitialXP = False
         self.exp=0
         self.lv=1
         self.exp_tot=0
-        #sets the file type I recomend json
+        # Sets the file type I recommend json
         self.save_file_mode = self.save_file_modes("json")
         self.save_file = self.getSaveFileName(self.save_file_mode)
-        #migrate from old save system
+        # Migrate from old save system
         self.migrateLegacySave()
 
-        #create save file
+        # Create save file
         if not os.path.exists(self.save_file):
             self.Save(self.save_file, self.save_file_mode)
         else:
             try:
-                #Try loading
+                # Try loading
                 self.Load(self.save_file, self.save_file_mode)
             except:
-                #Likely throws an exception if json file is corrupted so we need to calculate from scratch
+                # Likely throws an exception if json file is corrupted, so we need to calculate from scratch
                 self.calculateInitialXP = True
 
-        #no previos data, try get it
+        # No previous data, try get it
         if self.lv == 1 and self.exp == 0:
             self.calculateInitialXP = True
         if self.exp_tot == 0:
             self.LogInfo("Need to calculate Total Exp")
             self.exp_tot = self.calcActualSum(self.lv, self.exp)
             self.Save(self.save_file, self.save_file_mode)
-
+            
         self.expneeded = self.calcExpNeeded(self.lv)
-
+        
     def on_loaded(self):
-        #logging.info("Exp plugin loaded for %s" % self.options['device'])
+        # logging.info("Exp plugin loaded for %s" % self.options['device'])
         self.LogInfo("Plugin Loaded")
 
-    def save_file_modes(self,argument):
-        switcher = {
-            "txt": 0,
-            "json": 1,
+    def save_file_modes(self,argument): 
+        switcher = { 
+            "txt": 0, 
+            "json": 1,  
         }
-        return switcher.get(argument, 0)
+        return switcher.get(argument, 0) 
 
     def Save(self, file, save_file_mode):
         self.LogDebug('Saving Exp')
@@ -121,7 +111,7 @@ class EXP(plugins.Plugin):
                     self.exp_tot == int(line)
                 linecounter += 1
             outfile.close()
-
+    
     def saveToJsonFile(self,file):
         data = {
             JSON_KEY_LEVEL : self.lv,
@@ -133,26 +123,26 @@ class EXP(plugins.Plugin):
             f.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
 
     def loadFromJsonFile(self, file):
-        #tot exp is introduced with json, no check needed
+        # Tot exp is introduced with json, no check needed
         data = {}
         with open(file, 'r') as f:
             data = json.loads(f.read())
-
+        
         if bool(data):
             self.lv = data[JSON_KEY_LEVEL]
             self.exp = data[JSON_KEY_EXP]
             self.exp_tot = data[JSON_KEY_EXP_TOT]
         else:
             self.LogInfo("Empty json")
-
-    #TODO: one day change save file mode to file date
+    
+    # TODO: one day change save file mode to file date
     def Load(self, file, save_file_mode):
         self.LogDebug('Loading Exp')
         if save_file_mode == 0:
             self.loadFromTxtFile(file)
         if save_file_mode == 1:
             self.loadFromJsonFile(file)
-
+    
     def getSaveFileName(self, save_file_mode):
         file = os.path.dirname(os.path.realpath(__file__))
         file = file + "/" +FILE_SAVE
@@ -161,10 +151,10 @@ class EXP(plugins.Plugin):
         elif save_file_mode == 1:
             file = file + ".json"
         else:
-            #see switcher
+            # See switcher
             file = file + ".txt"
         return file
-
+    
     def migrateLegacySave(self):
         legacyFile = os.path.dirname(os.path.realpath(__file__))
         legacyFile = legacyFile + "/" + FILE_SAVE_LEGACY +".txt"
@@ -174,49 +164,44 @@ class EXP(plugins.Plugin):
             self.Save(self.save_file, self.save_file_mode)
             os.remove(legacyFile)
 
+    def barString(self, symbols_count, p):
+        if p > 100:
+            return BAR_ERROR
+        length = symbols_count-2
+        bar_char = '▥'
+        blank_char = ' '
+        bar_length = int(round((length / 100)*p))
+        blank_length = length - bar_length
+        res = '|' + bar_char * bar_length + blank_char * blank_length + '|'
+        return res
+
+
+
     def on_ui_setup(self, ui):
-        ui.add_element('Lv', LabeledValue(color=BLACK, label='Lv', value=0, position=(ui.width() / 2 - 125, 80),
+        ui.add_element('Lv', LabeledValue(color=BLACK, label='Lv', value=0,
+                                          position=(int(self.options["lvl_x_coord"]),
+                                                    int(self.options["lvl_y_coord"])),
+                                          label_font=fonts.Bold, text_font=fonts.Medium))
+        ui.add_element('Exp', LabeledValue(color=BLACK, label='Exp', value=0,
+                                           position=(int(self.options["exp_x_coord"]),
+                                                     int(self.options["exp_y_coord"])),
                                            label_font=fonts.Bold, text_font=fonts.Medium))
-        ui.add_element('Exp', LabeledValue(color=BLACK, label='Exp', value=0, position=(ui.width() / 2 - 85, 80),
-                                           label_font=fonts.Bold, text_font=fonts.Medium))
+
     def on_ui_update(self, ui):
         self.expneeded=self.calcExpNeeded(self.lv)
         self.percent=int((self.exp/self.expneeded)*100)
-        bar="╷          ╷"
-        if self.percent<10:
-            bar="╷          ╷"
-        elif self.percent>=10 and self.percent<20:
-            bar="╷▄         ╷"
-        elif self.percent>=20 and self.percent<30:
-            bar="╷▄▄        ╷"
-        elif self.percent>=30 and self.percent<40:
-            bar="╷▄▄▄       ╷"
-        elif self.percent>=40 and self.percent<50:
-            bar="╷▄▄▄▄      ╷"
-        elif self.percent>=50 and self.percent<60:
-            bar="╷▄▄▄▄▄     ╷"
-        elif self.percent>=60 and self.percent<70:
-            bar="╷▄▄▄▄▄▄    ╷"
-        elif self.percent>=70 and self.percent<80:
-            bar="╷▄▄▄▄▄▄▄   ╷"
-        elif self.percent>=80 and self.percent<90:
-            bar="╷▄▄▄▄▄▄▄▄  ╷"
-        elif self.percent>=90 and self.percent<99:
-            bar="╷▄▄▄▄▄▄▄▄▄ ╷"
-        elif self.percent>=99 and self.percent<=100:
-            bar="╷▄▄▄▄▄▄▄▄▄▄╷"
-        elif self.percent > 100:
-            bar = BAR_ERROR
+        symbols_count=int(self.options["bar_symbols_count"])
+        bar=self.barString(symbols_count, self.percent) 
         ui.set('Lv', "%d" % self.lv)
         ui.set('Exp', "%s" % bar)
 
 
     def calcExpNeeded(self, level):
-        #if the pwnagotchi is lvl <1 it causes the keys to be deleted
+        # If the pwnagotchi is lvl <1 it causes the keys to be deleted
         if level == 1:
             return 5
         return int((level**3)/2)
-
+    
 
 
     def exp_check(self, agent):
@@ -230,7 +215,7 @@ class EXP(plugins.Plugin):
     def parseSessionStats(self):
         sum = 0
         dir = pwnagotchi.config['main']['plugins']['session-stats']['save_directory']
-        #TODO: remove
+        # TODO: remove
         self.LogInfo("Session-Stats dir: " + dir)
         for filename in os.listdir(dir):
             self.LogInfo("Parsing " + filename + "...")
@@ -239,7 +224,7 @@ class EXP(plugins.Plugin):
                     sum += self.parseSessionStatsFile(os.path.join(dir,filename))
                 except:
                     self.LogInfo("ERROR parsing File: "+ filename)
-
+                
         return sum
 
     def parseSessionStatsFile(self, path):
@@ -253,7 +238,7 @@ class EXP(plugins.Plugin):
                 deauths += data["data"][entry]["num_deauths"]
                 handshakes += data["data"][entry]["num_handshakes"]
                 associations += data["data"][entry]["num_associations"]
-
+            
 
         sum += deauths * MULTIPLIER_DEAUTH
         sum += handshakes * MULTIPLIER_HANDSHAKE
@@ -262,24 +247,24 @@ class EXP(plugins.Plugin):
         return sum
 
 
-    #if initial sum is 0, we try to parse it
+    # If initial sum is 0, we try to parse it
     def calculateInitialSum(self, agent):
         sessionStatsActive = False
         sum = 0
-        #check if session stats is loaded
+        # Check if session stats is loaded
         for plugin in pwnagotchi.plugins.loaded:
             if plugin == "session-stats":
                 sessionStatsActive = True
                 break
-
+        
         if sessionStatsActive:
             try:
                 self.LogInfo("parsing session-stats")
                 sum = self.parseSessionStats()
             except:
                 self.LogInfo("Error parsing session-stats")
-
-
+            
+            
         else:
             self.LogInfo("parsing last session")
             sum = self.lastSessionPoints(agent)
@@ -288,8 +273,8 @@ class EXP(plugins.Plugin):
         return sum
 
 
-
-    #Get Last Sessions Points
+        
+    # Get Last Sessions Points
     def lastSessionPoints(self, agent):
         summary = 0
         summary += agent.LastSession.handshakes * MULTIPLIER_HANDSHAKE
@@ -297,14 +282,14 @@ class EXP(plugins.Plugin):
         summary += agent.LastSession.deauthed * MULTIPLIER_DEAUTH
         return summary
 
-
-    #Helper function to calculate multiple Levels from a sum of EXPs
+    
+    # Helper function to calculate multiple Levels from a sum of EXPs
     def calcLevelFromSum(self, sum, agent):
         sum1 = sum
         level = 1
         while sum1 > self.calcExpNeeded(level):
             sum1 -= self.calcExpNeeded(level)
-            level += 1
+            level += 1         
         self.lv = level
         self.exp = sum1
         self.expneeded = self.calcExpNeeded(level) - sum1
@@ -320,32 +305,32 @@ class EXP(plugins.Plugin):
             sum += self.calcExpNeeded(lvlCounter)
             lvlCounter += 1
         return sum
-
+    
     def displayLevelUp(self, agent):
         view =  agent.view()
         view.set('face', FACE_LEVELUP)
         view.set('status', "Level Up!")
         view.update(force=True)
 
-    #Event Handling
+    # Event Handling
     def on_association(self, agent, access_point):
         self.exp += MULTIPLIER_ASSOCIATION
         self.exp_tot += MULTIPLIER_ASSOCIATION
         self.exp_check(agent)
         self.Save(self.save_file, self.save_file_mode)
-
+        
     def on_deauthentication(self, agent, access_point, client_station):
         self.exp += MULTIPLIER_DEAUTH
         self.exp_tot += MULTIPLIER_DEAUTH
         self.exp_check(agent)
         self.Save(self.save_file, self.save_file_mode)
-
+        
     def on_handshake(self, agent, filename, access_point, client_station):
         self.exp += MULTIPLIER_HANDSHAKE
         self.exp_tot += MULTIPLIER_HANDSHAKE
         self.exp_check(agent)
         self.Save(self.save_file, self.save_file_mode)
-
+        
     def on_ai_best_reward(self, agent, reward):
         self.exp += MULTIPLIER_AI_BEST_REWARD
         self.exp_tot += MULTIPLIER_AI_BEST_REWARD
@@ -359,4 +344,4 @@ class EXP(plugins.Plugin):
             self.exp_tot = sum
             self.calcLevelFromSum(sum, agent)
             self.Save(self.save_file, self.save_file_mode)
-
+                

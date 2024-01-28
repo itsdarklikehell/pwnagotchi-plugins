@@ -4,26 +4,32 @@
 # educational-purposes-only.py
 # by @cnagy
 # https://github.com/c-nagy/pwnagotchi-educational-purposes-only-plugin/blob/main/educational-purposes-only.py
-#
+# 
 # display-password.py
 # by @abros0000
 # https://github.com/abros0000/pwnagotchi-display-password-plugin/blob/master/display-password.py
 #
 # If their is no cracked network nearby the plugins show the last cracked password by wpa-sec
-# If a cracked networks are nearby it will she the nearest on the screen
+# If cracked networks are nearby it will she the nearest on the screen
+# It can show time from the last wifi update and the number of cracked networks nearby on the total number of cracked networks ('display_stats' option)
 #
-# inside config.toml:
-#
+# Inside config.toml:
+# ```
 # main.plugins.crack_house.enabled = true
 # main.plugins.crack_house.orientation = "vertical"
 # main.plugins.crack_house.files = [
 #  '/root/handshakes/wpa-sec.cracked.potfile',
 #  '/root/handshakes/my.potfile',
-#  '/root/handshakes/OnlineHashCrack.potfile',
+#  '/root/handshakes/OnlineHashCrack.cracked',
 # ]
 # main.plugins.crack_house.saving_path = '/root/handshakes/crackhouse.potfile'
 # main.plugins.crack_house.display_stats = true
-#
+# ```
+# The plugin manage .potfile from wpa-sec & .cracked from OnlineHashCrack
+# .potfile 
+# BSSID:STAMAC:ESSID:password
+# .cracked
+# datetime,ESSID,BSSID,STAMAC,password,note
 
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
@@ -47,37 +53,44 @@ BEST_CRACK = ['']
 
 TOTAL_CRACK = 0
 
+TIME_WIFI_UPDATE = '00:00'
+
 class CrackHouse(plugins.Plugin):
     __author__ = '@V0rT3x'
     __version__ = '1.0.0'
     __license__ = 'GPL3'
-    __description__ = 'A plugin to display closest cracked network & it password.'
-    __name__ = 'CrackHouse'
-    __help__ = """
-    A plugin to display closest cracked network & it password.
-    """
-    __dependencies__ = {
-        'pip': ['requests']
-    }
-    __defaults__ = {
-        'enabled': False,
-    }
-
+    __description__ = 'A plugin to display closest cracked network & it password'
+    
     def on_loaded(self):
-        logging.info(self.options['display_stats'])
         global READY
         global CRACK_MENU
         tmp_line = ''
         tmp_list = list()
-        crack_line = list()
+        crack_line = list() 
+        clist = list()       
 
 #       loop to retreive all passwords of all files into a big list without dulicate
         for file_path in self.options['files']:
-            with open(file_path) as f:
-                for line in f:
-                    tmp_line = str(line.rstrip().split(':',2)[-1:])[2:-2]
-                    tmp_list.append(tmp_line)
-        CRACK_MENU = list(set(tmp_list))
+            if file_path.lower().endswith('.potfile'):
+                with open(file_path) as f:
+                    for line in f:
+                        tmp_line = str(line.rstrip().split(':',2)[-1:])[2:-2]
+                        tmp_list.append(tmp_line)
+            elif file_path.lower().endswith('.cracked'):
+                with open(file_path) as f:
+                    for line in f:
+                        tmp_first = str(line.rstrip().split(',')[:3][1:-1])[3:-3]
+                        tmp_last = str(line.rstrip().split(',')[3:][1:-1])[3:-3]
+                        tmp_line = '%s:%s' % (tmp_first, tmp_last)
+                        tmp_list.append(tmp_line)
+            else:
+                logging.info('[CRACK HOUSE] %s type is not managed' % (os.path.splitext(file_path))) 
+            
+#        logging.info(str(tmp_list))
+        for line in tmp_list:
+            if line.rstrip().split(':')[1] != '':
+                clist.append(line)
+        CRACK_MENU = list(set(clist))
 #       write all name:password inside a file as backup for the run
         with open(self.options['saving_path'], 'w') as f:
             for crack in CRACK_MENU:
@@ -123,7 +136,7 @@ class CrackHouse(plugins.Plugin):
 
         if self.options['display_stats']:
             logging.info('[CRACK HOUSE] display stats loaded')
-
+            
             ui.add_element('crack_house_stats', LabeledValue(color=BLACK, label='', value='',
                                                    position=s_pos,
                                                    label_font=fonts.Bold, text_font=fonts.Small))
@@ -132,15 +145,17 @@ class CrackHouse(plugins.Plugin):
         with ui._lock:
             ui.remove_element('crack_house')
             ui.remove_element('crack_house_stats')
-
+    
     def on_wifi_update(self, agent, access_points):
         global READY
         global CRACK_MENU
         global TOTAL_CRACK
         global BEST_RSSI
         global BEST_CRACK
+        global TIME_WIFI_UPDATE
         tmp_crack = list()
-        logging.info("[CRACK HOUSE] Total cracks: %d" % (len(CRACK_MENU)))
+        TIME_WIFI_UPDATE = str(time.strftime("%H:%M", time.localtime()))
+        #logging.info("[CRACK HOUSE] Total cracks: %d" % (len(CRACK_MENU)))
 
         if READY == 1 and "Not-Associated" in os.popen('iwconfig wlan0').read():
             BEST_RSSI = -1000
@@ -152,24 +167,23 @@ class CrackHouse(plugins.Plugin):
                     tmp_crack = crack.rstrip().split(':')
                     tc = str(tmp_crack[0])
                     if hn == tc:
-                        logging.info('[CRACK HOUSE] %s, pass: %s, RSSI: %d' % (tmp_crack[0], tmp_crack[1], ssi))
+                        #logging.info('[CRACK HOUSE] %s, pass: %s, RSSI: %d' % (tmp_crack[0], tmp_crack[1], ssi))
                         count_crack += 1
-                        logging.info(count_crack)
+                        #logging.info(count_crack)
                         if ssi > BEST_RSSI:
                             BEST_RSSI = ssi
                             BEST_CRACK = tmp_crack
             TOTAL_CRACK = count_crack
-            logging.info(TOTAL_CRACK)
-            logging.info('[CRACK HOUSE] %s, pass: %s, RSSI: %d' % (BEST_CRACK[0], BEST_CRACK[1], BEST_RSSI))
+            #logging.info(TOTAL_CRACK)
+            #logging.info('\n !!!! BEST CRACK HOUSE !!!! \n [CRACK HOUSE] %s, pass: %s, RSSI: %d' % (BEST_CRACK[0], BEST_CRACK[1], BEST_RSSI))
 
     def on_ui_update(self, ui):
         global CRACK_MENU
         global TOTAL_CRACK
         global BEST_RSSI
         global BEST_CRACK
+        global TIME_WIFI_UPDATE
         near_rssi = str(BEST_RSSI)
-
-#        logging.info('[CRACK HOUSE] display_stats: ' + self.options['display_stats'])
 
 
         if BEST_RSSI != -1000:
@@ -185,10 +199,6 @@ class CrackHouse(plugins.Plugin):
                         "%s" % (os.popen(last_line).read().rstrip()))
 
         if self.options['display_stats']:
-            msg_stats = '%d/%d' % (TOTAL_CRACK, len(CRACK_MENU))
-#            logging.info('[CRACK HOUSE] stats display')
+            msg_stats = '(%s)%d/%d' % (TIME_WIFI_UPDATE, TOTAL_CRACK, len(CRACK_MENU))
             ui.set('crack_house_stats',
                         '%s' % (msg_stats))
-
-
-
