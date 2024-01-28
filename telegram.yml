@@ -1,7 +1,0 @@
-telegram:
-  enabled: true
-  bot_token: "6015731659:AAEVVeTsI-S5ZhWgQdz5pSgFZySQd_XvHMw"
-  bot_name: "Wifi_Kirby"
-  chat_id: "639276511"
-  send_picture: true
-  send_message: true

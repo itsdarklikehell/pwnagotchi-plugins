@@ -1,3 +1,0 @@
-logtail:
-  enabled: false
-  max-lines: 10000
