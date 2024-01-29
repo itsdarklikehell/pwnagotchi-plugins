@@ -104,6 +104,15 @@ uninstall_all_plugins() {
     done
 }
 
+copy_tomls() {
+    echo "copy all configs to conf.d..."
+    cd /usr/local/share/pwnagotchi/available-plugins/configs
+    for i in *.toml; do
+        echo "[COPYING CONFIG]: ${i%%.*}.toml"
+        sudo cp ${i%%.*}.toml /etc/pwnagotchi/conf.d/
+    done
+}
+
 # dns_fix
 update_apt
 update_pwnagotchi
@@ -114,6 +123,7 @@ update_pwnagotchi
 install_tools
 update_plugins
 install_all_plugins
-disable_all_plugins
+# disable_all_plugins
 enable_all_plugins
 # uninstall_all_plugins
+copy_tomls
