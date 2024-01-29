@@ -1,0 +1,5 @@
+main.plugins.agev2.enabled = true
+main.plugins.agev2.age_x_coord = 0
+main.plugins.agev2.age_y_coord = 56
+main.plugins.agev2.str_x_coord = 125
+main.plugins.agev2.str_y_coord = 56
