@@ -1,10 +1,4 @@
 #!/bin/bash
-#set -e
-if [ "$HOSNAME" != "Paimon" ]; then
-    GOTCHI_ADDR=pi@Paimon
-else
-    GOTCHI_ADDR=localhost
-fi
 
 bettercaplets() {
     echo "Setting up caplets..."
@@ -39,10 +33,10 @@ edit_interfaces() {
 
 install_sounds() {
     echo "installing sounds/picotts..."
-    ssh "$GOTCHI_ADDR" "wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb"
-    ssh "$GOTCHI_ADDR" "wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico0_1.0+git20130326-3+rpi1_armhf.deb"
-    ssh "$GOTCHI_ADDR" "sudo apt install -y ./libttspico0_1.0+git20130326-3+rpi1_armhf.deb ./libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb"
-    ssh "$GOTCHI_ADDR" "pico2wave -w lookdave.wav 'Look Dave, I can see youre really upset about this.' && aplay lookdave.wav"
+    wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb
+    wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico0_1.0+git20130326-3+rpi1_armhf.deb
+    sudo apt install -y ./libttspico0_1.0+git20130326-3+rpi1_armhf.deb ./libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb
+    pico2wave -w lookdave.wav 'Look Dave, I can see youre really upset about this.' && aplay lookdave.wav
 }
 
 install_tools() {
@@ -53,12 +47,12 @@ install_tools() {
 install_seclists() {
     echo "Installing SecLists..."
     cd ~
-    ssh "$GOTCHI_ADDR" "git clone https://github.com/danielmiessler/SecLists"
-    ssh "$GOTCHI_ADDR" "ln -s /etc/pwnagotchi/wordlists"
+    git clone https://github.com/danielmiessler/SecLists
+    ln -s /etc/pwnagotchi/wordlists
 }
 
 dns_fix() {
-    ssh "$GOTCHI_ADDR" "echo nameserver 1.1.1.1 | sudo tee -a /etc/resolv.conf"
+    echo nameserver 1.1.1.1 | sudo tee -a /etc/resolv.conf
 }
 
 update_plugins() {
@@ -87,7 +81,7 @@ enable_all_plugins() {
 }
 
 install_all_plugins() {
-    echo "Enable all Plugins..."
+    echo "Install all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[INSTALLING]: ${i%%.*}"
@@ -96,7 +90,7 @@ install_all_plugins() {
 }
 
 uninstall_all_plugins() {
-    echo "uninstall all Plugins..."
+    echo "Uninstall all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[UNINSTALLING]: ${i%%.*}"
@@ -105,7 +99,7 @@ uninstall_all_plugins() {
 }
 
 copy_tomls() {
-    echo "copy all configs to conf.d..."
+    echo "Copy all configs to conf.d..."
     cd /usr/local/share/pwnagotchi/available-plugins/configs
     for i in *.toml; do
         echo "[COPYING CONFIG]: ${i%%.*}.toml"
