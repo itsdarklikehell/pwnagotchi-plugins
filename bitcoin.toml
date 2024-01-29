@@ -1,3 +1,0 @@
-main.plugins.bitcoin.api_url = "https://coindesk.com"
-main.plugins.bitcoin.bitcoin_api_url = "/https://api.coindesk.com/v1/bpi/currentprice.json/"
-main.plugins.bitcoin.enabled = false

@@ -1,3 +1,0 @@
-main.plugins.clock.date_format = "%d/%m/%y"
-main.plugins.clock.enabled = true
-main.plugins.clock.time_format = "%H:%M"

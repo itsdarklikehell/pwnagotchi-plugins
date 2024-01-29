@@ -1,5 +1,0 @@
-main.plugins.memtemp.enabled = true
-main.plugins.memtemp.linespacing = 18
-main.plugins.memtemp.orientation = "horizontal"
-main.plugins.memtemp.position = "382,194"
-main.plugins.memtemp.scale = "celsius"

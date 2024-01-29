@@ -1,3 +1,0 @@
-main.plugins.gpsd.enabled = false
-main.plugins.gpsd.gpsdhost = "127.0.0.1"
-main.plugins.gpsd.gpsdport = 2947
