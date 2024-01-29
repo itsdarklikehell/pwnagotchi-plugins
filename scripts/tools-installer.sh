@@ -118,6 +118,6 @@ install_tools
 update_plugins
 install_all_plugins
 # disable_all_plugins
-enable_all_plugins
+# enable_all_plugins
 # uninstall_all_plugins
 # copy_tomls
