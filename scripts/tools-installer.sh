@@ -86,7 +86,9 @@ uninstall_all_plugins() {
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[UNINSTALLING]: ${i%%.*}"
-        sudo pwnagotchi plugins uninstall ${i%%.*}
+        ssh -t pi@paimon.local "sudo pwnagotchi plugins uninstall ${i%%.*}"
+        ssh -t pi@paimon.local "sudo rm /usr/local/share/pwnagotchi/available-plugins/${i%%.*}.py"
+        ssh -t pi@paimon.local "sudo rm /usr/local/share/pwnagotchi/custom-plugins/${i%%.*}.py"
     done
 }
 
