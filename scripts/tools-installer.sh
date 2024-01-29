@@ -41,7 +41,7 @@ install_sounds() {
 
 install_tools() {
     echo "Installing Tools..."
-    sudo apt install -y aircrack-ng nmap macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd
+    sudo apt install -y aircrack-ng nmap macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd sudo apt install python3-buttonshim python3-nmea2
 }
 
 install_seclists() {

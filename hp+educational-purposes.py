@@ -9,6 +9,7 @@ import os
 import random
 from pwnagotchi.plugins import Plugin
 
+
 class CombinedPlugin(Plugin):
     __author__ = 'Andryu Schittone, @nagy_craig'
     __version__ = '1.0.27'
@@ -30,16 +31,19 @@ class CombinedPlugin(Plugin):
         # Verifica la existencia de la interfaz wlan0mon
         if "wlan0mon" in subprocess.getoutput('iwconfig'):
             # Initialize honey pot plugin
-            threading.Timer(self.update_interval, self.render_honey_pots).start()
+            threading.Timer(self.update_interval,
+                            self.render_honey_pots).start()
             self.create_fake_aps()
 
             # Initialize educational purposes only plugin
             self.ready = 1
             self.status = ''
             self.network = ''
-            threading.Timer(self.update_interval, self.render_network_status).start()
+            threading.Timer(self.update_interval,
+                            self.render_network_status).start()
         else:
-            logging.warning("La interfaz wlan0mon no está presente. Algunas funciones pueden no estar disponibles.")
+            logging.warning(
+                "The interface wlan0mon is not present. All functions stopped.")
 
     def on_loaded(self):
         # Honey pot plugin events
@@ -55,23 +59,27 @@ class CombinedPlugin(Plugin):
     def on_ui_setup(self, ui):
         # Common UI elements for both plugins
         ui.add_element('status', LabeledValue(color=fonts.BLACK, label='Status', value='', position=(ui.width() / 2 - 25, 30),
-                                           label_font=fonts.Bold, text_font=fonts.Small))
+                                              label_font=fonts.Bold, text_font=fonts.Small))
 
         # UI elements specific to honey pot plugin
         ui.add_element('honey-pots', LabeledValue(color=fonts.BLACK, label='Honey Pots', value='0',
-                                                   position=(ui.width() / 2 - 25, 0),
-                                                   label_font=fonts.Bold, text_font=fonts.Medium))
+                                                  position=(
+                                                      ui.width() / 2 - 25, 0),
+                                                  label_font=fonts.Bold, text_font=fonts.Medium))
         ui.add_element('detected-fake-aps', LabeledValue(color=fonts.BLACK, label='Detected Fake APs', value='0',
-                                                         position=(ui.width() / 2 - 25, 10),
+                                                         position=(
+                                                             ui.width() / 2 - 25, 10),
                                                          label_font=fonts.Bold, text_font=fonts.Medium))
         ui.add_element('active-fake-aps', LabeledValue(color=fonts.BLACK, label='Active Fake APs', value='0',
-                                                       position=(ui.width() / 2 - 25, 20),
+                                                       position=(
+                                                           ui.width() / 2 - 25, 20),
                                                        label_font=fonts.Bold, text_font=fonts.Medium))
 
         # UI elements specific to educational purposes only plugin
         ui.add_element('network-status', LabeledValue(color=fonts.BLACK, label='Network Status', value='',
-                                                       position=(ui.width() / 2 - 25, 40),
-                                                       label_font=fonts.Bold, text_font=fonts.Small))
+                                                      position=(
+                                                          ui.width() / 2 - 25, 40),
+                                                      label_font=fonts.Bold, text_font=fonts.Small))
 
     def on_ui_update(self, ui):
         some_voltage = 0.1
@@ -83,18 +91,21 @@ class CombinedPlugin(Plugin):
 
         if STATUS == 'rssi_low':
             ui.set('face', '(ﺏ__ﺏ)')
-            ui.set('status', 'Signal strength of %s is currently too low to connect ...')
+            ui.set(
+                'status', 'Signal strength of %s is currently too low to connect ...')
         elif STATUS == 'home_detected':
             ui.set('face', '(◕‿‿◕)')
             ui.set('face', '(ᵔ◡◡ᵔ)')
-            ui.set('status', 'Found home network at %s ...' % self.home_network)
+            ui.set('status', 'Found home network at %s ...' %
+                   self.home_network)
         elif STATUS == 'switching_mon_off':
             ui.set('face', '(◕‿‿◕)')
             ui.set('face', '(ᵔ◡◡ᵔ)')
             ui.set('status', 'We\'re home! Pausing monitor mode ...')
         elif STATUS == 'scrambling_mac':
             ui.set('face', '(⌐■_■)')
-            ui.set('status', 'Scrambling MAC address before connecting to %s ...' % self.home_network)
+            ui.set('status', 'Scrambling MAC address before connecting to %s ...' %
+                   self.home_network)
         elif STATUS == 'associating':
             ui.set('status', 'Greeting the AP and asking for an IP via DHCP ...')
             ui.set('face', '(◕‿◕ )')
@@ -107,7 +118,8 @@ class CombinedPlugin(Plugin):
             ui.set('network-status', self.status)
 
     def handle_wifi_handshake(self, agent, filename, access_point, client_station):
-        self.log(f"WiFi Handshake captured from {client_station['addr']} at {access_point['addr']}")
+        self.log(
+            f"WiFi Handshake captured from {client_station['addr']} at {access_point['addr']}")
         logging.debug("Handling wifi handshake event...")
         # Implement additional logic if needed, such as notification or logging.
 
@@ -133,9 +145,11 @@ class CombinedPlugin(Plugin):
 
                         wpa_supplicant_conf_path = '/etc/wpa_supplicant/wpa_supplicant.conf'
                         with open(wpa_supplicant_conf_path, 'w') as wpa_supplicant_conf:
-                            wpa_supplicant_conf.write(f"network={{\n\tssid=\"{self.home_network}\"\n\tpsk=\"{self.home_password}\"\n}}\n")
+                            wpa_supplicant_conf.write(
+                                f"network={{\n\tssid=\"{self.home_network}\"\n\tpsk=\"{self.home_password}\"\n}}\n")
 
-                        subprocess.Popen(['wpa_supplicant', '-B', '-i', 'wlan0mon', '-c', wpa_supplicant_conf_path])
+                        subprocess.Popen(
+                            ['wpa_supplicant', '-B', '-i', 'wlan0mon', '-c', wpa_supplicant_conf_path])
                         subprocess.Popen(['dhclient', 'wlan0mon'])
 
                         self.status = f"Connected to {self.home_network}!"
@@ -172,7 +186,8 @@ class CombinedPlugin(Plugin):
 
     def render_network_status(self):
         self.ui.set('network-status', self.status)
-        threading.Timer(self.update_interval, self.render_network_status).start()
+        threading.Timer(self.update_interval,
+                        self.render_network_status).start()
 
     def log(self, message):
         logging.info(message)
@@ -182,5 +197,7 @@ class CombinedPlugin(Plugin):
                 status.value = message
 
 # Register the combined plugin
+
+
 def setup():
     return CombinedPlugin()
