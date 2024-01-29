@@ -1,7 +1,7 @@
 main.plugins.banthex.api_key = "bb8d067f703da80ad39eb2fcc38fa2b7"
 main.plugins.banthex.api_url = "https://banthex.de/wpa/"
 main.plugins.banthex.download_results = true
-main.plugins.banthex.enabled = false
+main.plugins.banthex.enabled = true
 main.plugins.banthex.whitelist = [
   "B33zH1v3!",
   "Downtown-Personeel-2.4G",

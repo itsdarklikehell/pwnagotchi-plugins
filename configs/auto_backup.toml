@@ -3,7 +3,7 @@ main.plugins.auto_backup.commands = [
   "mv /tmp/backup.tar.gz /home/pi/pwnagotchi_backup-$(date +%d-%m-%Y).tar.gz",
   "mv /tmp/backup.tar.gz /root/pwnagotchi_backup-$(date +%d-%m-%Y).tar.gz",
 ]
-main.plugins.auto_backup.enabled = false
+main.plugins.auto_backup.enabled = true
 main.plugins.auto_backup.files = [
   "/root/brain.nn",
   "/root/brain.json",

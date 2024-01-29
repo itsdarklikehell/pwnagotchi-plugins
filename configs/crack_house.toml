@@ -1,5 +1,5 @@
 main.plugins.crack_house.display_stats = true
-main.plugins.crack_house.enabled = false
+main.plugins.crack_house.enabled = true
 main.plugins.crack_house.files = [
   "/root/handshakes/wpa-sec.cracked.potfile",
   "/root/handshakes/my.potfile",

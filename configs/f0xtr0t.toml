@@ -1,4 +1,4 @@
-main.plugins.f0xtr0t.enabled = false
+main.plugins.f0xtr0t.enabled = true
 main.plugins.f0xtr0t.gpsdhost = "127.0.0.1"
 main.plugins.f0xtr0t.gpsdport = 2947
 main.plugins.f0xtr0t.gpsprovider = "gpsd"

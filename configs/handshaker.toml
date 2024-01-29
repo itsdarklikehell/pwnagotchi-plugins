@@ -1,1 +1,1 @@
-main.plugins.handshaker.enabled = false
+main.plugins.handshaker.enabled = true

@@ -1,1 +1,1 @@
-main.plugins.enable_assoc.enabled = false
+main.plugins.enable_assoc.enabled = true

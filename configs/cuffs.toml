@@ -1,4 +1,4 @@
-main.plugins.cuffs.enabled = false
+main.plugins.cuffs.enabled = true
 main.plugins.cuffs.whitelist = [
   "B33zH1v3!",
   "Downtown-Personeel-2.4G",

@@ -1,2 +1,2 @@
-main.plugins.aircrackonly.enabled = false
+main.plugins.aircrackonly.enabled = true
 main.plugins.aircrackonly.face = "(>.<)"

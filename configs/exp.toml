@@ -1,4 +1,4 @@
-main.plugins.exp.enabled = false
+main.plugins.exp.enabled = true
 main.plugins.exp.exp_x_coord = 0
 main.plugins.exp.exp_y_coord = 228
 main.plugins.exp.lvl_x_coord = 0
