@@ -70,7 +70,7 @@ update_plugins() {
 
 disable_all_plugins() {
     echo "Disable all Plugins..."
-    cd /usr/local/share/pwnagotchi/available-plugins
+    cd /usr/local/share/pwnagotchi/custom-plugins
     for i in *.py; do
         echo "[DISABLE]: ${i%%.*}"
         sudo pwnagotchi plugins disable ${i%%.*}
@@ -126,4 +126,4 @@ install_all_plugins
 # disable_all_plugins
 enable_all_plugins
 # uninstall_all_plugins
-copy_tomls
+# copy_tomls
