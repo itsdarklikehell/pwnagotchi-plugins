@@ -107,6 +107,15 @@ copy_tomls() {
     done
 }
 
+enable_scripts() {
+    cd ~
+    mkdir bin
+    cd ~/bin
+    ln -s /usr/local/share/pwnagotchi/available-plugins/scripts/*.sh .
+    sudo chown pi *.sh
+    sudo chmod +x *.sh
+}
+
 # dns_fix
 update_apt
 update_pwnagotchi
@@ -121,3 +130,4 @@ install_all_plugins
 # enable_all_plugins
 # uninstall_all_plugins
 # copy_tomls
+enable_scripts
