@@ -35,7 +35,8 @@ install_sounds() {
 }
 install_tools() {
     echo "Installing Tools..."
-    sudo apt install -y raspberrypi-ui-mods aircrack-ng nmap macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd sudo apt install python3-buttonshim python3-nmea2
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y raspberrypi-ui-mods aircrack-ng nmap macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd python3-buttonshim python3-nmea2 python3-qrcode python3-psutil python3-feedparser python3-netifaces python3-paramiko python3-plotly python3-serial python3-geopy python3-discord python3-dotenv
 }
 install_seclists() {
     echo "Installing SecLists..."
@@ -53,7 +54,6 @@ update_plugins() {
     sudo pwnagotchi plugins update
     sudo pwnagotchi plugins upgrade
 }
-
 disable_all_plugins() {
     echo "Disable all Plugins..."
     cd /usr/local/share/pwnagotchi/custom-plugins
@@ -62,7 +62,6 @@ disable_all_plugins() {
         sudo pwnagotchi plugins disable ${i%%.*}
     done
 }
-
 enable_all_plugins() {
     echo "Enable all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
@@ -71,7 +70,6 @@ enable_all_plugins() {
         sudo pwnagotchi plugins enable ${i%%.*}
     done
 }
-
 install_all_plugins() {
     echo "Install all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
@@ -80,18 +78,17 @@ install_all_plugins() {
         sudo pwnagotchi plugins install ${i%%.*}
     done
 }
-
 uninstall_all_plugins() {
     echo "Uninstall all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[UNINSTALLING]: ${i%%.*}"
-        ssh -t pi@paimon.local "sudo pwnagotchi plugins uninstall ${i%%.*}"
-        ssh -t pi@paimon.local "sudo rm /usr/local/share/pwnagotchi/available-plugins/${i%%.*}.py"
-        ssh -t pi@paimon.local "sudo rm /usr/local/share/pwnagotchi/custom-plugins/${i%%.*}.py"
+        sudo pwnagotchi plugins disable ${i%%.*}
+        sudo pwnagotchi plugins uninstall ${i%%.*}
+        sudo rm -f /usr/local/share/pwnagotchi/available-plugins/${i%%.*}.py
+        sudo rm -f /usr/local/share/pwnagotchi/custom-plugins/${i%%.*}.py
     done
 }
-
 copy_tomls() {
     echo "Copy all configs to conf.d..."
     cd /usr/local/share/pwnagotchi/available-plugins/configs
