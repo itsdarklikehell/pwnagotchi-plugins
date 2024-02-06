@@ -69,7 +69,7 @@ class CrackHouse(plugins.Plugin):
         tmp_list = list()
         crack_line = list()
         clist = list()
-
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         #       loop to retreive all passwords of all files into a big list without dulicate
         for file_path in self.options["files"]:
             if file_path.lower().endswith(".potfile"):

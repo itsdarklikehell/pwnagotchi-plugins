@@ -35,7 +35,7 @@ class AutoHotSpot(plugins.Plugin):
 
     def on_loaded(self):
         global READY
-        logging.info("Auto Hotspot loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         READY = 1
 
     def display_text(self, text):

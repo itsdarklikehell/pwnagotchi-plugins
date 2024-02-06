@@ -43,6 +43,7 @@ class BLEMon(plugins.Plugin):
         if "face" not in self.options:
             self.options["face"] = "(B+B)"
         logging.warning("BLEMon loaded! with options = %s" % repr(self.options))
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
     def on_unload(self, ui):

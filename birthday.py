@@ -32,7 +32,7 @@ class Birthday(plugins.Plugin):
     def on_loaded(self):
         data_path = "/root/brain.json"
         self.load_data(data_path)
-        logging.info("[Birthday] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         if self.options["show_age"]:

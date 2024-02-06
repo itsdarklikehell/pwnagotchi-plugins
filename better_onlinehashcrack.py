@@ -48,7 +48,7 @@ class OnlineHashCrack(plugins.Plugin):
             self.options["whitelist"] = list()
 
         self.ready = True
-        logging.info("OHC: OnlineHashCrack plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def _upload_to_ohc(self, path, timeout=30):
         with open(path, "rb") as file_to_upload:

@@ -28,6 +28,7 @@ class discohash(plugins.Plugin):
     def on_loaded(self):
         global tether
         tether = False
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info(f"[*] DiscoHash plugin loaded")
 
     # called when internet is available

@@ -40,7 +40,7 @@ class BluetoothSniffer(plugins.Plugin):
         logging.info("[BluetoothSniffer] plugin loaded")
 
     def on_loaded(self):
-        logging.info("[BluetoothSniffer] plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info(
             "[BluetoothSniffer] Bluetooth devices file location: %s",
             self.options["devices_file"],

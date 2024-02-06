@@ -32,6 +32,7 @@ class AwayBase(plugins.Plugin):
                 return
         _log("plugin loaded")
         self.ready = 1
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_wifi_update(self, agent, access_points):
         result = _run("iwconfig wlan0")

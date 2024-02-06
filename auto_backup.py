@@ -44,9 +44,10 @@ class AutoBackup(plugins.Plugin):
             ):
                 logging.error(f"[autobackup] Option {opt} is not set.")
                 return
+        logging.info("[autobackup] plugin loaded")
 
         self.ready = True
-        logging.info("[autobackup] Successfully loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_internet_available(self, agent):
         if not self.ready:

@@ -721,5 +721,5 @@ class Buttonshim(plugins.Plugin):
         on_press([BUTTON_A, BUTTON_B, BUTTON_C, BUTTON_D, BUTTON_E], runCommand)
 
     def on_loaded(self):
-        logging.info("[buttonshim] GPIO Button plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.running = True

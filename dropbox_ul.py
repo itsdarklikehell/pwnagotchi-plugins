@@ -69,7 +69,7 @@ class dropbox(plugins.Plugin):
         ):
             logging.error("dropbox_ul: APP-TOKEN isn't set.")
             return
-        logging.info(" [dropbox_ul] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.ready = True
 
     def on_internet_available(self, agent):

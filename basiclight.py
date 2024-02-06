@@ -51,7 +51,7 @@ class BasicLight(plugins.Plugin):
             GPIO.setup(Lnum, GPIO.OUT)
         GPIO.output(LEDs["yellow"], GPIO.HIGH)
         GPIO.output(LEDs["green"], GPIO.LOW)
-        logging.info("Basic Lights loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # On ready, switch Yellow low
     def on_ready(self, agent):

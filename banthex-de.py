@@ -105,7 +105,7 @@ class Banthex(plugins.Plugin):
             self.options["whitelist"] = list()
 
         self.ready = True
-        logging.info("BANTHEX: plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_webhook(self, path, request):
         from flask import make_response, redirect

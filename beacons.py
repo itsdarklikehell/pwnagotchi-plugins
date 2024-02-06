@@ -78,6 +78,7 @@ class Beacons(plugins.Plugin):
             " *beacons* this plugin is not stealthy at all! Anyone could see the beacons when they search for WiFi networks!"
         )
         Beacons._busy = False
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called when there's internet connectivity
     def on_internet_available(self, agent):

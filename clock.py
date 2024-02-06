@@ -29,8 +29,7 @@ class PwnClock(plugins.Plugin):
             self.date_format = self.options["date_format"]
         else:
             self.date_format = "%m/%d/%y"
-
-        logging.info("[PwnClock] Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         try:

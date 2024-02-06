@@ -25,7 +25,7 @@ class Deauth(plugins.Plugin):
         self.handshake_counter = 0
 
     def on_loaded(self):
-        logging.info("[deauth] pluginloaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):

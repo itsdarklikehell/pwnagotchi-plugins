@@ -11,7 +11,7 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
 
-class EMP(plugins.Plugin):
+class Counter(plugins.Plugin):
     __author__ = "33197631+dadav@users.noreply.github.com (made the plugin this is based on) + Terminator"
     __version__ = "1.0.0"
     __license__ = "GPL3"
@@ -29,7 +29,7 @@ class EMP(plugins.Plugin):
         self.assoc_counter = 0
 
     def on_loaded(self):
-        logging.info("[Counter] Counter-plugin is loaded!")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.running = True
 
     def on_unload(self, ui):

@@ -26,7 +26,7 @@ class Darkmode(plugins.Plugin):
         try:
             pwnagotchi.ui.view.BLACK = 0xFF
             pwnagotchi.ui.view.WHITE = 0x00
-            logging.info("[darkmode] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("darkmode.on_loaded: %s" % e)
 

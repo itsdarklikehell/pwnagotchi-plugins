@@ -14,6 +14,7 @@ class DisplaySettings(plugins.Plugin):
 
     def __init__(self):
         logging.debug("DisplaySettings plugin created")
+        logging.debug(f"[{self.__class__.__name__}] plugin created")
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
@@ -25,6 +26,7 @@ class DisplaySettings(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         logging.info("DisplaySettings options = %s" % self.options)
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
     def on_unload(self, ui):

@@ -28,7 +28,7 @@ class Bitcoin(plugins.Plugin):
     _has_internet = False
 
     def on_loaded(self):
-        logging.info("[bitcoin] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def _fetch_price(self):
         logging.info("[bitcoin] fetching bitcoin price")
