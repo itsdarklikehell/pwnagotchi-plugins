@@ -34,7 +34,7 @@ class Discord(plugins.Plugin):
                 self.options["username"] = fp.read().strip()
 
         self.ready = True
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        logging.info("[discord] plugin loaded")
 
     # called when there's available internet
     def on_internet_available(self, agent):
