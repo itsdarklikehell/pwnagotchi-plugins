@@ -3,6 +3,7 @@ import json
 import logging
 from datetime import datetime
 
+
 import pwnagotchi
 import pwnagotchi.plugins as plugins
 import pwnagotchi.ui.faces as faces
@@ -40,11 +41,11 @@ class Age(plugins.Plugin):
 
     def on_ui_setup(self, ui):
         ui.add_element(
-            "AgeV2",
+            "Age",
             LabeledValue(
                 color=BLACK,
                 label="♥ Age",
-                value="",
+                value=0,
                 position=(
                     int(self.options["age_x_coord"]),
                     int(self.options["age_y_coord"]),
@@ -166,12 +167,3 @@ class Age(plugins.Plugin):
 
         age_str = f"{years}y {months}m {days}d"
         return age_str
-
-
-# Instantiate the plugin
-age_plugin = Age()
-
-# Example usage (replace this with the actual Pwnagotchi usage)
-# For example, calling on_ai_training_step and on_ui_update methods
-# age_plugin.on_ai_training_step(your_agent, your_locals, your_globals)
-# age_plugin.on_ui_update(your_ui)
