@@ -18,9 +18,7 @@ class MemTempPlus(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "A plugin that will display memory/cpu usage and temperature"
     __name__ = "MemTempPlus"
-    __help__ = """
-    A plugin that will display memory/cpu usage and temperature
-    """
+    __help__ = "A plugin that will display memory/cpu usage and temperature"
     __dependencies__ = {
         "pip": ["scapy"],
     }

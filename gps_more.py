@@ -15,9 +15,7 @@ class GPS_More(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Save GPS coordinates whenever it seems reasonable. on epoch to get starting point, handshake to update."
     __name__ = "GPS_More"
-    __help__ = """
-    Save GPS coordinates whenever it seems reasonable. on epoch to get starting point, handshake to update.
-    """
+    __help__ = "Save GPS coordinates whenever it seems reasonable. on epoch to get starting point, handshake to update."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

@@ -12,9 +12,9 @@ class Timer(plugins.Plugin):
         "Measure the amount of time taken by the pwnagotchi to capture a handshake."
     )
     __name__ = "Timer"
-    __help__ = """
-    Measure the amount of time taken by the pwnagotchi to capture a handshake.
-    """
+    __help__ = (
+        "Measure the amount of time taken by the pwnagotchi to capture a handshake."
+    )
     __dependencies__ = {
         "pip": ["scapy"],
     }

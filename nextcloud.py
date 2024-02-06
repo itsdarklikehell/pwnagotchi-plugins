@@ -17,9 +17,9 @@ class nextcloud(plugins.Plugin):
         "This plugin automatically uploads handshakes to a nextcloud webdav endpoint."
     )
     __name__ = "nextcloud"
-    __help__ = """
-    This plugin automatically uploads handshakes to a nextcloud webdav endpoint.
-    """
+    __help__ = (
+        "This plugin automatically uploads handshakes to a nextcloud webdav endpoint."
+    )
     __dependencies__ = {
         "pip": ["scapy"],
     }

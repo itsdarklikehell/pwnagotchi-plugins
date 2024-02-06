@@ -12,20 +12,19 @@ import pwnagotchi.plugins as plugins
 import pwnagotchi
 import time
 
+
 class PiSugar2(plugins.Plugin):
     __author__ = "10230718+tisboyo@users.noreply.github.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = "A plugin that will add a voltage indicator for the PiSugar 2."
-    __name__ = 'PiSugar2'
-    __help__ = """
-    A plugin that will add a voltage indicator for the PiSugar 2.
-    """
+    __name__ = "PiSugar2"
+    __help__ = "A plugin that will add a voltage indicator for the PiSugar 2."
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -84,7 +83,10 @@ class PiSugar2(plugins.Plugin):
 
         # new model use battery_power_plugged & battery_allow_charging to detect real charging status
         if self.is_new_model:
-            if self.ps.get_battery_power_plugged().value and self.ps.get_battery_allow_charging().value:
+            if (
+                self.ps.get_battery_power_plugged().value
+                and self.ps.get_battery_allow_charging().value
+            ):
                 ui.set("chg", "⚡")
                 if not self.is_charging:
                     ui.update(force=True, new_data={"status": "Power!! I can feel it!"})

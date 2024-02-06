@@ -14,9 +14,7 @@ class PawGPS(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Saves GPS coordinates whenever an handshake is captured. The GPS data is get from PAW on android."
     __name__ = "pawgps"
-    __help__ = """
-    Saves GPS coordinates whenever an handshake is captured. The GPS data is get from PAW on android.
-    """
+    __help__ = "Saves GPS coordinates whenever an handshake is captured. The GPS data is get from PAW on android."
     __dependencies__ = {
         "pip": ["scapy"],
     }

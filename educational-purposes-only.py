@@ -25,9 +25,7 @@ class EducationalPurposesOnly(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "A plugin to automatically authenticate to known networks and perform internal network recon."
     __name__ = "EducationalPurposesOnly"
-    __help__ = """
-    A plugin to automatically authenticate to known networks and perform internal network recon.
-    """
+    __help__ = "A plugin to automatically authenticate to known networks and perform internal network recon."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

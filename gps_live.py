@@ -6,7 +6,8 @@ class GPSLive(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = """
+    __description__ = "
+)
     Update GPS coordinates on each epoch.
     Requires gps plugin enabled.
     """

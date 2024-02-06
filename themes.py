@@ -12,9 +12,8 @@ class Themes(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Theme/script kicker plugin for pwnagotchi."
     __name__ = "Themes"
-    __help__ = """
-    Theme/script kicker plugin for pwnagotchi.
-    """
+    __help__ = ("Theme/script kicker plugin for pwnagotchi."
+    )
     __dependencies__ = {
         "pip": ["scapy"],
     }
@@ -29,9 +28,11 @@ class Themes(plugins.Plugin):
         logging.info("Pwnagotchi [Themes] plugin loaded")
 
     def on_webhook(self, path, request):
-        """
+        "
+)
         Returns requested data
-        """
+        "
+)
         # defaults:
         response_header_contenttype = None
         response_header_contentdisposition = None
@@ -120,9 +121,11 @@ class Themes(plugins.Plugin):
             return
 
     def get_html(self):
-        """
+        "
+)
         Returns the html page
-        """
+        "
+)
         try:
             template_file = (
                 os.path.dirname(os.path.realpath(__file__)) + "/" + "themes.html"

@@ -13,9 +13,7 @@ class Christmas(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Christmas Countdown timer for pwnagotchi."
     __name__ = "Christmas"
-    __help__ = """
-    Christmas Countdown timer for pwnagotchi.
-    """
+    __help__ = "Christmas Countdown timer for pwnagotchi."
     __dependencies__ = {"pip": ["datetime", "yaml"]}
     __defaults__ = {
         "enabled": False,

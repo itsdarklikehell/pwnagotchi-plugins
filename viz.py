@@ -102,9 +102,7 @@ class Viz(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "This plugin visualizes the surrounding APs."
     __name__ = "Viz"
-    __help__ = """
-    This plugin visualizes the surrounding APs.
-    """
+    __help__ = "This plugin visualizes the surrounding APs."
     __dependencies__ = {"pip": ["plotly", "pandas", "flask"]}
     __defaults__ = {
         "enabled": False,

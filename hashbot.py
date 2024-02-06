@@ -3,14 +3,14 @@
 __author__ = "v0yager"
 __license__ = "GPL3"
 __version__ = "1.0.0"
-__description__ = """
+__description__ = "
+)
                 This bot will return the hashes obtained using discohash
                 for a specified number of access points as a txt file.
                 Message the bot with !dumphash [NUMBER].
                 """
 __name__ = "hashbot"
-__help__ = """
-        This bot will return the hashes obtained using discohash
+__help__ = ("    This bot will return the hashes obtained using discohash
         for a specified number of access points as a txt file.
         Message the bot with !dumphash [NUMBER].
         """

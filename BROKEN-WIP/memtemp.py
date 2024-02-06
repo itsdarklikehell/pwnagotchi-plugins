@@ -39,8 +39,8 @@ class MemTemp(plugins.Plugin):
     __description__ = 'A plugin that will display memory/cpu usage and temperature.'
     __name__ = 'MemTemp'
     __help__ = """...
-    A plugin that will display memory/cpu usage and temperature.
-    """
+    A plugin that will display memory/cpu usage and temperature."
+    )
     __dependencies__ = {
         'pip': ['scapy'],
     }

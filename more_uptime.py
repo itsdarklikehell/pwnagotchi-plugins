@@ -14,9 +14,7 @@ class More_Uptime(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads."
     __name__ = "More_Uptime"
-    __help__ = """
-    Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads.
-    """
+    __help__ = "Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads."
     __dependencies__ = {
         "pip": ["scapy"],
     }

@@ -16,6 +16,15 @@ class Age(plugins.Plugin):
     __version__ = "1.1.0"
     __license__ = "MIT"
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
+    __name__ = "AgeV2"
+    __help__ = ("A plugin that will add age and strength stats based on epochs and trained epochs"
+    )
+    __dependencies__ = {
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.epochs = 0
@@ -23,6 +32,8 @@ class Age(plugins.Plugin):
         self.access_points_seen = 0
         self.deauths_sent = 0
         self.device_start_time = datetime.now()
+        logging.info("[AgeV2] __init__ method executed."
+
 
     def on_loaded(self):
         data_path = "/root/brain.json"
@@ -30,7 +41,7 @@ class Age(plugins.Plugin):
 
     def on_ui_setup(self, ui):
         ui.add_element(
-            "Age",
+            "AgeV2",
             LabeledValue(
                 color=BLACK,
                 label="♥ Age",

@@ -715,7 +715,8 @@ class Fancytools(plugins.Plugin):
         if request.method == "GET":
             if path == "/" or not path:
                 # pwnagotchi.fancy_change = True
-                """
+                "
+)
                 tools info and process needed:
                 -----------------------------
                 is it installed?
@@ -731,7 +732,8 @@ class Fancytools(plugins.Plugin):
                     on or off service button
 
 
-                """
+                "
+)
                 title = os.path.basename(__file__)[:-3]
                 logging.debug(title)
 

@@ -7,7 +7,8 @@ class GPSGrid(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = """
+    __description__ = "
+)
     Share GPS coordinates with grid.
     Requires gps plugin enabled.
     """

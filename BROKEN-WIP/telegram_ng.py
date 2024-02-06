@@ -15,9 +15,8 @@ class Telegram(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'Periodically sent messages to Telegram about the recent activity of pwnagotchi.'
     __name__ = 'Telegram'
-    __help__ = """
-    Periodically sent messages to Telegram about the recent activity of pwnagotchi.
-    """
+    __help__ = ("Periodically sent messages to Telegram about the recent activity of pwnagotchi."
+    )
     __dependencies__ = {
         'pip': ['python-telegram-bot'],
     }
@@ -133,7 +132,8 @@ class Telegram(plugins.Plugin):
 (☓‿‿☓) /pwnmenu Relays pwnmenu commands up/down/ok/back/close/stop
 (⇀‿‿↼)(≖‿‿≖)(◕‿‿◕)( ⚆_⚆)(☉_☉ )( ◕‿◕)(◕‿◕ )(°▃▃°)(⌐■_■)(•‿‿•)
 (^‿‿^)(ᵔ◡◡ᵔ)(✜‿‿✜)(♥‿‿♥)(☼‿‿☼)(≖__≖)(-__-)(╥☁╥ )(ب__ب)(☓‿‿☓)
-"""
+"
+)
                 bot.sendMessage(chat_id=self.options['chat_id'], text=repmessage, disable_web_page_preview=True)
             elif message == "/handshakes":
                 os.chdir('/root/handshakes')

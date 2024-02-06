@@ -284,9 +284,7 @@ class Enterprise(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "This plugin will attempt to obtain credentials from enterprise networks when bored and networks are available."
     __name__ = "enterprise"
-    __help__ = """
-    This plugin will attempt to obtain credentials from enterprise networks when bored and networks are available.
-    """
+    __help__ = "This plugin will attempt to obtain credentials from enterprise networks when bored and networks are available."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

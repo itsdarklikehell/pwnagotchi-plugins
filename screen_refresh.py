@@ -8,9 +8,7 @@ class ScreenRefresh(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Refresh he e-ink display after X amount of updates."
     __name__ = "ScreenRefresh"
-    __help__ = """
-    Refresh he e-ink display after X amount of updates.
-    """
+    __help__ = "Refresh he e-ink display after X amount of updates."
     __dependencies__ = {
         "pip": ["scapy"],
     }

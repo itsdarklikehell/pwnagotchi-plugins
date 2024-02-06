@@ -31,9 +31,9 @@ class Banthex(plugins.Plugin):
         "This plugin automatically uploads handshakes to https://banthex.de/wpa/"
     )
     __name__ = "Banthex"
-    __help__ = """
-    This plugin automatically uploads handshakes to https://banthex.de/wpa/
-    """
+    __help__ = (
+        "This plugin automatically uploads handshakes to https://banthex.de/wpa/"
+    )
     __dependencies__ = {"pip": ["requests"]}
     __defaults__ = {
         "enabled": False,
@@ -55,9 +55,11 @@ class Banthex(plugins.Plugin):
         self.skip = list()
 
     def _upload_to_banthex(self, path, timeout=30):
-        """
+        "
+)
         Uploads the file to https://banthex.de or another endpoint.
-        """
+        "
+)
         with open(path, "rb") as file_to_upload:
             cookie = {"key": self.options["api_key"]}
             payload = {"file": file_to_upload}
@@ -75,10 +77,12 @@ class Banthex(plugins.Plugin):
                 raise req_e
 
     def _download_from_banthex(self, output, timeout=30):
-        """
+        "
+)
         Downloads the results from banthex and saves them to output
         Output-Format: bssid, station_mac, ssid, password
-        """
+        "
+)
         api_url = self.options["api_url"]
         if not api_url.endswith("/"):
             api_url = f"{api_url}/"
@@ -95,9 +99,11 @@ class Banthex(plugins.Plugin):
             raise os_e
 
     def on_loaded(self):
-        """
+        "
+)
         Gets called when the plugin gets loaded
-        """
+        "
+)
         if "api_key" not in self.options or (
             "api_key" in self.options and not self.options["api_key"]
         ):
@@ -126,9 +132,11 @@ class Banthex(plugins.Plugin):
         return response
 
     def on_internet_available(self, agent):
-        """
+        "
+)
         Called in manual mode when there's internet connectivity
-        """
+        "
+)
         if not self.ready or self.lock.locked():
             return
 

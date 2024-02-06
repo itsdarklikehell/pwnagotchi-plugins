@@ -14,9 +14,7 @@ class Deauth(plugins.Plugin):
         "A plugin that counts the successful deauth attacks of this session."
     )
     __name__ = "deauthcounter"
-    __help__ = """
-    A plugin that counts the successful deauth attacks of this session.
-    """
+    __help__ = "A plugin that counts the successful deauth attacks of this session."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

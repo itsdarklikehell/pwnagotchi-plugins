@@ -14,9 +14,9 @@ class PwnagotchiVersion(plugins.Plugin):
         "A plugin that will add the Pwnagotchi version to the left of the current mode."
     )
     __name__ = "PwnagotchiVersion"
-    __help__ = """
-    A plugin that will add the Pwnagotchi version to the left of the current mode.
-    """
+    __help__ = (
+        "A plugin that will add the Pwnagotchi version to the left of the current mode."
+    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

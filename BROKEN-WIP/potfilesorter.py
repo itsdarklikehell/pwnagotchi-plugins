@@ -19,9 +19,8 @@ class potfilesorter(plugins.Plugin):
         "A plugin that will sort a potfile and output its to a usable wpa_supplicant.conf."
 	)
     __name__ = 'potfilesorter'
-    __help__ = """
-    A plugin that will sort a potfile and output its to a usable wpa_supplicant.conf.
-    """
+    __help__ = ("A plugin that will sort a potfile and output its to a usable wpa_supplicant.conf."
+    )
     __dependencies__ = {
         'pip': ['scapy', 'shutil'],
     }
@@ -91,11 +90,13 @@ class potfilesorter(plugins.Plugin):
                 logging.debug('[wpasec] %s', os_e)
 
     def _download_from_wpasec(self, output, timeout=30):
-        """
+        "
+)
         Downloads the results from wpasec and safes them to output
 
         Output-Format: bssid, station_mac, ssid, password
-        """
+        "
+)
         logging.info("Downloading wpa-sec clicked!")
         api_url = self.options['api_url']
         if not api_url.endswith('/'):

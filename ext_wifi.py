@@ -11,9 +11,7 @@ class ext_wifi(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Activates external wifi adapter."
     __name__ = "ext_wifi"
-    __help__ = """
-    Activates external wifi adapter.
-    """
+    __help__ = "Activates external wifi adapter."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

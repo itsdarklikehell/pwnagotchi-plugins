@@ -10,9 +10,7 @@ class powerutils(plugins.Plugin):
     __license__ = "MIT"
     __description__ = "A server to shutdown or restart pwnagotchi hardware."
     __name__ = "powerutils"
-    __help__ = """
-    A server to shutdown or restart pwnagotchi hardware.
-    """
+    __help__ = "A server to shutdown or restart pwnagotchi hardware."
     __dependencies__ = {
         "pip": ["scapy"],
     }

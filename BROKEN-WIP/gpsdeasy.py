@@ -68,7 +68,8 @@ class GPSD:
         """ Connect to a GPSD instance
         :param host: hostname for the GPSD server
         :param port: port for the GPSD server
-        """
+        "
+)
         
         logging.info("[gpsdeasy] Connecting to gpsd socket at {}:{}".format(host, port))
         try:
@@ -91,7 +92,8 @@ class GPSD:
     def get_current(self,poll):
         """ Poll gpsd for a new position ("tpv") and or sats ("sky")
         :return: GpsResponse
-        """
+        "
+)
         if self.running != True:
             return None
         

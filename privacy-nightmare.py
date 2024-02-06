@@ -20,9 +20,7 @@ class PrivacyNightmare(plugins.Plugin):
     __license__ = "Private (for now)"
     __description__ = "Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly)."
     __name__ = "PrivacyNightmare"
-    __help__ = """
-    Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly).
-    """
+    __help__ = "Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly)."
     __dependencies__ = {
         "pip": ["scapy"],
     }

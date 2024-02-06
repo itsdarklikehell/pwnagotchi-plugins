@@ -11,8 +11,8 @@ from threading import Lock
 from pwnagotchi import plugins
 
 
-def _extract_gps_data(path):
-    """
+def _extract_gps_data(path):"
+    )
     Extract data from gps-file
 
     return json-obj
@@ -34,10 +34,10 @@ def _format_auth(data):
     return out
 
 
-def _transform_wigle_entry(gps_data, pcap_data):
-    """
-    Transform to wigle entry in file
-    """
+def _transform_wigle_entry(gps_data, pcap_data):"
+    )
+    Transform to wigle entry in file"
+    )
     dummy = StringIO()
     # write kismet header
     dummy.write(
@@ -62,8 +62,8 @@ def _transform_wigle_entry(gps_data, pcap_data):
     return dummy.getvalue()
 
 
-def _send_to_wigle(lines, api_key, timeout=30):
-    """
+def _send_to_wigle(lines, api_key, timeout=30):"
+    )
     Uploads the file to wigle-net
     """
 
@@ -98,9 +98,8 @@ class Wigle(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin automatically uploads collected wifis to wigle.net.'
     __name__ = 'Wigle'
-    __help__ = """
-    This plugin automatically uploads collected wifis to wigle.net.
-    """
+    __help__ = ("This plugin automatically uploads collected wifis to wigle.net."
+    )
     __dependencies__ = {
         'pip': ['requests']
     }
@@ -135,9 +134,11 @@ class Wigle(plugins.Plugin):
         self.ready = True
 
     def on_internet_available(self, agent):
-        """
+        "
+)
         Called in manual mode when there's internet connectivity
-        """
+        "
+)
         if not self.ready or self.lock.locked() or self.shutdown:
             return
 

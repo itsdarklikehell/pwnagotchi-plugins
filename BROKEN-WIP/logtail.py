@@ -240,9 +240,8 @@ class Logtail(plugins.Plugin):
         'This plugin tails the logfile.'
     )
     __name__ = 'Logtail'
-    __help__ = """
-    This plugin tails the logfile.
-    """
+    __help__ = ("This plugin tails the logfile."
+    )
     __dependencies__ = {
         'pip': ['scapy']
     }
@@ -260,9 +259,11 @@ class Logtail(plugins.Plugin):
         self.ready = True
 
     def on_loaded(self):
-        """
+        "
+)
         Gets called when the plugin gets loaded
-        """
+        "
+)
         logging.info("Logtail plugin loaded.")
 
 

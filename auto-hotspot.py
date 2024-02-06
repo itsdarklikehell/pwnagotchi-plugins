@@ -24,9 +24,7 @@ class AutoHotSpot(plugins.Plugin):
         "A plugin to automatically create a wifi hotspot when in manual mode."
     )
     __name__ = "AutoHotSpot"
-    __help__ = """
-    A plugin to automatically create a wifi hotspot when in manual mode.
-    """
+    __help__ = "A plugin to automatically create a wifi hotspot when in manual mode."
     __dependencies__ = {
         "apt": ["aircrack-ng"],
     }

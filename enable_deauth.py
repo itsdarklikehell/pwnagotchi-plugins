@@ -12,9 +12,7 @@ class Do_Deauth(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads."
     __name__ = "Do_Deauth"
-    __help__ = """
-    Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads.
-    """
+    __help__ = "Enable and disable DEAUTH on the fly. Enabled when plugin loads, disabled when plugin unloads."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

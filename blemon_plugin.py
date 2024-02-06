@@ -14,9 +14,9 @@ class BLEMon(plugins.Plugin):
         "An example plugin for pwnagotchi that implements all the available callbacks."
     )
     __name__ = "BLEMon"
-    __help__ = """
-    An example plugin for pwnagotchi that implements all the available callbacks.
-    """
+    __help__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
+    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

@@ -57,12 +57,14 @@ class Display:
         self.init()
 
     def init(self):
-        """Run the initialization commands."""
+        """Run the initialization commands."
+)
         for command, data in self._INIT:
             self._write(command, data)
 
     def _block(self, x0, y0, x1, y1, data=None):
-        """Read or write a block of data."""
+        """Read or write a block of data."
+)
         self._write(self._COLUMN_SET, self._encode_pos(x0, x1))
         self._write(self._PAGE_SET, self._encode_pos(y0, y1))
         if data is None:
@@ -72,19 +74,23 @@ class Display:
         self._write(self._RAM_WRITE, data)
 
     def _encode_pos(self, a, b):
-        """Encode a postion into bytes."""
+        """Encode a postion into bytes."
+)
         return ustruct.pack(self._ENCODE_POS, a, b)
 
     def _encode_pixel(self, color):
-        """Encode a pixel color into bytes."""
+        """Encode a pixel color into bytes."
+)
         return ustruct.pack(self._ENCODE_PIXEL, color)
 
     def _decode_pixel(self, data):
-        """Decode bytes into a pixel color."""
+        """Decode bytes into a pixel color."
+)
         return color565(*ustruct.unpack(self._DECODE_PIXEL, data))
 
     def pixel(self, x, y, color=None):
-        """Read or write a pixel."""
+        """Read or write a pixel."
+)
         if color is None:
             return self._decode_pixel(self._block(x, y, x, y))
         if not 0 <= x < self.width or not 0 <= y < self.height:
@@ -92,7 +98,8 @@ class Display:
         self._block(x, y, x, y, self._encode_pixel(color))
 
     def fill_rectangle(self, x, y, width, height, color):
-        """Draw a filled rectangle."""
+        """Draw a filled rectangle."
+)
         x = min(self.width - 1, max(0, x))
         y = min(self.height - 1, max(0, y))
         w = min(self.width - x, max(1, width))
@@ -108,19 +115,23 @@ class Display:
             self._write(None, pixel * rest)
 
     def fill(self, color=0):
-        """Fill whole screen."""
+        """Fill whole screen."
+)
         self.fill_rectangle(0, 0, self.width, self.height, color)
 
     def hline(self, x, y, width, color):
-        """Draw a horizontal line."""
+        """Draw a horizontal line."
+)
         self.fill_rectangle(x, y, width, 1, color)
 
     def vline(self, x, y, height, color):
-        """Draw a vertical line."""
+        """Draw a vertical line."
+)
         self.fill_rectangle(x, y, 1, height, color)
 
     def blit_buffer(self, buffer, x, y, width, height):
-        """Copy pixels from a buffer."""
+        """Copy pixels from a buffer."
+)
         if (not 0 <= x < self.width or
             not 0 <= y < self.height or
             not 0 < x + width <= self.width or

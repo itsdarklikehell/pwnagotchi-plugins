@@ -15,9 +15,7 @@ class LcdHat(plugins.Plugin):
     __license__ = "MIT"
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __name__ = "Age"
-    __help__ = """
-    A plugin that will add age and strength stats based on epochs and trained epochs
-    """
+    __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

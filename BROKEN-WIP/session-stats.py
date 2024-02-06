@@ -181,9 +181,8 @@ class SessionStats(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin displays stats of the current session.'
     __name__ = 'SessionStats'
-    __help__ = """
-    This plugin displays stats of the current session.
-    """
+    __help__ = ("This plugin displays stats of the current session."
+    )
     __dependencies__ = {
         'pip': ['scapy'],
     }
@@ -198,9 +197,11 @@ class SessionStats(plugins.Plugin):
         self.clock = GhettoClock()
 
     def on_loaded(self):
-        """
+        "
+)
         Gets called when the plugin gets loaded
-        """
+        "
+)
         # this has to happen in "loaded" because the options are not yet
         # available in the __init__
         os.makedirs(self.options['save_directory'], exist_ok=True)
@@ -211,9 +212,11 @@ class SessionStats(plugins.Plugin):
         logging.info("Session-stats plugin loaded.")
 
     def on_epoch(self, agent, epoch, epoch_data):
-        """
+        "
+)
         Save the epoch_data to self.stats
-        """
+        "
+)
         with self.lock:
             self.stats[self.clock.now().strftime("%H:%M:%S")] = epoch_data
             self.session.update(data={'data': self.stats})

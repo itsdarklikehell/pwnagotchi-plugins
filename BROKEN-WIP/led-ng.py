@@ -13,15 +13,13 @@ class Led(plugins.Plugin):
     __description__ = (
         "This plugin blinks the PWR led with different patterns depending on the event."
     )
-    __name__ = 'Led'
-    __help__ = """
-    This plugin blinks the PWR led with different patterns depending on the event.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __name__ = "Led"
+    __help__ = (
+        "This plugin blinks the PWR led with different patterns depending on the event."
+    )
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):

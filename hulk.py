@@ -11,9 +11,7 @@ class Hulk(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "This will put pwnagotchi in hulk mode. Hulk is always angry!"
     __name__ = "Hulk"
-    __help__ = """
-    This will put pwnagotchi in hulk mode. Hulk is always angry!
-    """
+    __help__ = "This will put pwnagotchi in hulk mode. Hulk is always angry!"
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

@@ -248,9 +248,11 @@ class Logtail(plugins.Plugin):
         self.ready = True
 
     def on_loaded(self):
-        """
+        "
+)
         Gets called when the plugin gets loaded
-        """
+        "
+)
         logging.info("Logtail plugin loaded.")
 
 

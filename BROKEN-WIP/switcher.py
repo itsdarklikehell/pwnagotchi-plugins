@@ -42,7 +42,8 @@ def run_task(name, options):
 
     # here we create the service which runs the tasks
     with open('/etc/systemd/system/%s' % task_service_name, 'wt') as task_service:
-        task_service.write("""
+        task_service.write("
+)
         [Unit]
         Description=Executes the tasks of the pwnagotchi switcher plugin
         After=pwnagotchi.service bettercap.service
@@ -64,21 +65,25 @@ def run_task(name, options):
         open('/root/.switcher', 'a').close()
 
         # add condition
-        systemd_dropin("pwnagotchi.service", """
+        systemd_dropin("pwnagotchi.service", "
+)
         [Unit]
         ConditionPathExists=!/root/.switcher""")
 
-        systemd_dropin("bettercap.service", """
+        systemd_dropin("bettercap.service", "
+)
         [Unit]
         ConditionPathExists=!/root/.switcher""")
 
-        systemd_dropin(task_service_name, """
+        systemd_dropin(task_service_name, "
+)
         [Service]
         ExecStart=-/bin/rm /root/.switcher
         ExecStart=-/bin/rm /etc/systemd/system/switcher-reboot.timer""")
 
         with open('/etc/systemd/system/switcher-reboot.timer', 'wt') as reboot_timer:
-            reboot_timer.write("""
+            reboot_timer.write("
+)
             [Unit]
             Description=Reboot when time is up
             ConditionPathExists=/root/.switcher
@@ -107,9 +112,8 @@ class Switcher(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin is a generic task scheduler.'
     __name__ = 'switcher'
-    __help__ = """
-    This plugin is a generic task scheduler.
-    """
+    __help__ = ("This plugin is a generic task scheduler."
+    )
     __dependencies__ = {
         'pip': ['scapy'],
     }

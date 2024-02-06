@@ -13,9 +13,7 @@ class Bitcoin(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "A plugin that will display the bitcoin price."
     __name__ = "Bitcoin"
-    __help__ = """
-    A plugin that will display the bitcoin price.
-    """
+    __help__ = "A plugin that will display the bitcoin price."
     __dependencies__ = {"pip": ["requests"]}
     __defaults__ = {
         "enabled": False,

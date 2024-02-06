@@ -18,9 +18,7 @@ class Wardrive(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Wardriving plugin for pwnagotchi."
     __name__ = "Wardrive"
-    __help__ = """
-    Wardriving plugin for pwnagotchi.
-    """
+    __help__ = "Wardriving plugin for pwnagotchi."
     __dependencies__ = {
         "pip": ["scapy"],
     }

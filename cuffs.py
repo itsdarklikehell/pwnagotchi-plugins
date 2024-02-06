@@ -8,9 +8,8 @@ class Cuffs(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Restricts the pwnagotchi to only attack specified ap's."
     __name__ = "Cuffs"
-    __help__ = """
-    Restricts the pwnagotchi to only attack specified ap\'s.
-    """
+    __help__ = ("Restricts the pwnagotchi to only attack specified ap\'s."
+    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -72,9 +71,11 @@ class Cuffs(plugins.Plugin):
             logging.debug(f"Unrestricted AP: {access_point}")
 
     def is_whitelisted(self, ap):
-        """
+        "
+)
         Returns True if the ap is not being restricted by cuffs
-        """
+        "
+)
         for whitelisted_ap in self.options["whitelist"]:
             if (
                 whitelisted_ap.lower() == ap["mac"].lower()

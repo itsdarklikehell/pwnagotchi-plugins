@@ -11,9 +11,7 @@ class handshaker(plugins.Plugin):
     __license__ = "MIT"
     __description__ = "A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH."
     __name__ = "handshaker"
-    __help__ = """
-    A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH.
-    """
+    __help__ = "A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

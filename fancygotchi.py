@@ -299,9 +299,8 @@ class Fancygotchi(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
     __name__ = "Fancygotchi"
-    __help__ = """
-    A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]
-    """
+    __help__ = ("A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
+    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -337,7 +336,8 @@ class Fancygotchi(plugins.Plugin):
         ]
         # logging.info('[FANCYGOTCHI] %s' % display)
 
-        """
+        "
+)
         check_update(self.__version__)
         update(True)
         replace_file(['target.txt', 'test.txt'], ['/home/pi/', '/home/pi/'], True, False, False)

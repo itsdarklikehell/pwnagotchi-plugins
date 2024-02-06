@@ -25,7 +25,13 @@ class Achievements(plugins.Plugin):
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "Collect achievements for daily challenges."
-    __defaults__ = {"enabled": False}
+    __name__ = "Achievements"
+    __help__ = (
+        "A plugin that will add Achievement stats based on epochs and trained epochs"
+    )
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False

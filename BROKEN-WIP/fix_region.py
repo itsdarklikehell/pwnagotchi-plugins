@@ -37,6 +37,7 @@ iw reg get
 iwlist wlan0 channel
 ```
 """
+
 import os
 import pwnagotchi
 from pwnagotchi import restart
@@ -55,51 +56,48 @@ ExecStart=/root/network-fix.sh &
 [Install]
 WantedBy=default.target
 """
-REGION = pwnagotchi.config['main']['plugins']['fix_region']['region']
+REGION = pwnagotchi.config["main"]["plugins"]["fix_region"]["region"]
 
 NETFIX_SH = """
 #!/bin/bash
 iw reg set """
 
-SERV_PATH = '/etc/systemd/system/network-fix.service'
-SH_PATH = '/root/network-fix.sh'
+SERV_PATH = "/etc/systemd/system/network-fix.service"
+SH_PATH = "/root/network-fix.sh"
+
 
 class fix_region(plugins.Plugin):
-    __author__ = '@V0rT3x https://github.com/V0r-T3x'
-    __version__ = '1.0'
-    __license__ = 'GPL3'
-    __description__ = 'Let you change the iw region to unlock channel.'
-    __name__ = 'Fix_Region'
-    __help__ = """
-    Let you change the iw region to unlock channel.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __author__ = "@V0rT3x https://github.com/V0r-T3x"
+    __version__ = "1.0"
+    __license__ = "GPL3"
+    __description__ = "Let you change the iw region to unlock channel."
+    __name__ = "Fix_Region"
+    __help__ = "Let you change the iw region to unlock channel."
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
         self.ready = False
-        self.mode = 'MANU'
-        logging.info('[FIX_REGION] Region: '+REGION)
+        self.mode = "MANU"
+        logging.info("[FIX_REGION] Region: " + REGION)
 
     def on_loaded(self):
-        logging.info('[FIX_REGION] plugin loaded')
+        logging.info("[FIX_REGION] plugin loaded")
 
         if not os.path.exists(SH_PATH):
             file = open(SH_PATH, "w")
-            file.write(NETFIX_SH+REGION)
+            file.write(NETFIX_SH + REGION)
             file.close()
-            os.system('chmod +x '+SH_PATH)
+            os.system("chmod +x " + SH_PATH)
         if not os.path.exists(SERV_PATH):
             file = open(SERV_PATH, "w")
             file.write(NETFIX_SERV)
             file.close()
-            os.system('sudo iw reg set '+REGION)
-            os.system('sudo systemctl enable network-fix')
-            os.system('sudo systemctl start network-fix')
+            os.system("sudo iw reg set " + REGION)
+            os.system("sudo systemctl enable network-fix")
+            os.system("sudo systemctl start network-fix")
             try:
                 _thread.start_new_thread(restart, (self.mode,))
             except Exception as ex:
@@ -107,9 +105,9 @@ class fix_region(plugins.Plugin):
                 return "config error", 500
 
     def on_unload(self, ui):
-        logging.info('[FIX_REGION] plugin unloaded')
+        logging.info("[FIX_REGION] plugin unloaded")
 
-        os.system('rm '+SERV_PATH)
-        os.system('rm '+SH_PATH)
-        os.system('sudo systemctl stop network-fix')
-        os.system('sudo systemctl disable network-fix')
+        os.system("rm " + SERV_PATH)
+        os.system("rm " + SH_PATH)
+        os.system("sudo systemctl stop network-fix")
+        os.system("sudo systemctl disable network-fix")

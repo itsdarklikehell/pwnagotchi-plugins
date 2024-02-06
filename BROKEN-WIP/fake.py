@@ -510,8 +510,8 @@ def freeport(socktype=socket.SOCK_STREAM):
 
     This lets the OS assign a unique port, and then assumes
     that it will become available for reuse once the socket
-    is closed, and remain so long enough for the real use.
-    """
+    is closed, and remain so long enough for the real use."
+    )
     s = cleansocket("127.0.0.1", 0, socktype)
     port = s.getsockname()[1]
     s.close()

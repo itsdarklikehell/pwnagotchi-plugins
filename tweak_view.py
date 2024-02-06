@@ -19,9 +19,7 @@ class Tweak_View(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Edit the UI layout. Ugly interface, no guardrails. Be careful!!!"
     __name__ = "Tweak_View"
-    __help__ = """
-    Edit the UI layout. Ugly interface, no guardrails. Be careful!!!
-    """
+    __help__ = "Edit the UI layout. Ugly interface, no guardrails. Be careful!!!"
     __dependencies__ = {
         "pip": ["scapy"],
     }

@@ -25,9 +25,9 @@ class hashespwnagotchi(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "uploads handshakes to https://hashes.pw"
     __name__ = "hashespwnagotchi"
-    __help__ = """
-            uploads handshakes to https://hashes.pw
-            """
+    __help__ = ("        uploads handshakes to https://hashes.pw
+            "
+)
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -54,9 +54,11 @@ class hashespwnagotchi(plugins.Plugin):
         self.uuid = None
 
     def on_loaded(self):
-        """
+        "
+)
         Gets called when the plugin gets loaded
-        """
+        "
+)
         if "api_key" not in self.options or (
             "api_key" in self.options and not self.options["api_key"]
         ):

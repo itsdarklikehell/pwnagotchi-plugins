@@ -5,19 +5,17 @@ import pwnagotchi.plugins as plugins
 
 
 class GPIOButtons(plugins.Plugin):
-    __author__ = 'ratmandu@gmail.com'
-    __version__ = '2.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'GPIO Button support plugin.'
-    __name__ = 'GPIOButtons'
-    __help__ = """
-    GPIO Button support plugin.
-    """
+    __author__ = "ratmandu@gmail.com"
+    __version__ = "2.0.0"
+    __license__ = "GPL3"
+    __description__ = "GPIO Button support plugin."
+    __name__ = "GPIOButtons"
+    __help__ = "GPIO Button support plugin."
     __dependencies__ = {
-        'pip': ['RPi.GPIO'],
+        "pip": ["RPi.GPIO"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -28,15 +26,21 @@ class GPIOButtons(plugins.Plugin):
     def runCommand(self, channel):
         command = self.ports[channel]
         logging.info(f"Button Pressed! Running command: {command}")
-        process = subprocess.Popen(command, shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None,
-                                   executable="/bin/bash")
+        process = subprocess.Popen(
+            command,
+            shell=True,
+            stdin=None,
+            stdout=open("/dev/null", "w"),
+            stderr=None,
+            executable="/bin/bash",
+        )
         process.wait()
 
     def on_loaded(self):
         logging.info("GPIO Button plugin loaded.")
 
         # get list of GPIOs
-        gpios = self.options['gpios']
+        gpios = self.options["gpios"]
 
         # set gpio numbering
         GPIO.setmode(GPIO.BCM)
@@ -45,5 +49,7 @@ class GPIOButtons(plugins.Plugin):
             gpio = int(gpio)
             self.ports[gpio] = command
             GPIO.setup(gpio, GPIO.IN, GPIO.PUD_UP)
-            GPIO.add_event_detect(gpio, GPIO.FALLING, callback=self.runCommand, bouncetime=600)
+            GPIO.add_event_detect(
+                gpio, GPIO.FALLING, callback=self.runCommand, bouncetime=600
+            )
             logging.info("Added command: %s to GPIO #%d", command, gpio)

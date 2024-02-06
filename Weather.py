@@ -27,9 +27,7 @@ class WeatherForecast(plugins.Plugin):
         "A plugin that displays the weather forecast on the pwnagotchi screen."
     )
     __name__ = "WeatherForecast"
-    __help__ = """
-    A plugin that displays the weather forecast on the pwnagotchi screen.
-    """
+    __help__ = "A plugin that displays the weather forecast on the pwnagotchi screen."
     __dependencies__ = {
         "pip": ["scapy"],
     }

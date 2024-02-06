@@ -16,9 +16,8 @@ class OnlineHashCrack(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin automatically uploads handshakes to https://onlinehashcrack.com'
     __name__ = 'OnlineHashCrack'
-    __help__ = """
-    This plugin automatically uploads handshakes to https://onlinehashcrack.com
-    """
+    __help__ = ("This plugin automatically uploads handshakes to https://onlinehashcrack.com"
+    )
     __dependencies__ = {
         'pip': ['requests']
     }
@@ -49,9 +48,11 @@ class OnlineHashCrack(plugins.Plugin):
         self.shutdown = True
 
     def on_loaded(self):
-        """
+        "
+)
         Gets called when the plugin gets loaded
-        """
+        "
+)
         if not self.options['email']:
             logging.error("[ohc] Email isn't set. Can't upload to onlinehashcrack.com")
             return
@@ -60,9 +61,11 @@ class OnlineHashCrack(plugins.Plugin):
         logging.info("[ohc] OnlineHashCrack plugin loaded.")
 
     def _upload_to_ohc(self, path, timeout=30):
-        """
+        "
+)
         Uploads the file to onlinehashcrack.com
-        """
+        "
+)
         with open(path, 'rb') as file_to_upload:
             data = {'email': self.options['email']}
             payload = {'file': file_to_upload}
@@ -79,11 +82,13 @@ class OnlineHashCrack(plugins.Plugin):
                 raise e
 
     def _download_cracked(self, save_file, timeout=120):
-        """
+        "
+)
         Downloads the cracked passwords and saves them
 
         returns the number of downloaded passwords
-        """
+        "
+)
         try:
             s = requests.Session()
             s.get(self.options['dashboard'], timeout=timeout)
@@ -105,7 +110,8 @@ class OnlineHashCrack(plugins.Plugin):
         return redirect(r.url, code=302)
 
     def on_internet_available(self, agent):
-        """
+        "
+)
         Called in manual mode when there's internet connectivity
         """
 

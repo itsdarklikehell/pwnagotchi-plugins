@@ -517,8 +517,8 @@ def on_hold(buttons, handler=None, hold_time=2):
     :param buttons: A single button, or a list of buttons
     :param handler: Optional: a function to bind as the handler
     :param hold_time: Optional: the hold time in seconds (default 2)
-
-    """
+"
+    )
     setup()
 
     if buttons is None:
@@ -556,8 +556,8 @@ def on_press(buttons, handler=None, repeat=False, repeat_time=0.5):
     :param handler: Optional: a function to bind as the handler
     :param repeat: Optional: Repeat the handler if the button is held
     :param repeat_time: Optional: Time, in seconds, after which to repeat
-
-    """
+"
+    )
     setup()
 
     if buttons is None:
@@ -594,8 +594,8 @@ def on_release(buttons=None, handler=None):
 
     :param buttons: A single button, or a list of buttons
     :param handler: Optional: a function to bind as the handler
-
-    """
+"
+    )
     setup()
 
     if buttons is None:
@@ -640,8 +640,8 @@ def set_pixel(r, g, b):
     You can use HTML colours directly with hexadecimal notation in Python. EG::
 
         buttonshim.set_pixel(0xFF, 0x00, 0xFF)
-
-    """
+"
+    )
     setup()
 
     if not isinstance(r, int) or r < 0 or r > 255:
@@ -722,9 +722,8 @@ class Buttonshim(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
     __name__ = "Buttonshim"
-    __help__ = """
-    Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin.
-    """
+    __help__ = ("Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
+    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
