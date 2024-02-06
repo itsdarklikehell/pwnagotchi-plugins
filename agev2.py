@@ -11,7 +11,7 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
 
-class Age(plugins.Plugin):
+class Agev2(plugins.Plugin):
     __author__ = "Kaska"
     __version__ = "1.1.0"
     __license__ = "MIT"

@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+from datetime import datetime
 
 import pwnagotchi
 import pwnagotchi.plugins as plugins
@@ -11,8 +12,8 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Age(plugins.Plugin):
-    __author__ = "HannaDiamond"
-    __version__ = "1.0.1"
+    __author__ = "Kaska"
+    __version__ = "1.1.0"
     __license__ = "MIT"
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __name__ = "Age"
@@ -29,8 +30,8 @@ class Age(plugins.Plugin):
         self.train_epochs = 0
         self.access_points_seen = 0
         self.deauths_sent = 0
-        self.title = ""
         self.device_start_time = datetime.now()
+        self.title = ""
 
     def on_loaded(self):
         data_path = "/root/brain.json"
@@ -39,11 +40,11 @@ class Age(plugins.Plugin):
 
     def on_ui_setup(self, ui):
         ui.add_element(
-            "Age",
+            "AgeV2",
             LabeledValue(
                 color=BLACK,
                 label="♥ Age",
-                value=0,
+                value="",
                 position=(
                     int(self.options["age_x_coord"]),
                     int(self.options["age_y_coord"]),
