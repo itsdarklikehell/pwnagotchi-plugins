@@ -13,7 +13,8 @@ class nextcloud(plugins.Plugin):
     __author__ = "github@disterhoft.de"
     __version__ = "0.0.1"
     __license__ = "GPL3"
-    __description__ = "This plugin automatically uploads handshakes to a nextcloud webdav endpoint."
+    __description__ = (
+        "This plugin automatically uploads handshakes to a nextcloud webdav endpoint."
     )
     __name__ = "nextcloud"
     __help__ = (
