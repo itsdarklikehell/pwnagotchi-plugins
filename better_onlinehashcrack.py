@@ -28,7 +28,6 @@ class BetterOnlineHashCrack(plugins.Plugin):
     def __init__(self):
         self.ready = False
         self.title = ""
-        logging.info("[OnlineHashCrack] __init__ method executed.")
         try:
             self.report = StatusFile("/root/.ohc_uploads", data_format="json")
         except JSONDecodeError:

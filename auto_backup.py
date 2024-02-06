@@ -35,7 +35,6 @@ class AutoBackup(plugins.Plugin):
         self.tries = 0
         self.title = ""
         self.status = StatusFile("/root/.auto-backup")
-        logging.info("[auto_backup] __init__ method executed.")
 
     def on_loaded(self):
         for opt in ["files", "interval", "commands", "max_tries"]:
@@ -44,8 +43,6 @@ class AutoBackup(plugins.Plugin):
             ):
                 logging.error(f"[autobackup] Option {opt} is not set.")
                 return
-        logging.info("[autobackup] plugin loaded")
-
         self.ready = True
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 

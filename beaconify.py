@@ -60,7 +60,6 @@ class Beaconify(plugins.Plugin):
         self.beacon_thread = None
         self.pwngrid_thread = None
         self.title = ""
-        logging.info("[Beaconify] __init__ method executed.")
 
     def info_element(self, id, info):
         return Dot11Elt(ID=id, info=info)

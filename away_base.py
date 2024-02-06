@@ -11,17 +11,21 @@ class AwayBase(plugins.Plugin):
     __author__ = "@nope"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "Watches for known networks, connects for a while, then returns to recon"
-    __help__ = "Watches for known networks, connects for a while, then returns to recon."
+    __description__ = (
+        "Watches for known networks, connects for a while, then returns to recon"
+    )
+    __help__ = (
+        "Watches for known networks, connects for a while, then returns to recon."
+    )
     __defaults__ = {
         "enabled": False,
     }
+
     def __init__(self):
         self.ready = 0
         self.status = ""
         self.network = ""
         self.used_networks = {}
-        logging.info("[AwayBase] __init__ method executed."
 
     def on_loaded(self):
         for opt in ["disconnect_after_cycles", "minimum_signal_strength"]:

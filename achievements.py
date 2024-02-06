@@ -45,7 +45,6 @@ class Achievements(plugins.Plugin):
         self.data_path = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), "achievements.json"
         )  # Choose a challenge type at initialization
-        logging.info("[Achievements] __init__ method executed.")
 
     def get_label_based_on_challenge(self):
         return (
