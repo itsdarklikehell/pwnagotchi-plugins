@@ -5,11 +5,8 @@ import pwnagotchi.plugins as plugins
 import RPi.GPIO as GPIO
 import time
 
-LEDs = {
-    'green': 17,
-    'yellow': 22,
-    'red': 27
-}
+LEDs = {"green": 17, "yellow": 22, "red": 27}
+
 
 def Blink(LED, times=1):
     count = 0
@@ -18,7 +15,7 @@ def Blink(LED, times=1):
     if GPIO.input(LED) == GPIO.HIGH:
         led_state = GPIO.HIGH
     while count < times:
-        if (led_active):
+        if led_active:
             GPIO.output(LED, GPIO.LOW)
             led_active = False
         else:
@@ -28,11 +25,12 @@ def Blink(LED, times=1):
         time.sleep(0.5)
     GPIO.output(LED, led_state)
 
+
 class BasicLight(plugins.Plugin):
-    __author__ = 'github.com/shir0tetsuo'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'GPIO traffic-light signals.'
+    __author__ = "github.com/shir0tetsuo"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "GPIO traffic-light signals."
 
     def __init__(self):
         self.running = False
@@ -44,21 +42,21 @@ class BasicLight(plugins.Plugin):
         for LED in LEDs:
             Lnum = LEDs[LED]
             GPIO.setup(Lnum, GPIO.OUT)
-        GPIO.output(LEDs['yellow'], GPIO.HIGH)
-        GPIO.output(LEDs['green'], GPIO.LOW)
+        GPIO.output(LEDs["yellow"], GPIO.HIGH)
+        GPIO.output(LEDs["green"], GPIO.LOW)
         logging.info("Basic Lights loaded.")
 
     # On ready, switch Yellow low
     def on_ready(self, agent):
         global LEDs
         logging.info("Basic Lights ready.")
-        GPIO.output(LEDs['yellow'], GPIO.LOW)
-        GPIO.output(LEDs['green'], GPIO.HIGH)
+        GPIO.output(LEDs["yellow"], GPIO.LOW)
+        GPIO.output(LEDs["green"], GPIO.HIGH)
         self.running = True
-    
+
     ############
 
-    '''# -X-
+    """# -X-
     def on_ai_training_start(self, agent, epochs):
         global LEDs
         GPIO.output(LEDs['green'], GPIO.LOW)
@@ -66,7 +64,7 @@ class BasicLight(plugins.Plugin):
     # X--
     def on_ai_training_end(self, agent):
         global LEDs
-        GPIO.output(LEDs['green'], GPIO.HIGH)'''
+        GPIO.output(LEDs['green'], GPIO.HIGH)"""
 
     # XX-
     def on_sleep(self, agent, t):
@@ -74,32 +72,32 @@ class BasicLight(plugins.Plugin):
         count_sleep = t
         flip = True
         while count_sleep > 0:
-            if (flip):
-                GPIO.output(LEDs['yellow'], GPIO.HIGH)
+            if flip:
+                GPIO.output(LEDs["yellow"], GPIO.HIGH)
                 flip = False
             else:
-                GPIO.output(LEDs['yellow'], GPIO.LOW)
+                GPIO.output(LEDs["yellow"], GPIO.LOW)
                 flip = True
             time.sleep(1)
-            count_sleep -=1
-        GPIO.output(LEDs['yellow'], GPIO.LOW)
-            
+            count_sleep -= 1
+        GPIO.output(LEDs["yellow"], GPIO.LOW)
+
     # X-X
     def on_wait(self, agent, t):
         global LEDs
-        Blink(LEDs['red'], 1)
-    
+        Blink(LEDs["red"], 1)
+
     # -X- (B)
     def on_wifi_update(self, agent, access_points):
         global LEDs
-        Blink(LEDs['yellow'], 1)
+        Blink(LEDs["yellow"], 1)
 
     # X-- (B)
     def on_handshake(self, agent, filename, access_point, client_station):
         global LEDs
-        Blink(LEDs['yellow'], 3)
+        Blink(LEDs["yellow"], 3)
 
     # --X (B)
     def on_deauthentication(self, agent, access_point, client_station):
         global LEDs
-        Blink(LEDs['red'], 3)
+        Blink(LEDs["red"], 3)

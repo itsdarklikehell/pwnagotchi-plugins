@@ -21,24 +21,24 @@ except Exception as e:
     logging.info("Trying to import 'feedparser' again")
     import feedparser
 
+
 class RSS_Voice(plugins.Plugin):
-    __author__ = 'Sniffleupagus'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'Use RSS Feeds to replace canned voice messages on various events'
+    __author__ = "Sniffleupagus"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "Use RSS Feeds to replace canned voice messages on various events"
 
-#     main.plugins.rss_voice.enabled = true
-#     main.plugins.rss_voice.feed.wait.url = "https://www.reddit.com/r/worldnews.rss"
-#     main.plugins.rss_voice.feed.bored.url = "https://www.reddit.com/r/showerthoughts.rss"
-#     main.plugins.rss_voice.feed.sad.url = "https://www.reddit.com/r/pwnagotchi.rss"
+    #     main.plugins.rss_voice.enabled = true
+    #     main.plugins.rss_voice.feed.wait.url = "https://www.reddit.com/r/worldnews.rss"
+    #     main.plugins.rss_voice.feed.bored.url = "https://www.reddit.com/r/showerthoughts.rss"
+    #     main.plugins.rss_voice.feed.sad.url = "https://www.reddit.com/r/pwnagotchi.rss"
 
-    
     def __init__(self):
-        self.last_checks = {"wait" : 0}
+        self.last_checks = {"wait": 0}
         logging.debug("RSS_Voice plugin started")
         self.voice = ""
 
-    def _wget(self, url, rssfile, verbose = False):
+    def _wget(self, url, rssfile, verbose=False):
         logging.debug("RSS_Voice _wget %s: %s" % (rssfile, url))
         process = subprocess.run(["/usr/bin/wget", "-q", "-O", rssfile, url])
         logging.debug("RSS_Voice: %s", repr(process))
@@ -53,30 +53,38 @@ class RSS_Voice(plugins.Plugin):
 
                 def sub_element(match_obj):
                     ele = match_obj.group(1)
-                    if ele in article: return article[ele]
+                    if ele in article:
+                        return article[ele]
                     else:
                         try:
-                            return html.unescape(re.sub('<[^>]+>', '', eval("article[%s]" % ele)))
+                            return html.unescape(
+                                re.sub("<[^>]+>", "", eval("article[%s]" % ele))
+                            )
 
                         except Exception as e:
                             logging.warn(repr(e))
                             return repr(e)
 
                 if "format" in self.options["feed"][key]:
-                    headline = re.sub(r"%([^%]+)%", sub_element, self.options["feed"][key]["format"])
-                    headline = html.unescape(re.sub('<[^>]+>', '', headline))
+                    headline = re.sub(
+                        r"%([^%]+)%", sub_element, self.options["feed"][key]["format"]
+                    )
+                    headline = html.unescape(re.sub("<[^>]+>", "", headline))
                 else:
-                    headline = "%s: %s" % (article.author[3:], html.unescape(re.sub('<[^>]+>', '', article.summary)))
+                    headline = "%s: %s" % (
+                        article.author[3:],
+                        html.unescape(re.sub("<[^>]+>", "", article.summary)),
+                    )
 
             except Exception as e:
                 headline = repr(e)
 
             logging.debug("RSS_Voice %s: %s" % (key, headline))
-            
+
             return headline
         else:
             return ""
-        
+
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
@@ -88,9 +96,9 @@ class RSS_Voice(plugins.Plugin):
     def on_loaded(self):
         logging.warning("RSS_Voice options = %s" % self.options)
         if "path" not in self.options:
-            self.options['path'] = "/root/voice_rss"
+            self.options["path"] = "/root/voice_rss"
 
-        rssdir = self.options['path']
+        rssdir = self.options["path"]
         if not os.path.isdir(rssdir):
             logging.info("Creating directory for rss feeds: %s" % (rssdir))
             try:
@@ -110,17 +118,22 @@ class RSS_Voice(plugins.Plugin):
             now = time.time()
             feeds = self.options["feed"]
             logging.debug("RSS_Voice processing feeds: %s" % feeds)
-            for k,v in feeds.items():   # a feed value can be a dictionary
+            for k, v in feeds.items():  # a feed value can be a dictionary
                 logging.debug("RSS_Voice feed: %s = %s" % (repr(k), repr(v)))
                 timeout = 3600 if "timeout" not in v else v["timeout"]
                 logging.debug("RSS_Voice %s timeout = %s" % (repr(k), timeout))
                 try:
-                    if not k in self.last_checks or now > (self.last_checks[k] + timeout):
+                    if not k in self.last_checks or now > (
+                        self.last_checks[k] + timeout
+                    ):
                         # update feed if past timeout since last check
-                        rss_file = "%s/%s.rss" % (self.options['path'], k)
-                        if os.path.isfile(rss_file) and now < os.path.getmtime(rss_file) + timeout:
+                        rss_file = "%s/%s.rss" % (self.options["path"], k)
+                        if (
+                            os.path.isfile(rss_file)
+                            and now < os.path.getmtime(rss_file) + timeout
+                        ):
                             logging.debug("too soon by file age!")
-                        else:    
+                        else:
                             if "url" in v:
                                 self._wget(v["url"], rss_file)
                                 self.last_checks[k] = time.time()
@@ -138,7 +151,7 @@ class RSS_Voice(plugins.Plugin):
         # use built in elements, probably
         #
         # add custom UI elements
-        #ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 - 25, 0),
+        # ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 - 25, 0),
         #                                   label_font=fonts.Bold, text_font=fonts.Medium))
         pass
 
@@ -147,7 +160,7 @@ class RSS_Voice(plugins.Plugin):
         # update those elements
         if self.voice != "":
             logging.debug("RSS: Status to %s" % self.voice)
-            ui.set('status', self.voice)
+            ui.set("status", self.voice)
             self.voice = ""
 
     # called when the hardware display setup is done, display is an hardware specific object
@@ -163,7 +176,7 @@ class RSS_Voice(plugins.Plugin):
         #   agent.set_bored()
 
     # set up RSS feed per emotion
-    
+
     # called when the status is set to bored
     def on_bored(self, agent):
         self.voice = self._fetch_rss_message("bored")
@@ -190,7 +203,6 @@ class RSS_Voice(plugins.Plugin):
     def on_wait(self, agent, t):
         self.voice = "(%ss) %s" % (int(t), self._fetch_rss_message("wait"))
         logging.debug("RSS_Voice on_wait: %s" % self.voice)
-
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):

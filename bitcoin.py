@@ -8,24 +8,22 @@ import requests
 
 
 class Bitcoin(plugins.Plugin):
-    __author__ = 'https://github.com/jfrader'
-    __version__ = '0.0.1'
-    __license__ = 'GPL3'
-    __description__ = 'A plugin that will display the bitcoin price.'
-    __name__ = 'Bitcoin'
+    __author__ = "https://github.com/jfrader"
+    __version__ = "0.0.1"
+    __license__ = "GPL3"
+    __description__ = "A plugin that will display the bitcoin price."
+    __name__ = "Bitcoin"
     __help__ = """
     A plugin that will display the bitcoin price.
     """
-    __dependencies__ = {
-        'pip': ['requests']
-    }
+    __dependencies__ = {"pip": ["requests"]}
     __defaults__ = {
-        'enabled': False,
-        'api_url': 'https://coindesk.com',
-        'bitcoin_api_url': 'https://api.coindesk.com/v1/bpi/currentprice.json/'
+        "enabled": False,
+        "api_url": "https://coindesk.com",
+        "bitcoin_api_url": "https://api.coindesk.com/v1/bpi/currentprice.json/",
     }
 
-    _last_price = '...'
+    _last_price = "..."
     _has_internet = False
 
     def on_loaded(self):
@@ -33,14 +31,14 @@ class Bitcoin(plugins.Plugin):
 
     def _fetch_price(self):
         logging.info("[bitcoin] fetching bitcoin price")
-        bitcoin_api_url = 'https://api.coindesk.com/v1/bpi/currentprice.json/'
+        bitcoin_api_url = "https://api.coindesk.com/v1/bpi/currentprice.json/"
         try:
             response = requests.get(bitcoin_api_url)
             response_json = response.json()
-            return response_json['bpi']['USD']['rate']
+            return response_json["bpi"]["USD"]["rate"]
         except requests.exceptions.RequestException as e:
             self._has_internet = False
-            return ' - '
+            return " - "
 
     def on_ui_setup(self, ui):
         if ui.is_waveshare_v2():
@@ -56,16 +54,24 @@ class Bitcoin(plugins.Plugin):
         else:
             h_pos = (155, 76)
 
-        ui.add_element('bitcoin', LabeledValue(color=BLACK, label='', value=' BTC/USD: \n $ ',
-                                               position=h_pos,
-                                               label_font=fonts.Small, text_font=fonts.Small))
+        ui.add_element(
+            "bitcoin",
+            LabeledValue(
+                color=BLACK,
+                label="",
+                value=" BTC/USD: \n $ ",
+                position=h_pos,
+                label_font=fonts.Small,
+                text_font=fonts.Small,
+            ),
+        )
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element('bitcoin')
+            ui.remove_element("bitcoin")
 
     def on_ui_update(self, ui):
-        ui.set('bitcoin', self._last_price)
+        ui.set("bitcoin", self._last_price)
 
     def on_internet_available(self, ui):
         self._has_internet = True

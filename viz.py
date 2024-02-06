@@ -97,56 +97,163 @@ TEMPLATE = """
 
 
 class Viz(plugins.Plugin):
-    __author__ = '33197631+dadav@users.noreply.github.com'
+    __author__ = "33197631+dadav@users.noreply.github.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin visualizes the surrounding APs."
-    __name__ = 'Viz'
+    __name__ = "Viz"
     __help__ = """
     This plugin visualizes the surrounding APs.
     """
-    __dependencies__ = {
-        'pip': ['plotly', 'pandas', 'flask']
-    }
+    __dependencies__ = {"pip": ["plotly", "pandas", "flask"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
-    COLORS = ["aliceblue", "aqua", "aquamarine", "azure",
-              "beige", "bisque", "black", "blanchedalmond", "blue",
-              "blueviolet", "brown", "burlywood", "cadetblue",
-              "chartreuse", "chocolate", "coral", "cornflowerblue",
-              "cornsilk", "crimson", "cyan", "darkblue", "darkcyan",
-              "darkgoldenrod", "darkgray", "darkgrey", "darkgreen",
-              "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange",
-              "darkorchid", "darkred", "darksalmon", "darkseagreen",
-              "darkslateblue", "darkslategray", "darkslategrey",
-              "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
-              "dimgray", "dimgrey", "dodgerblue", "firebrick",
-              "forestgreen", "fuchsia", "gainsboro",
-              "gold", "goldenrod", "gray", "grey", "green",
-              "greenyellow", "honeydew", "hotpink", "indianred", "indigo",
-              "ivory", "khaki", "lavender", "lavenderblush", "lawngreen",
-              "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
-              "lightgoldenrodyellow", "lightgray", "lightgrey",
-              "lightgreen", "lightpink", "lightsalmon", "lightseagreen",
-              "lightskyblue", "lightslategray", "lightslategrey",
-              "lightsteelblue", "lightyellow", "lime", "limegreen",
-              "linen", "magenta", "maroon", "mediumaquamarine",
-              "mediumblue", "mediumorchid", "mediumpurple",
-              "mediumseagreen", "mediumslateblue", "mediumspringgreen",
-              "mediumturquoise", "mediumvioletred", "midnightblue",
-              "mintcream", "mistyrose", "moccasin", "navy",
-              "oldlace", "olive", "olivedrab", "orange", "orangered",
-              "orchid", "palegoldenrod", "palegreen", "paleturquoise",
-              "palevioletred", "papayawhip", "peachpuff", "peru", "pink",
-              "plum", "powderblue", "purple", "red", "rosybrown",
-              "royalblue", "rebeccapurple", "saddlebrown", "salmon",
-              "sandybrown", "seagreen", "seashell", "sienna", "silver",
-              "skyblue", "slateblue", "slategray", "slategrey", "snow",
-              "springgreen", "steelblue", "tan", "teal", "thistle", "tomato",
-              "turquoise", "violet", "wheat",
-              "yellow", "yellowgreen"]
+    COLORS = [
+        "aliceblue",
+        "aqua",
+        "aquamarine",
+        "azure",
+        "beige",
+        "bisque",
+        "black",
+        "blanchedalmond",
+        "blue",
+        "blueviolet",
+        "brown",
+        "burlywood",
+        "cadetblue",
+        "chartreuse",
+        "chocolate",
+        "coral",
+        "cornflowerblue",
+        "cornsilk",
+        "crimson",
+        "cyan",
+        "darkblue",
+        "darkcyan",
+        "darkgoldenrod",
+        "darkgray",
+        "darkgrey",
+        "darkgreen",
+        "darkkhaki",
+        "darkmagenta",
+        "darkolivegreen",
+        "darkorange",
+        "darkorchid",
+        "darkred",
+        "darksalmon",
+        "darkseagreen",
+        "darkslateblue",
+        "darkslategray",
+        "darkslategrey",
+        "darkturquoise",
+        "darkviolet",
+        "deeppink",
+        "deepskyblue",
+        "dimgray",
+        "dimgrey",
+        "dodgerblue",
+        "firebrick",
+        "forestgreen",
+        "fuchsia",
+        "gainsboro",
+        "gold",
+        "goldenrod",
+        "gray",
+        "grey",
+        "green",
+        "greenyellow",
+        "honeydew",
+        "hotpink",
+        "indianred",
+        "indigo",
+        "ivory",
+        "khaki",
+        "lavender",
+        "lavenderblush",
+        "lawngreen",
+        "lemonchiffon",
+        "lightblue",
+        "lightcoral",
+        "lightcyan",
+        "lightgoldenrodyellow",
+        "lightgray",
+        "lightgrey",
+        "lightgreen",
+        "lightpink",
+        "lightsalmon",
+        "lightseagreen",
+        "lightskyblue",
+        "lightslategray",
+        "lightslategrey",
+        "lightsteelblue",
+        "lightyellow",
+        "lime",
+        "limegreen",
+        "linen",
+        "magenta",
+        "maroon",
+        "mediumaquamarine",
+        "mediumblue",
+        "mediumorchid",
+        "mediumpurple",
+        "mediumseagreen",
+        "mediumslateblue",
+        "mediumspringgreen",
+        "mediumturquoise",
+        "mediumvioletred",
+        "midnightblue",
+        "mintcream",
+        "mistyrose",
+        "moccasin",
+        "navy",
+        "oldlace",
+        "olive",
+        "olivedrab",
+        "orange",
+        "orangered",
+        "orchid",
+        "palegoldenrod",
+        "palegreen",
+        "paleturquoise",
+        "palevioletred",
+        "papayawhip",
+        "peachpuff",
+        "peru",
+        "pink",
+        "plum",
+        "powderblue",
+        "purple",
+        "red",
+        "rosybrown",
+        "royalblue",
+        "rebeccapurple",
+        "saddlebrown",
+        "salmon",
+        "sandybrown",
+        "seagreen",
+        "seashell",
+        "sienna",
+        "silver",
+        "skyblue",
+        "slateblue",
+        "slategray",
+        "slategrey",
+        "snow",
+        "springgreen",
+        "steelblue",
+        "tan",
+        "teal",
+        "thistle",
+        "tomato",
+        "turquoise",
+        "violet",
+        "wheat",
+        "yellow",
+        "yellowgreen",
+    ]
     COLOR_MEMORY = dict()
 
     def __init__(self):
@@ -176,7 +283,7 @@ class Viz(plugins.Plugin):
     @lru_cache(maxsize=13)
     def create_graph(data, channel=None):
         if not data:
-            return '{}'
+            return "{}"
 
         data = json.loads(data)
 
@@ -190,25 +297,25 @@ class Viz(plugins.Plugin):
         node_colors = list()
 
         for ap_data in data:
-            name = ap_data['hostname'] or ap_data['vendor'] or ap_data['mac']
+            name = ap_data["hostname"] or ap_data["vendor"] or ap_data["mac"]
             color = Viz.lookup_color(name)
             # nodes
-            x, y = abs(ap_data['rssi']), freq_to_channel(ap_data['frequency'])
+            x, y = abs(ap_data["rssi"]), freq_to_channel(ap_data["frequency"])
             node_x.append(x)
             node_y.append(y)
             node_text.append(name)
-            node_symbols.append('square')
-            node_sizes.append(15 + len(ap_data['clients']) * 3)
+            node_symbols.append("square")
+            node_sizes.append(15 + len(ap_data["clients"]) * 3)
             node_colors.append(color)
 
-            for c in ap_data['clients']:
+            for c in ap_data["clients"]:
                 # node
-                cname = c['hostname'] or c['vendor'] or c['mac']
+                cname = c["hostname"] or c["vendor"] or c["mac"]
                 xx, yy = Viz.random_pos(cname, x, y, 3)
                 node_x.append(xx)
                 node_y.append(yy)
                 node_text.append(cname)
-                node_symbols.append('circle')
+                node_symbols.append("circle")
                 node_sizes.append(10)
                 node_colors.append(color)
 
@@ -221,37 +328,46 @@ class Viz(plugins.Plugin):
                 edge_y.append(None)
 
         edge_trace = go.Scatter(
-            x=edge_x, y=edge_y,
-            line=dict(width=1, color='#888'),
-            hoverinfo='none',
-            mode='lines')
+            x=edge_x,
+            y=edge_y,
+            line=dict(width=1, color="#888"),
+            hoverinfo="none",
+            mode="lines",
+        )
 
         node_trace = go.Scatter(
-            x=node_x, y=node_y,
-            mode='markers',
+            x=node_x,
+            y=node_y,
+            mode="markers",
             marker=dict(
                 size=node_sizes,
                 color=node_colors,
                 symbol=node_symbols,
             ),
             hovertext=node_text,
-            hoverinfo='text')
+            hoverinfo="text",
+        )
 
-        channel_line = go.Scatter(
-            mode='lines',
-            line=dict(width=15, color='#ff0000'),
-            x=[min(node_x) - 5, max(node_x) + 5],
-            y=[channel, channel],
-            opacity=0.25,
-            hoverinfo='none',
-        ) if channel else dict()
+        channel_line = (
+            go.Scatter(
+                mode="lines",
+                line=dict(width=15, color="#ff0000"),
+                x=[min(node_x) - 5, max(node_x) + 5],
+                y=[channel, channel],
+                opacity=0.25,
+                hoverinfo="none",
+            )
+            if channel
+            else dict()
+        )
 
-        return json.dumps((channel_line, edge_trace, node_trace),
-                          cls=plotly.utils.PlotlyJSONEncoder)
+        return json.dumps(
+            (channel_line, edge_trace, node_trace), cls=plotly.utils.PlotlyJSONEncoder
+        )
 
     def on_unfiltered_ap_list(self, agent, data):
         with self.lock:
-            data = sorted(data, key=lambda k: k['mac'])
+            data = sorted(data, key=lambda k: k["mac"])
             self.data = json.dumps(data)
 
     def on_channel_hop(self, agent, channel):
@@ -262,7 +378,7 @@ class Viz(plugins.Plugin):
         if not path or path == "/":
             return render_template_string(TEMPLATE)
 
-        if path == 'update':
+        if path == "update":
             with self.lock:
                 g = Viz.create_graph(self.data, self.channel)
                 return jsonify(g)

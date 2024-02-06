@@ -88,7 +88,7 @@ main.custom_plugin_repos = [
  "https://github.com/evilsocket/pwnagotchi-plugins-contrib/archive/master.zip",
  "https://github.com/Teraskull/pwnagotchi-community-plugins/archive/master.zip",
 ]
-main.iface = "mon0"
+main.iface = "wlan0mon"
 main.mon_start_cmd = "/usr/bin/monstart"
 main.mon_stop_cmd = "/usr/bin/monstop"
 main.mon_max_blind_epochs = 50
@@ -192,7 +192,7 @@ Step 7) Adding support for the pitft
 
 Step 8) Install & Configure Wireless adapter
  lsusb #ensure wifi adapter is plugged in and detected
- iw dev #ensure wlan1 is observed with mon0 under phy#1
+ iw dev #ensure wlan1 is observed with wlan0mon under phy#1
  sudo nano /boot/config.txt
    # Find the following line:
      # Additional overlays and parameters are documented /boot/overlays/README
@@ -201,17 +201,17 @@ Step 8) Install & Configure Wireless adapter
 
  sudo nano /usr/bin/pwnlib
  #locate and replace the contents of "start_monitor_interface with the following:
-   #rename adapter and bring up as mon0 in monitor mode
+   #rename adapter and bring up as wlan0mon in monitor mode
    ip link set wlan0 down
-   ip link set wlan0 name mon0
-   iw dev mon0 set type monitor
-   ip link set mon0 up
-   #add a mon1 interface from the same adapter
-   iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add mon1 type monitor
+   ip link set wlan0 name wlan0mon
+   iw dev wlan0mon set type monitor
+   ip link set wlan0mon up
+   #add a wlan1mon interface from the same adapter
+   iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add wlan1mon type monitor
 
  sudo nano /etc/systemd/system/pwngrid-peer.service
-  # update the service launch param. Replace "mon0" with "mon1"
-  # Everything else continues to use mon0, bettercap accepts it and works fine. Pwngrid works fine on the mon1 interface.
+  # update the service launch param. Replace "wlan0mon" with "wlan1mon"
+  # Everything else continues to use wlan0mon, bettercap accepts it and works fine. Pwngrid works fine on the wlan1mon interface.
 
  sudo reboot #allow all changes to take affect.
 

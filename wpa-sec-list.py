@@ -151,11 +151,12 @@ TEMPLATE = """
 {% endblock %}
 """
 
+
 class WpaSecList(plugins.Plugin):
-    __author__ = '37124354+dbukovac@users.noreply.github.com'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'List cracked passwords from wpa-sec'
+    __author__ = "37124354+dbukovac@users.noreply.github.com"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "List cracked passwords from wpa-sec"
 
     def __init__(self):
         self.ready = False
@@ -174,19 +175,21 @@ class WpaSecList(plugins.Plugin):
         if path == "/" or not path:
             try:
                 passwords = []
-                with open(self.config['bettercap']['handshakes'] + "/wpa-sec.cracked.potfile") as file_in:
+                with open(
+                    self.config["bettercap"]["handshakes"] + "/wpa-sec.cracked.potfile"
+                ) as file_in:
                     for line in file_in:
                         fields = line.split(":")
                         password = {
                             "ssid": fields[2],
                             "bssid": fields[0],
                             "clientStation": fields[1],
-                            "password": fields[3]
+                            "password": fields[3],
                         }
                         passwords.append(password)
-                return render_template_string(TEMPLATE,
-                                        title="Passwords list",
-                                        passwords=passwords)
+                return render_template_string(
+                    TEMPLATE, title="Passwords list", passwords=passwords
+                )
             except Exception as e:
                 logging.error("[wpa-sec-list] error while loading passwords: %s" % e)
                 logging.debug(e, exc_info=True)

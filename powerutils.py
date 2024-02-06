@@ -3,20 +3,21 @@ import pwnagotchi
 import pwnagotchi.plugins as plugins
 import logging
 
+
 class powerutils(plugins.Plugin):
-    __author__ = 'https://gitlab.com/sn0wflake'
-    __version__ = '1.0.0'
-    __license__ = 'MIT'
-    __description__ = 'A server to shutdown or restart pwnagotchi hardware.'
-    __name__ = 'powerutils'
+    __author__ = "https://gitlab.com/sn0wflake"
+    __version__ = "1.0.0"
+    __license__ = "MIT"
+    __description__ = "A server to shutdown or restart pwnagotchi hardware."
+    __name__ = "powerutils"
     __help__ = """
     A server to shutdown or restart pwnagotchi hardware.
     """
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -24,27 +25,27 @@ class powerutils(plugins.Plugin):
 
     def on_loaded(self):
         logging.info("Powerutils Plugin loaded.")
-        address = ('localhost', 6799)
+        address = ("localhost", 6799)
         listener = Listener(address)
         while self.running:
             conn = listener.accept()
-            msg = conn.recv() # Blocking - waits here for incoming message.
+            msg = conn.recv()  # Blocking - waits here for incoming message.
             conn.close()
 
-            if msg == 'shutdown':
+            if msg == "shutdown":
                 pwnagotchi.shutdown()
 
-            elif msg == 'restart-auto':
-                pwnagotchi.restart('auto')
+            elif msg == "restart-auto":
+                pwnagotchi.restart("auto")
 
-            elif msg == 'restart-manual':
-                pwnagotchi.restart('manual')
+            elif msg == "restart-manual":
+                pwnagotchi.restart("manual")
 
-            elif msg == 'reboot-auto':
-                pwnagotchi.reboot('auto')
+            elif msg == "reboot-auto":
+                pwnagotchi.reboot("auto")
 
-            elif msg == 'reboot-manual':
-                pwnagotchi.reboot('manual')
+            elif msg == "reboot-manual":
+                pwnagotchi.reboot("manual")
 
     def on_unload(self, ui):
         self.running = False

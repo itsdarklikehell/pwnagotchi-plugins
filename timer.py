@@ -5,27 +5,29 @@ import pandas as pd
 
 
 class Timer(plugins.Plugin):
-    __author__ = 'idoloninmachina@gmail.com'
-    __version__ = '0.1.0'
-    __license__ = 'GPL3'
-    __description__ = 'Measure the amount of time taken by the pwnagotchi to capture a handshake.'
-    __name__ = 'Timer'
+    __author__ = "idoloninmachina@gmail.com"
+    __version__ = "0.1.0"
+    __license__ = "GPL3"
+    __description__ = (
+        "Measure the amount of time taken by the pwnagotchi to capture a handshake."
+    )
+    __name__ = "Timer"
     __help__ = """
     Measure the amount of time taken by the pwnagotchi to capture a handshake.
     """
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
         self.running = False
         self.data = {
-            'Time to deauth': [],
-            'Time to handshake': [],
-            'Time between deauth and handshake': [],
+            "Time to deauth": [],
+            "Time to handshake": [],
+            "Time between deauth and handshake": [],
         }
         self.reset_times()
 
@@ -60,22 +62,33 @@ class Timer(plugins.Plugin):
             # Not relevant to the data we want
             return
 
-        self.data['Time to deauth'].append(
+        self.data["Time to deauth"].append(
             self.calculate_difference_in_seconds(
-                self.wifi_update_time, self.wifi_deauth_time))
-        self.data['Time to handshake'].append(
+                self.wifi_update_time, self.wifi_deauth_time
+            )
+        )
+        self.data["Time to handshake"].append(
             self.calculate_difference_in_seconds(
-                self.wifi_update_time, self.wifi_handshake_time))
-        self.data['Time between deauth and handshake'].append(
+                self.wifi_update_time, self.wifi_handshake_time
+            )
+        )
+        self.data["Time between deauth and handshake"].append(
             self.calculate_difference_in_seconds(
-                self.wifi_deauth_time, self.wifi_handshake_time))
+                self.wifi_deauth_time, self.wifi_handshake_time
+            )
+        )
 
-        df = pd.DataFrame(self.data, columns=['Time to deauth',
-                                              'Time to handshake',
-                                              'Time between deauth and handshake', ])
-        logging.info('[Timer] data saved')
+        df = pd.DataFrame(
+            self.data,
+            columns=[
+                "Time to deauth",
+                "Time to handshake",
+                "Time between deauth and handshake",
+            ],
+        )
+        logging.info("[Timer] data saved")
         logging.info(df)
-        df.to_csv('/home/pi/data/pwnagotchi_times.csv')
+        df.to_csv("/home/pi/data/pwnagotchi_times.csv")
 
     def calculate_difference_in_seconds(self, past, future):
         difference = future - past

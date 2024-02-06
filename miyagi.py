@@ -11,11 +11,14 @@ import pwnagotchi.ui.fonts as fonts
 from flask import abort
 from flask import render_template_string
 
+
 class Miyagi(plugins.Plugin):
-    __author__ = 'Sniffleupagus & MaliosDark'
-    __version__ = '1.0.2'
-    __license__ = 'GPL3'
-    __description__ = "Manage AI training. Pwn on. Pwn off. (just kidding. always b pwn'in'!)"
+    __author__ = "Sniffleupagus & MaliosDark"
+    __version__ = "1.0.2"
+    __license__ = "GPL3"
+    __description__ = (
+        "Manage AI training. Pwn on. Pwn off. (just kidding. always b pwn'in'!)"
+    )
 
     def __init__(self):
         logging.debug("Mr. Miyagi busy. Go start training.")
@@ -48,37 +51,44 @@ class Miyagi(plugins.Plugin):
                     logging.info("[miyagi] webook called")
                     ret = '<html><head><title>Mr. Miyagi AI Training</title><meta name="csrf_token" content="{{ csrf_token() }}"></head>'
                     ret += "<body><h1>Mr. Miyagi AI Training</h1><p>I'm busy. You train yourself. This doesn't do anything yet.</p>"
-                    ret += '<form method=post>'
+                    ret += "<form method=post>"
                     ret += '<input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">'
-                    ret += '<table><tr><th>param</th><th>Value</th><th>New value</th></tr>\n'
+                    ret += "<table><tr><th>param</th><th>Value</th><th>New value</th></tr>\n"
                     # show epoch data, so save it at on_epoch, or epoch table
-                    
-                    #   agent._config['personality']['associate'] = True
-                    for secname, sec in [["AI", self.agent._config['ai']],
-                                         ["AI Params", self.agent._config['ai']['params']],
-                                         ["Personality", self.agent._config['personality']]]:
 
-                        ret += '<tr><th colspan=2>Section %s</th></tr>' % secname
+                    #   agent._config['personality']['associate'] = True
+                    for secname, sec in [
+                        ["AI", self.agent._config["ai"]],
+                        ["AI Params", self.agent._config["ai"]["params"]],
+                        ["Personality", self.agent._config["personality"]],
+                    ]:
+
+                        ret += "<tr><th colspan=2>Section %s</th></tr>" % secname
 
                         for p in sec:
                             if type(sec[p]) in [int, str, float]:
-                                ret += '<tr><th>%s</th><td>%s</td>' % (p,sec[p])
-                                ret += '<td><input type=text id="newval_%s_%s" name="newval_%s_%s" size="5"></td>' % (sec, p, sec, p)
+                                ret += "<tr><th>%s</th><td>%s</td>" % (p, sec[p])
+                                ret += (
+                                    '<td><input type=text id="newval_%s_%s" name="newval_%s_%s" size="5"></td>'
+                                    % (sec, p, sec, p)
+                                )
                             elif type(sec[p]) is bool:
                                 # checkbox
-                                ret += '<tr><th>%s</th><td>%s</td>' % (p,sec[p])
-                            #ret += '<tr><th>%s</th>' % ("" if p not in self.descriptions else self.descriptions[p])
-                            ret += '</tr>\n'
-                    ret += "</table>"    
-                    ret += '<input type=submit name=submit value="update"></form></pre><p>'
+                                ret += "<tr><th>%s</th><td>%s</td>" % (p, sec[p])
+                            # ret += '<tr><th>%s</th>' % ("" if p not in self.descriptions else self.descriptions[p])
+                            ret += "</tr>\n"
+                    ret += "</table>"
+                    ret += (
+                        '<input type=submit name=submit value="update"></form></pre><p>'
+                    )
                     ret += "</body></html>"
                     return render_template_string(ret)
                 # other paths here
-                # 
+                #
             elif request.method == "POST":
-                if path == "update": # update settings that changed, save to json file
+                if path == "update":  # update settings that changed, save to json file
                     pass
-                
+
         except Exception as e:
             ret = "<html><head><title>Mr. Miyagi says you made a mistake</title></head>"
             ret += "<body><h1>%s</h1></body></html>" % repr(e)
@@ -86,17 +96,20 @@ class Miyagi(plugins.Plugin):
             return render_template_string(ret)
         pass
 
-
     # called when the plugin is loaded
     def on_loaded(self):
         # load /etc/pwnagotchi/miyagi.json
-        self._conf_file = self.options["filename"] if "filename" in self.options else "/etc/pwnagotchi/miyagi.json"
+        self._conf_file = (
+            self.options["filename"]
+            if "filename" in self.options
+            else "/etc/pwnagotchi/miyagi.json"
+        )
 
         try:
             if os.path.isfile(self._conf_file):
-                with open(self._conf_file, 'r') as f:
+                with open(self._conf_file, "r") as f:
                     self._mconfig = json.load(f)
-                    for k,v in self._mconfig.items():
+                    for k, v in self._mconfig.items():
                         logging.info("miyagi[%s] => %s" % (repr(k), repr(v)))
         except Exception as err:
             logging.error("%s" % repr(err))
@@ -104,8 +117,12 @@ class Miyagi(plugins.Plugin):
         logging.info("PWN on, PWN off!")
 
     def save_settings(self):
-        self._mconfig['laziness'] = self._laziness
-        self._conf_file = self.options["filename"] if "filename" in self.options else "/etc/pwnagotchi/miyagi.json"
+        self._mconfig["laziness"] = self._laziness
+        self._conf_file = (
+            self.options["filename"]
+            if "filename" in self.options
+            else "/etc/pwnagotchi/miyagi.json"
+        )
         try:
             with open(self._conf_file, "w") as f:
                 f.write(json.dumps(self._mconfig, indent=4))
@@ -116,8 +133,8 @@ class Miyagi(plugins.Plugin):
     def on_unload(self, ui):
         self._view.set("mode", "  AI")
         try:
-            ui.remove_element('miyagi')
-            ui.remove_element('m_epoch')
+            ui.remove_element("miyagi")
+            ui.remove_element("m_epoch")
 
             self.save_settings()
         except Exception as e:
@@ -141,7 +158,7 @@ class Miyagi(plugins.Plugin):
                     color=BLACK,
                     label=" LAZY: ",
                     value="%0.1f%%" % self._laziness,
-                    position=(120,84),
+                    position=(120, 84),
                     label_font=fonts.Small,
                     text_font=fonts.Small,
                     label_spacing=0,
@@ -153,7 +170,7 @@ class Miyagi(plugins.Plugin):
                     color=BLACK,
                     label=" TRAIN: ",
                     value="BEGIN",
-                    position=(185,84),
+                    position=(185, 84),
                     label_font=fonts.Small,
                     text_font=fonts.Small,
                     label_spacing=0,
@@ -162,12 +179,11 @@ class Miyagi(plugins.Plugin):
         except Exception as e:
             logging.error("[miyagi] ui not allowed: %s" % repr(e))
 
-        
     # called when the ui is updated
     def on_ui_update(self, ui):
         # update those elements
         pass
-    
+
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
         pass
@@ -180,17 +196,19 @@ class Miyagi(plugins.Plugin):
         self.agent = agent
 
         # check brain file. if empty or missing, restore backup
-        self._nn_path = self.agent._config['ai']['path']
-        if (not os.path.isfile(self._nn_path)
-            or os.path.getsize(self._nn_path) == 0):
-                back = "%s.bak" % self._nn_path
-                if os.path.isfile(back):
-                    logging.info("[miyagi] Clear your mind, not empty brain!")
-                    os.replace(back, self._nn_path)
-
+        self._nn_path = self.agent._config["ai"]["path"]
+        if not os.path.isfile(self._nn_path) or os.path.getsize(self._nn_path) == 0:
+            back = "%s.bak" % self._nn_path
+            if os.path.isfile(back):
+                logging.info("[miyagi] Clear your mind, not empty brain!")
+                os.replace(back, self._nn_path)
 
         # grab from system if not in plugin config file
-        self._laziness = self.agent._config['ai']['laziness'] if 'laziness' not in self._mconfig else self._mconfig['laziness']
+        self._laziness = (
+            self.agent._config["ai"]["laziness"]
+            if "laziness" not in self._mconfig
+            else self._mconfig["laziness"]
+        )
 
         # increase training for a while, if laziness is really high
         if self._laziness > 0.98:
@@ -198,7 +216,7 @@ class Miyagi(plugins.Plugin):
             logging.info("[miyagi] Enough rest. You train hard now!")
         self._view.set("miyagi", "%0.1f%%" % ((self._laziness * 100)))
 
-        self.agent._config['ai']['laziness'] = self._laziness
+        self.agent._config["ai"]["laziness"] = self._laziness
 
     # called when the AI finished loading
     def on_ai_ready(self, agent):
@@ -218,13 +236,12 @@ class Miyagi(plugins.Plugin):
             self._train_epoch = 0
 
             # save a backup of the brain before start training
-            self._nn_path = self.agent._config['ai']['path']
+            self._nn_path = self.agent._config["ai"]["path"]
             if os.path.isfile(self._nn_path):
                 back = "%s.bak" % self._nn_path
                 os.replace(self._nn_path, back)
                 self._view.set("mode", "STRT")
 
-        
         except Exception as e:
             logging.warn("[miyagi] you did not start training: %s" % repr(e))
 
@@ -234,27 +251,33 @@ class Miyagi(plugins.Plugin):
         self._total_train_epoch += 1
         self._view.set("mode", "Tr%02i" % self._train_epoch)
         if self._epoch > 0:
-            self._view.set("m_epoch", "%0.2f%%" % (self._total_train_epoch/self._epoch * 100.0))
+            self._view.set(
+                "m_epoch", "%0.2f%%" % (self._total_train_epoch / self._epoch * 100.0)
+            )
 
     # called when the AI has done training
     def on_ai_training_end(self, agent):
         self._view.set("mode", "  AI")
 
         # update laziness to not stay in training forever
-        if self.agent._config['ai']['laziness'] < 0.97:
-            self.agent._config['ai']['laziness'] *= 0.5
-            self.agent._config['ai']['laziness'] += 0.5
+        if self.agent._config["ai"]["laziness"] < 0.97:
+            self.agent._config["ai"]["laziness"] *= 0.5
+            self.agent._config["ai"]["laziness"] += 0.5
         else:
-            self.agent._config['ai']['laziness'] *= 0.8
-            self.agent._config['ai']['laziness'] += 0.2
-        self._laziness = self.agent._config['ai']['laziness']
-        logging.info("[miyagi] laziness = %0.4f" % self.agent._config['ai']['laziness'])
+            self.agent._config["ai"]["laziness"] *= 0.8
+            self.agent._config["ai"]["laziness"] += 0.2
+        self._laziness = self.agent._config["ai"]["laziness"]
+        logging.info("[miyagi] laziness = %0.4f" % self.agent._config["ai"]["laziness"])
         self.save_settings()
-        if (self.agent._config['ai']['laziness'] < 10) :
-            self._view.set("miyagi", "%0.2f%%" % (self.agent._config['ai']['laziness'] * 100))
+        if self.agent._config["ai"]["laziness"] < 10:
+            self._view.set(
+                "miyagi", "%0.2f%%" % (self.agent._config["ai"]["laziness"] * 100)
+            )
         else:
-            self._view.set("miyagi", "%0.1f%%" % (self.agent._config['ai']['laziness'] * 100))
-        
+            self._view.set(
+                "miyagi", "%0.1f%%" % (self.agent._config["ai"]["laziness"] * 100)
+            )
+
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
         # change some parameters to stop spoiling the AI
@@ -328,8 +351,12 @@ class Miyagi(plugins.Plugin):
         logging.info("[miyagi] on_epoch called %s: %s" % (epoch, repr(epoch_data)))
         try:
             self._epoch += 1
-            self._view.set("m_epoch", "%0.2f%%" % (self._total_train_epoch/self._epoch * 100.0))
-            logging.info("[miyagi] epoch %s  %s" % (self._epoch, self._total_train_epoch))
+            self._view.set(
+                "m_epoch", "%0.2f%%" % (self._total_train_epoch / self._epoch * 100.0)
+            )
+            logging.info(
+                "[miyagi] epoch %s  %s" % (self._epoch, self._total_train_epoch)
+            )
         except Exception as e:
             logging.error("[miyagi] on_epoch: %s" % repr(e))
 

@@ -17,34 +17,44 @@ import logging
 import subprocess
 import ipaddress
 
+
 class IPDisplay(plugins.Plugin):
-    __author__ = 'NeonLightning(thank to NurseJackass and jayofelony)'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'Display IP addresses on the Pwnagotchi UI'
+    __author__ = "NeonLightning(thank to NurseJackass and jayofelony)"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "Display IP addresses on the Pwnagotchi UI"
 
     def __init__(self):
         self.options = dict()
-        self.device_list = ['bnep0', 'usb0', 'eth0']
+        self.device_list = ["bnep0", "usb0", "eth0"]
         self.device_index = 0
         self.ready = False
 
     def on_loaded(self):
-        if 'devices' in self.options:
-            self.device_list = self.options['devices']
-        self.options['devices'] = self.device_list
+        if "devices" in self.options:
+            self.device_list = self.options["devices"]
+        self.options["devices"] = self.device_list
         logging.debug("IP Display Plugin loaded.")
-        
+
     def on_ready(self):
         self.ready = True
         logging.info("IP Display Plugin ready.")
 
     def on_ui_setup(self, ui):
         pos1 = (0, 82)
-        if 'position' in self.options:
-            pos1 = self.options['position']
-        ui.add_element('ip1', LabeledValue(color=BLACK, label="", value='Initializing...',
-                                           position=pos1, label_font=fonts.Small, text_font=fonts.Small))
+        if "position" in self.options:
+            pos1 = self.options["position"]
+        ui.add_element(
+            "ip1",
+            LabeledValue(
+                color=BLACK,
+                label="",
+                value="Initializing...",
+                position=pos1,
+                label_font=fonts.Small,
+                text_font=fonts.Small,
+            ),
+        )
 
     def on_ui_update(self, ui):
         current_device = self.device_list[self.device_index]
@@ -53,12 +63,12 @@ class IPDisplay(plugins.Plugin):
         if netip:
             try:
                 ipaddress.ip_address(netip)
-                ui.set('ip1', f'{current_device}:{netip}')
+                ui.set("ip1", f"{current_device}:{netip}")
             except ValueError:
                 logging.debug(f"Invalid IP address found for {current_device}: {netip}")
         self.device_index = (self.device_index + 1) % len(self.device_list)
 
     def on_unload(self, ui):
         self.ready = False
-        ui.remove_element('ip1')
+        ui.remove_element("ip1")
         logging.info("IP Display Plugin unloaded.")

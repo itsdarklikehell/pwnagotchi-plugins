@@ -1,4 +1,3 @@
-
 import copy
 import glob
 import json
@@ -189,115 +188,31 @@ EVENTS_XP = {
     "handshakes_100": 500,
     "peer_detected": 5,
     "good_friend_detected": 10,
-    "sad": -2
+    "sad": -2,
 }
 
 RANKS = {
-    "newbie": {
-        "level": 1,
-        "head": "()",
-        "face": "look_l"
-    },
-    "rookie": {
-        "level": 5,
-        "head": "❪❫",
-        "face": "look_r"
-    },
-    "kiddie": {
-        "level": 10,
-        "head": "❨❩",
-        "face": "look_l_happy"
-    },
-    "student": {
-        "level": 15,
-        "head": "◖◗",
-        "face": "look_r_happy"
-    },
-    "insider": {
-        "level": 20,
-        "head": "⎛⎞",
-        "face": "motivated"
-    },
-    "infiltrator": {
-        "level": 25,
-        "head": "⎝⎠",
-        "face": "sleep2"
-    },
-    "pineap-fan": {
-        "level": 30,
-        "head": "⟪⟫",
-        "face": "friend"
-    },
-    "parasit": {
-        "level": 35,
-        "head": "❰❱",
-        "face": "intense"
-    },
-    "wardriver": {
-        "level": 40,
-        "head": "⎞⎞",
-        "face": "cool"
-    },
-    "profiler": {
-        "level": 45,
-        "head": "⎠⎝",
-        "face": "happy"
-    },
-    "hunter": {
-        "level": 50,
-        "head": "[]",
-        "face": "grateful"
-    },
-    "tracker": {
-        "level": 55,
-        "head": "⁅⁆",
-        "face": "excited"
-    },
-    "pwner": {
-        "level": 60,
-        "head": "⟦⟧",
-        "face": "smart"
-    },
-    "hacker": {
-        "level": 65,
-        "head": "{}",
-        "face": "awake"
-    },
-    "hAIx0r": {
-        "level": 70,
-        "head": "❴❵",
-        "face": "motivated"
-    },
-    "dumper": {
-        "level": 75,
-        "head": "/\\",
-        "face": "grateful"
-    },
-    "elite": {
-        "level": 80,
-        "head": "⎠⎞",
-        "face": "debug"
-    },
-    "pwnbot": {
-        "level": 85,
-        "head": "⎛⎛",
-        "face": "broken"
-    },
-    "sentinel": {
-        "level": 90,
-        "head": "╔╗",
-        "face": "sleep"
-    },
-    "terminator": {
-        "level": 95,
-        "head": "❲❳",
-        "face": "cool"
-    },
-    "legend": {
-        "level": 100,
-        "head": "⦗⦘",
-        "face": "cool"
-    }
+    "newbie": {"level": 1, "head": "()", "face": "look_l"},
+    "rookie": {"level": 5, "head": "❪❫", "face": "look_r"},
+    "kiddie": {"level": 10, "head": "❨❩", "face": "look_l_happy"},
+    "student": {"level": 15, "head": "◖◗", "face": "look_r_happy"},
+    "insider": {"level": 20, "head": "⎛⎞", "face": "motivated"},
+    "infiltrator": {"level": 25, "head": "⎝⎠", "face": "sleep2"},
+    "pineap-fan": {"level": 30, "head": "⟪⟫", "face": "friend"},
+    "parasit": {"level": 35, "head": "❰❱", "face": "intense"},
+    "wardriver": {"level": 40, "head": "⎞⎞", "face": "cool"},
+    "profiler": {"level": 45, "head": "⎠⎝", "face": "happy"},
+    "hunter": {"level": 50, "head": "[]", "face": "grateful"},
+    "tracker": {"level": 55, "head": "⁅⁆", "face": "excited"},
+    "pwner": {"level": 60, "head": "⟦⟧", "face": "smart"},
+    "hacker": {"level": 65, "head": "{}", "face": "awake"},
+    "hAIx0r": {"level": 70, "head": "❴❵", "face": "motivated"},
+    "dumper": {"level": 75, "head": "/\\", "face": "grateful"},
+    "elite": {"level": 80, "head": "⎠⎞", "face": "debug"},
+    "pwnbot": {"level": 85, "head": "⎛⎛", "face": "broken"},
+    "sentinel": {"level": 90, "head": "╔╗", "face": "sleep"},
+    "terminator": {"level": 95, "head": "❲❳", "face": "cool"},
+    "legend": {"level": 100, "head": "⦗⦘", "face": "cool"},
 }
 
 
@@ -402,8 +317,10 @@ class XP(plugins.Plugin):
         plugins.on("rank_update", self.rank)
 
     def _progress(self, p):
-        return [(p[0] + 1, p[1]),
-                ((self.percents * (p[2] - p[0]) / 100) + p[0] - 2, p[3])]
+        return [
+            (p[0] + 1, p[1]),
+            ((self.percents * (p[2] - p[0]) / 100) + p[0] - 2, p[3]),
+        ]
 
     def on_loaded(self):
         try:
@@ -412,18 +329,19 @@ class XP(plugins.Plugin):
 
             opts = self.options
 
-            if opts["level_position"] and \
-               len(opts["level_position"].split(",")) == 2:
+            if opts["level_position"] and len(opts["level_position"].split(",")) == 2:
                 self.level_position = [
-                    int(i) for i in opts["level_position"].split(",")]
-            if opts["rank_position"] and \
-               len(opts["rank_position"].split(",")) == 2:
-                self.rank_position = [
-                    int(i) for i in opts["rank_position"].split(",")]
-            if opts["progressbar_position"] and \
-               len(opts["progressbar_position"].split(",")) == 4:
+                    int(i) for i in opts["level_position"].split(",")
+                ]
+            if opts["rank_position"] and len(opts["rank_position"].split(",")) == 2:
+                self.rank_position = [int(i) for i in opts["rank_position"].split(",")]
+            if (
+                opts["progressbar_position"]
+                and len(opts["progressbar_position"].split(",")) == 4
+            ):
                 self.progressbar_position = [
-                    int(i) for i in opts["progressbar_position"].split(",")]
+                    int(i) for i in opts["progressbar_position"].split(",")
+                ]
 
             logging.info("[XP] plugin loaded.")
         except Exception as e:
@@ -434,7 +352,8 @@ class XP(plugins.Plugin):
         try:
             self.agent = agent
             self.handshakes = utils.total_unique_handshakes(
-                agent.config()['bettercap']['handshakes'])
+                agent.config()["bettercap"]["handshakes"]
+            )
 
             if os.path.exists(self.xp_file):
                 with open(self.xp_file, "r") as f:
@@ -454,15 +373,16 @@ class XP(plugins.Plugin):
                 self.xp += xp
 
                 if os.path.exists("/root/peers"):
-                    xp = len(glob.glob(
-                        "/root/peers/*.json")) * EVENTS_XP["peer_detected"]
+                    xp = (
+                        len(glob.glob("/root/peers/*.json"))
+                        * EVENTS_XP["peer_detected"]
+                    )
                     logging.info("[XP] Loaded %d XP from detected peers" % xp)
                     self.xp += xp
 
             self._save_xp()
 
-            logging.info("[XP] plugin initialized: current xp: %f"
-                         % self._get_xp())
+            logging.info("[XP] plugin initialized: current xp: %f" % self._get_xp())
             self.ready = True
             self._update_level()
         except Exception as e:
@@ -482,29 +402,50 @@ class XP(plugins.Plugin):
     def on_ui_setup(self, ui):
         try:
             if self.level_position:
-                ui.add_element('level', LabeledValue(
-                    color=BLACK,
-                    label='lvl',
-                    value=str(self.level),
-                    position=(self.level_position[0], self.level_position[1]),
-                    label_font=fonts.BoldSmall,
-                    text_font=fonts.Small))
+                ui.add_element(
+                    "level",
+                    LabeledValue(
+                        color=BLACK,
+                        label="lvl",
+                        value=str(self.level),
+                        position=(self.level_position[0], self.level_position[1]),
+                        label_font=fonts.BoldSmall,
+                        text_font=fonts.Small,
+                    ),
+                )
             if self.rank_position:
-                ui.add_element('rank', Text(
-                    color=BLACK,
-                    value=str(self.rank),
-                    position=(self.rank_position[0], self.rank_position[1]),
-                    font=fonts.Small))
+                ui.add_element(
+                    "rank",
+                    Text(
+                        color=BLACK,
+                        value=str(self.rank),
+                        position=(self.rank_position[0], self.rank_position[1]),
+                        font=fonts.Small,
+                    ),
+                )
             if self.progressbar_position:
-                ui.add_element('progressbar', Rect(
-                    color=BLACK,
-                    xy=[(self.progressbar_position[0],
-                         self.progressbar_position[1]),
-                        (self.progressbar_position[2],
-                         self.progressbar_position[3])]))
-                ui.add_element('progress', FilledRect(
-                    color=BLACK,
-                    xy=self._progress(self.progressbar_position)))
+                ui.add_element(
+                    "progressbar",
+                    Rect(
+                        color=BLACK,
+                        xy=[
+                            (
+                                self.progressbar_position[0],
+                                self.progressbar_position[1],
+                            ),
+                            (
+                                self.progressbar_position[2],
+                                self.progressbar_position[3],
+                            ),
+                        ],
+                    ),
+                )
+                ui.add_element(
+                    "progress",
+                    FilledRect(
+                        color=BLACK, xy=self._progress(self.progressbar_position)
+                    ),
+                )
         except Exception as e:
             self._error("on_ui_setup error: %s" % str(e))
 
@@ -529,12 +470,12 @@ class XP(plugins.Plugin):
             self._save_xp()
             with ui._lock:
                 if self.level_position:
-                    ui.remove_element('level')
+                    ui.remove_element("level")
                 if self.rank_position:
-                    ui.remove_element('rank')
+                    ui.remove_element("rank")
                 if self.progressbar_position:
-                    ui.remove_element('progressbar')
-                    ui.remove_element('progress')
+                    ui.remove_element("progressbar")
+                    ui.remove_element("progress")
         except Exception as e:
             self._error("on_unload error: %s" % str(e))
 
@@ -542,20 +483,22 @@ class XP(plugins.Plugin):
         try:
             if not path or path == "/":
                 return render_template_string(
-                    TEMPLATE,
-                    name=self.agent.config()["main"]["name"])
+                    TEMPLATE, name=self.agent.config()["main"]["name"]
+                )
 
             if path == "data":
-                jsonResponse = json.dumps({
-                    "level": self.level,
-                    "xp": self._get_xp(),
-                    "next_level": self.next_level,
-                    "percents": self.percents,
-                    "rank": self.rank,
-                    "face": getattr(faces, RANKS[self.rank]["face"].upper()),
-                    "messages": self.messages,
-                    "errors": self.errors
-                })
+                jsonResponse = json.dumps(
+                    {
+                        "level": self.level,
+                        "xp": self._get_xp(),
+                        "next_level": self.next_level,
+                        "percents": self.percents,
+                        "rank": self.rank,
+                        "face": getattr(faces, RANKS[self.rank]["face"].upper()),
+                        "messages": self.messages,
+                        "errors": self.errors,
+                    }
+                )
 
                 self.messages = []
                 self.errors = []
@@ -569,8 +512,9 @@ class XP(plugins.Plugin):
                     self.debug = True
                     self.messages.append("Debug mode enabled.")
 
-                return Response(json.dumps({"debug": self.debug}),
-                                mimetype="application/json")
+                return Response(
+                    json.dumps({"debug": self.debug}), mimetype="application/json"
+                )
 
             abort(404)
         except Exception as e:
@@ -633,8 +577,10 @@ class XP(plugins.Plugin):
 
             if self.debug:
                 self.messages.append("AP: %s" % ap)
-            self.messages.append("Associated with %s (%s) %s" % (
-                ap["hostname"], ap["mac"], faces.LOOK_L_HAPPY))
+            self.messages.append(
+                "Associated with %s (%s) %s"
+                % (ap["hostname"], ap["mac"], faces.LOOK_L_HAPPY)
+            )
         except Exception as e:
             self._error("on_association error: %s" % str(e))
 
@@ -655,8 +601,10 @@ class XP(plugins.Plugin):
             if self.debug:
                 self.messages.append("AP: %s" % ap)
                 self.messages.append("CLIENT: %s" % client)
-            self.messages.append("Deauthenticated %s from %s (%s) %s" % (
-                client["mac"], ap["hostname"], ap["mac"], faces.COOL))
+            self.messages.append(
+                "Deauthenticated %s from %s (%s) %s"
+                % (client["mac"], ap["hostname"], ap["mac"], faces.COOL)
+            )
         except Exception as e:
             self._error("on_deauthentication error: %s" % str(e))
 
@@ -686,12 +634,14 @@ class XP(plugins.Plugin):
     def on_handshake(self, agent, filename, ap, client):
         try:
             while not os.path.exists(filename):
-                logging.warning("[XP] on_handshake: Waiting for %s to be created."
-                                % filename)
+                logging.warning(
+                    "[XP] on_handshake: Waiting for %s to be created." % filename
+                )
                 time.sleep(1)
 
             handshakes = utils.total_unique_handshakes(
-                agent.config()['bettercap']['handshakes'])
+                agent.config()["bettercap"]["handshakes"]
+            )
 
             if handshakes > self.handshakes:
                 if handshakes % 100 == 0:
@@ -706,8 +656,10 @@ class XP(plugins.Plugin):
             if self.debug:
                 self.messages.append("AP: %s" % ap)
                 self.messages.append("CLIENT: %s" % client)
-            self.messages.append("New handshake by %s for %s (%s) %s" % (
-                client["mac"], ap["hostname"], ap["mac"], faces.COOL))
+            self.messages.append(
+                "New handshake by %s for %s (%s) %s"
+                % (client["mac"], ap["hostname"], ap["mac"], faces.COOL)
+            )
         except Exception as e:
             self._error("on_handshake error: %s" % str(e))
 
@@ -720,8 +672,9 @@ class XP(plugins.Plugin):
 
             if self.debug:
                 self.messages.append("PEER: %s" % peer)
-            self.messages.append("Hey AIx0r %s is in the place %s" % (
-                peer.name(), faces.FRIEND))
+            self.messages.append(
+                "Hey AIx0r %s is in the place %s" % (peer.name(), faces.FRIEND)
+            )
         except Exception as e:
             self._error("on_peer_detected error: %s" % str(e))
 

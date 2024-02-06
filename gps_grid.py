@@ -19,8 +19,7 @@ class GPSGrid(plugins.Plugin):
     def _coords(self):
         if self.gps and self.gps.running:
             coordinates = self.gps.coordinates
-            if coordinates \
-               and all([coordinates["Latitude"], coordinates["Longitude"]]):
+            if coordinates and all([coordinates["Latitude"], coordinates["Longitude"]]):
                 return coordinates
         return None
 

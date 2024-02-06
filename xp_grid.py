@@ -20,13 +20,17 @@ class XPGrid(plugins.Plugin):
 
     def on_loaded(self):
         try:
-            if "name_position" not in self.options or \
-               not self.options["name_position"] or \
-               len(self.options["name_position"].split(",")) != 2:
+            if (
+                "name_position" not in self.options
+                or not self.options["name_position"]
+                or len(self.options["name_position"].split(",")) != 2
+            ):
                 self.options["name_position"] = "63,95"
-            if "position" not in self.options or \
-               not self.options["position"] or \
-               len(self.options["position"].split(",")) != 2:
+            if (
+                "position" not in self.options
+                or not self.options["position"]
+                or len(self.options["position"].split(",")) != 2
+            ):
                 self.options["position"] = "36,95"
             logging.info("[xp_grid] plugin loaded")
         except Exception as e:
@@ -54,17 +58,25 @@ class XPGrid(plugins.Plugin):
         try:
             pos = self.options["position"].split(",")
             name_pos = self.options["name_position"].split(",")
-            ui.remove_element('friend_name')
-            ui.add_element('friend_name', Text(
-                color=BLACK,
-                value=None,
-                position=(int(name_pos[0]), int(name_pos[1])),
-                font=fonts.BoldSmall))
-            ui.add_element('friend_level', Text(
-                color=BLACK,
-                value=None,
-                position=(int(pos[0]), int(pos[1])),
-                font=fonts.BoldSmall))
+            ui.remove_element("friend_name")
+            ui.add_element(
+                "friend_name",
+                Text(
+                    color=BLACK,
+                    value=None,
+                    position=(int(name_pos[0]), int(name_pos[1])),
+                    font=fonts.BoldSmall,
+                ),
+            )
+            ui.add_element(
+                "friend_level",
+                Text(
+                    color=BLACK,
+                    value=None,
+                    position=(int(pos[0]), int(pos[1])),
+                    font=fonts.BoldSmall,
+                ),
+            )
         except Exception as e:
             logging.error("xp_grid.on_ui_setup: %s" % e)
 
@@ -77,9 +89,11 @@ class XPGrid(plugins.Plugin):
 
             peer = friend.split(" ")
             for i, p in self.known_peers.items():
-                if p.name() == peer[1] \
-                   and str(p.pwnd_run()) == peer[2] \
-                   and "(%d)" % p.pwnd_total() == peer[3]:
+                if (
+                    p.name() == peer[1]
+                    and str(p.pwnd_run()) == peer[2]
+                    and "(%d)" % p.pwnd_total() == peer[3]
+                ):
                     level = ""
                     rank = ""
 
@@ -96,6 +110,6 @@ class XPGrid(plugins.Plugin):
     def on_unload(self, ui):
         try:
             with ui._lock:
-                ui.remove_element('friend_level')
+                ui.remove_element("friend_level")
         except Exception as e:
             logging.error("xp_grid.on_unload: %s" % e)

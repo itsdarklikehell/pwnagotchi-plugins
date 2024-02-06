@@ -30,7 +30,7 @@ class QuickDic(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
-        "wordlist_folder": "/home/pi/wordlists/",
+        "wordlist_folder": "/etc/pwnagotchi/wordlists/passwords/",
         "face": "(·ω·)",
         "api": None,
         "id": None,
@@ -48,7 +48,7 @@ class QuickDic(plugins.Plugin):
         if "face" not in self.options:
             self.options["face"] = "(·ω·)"
         if "wordlist_folder" not in self.options:
-            self.options["wordlist_folder"] = "/home/pi/wordlists/"
+            self.options["wordlist_folder"] = "/etc/pwnagotchi/wordlists/passwords/"
         if "enabled" not in self.options:
             self.options["enabled"] = False
         if "api" not in self.options:

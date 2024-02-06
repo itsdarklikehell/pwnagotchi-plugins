@@ -36,9 +36,13 @@ class GPSError(plugins.Plugin):
                 ui.set("latitude", "Not running")
             elif not self.gps.coordinates:
                 ui.set("latitude", "No data")
-            elif not all([self.gps.coordinates["Latitude"],
-                          self.gps.coordinates["Longitude"],
-                          self.gps.coordinates["FixQuality"]]):
+            elif not all(
+                [
+                    self.gps.coordinates["Latitude"],
+                    self.gps.coordinates["Longitude"],
+                    self.gps.coordinates["FixQuality"],
+                ]
+            ):
                 ui.set("latitude", "Not fixed")
         except Exception as e:
             logging.error("gps_error.on_ui_update: %s" % e)

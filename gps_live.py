@@ -39,8 +39,7 @@ class GPSLive(plugins.Plugin):
         try:
             if self.gps and self.gps.running:
                 coords = self.gps.coordinates
-                if not coords or not all([coords["Latitude"],
-                                          coords["Longitude"]]):
+                if not coords or not all([coords["Latitude"], coords["Longitude"]]):
                     ui.set("latitude", "-")
                     ui.set("longitude", "-")
                     ui.set("altitude", "-")

@@ -21,7 +21,7 @@ Group=pi
 WantedBy=default.target
 """
 
-SERV_PATH = '/etc/systemd/system/webssh2.service'
+SERV_PATH = "/etc/systemd/system/webssh2.service"
 
 TEMPLATE = """
 {% extends "base.html" %}
@@ -47,6 +47,7 @@ TEMPLATE = """
 {% endblock %}
 """
 
+
 class WebSSH2Plugin(plugins.Plugin):
     __author__ = "NeonLightning"
     __version__ = "1.0.0"
@@ -57,38 +58,46 @@ class WebSSH2Plugin(plugins.Plugin):
         self.ready = False
 
     def on_loaded(self):
-        logging.info('[Webssh2] plugin loading')
+        logging.info("[Webssh2] plugin loading")
         if not os.path.exists(SERV_PATH):
-            logging.info('[Webssh2] creating systemd unit file')
+            logging.info("[Webssh2] creating systemd unit file")
             file = open(SERV_PATH, "w")
             file.write(WEBSSH2_SERV)
             file.close()
-            os.system('sudo systemctl enable webssh2.service')
-            os.system('sudo systemctl start webssh2.service')
+            os.system("sudo systemctl enable webssh2.service")
+            os.system("sudo systemctl start webssh2.service")
 
             # check if webssh2.service is running and listening on an IP address
             for i in range(12):
-                output = subprocess.check_output(["systemctl", "status", "webssh2.service"]).decode("utf-8")
+                output = subprocess.check_output(
+                    ["systemctl", "status", "webssh2.service"]
+                ).decode("utf-8")
                 if "Active: active" in output and "listening on" in output:
                     ip_address = self.extract_ip_address(output)
                     if ip_address is not None:
                         self.ready = True
-                        logging.info(f'[Webssh2] service started successfully on {ip_address}')
+                        logging.info(
+                            f"[Webssh2] service started successfully on {ip_address}"
+                        )
                         return
                 time.sleep(5)
 
-            logging.error('[Webssh2] failed to start service')
+            logging.error("[Webssh2] failed to start service")
         else:
-            logging.info('[Webssh2] systemd unit file already exists, skipping creation')
-            output = subprocess.check_output(["systemctl", "is-active", "webssh2.service"]).decode("utf-8")
+            logging.info(
+                "[Webssh2] systemd unit file already exists, skipping creation"
+            )
+            output = subprocess.check_output(
+                ["systemctl", "is-active", "webssh2.service"]
+            ).decode("utf-8")
             if not output.strip() == "active":
-                os.system('sudo systemctl disable webssh2.service')
+                os.system("sudo systemctl disable webssh2.service")
                 file = open(SERV_PATH, "w")
                 file.write(WEBSSH2_SERV)
                 file.close()
-                os.system('sudo systemctl enable webssh2.service')
-                os.system('sudo systemctl start webssh2.service')
-                
+                os.system("sudo systemctl enable webssh2.service")
+                os.system("sudo systemctl start webssh2.service")
+
     def extract_ip_address(self, output):
         match = re.search(r"listening on (\S+)", output)
         if match:
@@ -96,11 +105,11 @@ class WebSSH2Plugin(plugins.Plugin):
         return None
 
     def on_unload(self, ui):
-        logging.info('[Webssh2] plugin unloading')
-        os.system('sudo systemctl stop webssh2.service')
-        os.system('sudo systemctl disable webssh2.service')
-        os.system('sudo rm -f {}'.format(SERV_PATH))
-        logging.info('[Webssh2] plugin stopped')
+        logging.info("[Webssh2] plugin unloading")
+        os.system("sudo systemctl stop webssh2.service")
+        os.system("sudo systemctl disable webssh2.service")
+        os.system("sudo rm -f {}".format(SERV_PATH))
+        logging.info("[Webssh2] plugin stopped")
         self.ready = False
 
     def on_webhook(self, path, request):

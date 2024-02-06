@@ -62,26 +62,26 @@ TEMPLATE = """
 {% endblock %}
 """
 
+
 class handshakes:
     def __init__(self, name, path, ext):
         self.name = name
         self.path = path
         self.ext = ext
 
+
 class HandshakesDL(plugins.Plugin):
-    __author__ = 'me@sayakb.com'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'Download handshake captures from web-ui.'
-    __name__ = 'HandshakesDL'
+    __author__ = "me@sayakb.com"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "Download handshake captures from web-ui."
+    __name__ = "HandshakesDL"
     __help__ = """
     Download handshake captures from web-ui.
     """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -99,25 +99,29 @@ class HandshakesDL(plugins.Plugin):
             return "Plugin not ready"
 
         if path == "/" or not path:
-            pcapfiles = glob.glob(os.path.join(self.config['bettercap']['handshakes'], "*.pcap"))
+            pcapfiles = glob.glob(
+                os.path.join(self.config["bettercap"]["handshakes"], "*.pcap")
+            )
 
             data = []
             for path in pcapfiles:
                 name = os.path.basename(path)[:-5]
                 fullpathNoExt = path[:-5]
-                possibleExt = ['.2500', '.16800', '.22000']
-                foundExt = ['.pcap']
+                possibleExt = [".2500", ".16800", ".22000"]
+                foundExt = [".pcap"]
                 for ext in possibleExt:
-                    if os.path.isfile(fullpathNoExt +  ext):
+                    if os.path.isfile(fullpathNoExt + ext):
                         foundExt.append(ext)
                 data.append(handshakes(name, fullpathNoExt, foundExt))
-            return render_template_string(TEMPLATE,
-                                    title="Handshakes | " + pwnagotchi.name(),
-                                    handshakes=data)
+            return render_template_string(
+                TEMPLATE, title="Handshakes | " + pwnagotchi.name(), handshakes=data
+            )
         else:
-            dir = self.config['bettercap']['handshakes']
+            dir = self.config["bettercap"]["handshakes"]
             try:
                 logging.info(f"[HandshakesDL] serving {dir}/{path}")
-                return send_from_directory(directory=dir, filename=path, as_attachment=True)
+                return send_from_directory(
+                    directory=dir, filename=path, as_attachment=True
+                )
             except FileNotFoundError:
                 abort(404)

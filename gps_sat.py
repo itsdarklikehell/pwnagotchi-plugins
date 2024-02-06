@@ -19,9 +19,11 @@ class GPSSat(plugins.Plugin):
 
     def on_loaded(self):
         try:
-            if "position" not in self.options or \
-               not self.options["position"] or \
-               len(self.options["position"].split(",")) != 2:
+            if (
+                "position" not in self.options
+                or not self.options["position"]
+                or len(self.options["position"].split(",")) != 2
+            ):
                 self.options["position"] = "90,83"
             logging.info("[gps_sat] plugin loaded")
         except Exception as e:
@@ -38,13 +40,17 @@ class GPSSat(plugins.Plugin):
     def on_ui_setup(self, ui):
         try:
             pos = self.options["position"].split(",")
-            ui.add_element('sattelites', LabeledValue(
-                color=BLACK,
-                label='sat',
-                value="0",
-                position=(int(pos[0]), int(pos[1])),
-                label_font=fonts.Small,
-                text_font=fonts.Small))
+            ui.add_element(
+                "sattelites",
+                LabeledValue(
+                    color=BLACK,
+                    label="sat",
+                    value="0",
+                    position=(int(pos[0]), int(pos[1])),
+                    label_font=fonts.Small,
+                    text_font=fonts.Small,
+                ),
+            )
         except Exception as e:
             logging.error("gps_sat.on_ui_setup: %s" % e)
 

@@ -6,19 +6,17 @@ import pwnagotchi.plugins as plugins
 
 
 class handshaker(plugins.Plugin):
-    __author__ = 'Allordacia'
-    __version__ = '1.0.1'
-    __license__ = 'MIT'
-    __description__ = 'A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH.'
-    __name__ = 'handshaker'
+    __author__ = "Allordacia"
+    __version__ = "1.0.1"
+    __license__ = "MIT"
+    __description__ = "A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH."
+    __name__ = "handshaker"
     __help__ = """
     A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH.
     """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -26,7 +24,7 @@ class handshaker(plugins.Plugin):
         logging.info("[handshaker]: Initialized")
 
     def on_loaded(self):
-        data_path = '/root/handshakes'
+        data_path = "/root/handshakes"
         self.load_data(data_path)
         logging.info("[handshaker]: Loaded %d handshakes", self.handshakes)
 
@@ -44,7 +42,9 @@ class handshaker(plugins.Plugin):
         if os.path.exists("/boot/custom_plugins"):
             os.system("mv /boot/custom_plugins/* /home/pi/custom_plugins/")
             os.system("rm -rf /boot/custom_plugins")
-            logging.info("[handshaker]: Moved custom_plugins to /home/pi/custom_plugins")
+            logging.info(
+                "[handshaker]: Moved custom_plugins to /home/pi/custom_plugins"
+            )
             # Copy /etc/pwnagotchi/config.toml to /boot/config.toml
             os.system("cp /etc/pwnagotchi/config.toml /boot/config.toml")
             logging.info("[handshaker]: Copied config.toml to /boot/config.toml")

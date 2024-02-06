@@ -1,16 +1,16 @@
-#wifi_adventures.py
+# wifi_adventures.py
 
 ## Disclaimer
-#**Note:** This plugin is created for educational purposes
-#The author does not take responsibility for any misuse or unauthorized activities conducted with this plugin.
-#Be aware of and comply with legal and ethical standards when using this software.
-#Always respect privacy, adhere to local laws, and ensure that your actions align with the intended educational purpose of the plugin.
-#Use this plugin responsibly and ethically.
-#Any actions that violate laws or infringe upon the rights of others are not endorsed or supported.
-#By using this software, you acknowledge that the author is not liable for any consequences resulting from its misuse.
-#If you have any concerns or questions regarding the ethical use of this plugin, please contact the author for guidance.
+# **Note:** This plugin is created for educational purposes
+# The author does not take responsibility for any misuse or unauthorized activities conducted with this plugin.
+# Be aware of and comply with legal and ethical standards when using this software.
+# Always respect privacy, adhere to local laws, and ensure that your actions align with the intended educational purpose of the plugin.
+# Use this plugin responsibly and ethically.
+# Any actions that violate laws or infringe upon the rights of others are not endorsed or supported.
+# By using this software, you acknowledge that the author is not liable for any consequences resulting from its misuse.
+# If you have any concerns or questions regarding the ethical use of this plugin, please contact the author for guidance.
 
-#Need to Install ( pip install requests )
+# Need to Install ( pip install requests )
 
 import logging
 import os
@@ -27,7 +27,6 @@ import re
 import requests
 
 
-
 class AdventureType:
     HANDSHAKE = "handshake"
     NEW_NETWORK = "new_network"
@@ -36,14 +35,15 @@ class AdventureType:
     DATA_DAZZLE = "data_dazzle"
     SPEEDY_SCAN = "speedy_scan"
 
+
 class FunAchievements(plugins.Plugin):
-    __author__ = 'https://github.com/MaliosDark/'
-    __version__ = '1.3.9'
-    __license__ = 'GPL3'
-    __description__ = 'Taking Pwnagotchi on WiFi adventures and collect fun achievements.'
-    __defaults__ = {
-        'enabled': False
-    }
+    __author__ = "https://github.com/MaliosDark/"
+    __version__ = "1.3.9"
+    __license__ = "GPL3"
+    __description__ = (
+        "Taking Pwnagotchi on WiFi adventures and collect fun achievements."
+    )
+    __defaults__ = {"enabled": False}
 
     def __init__(self):
         self.ready = False
@@ -52,13 +52,15 @@ class FunAchievements(plugins.Plugin):
         self.new_networks_count = 0
         self.packet_party_count = 0
         self.pixel_parade_count = 0
-        self.data_dazzle_count = 0 
+        self.data_dazzle_count = 0
         self.treasure_chests_count = 0
         self.title = ""
         self.last_claimed = None
         self.daily_quest_target = 3
         self.current_adventure = self.choose_random_adventure()
-        self.data_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fun_achievements.json')
+        self.data_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "fun_achievements.json"
+        )
 
     def get_label_based_on_adventure(self):
         if self.current_adventure == AdventureType.NEW_NETWORK:
@@ -75,25 +77,38 @@ class FunAchievements(plugins.Plugin):
             return "Mysterious Quest:  "
 
     def load_from_json(self):
-        logging.info('[FunAchievements] Loading data from JSON...')
+        logging.info("[FunAchievements] Loading data from JSON...")
         if os.path.exists(self.data_path):
-            with open(self.data_path, 'r') as file:
+            with open(self.data_path, "r") as file:
                 data = json.load(file)
-                self.handshake_count = data.get('handshake_count', 0)
-                self.fun_achievement_count = data.get('fun_achievement_count', 0)
-                self.new_networks_count = data.get('new_networks_count', 0)
-                self.packet_party_count = data.get('packet_party_count', 0)
-                self.pixel_parade_count = data.get('pixel_parade_count', 0)
-                self.data_dazzle_count = data.get('data_dazzle_count', 0)
-                self.treasure_chests_count = data.get('treasure_chests_count', 0)
-                self.daily_quest_target = data.get('daily_quest_target', 5)
-                self.last_claimed = datetime.datetime.strptime(data['last_claimed'], '%Y-%m-%d').date() if 'last_claimed' in data else None
+                self.handshake_count = data.get("handshake_count", 0)
+                self.fun_achievement_count = data.get("fun_achievement_count", 0)
+                self.new_networks_count = data.get("new_networks_count", 0)
+                self.packet_party_count = data.get("packet_party_count", 0)
+                self.pixel_parade_count = data.get("pixel_parade_count", 0)
+                self.data_dazzle_count = data.get("data_dazzle_count", 0)
+                self.treasure_chests_count = data.get("treasure_chests_count", 0)
+                self.daily_quest_target = data.get("daily_quest_target", 5)
+                self.last_claimed = (
+                    datetime.datetime.strptime(data["last_claimed"], "%Y-%m-%d").date()
+                    if "last_claimed" in data
+                    else None
+                )
                 self.current_adventure = FunAchievements.choose_random_adventure()
         logging.info(f"[FunAchievements] Loaded data from JSON: {data}")
 
     @staticmethod
     def choose_random_adventure():
-        return random.choice([AdventureType.HANDSHAKE, AdventureType.NEW_NETWORK, AdventureType.PACKET_PARTY, AdventureType.PIXEL_PARADE, AdventureType.DATA_DAZZLE, AdventureType.SPEEDY_SCAN])
+        return random.choice(
+            [
+                AdventureType.HANDSHAKE,
+                AdventureType.NEW_NETWORK,
+                AdventureType.PACKET_PARTY,
+                AdventureType.PIXEL_PARADE,
+                AdventureType.DATA_DAZZLE,
+                AdventureType.SPEEDY_SCAN,
+            ]
+        )
 
     def on_loaded(self):
         logging.info("[FunAchievements] plugin loaded")
@@ -101,11 +116,24 @@ class FunAchievements(plugins.Plugin):
     def on_ui_setup(self, ui):
         title_label = self.get_label_based_on_adventure()
         achievement_label = f"{self.handshake_count}/{self.daily_quest_target} ({self.get_title_based_on_achievements()})"
-        ui.add_element('showFunAchievements', LabeledValue(color=BLACK, label=title_label, value=achievement_label, position=(0, 95), label_font=fonts.Medium, text_font=fonts.Medium))
+        ui.add_element(
+            "showFunAchievements",
+            LabeledValue(
+                color=BLACK,
+                label=title_label,
+                value=achievement_label,
+                position=(0, 95),
+                label_font=fonts.Medium,
+                text_font=fonts.Medium,
+            ),
+        )
 
     def on_ui_update(self, ui):
         if self.ready:
-            ui.set('showFunAchievements', f"{self.handshake_count}/{self.daily_quest_target} ({self.get_title_based_on_achievements()})")
+            ui.set(
+                "showFunAchievements",
+                f"{self.handshake_count}/{self.daily_quest_target} ({self.get_title_based_on_achievements()})",
+            )
 
     def on_ready(self, agent):
         _ = agent
@@ -136,7 +164,7 @@ class FunAchievements(plugins.Plugin):
             160: "Cyber Celestial",
             180: "Bitlord of the Bits",
             190: "Master of the Matrix",
-            200: "Legendary Adventurer"
+            200: "Legendary Adventurer",
         }
 
         # Duplicar los puntos necesarios para cada título
@@ -157,43 +185,49 @@ class FunAchievements(plugins.Plugin):
     def get_title_based_on_achievements(self):
         # Llamar a update_title para asegurarse de que el atributo 'title' esté actualizado
         self.update_title()
-        
+
         # Retornar el título actualizado
         return self.title
 
     def save_to_json(self):
         data = {
-            'handshake_count': self.handshake_count,
-            'new_networks_count': self.new_networks_count,
-            'packet_party_count': self.packet_party_count,
-            'pixel_parade_count': self.pixel_parade_count,
-            'data_dazzle_count': self.data_dazzle_count,
-            'treasure_chests_count': self.treasure_chests_count,
-            'last_claimed': self.last_claimed.strftime('%Y-%m-%d') if self.last_claimed else None,
-            'daily_quest_target': self.daily_quest_target,
-            'current_adventure': self.current_adventure,
-            'fun_achievement_count': self.fun_achievement_count
+            "handshake_count": self.handshake_count,
+            "new_networks_count": self.new_networks_count,
+            "packet_party_count": self.packet_party_count,
+            "pixel_parade_count": self.pixel_parade_count,
+            "data_dazzle_count": self.data_dazzle_count,
+            "treasure_chests_count": self.treasure_chests_count,
+            "last_claimed": (
+                self.last_claimed.strftime("%Y-%m-%d") if self.last_claimed else None
+            ),
+            "daily_quest_target": self.daily_quest_target,
+            "current_adventure": self.current_adventure,
+            "fun_achievement_count": self.fun_achievement_count,
         }
-        with open(self.data_path, 'w') as file:
+        with open(self.data_path, "w") as file:
             json.dump(data, file)
 
     def send_adventure_states_to_server(self, adventure, status):
         # Cambia la URL a la de tu servidor
-        server_url = "http://192.168.68.16:5000/get-adventure-state/{}".format(adventure)
-        
+        server_url = "http://192.168.68.16:5000/get-adventure-state/{}".format(
+            adventure
+        )
+
         payload = {
             "adventure": adventure,
             "status": status,
-            'handshake_count': self.handshake_count,
-            'new_networks_count': self.new_networks_count,
-            'packet_party_count': self.packet_party_count,
-            'pixel_parade_count': self.pixel_parade_count,
-            'data_dazzle_count': self.data_dazzle_count,
-            'treasure_chests_count': self.treasure_chests_count,
-            'last_claimed': self.last_claimed.strftime('%Y-%m-%d') if self.last_claimed else None,
-            'daily_quest_target': self.daily_quest_target,
-            'current_adventure': self.current_adventure,
-            'fun_achievement_count': self.fun_achievement_count
+            "handshake_count": self.handshake_count,
+            "new_networks_count": self.new_networks_count,
+            "packet_party_count": self.packet_party_count,
+            "pixel_parade_count": self.pixel_parade_count,
+            "data_dazzle_count": self.data_dazzle_count,
+            "treasure_chests_count": self.treasure_chests_count,
+            "last_claimed": (
+                self.last_claimed.strftime("%Y-%m-%d") if self.last_claimed else None
+            ),
+            "daily_quest_target": self.daily_quest_target,
+            "current_adventure": self.current_adventure,
+            "fun_achievement_count": self.fun_achievement_count,
         }
 
         try:
@@ -203,18 +237,18 @@ class FunAchievements(plugins.Plugin):
         except requests.exceptions.RequestException as e:
             logging.error(f"Error al enviar estado de la aventura al servidor: {e}")
 
-
-
     def on_handshake(self, agent, filename, access_point, client_station):
-        logging.info(f"[FunAchievements] on_handshake - Current Adventure: {self.current_adventure}, Handshake Count: {self.handshake_count}")
-        
+        logging.info(
+            f"[FunAchievements] on_handshake - Current Adventure: {self.current_adventure}, Handshake Count: {self.handshake_count}"
+        )
+
         difficulty_multiplier = {
             AdventureType.HANDSHAKE: 1,
-            AdventureType.NEW_NETWORK: 1,  
+            AdventureType.NEW_NETWORK: 1,
             AdventureType.PACKET_PARTY: 2,
             AdventureType.PIXEL_PARADE: 1,
             AdventureType.DATA_DAZZLE: 1,
-            AdventureType.SPEEDY_SCAN: 1
+            AdventureType.SPEEDY_SCAN: 1,
         }
 
         self.handshake_count += difficulty_multiplier.get(self.current_adventure, 1)
@@ -234,7 +268,6 @@ class FunAchievements(plugins.Plugin):
         status_message = f"Handshake adventure in progress! Current count: {self.handshake_count}/{self.daily_quest_target}"
         self.show_status_message(status_message)
 
-
     def on_packet_party(self, agent, party_count):
         if self.current_adventure == AdventureType.PACKET_PARTY:
             self.packet_party_count += party_count
@@ -245,7 +278,9 @@ class FunAchievements(plugins.Plugin):
             if self.current_adventure == AdventureType.PACKET_PARTY:
                 # Simulate the capture of different types of packets during the party
                 for _ in range(party_count):
-                    captured_packet_type = random.choice(["Data Packet", "Control Packet", "Management Packet"])
+                    captured_packet_type = random.choice(
+                        ["Data Packet", "Control Packet", "Management Packet"]
+                    )
 
                     # Process the captured packet based on its type
                     self.process_captured_packet(captured_packet_type)
@@ -254,7 +289,9 @@ class FunAchievements(plugins.Plugin):
 
     def process_captured_packet(self, packet_type):
         # Logic for processing a captured packet during the Packet Party
-        logging.info(f"[FunAchievements] Captured a {packet_type} during the Packet Party!")
+        logging.info(
+            f"[FunAchievements] Captured a {packet_type} during the Packet Party!"
+        )
 
         # Determine the effects or challenges based on the captured packet type
         if packet_type == "Data Packet":
@@ -300,7 +337,9 @@ class FunAchievements(plugins.Plugin):
         # You can use input() to get user responses and determine the outcome.
 
         # Example:
-        user_response = input("[FunAchievements] Solve the puzzle: What is the purpose of a management packet? ")
+        user_response = input(
+            "[FunAchievements] Solve the puzzle: What is the purpose of a management packet? "
+        )
 
         if user_response.lower() == "network_management":
             logging.info("[FunAchievements] Puzzle solved! Gain a reward.")
@@ -319,11 +358,12 @@ class FunAchievements(plugins.Plugin):
 
     def face_consequence(self):
         # Logic for facing a consequence after an incorrect answer
-        logging.info("[FunAchievements] Oh no! Incorrect answer comes with consequences.")
+        logging.info(
+            "[FunAchievements] Oh no! Incorrect answer comes with consequences."
+        )
 
         # Determine and apply the consequence (e.g., decrease virtual coins, face a setback, etc.)
         self.virtual_coins -= 10
-
 
     def on_speedy_scan(self, agent):
         # Lógica para la aventura Speedy Scan
@@ -360,17 +400,25 @@ class FunAchievements(plugins.Plugin):
         logging.info("[FunAchievements] Special Pixel Parade event reached!")
 
         # Determine the type of special event based on random chance
-        special_event_type = random.choice(["Treasure Hunt", "Stat Boost", "New Ability"])
+        special_event_type = random.choice(
+            ["Treasure Hunt", "Stat Boost", "New Ability"]
+        )
 
         # Execute actions based on the type of special event
         if special_event_type == "Treasure Hunt":
-            logging.info("[FunAchievements] You've triggered a Treasure Hunt! Search for hidden treasures.")
+            logging.info(
+                "[FunAchievements] You've triggered a Treasure Hunt! Search for hidden treasures."
+            )
             self.start_treasure_hunt()
         elif special_event_type == "Stat Boost":
-            logging.info("[FunAchievements] Your Pwnagotchi receives a temporary stat boost!")
+            logging.info(
+                "[FunAchievements] Your Pwnagotchi receives a temporary stat boost!"
+            )
             self.boost_pwnagotchi_stats()
         elif special_event_type == "New Ability":
-            logging.info("[FunAchievements] Your Pwnagotchi gains a new special ability!")
+            logging.info(
+                "[FunAchievements] Your Pwnagotchi gains a new special ability!"
+            )
             self.give_new_ability()
 
         # Reset the Pixel Parade count
@@ -389,9 +437,11 @@ class FunAchievements(plugins.Plugin):
         # Loop until the player finds all treasures or decides to end the hunt
         while treasures_found < num_hidden_treasures:
             # Present clues or prompts to guide the player
-            user_input = input("[FunAchievements] Clue: Enter 'hunt' to search for treasure or 'end' to end the hunt: ")
+            user_input = input(
+                "[FunAchievements] Clue: Enter 'hunt' to search for treasure or 'end' to end the hunt: "
+            )
 
-            if user_input.lower() == 'hunt':
+            if user_input.lower() == "hunt":
                 # Player chooses to search for treasure
                 if random.random() < 0.4:  # 40% chance of finding a treasure
                     logging.info("[FunAchievements] You found a hidden treasure!")
@@ -399,15 +449,19 @@ class FunAchievements(plugins.Plugin):
                 else:
                     logging.info("[FunAchievements] No treasure found this time.")
 
-            elif user_input.lower() == 'end':
+            elif user_input.lower() == "end":
                 # Player chooses to end the treasure hunt
                 break
 
-        logging.info(f"[FunAchievements] Treasure Hunt ended. You found {treasures_found} treasures!")
+        logging.info(
+            f"[FunAchievements] Treasure Hunt ended. You found {treasures_found} treasures!"
+        )
 
     def boost_pwnagotchi_stats(self):
         # Logic for boosting Pwnagotchi stats
-        logging.info("[FunAchievements] Your Pwnagotchi receives a temporary stat boost!")
+        logging.info(
+            "[FunAchievements] Your Pwnagotchi receives a temporary stat boost!"
+        )
 
         # Increase relevant attributes for a limited time (adjust values as needed)
         boost_duration = 120  # seconds
@@ -424,12 +478,11 @@ class FunAchievements(plugins.Plugin):
     def end_stat_boost(self, boost_amount):
         # Logic for ending the temporary stat boost
         logging.info("[FunAchievements] Temporary stat boost has ended.")
-        
+
         # Reset boosted attributes to their original values
         self.speed -= boost_amount
         self.intelligence -= boost_amount
         self.luck -= boost_amount
-
 
     def give_new_ability(self):
         # Logic for giving the Pwnagotchi a new special ability
@@ -446,7 +499,7 @@ class FunAchievements(plugins.Plugin):
             "Telepathic Communication",
             "Molecular Reconstruction",
             "Illusion Casting",
-            "Technomancy"
+            "Technomancy",
         ]
 
         # Randomly assign a new ability to the Pwnagotchi
@@ -456,7 +509,6 @@ class FunAchievements(plugins.Plugin):
 
         # Add the new ability to the Pwnagotchi's list of abilities (assuming you have such a list)
         self.abilities.append(new_ability)
-
 
     def on_data_dazzle(self, agent, dazzle_count):
         if self.current_adventure == AdventureType.DATA_DAZZLE:
@@ -479,7 +531,7 @@ class FunAchievements(plugins.Plugin):
 
         # Offer the player options for data to dazzle
         data_options = ["Email", "Password", "Credit Card Number", "Secret Message"]
-        
+
         # Randomly choose a data type to dazzle
         chosen_data = random.choice(data_options)
         logging.info(f"[FunAchievements] Dazzle: {chosen_data}")
@@ -497,7 +549,9 @@ class FunAchievements(plugins.Plugin):
             self.virtual_coins += 10
         elif chosen_data == "Secret Message":
             # Example: Present a special message or challenge to the player
-            logging.info("[FunAchievements] Decode the secret message for an additional reward!")
+            logging.info(
+                "[FunAchievements] Decode the secret message for an additional reward!"
+            )
 
         # Reset the Data Dazzle count
         self.data_dazzle_count = 0
@@ -563,7 +617,7 @@ class FunAchievements(plugins.Plugin):
             AdventureType.PACKET_PARTY: 1.5,
             AdventureType.PIXEL_PARADE: 1.3,
             AdventureType.DATA_DAZZLE: 1.4,
-            AdventureType.SPEEDY_SCAN: 1.2
+            AdventureType.SPEEDY_SCAN: 1.2,
         }
 
         # Increase the difficulty multiplier for the current adventure
@@ -571,24 +625,35 @@ class FunAchievements(plugins.Plugin):
         self.daily_quest_target = max(int(self.daily_quest_target * multiplier), 1)
 
         # Log the updated difficulty
-        logging.info(f"[FunAchievements] Difficulty increased for {self.current_adventure}. New daily quest target: {self.daily_quest_target}")
+        logging.info(
+            f"[FunAchievements] Difficulty increased for {self.current_adventure}. New daily quest target: {self.daily_quest_target}"
+        )
 
     def show_status_message(self, ui, message):
         try:
             # Check if the 'statusMessage' UI element already exists
-            if 'statusMessage' in ui.elements:
+            if "statusMessage" in ui.elements:
                 # Update the existing 'statusMessage' element with the new message
-                ui.get('statusMessage').set_value(message)
+                ui.get("statusMessage").set_value(message)
             else:
                 # Add a new 'statusMessage' UI element to display the status message
-                ui.add_element('statusMessage', LabeledValue(color=BLACK, label="Status:  ", value=message, position=(0, 110), label_font=fonts.Small, text_font=fonts.Small))
-            
+                ui.add_element(
+                    "statusMessage",
+                    LabeledValue(
+                        color=BLACK,
+                        label="Status:  ",
+                        value=message,
+                        position=(0, 110),
+                        label_font=fonts.Small,
+                        text_font=fonts.Small,
+                    ),
+                )
+
             # Ensure to call ui.update() after modifying the UI to refresh the display
             ui.update()
-            
+
         except Exception as e:
             logging.error(f"Error updating status message on UI: {e}")
-
 
     def on_unfiltered_ap_list(self, agent):
         self.new_networks_count += 1
@@ -596,14 +661,16 @@ class FunAchievements(plugins.Plugin):
     def get_password_from_potfile(self, ssid):
         try:
             # Assuming the potfile is located at /root/handshakes/wpa-sec.cracked.potfile
-            potfile_path = '/root/handshakes/wpa-sec.cracked.potfile'
-            
+            potfile_path = "/root/handshakes/wpa-sec.cracked.potfile"
+
             # Using grep to find the password for the given SSID
-            result = subprocess.run(['grep', f'^{ssid}:', potfile_path], capture_output=True, text=True)
+            result = subprocess.run(
+                ["grep", f"^{ssid}:", potfile_path], capture_output=True, text=True
+            )
 
             # If there is a match, extract the password
             if result.stdout:
-                password = result.stdout.strip().split(':')[1]
+                password = result.stdout.strip().split(":")[1]
                 return password
             else:
                 return None
@@ -614,29 +681,72 @@ class FunAchievements(plugins.Plugin):
     def connect_to_wifi(self, ssid, password):
         try:
             # List available Wi-Fi interfaces
-            result = subprocess.run(['iw', 'dev'], capture_output=True, text=True, check=True)
-            interfaces = re.findall(r'Interface (\w+)', result.stdout)
+            result = subprocess.run(
+                ["iw", "dev"], capture_output=True, text=True, check=True
+            )
+            interfaces = re.findall(r"Interface (\w+)", result.stdout)
 
             # Choose the interface with the strongest signal for the specified network
             best_interface = self.choose_best_wifi_interface(ssid, interfaces)
 
             if best_interface:
                 # using wpa_supplicant:
-                subprocess.run(['wpa_supplicant', '-B', '-i', best_interface, '-c', '/etc/wpa_supplicant/wpa_supplicant.conf', '-D', 'nl80211,wext'], check=True)
+                subprocess.run(
+                    [
+                        "wpa_supplicant",
+                        "-B",
+                        "-i",
+                        best_interface,
+                        "-c",
+                        "/etc/wpa_supplicant/wpa_supplicant.conf",
+                        "-D",
+                        "nl80211,wext",
+                    ],
+                    check=True,
+                )
 
                 # Add a sleep to allow time for the connection to be established before proceeding
                 import time
+
                 time.sleep(5)
 
                 # Bring up the interface
-                subprocess.run(['ifconfig', best_interface, 'up'], check=True)
+                subprocess.run(["ifconfig", best_interface, "up"], check=True)
 
                 # Connect to the specified Wi-Fi network with the provided password
-                subprocess.run(['wpa_cli', '-i', best_interface, 'add_network'], check=True)
-                subprocess.run(['wpa_cli', '-i', best_interface, 'set_network', '0', 'ssid', f'"{ssid}"'], check=True)
-                subprocess.run(['wpa_cli', '-i', best_interface, 'set_network', '0', 'psk', f'"{password}"'], check=True)
-                subprocess.run(['wpa_cli', '-i', best_interface, 'enable_network', '0'], check=True)
-                subprocess.run(['wpa_cli', '-i', best_interface, 'reassociate'], check=True)
+                subprocess.run(
+                    ["wpa_cli", "-i", best_interface, "add_network"], check=True
+                )
+                subprocess.run(
+                    [
+                        "wpa_cli",
+                        "-i",
+                        best_interface,
+                        "set_network",
+                        "0",
+                        "ssid",
+                        f'"{ssid}"',
+                    ],
+                    check=True,
+                )
+                subprocess.run(
+                    [
+                        "wpa_cli",
+                        "-i",
+                        best_interface,
+                        "set_network",
+                        "0",
+                        "psk",
+                        f'"{password}"',
+                    ],
+                    check=True,
+                )
+                subprocess.run(
+                    ["wpa_cli", "-i", best_interface, "enable_network", "0"], check=True
+                )
+                subprocess.run(
+                    ["wpa_cli", "-i", best_interface, "reassociate"], check=True
+                )
             else:
                 logging.info(f"No suitable Wi-Fi interface found for network: {ssid}")
 
@@ -651,12 +761,14 @@ class FunAchievements(plugins.Plugin):
         best_signal_strength = -100  # Initialize with a weak signal strength
 
         for interface in interfaces:
-            result = subprocess.run(['iw', 'dev', interface, 'link'], capture_output=True, text=True)
-            signal_strength_match = re.search(r'signal: (-\d+) dBm', result.stdout)
+            result = subprocess.run(
+                ["iw", "dev", interface, "link"], capture_output=True, text=True
+            )
+            signal_strength_match = re.search(r"signal: (-\d+) dBm", result.stdout)
 
             if signal_strength_match:
                 signal_strength = int(signal_strength_match.group(1))
-                
+
                 # Check if the network is available on this interface and signal strength is stronger
                 if ssid in result.stdout and signal_strength > best_signal_strength:
                     best_signal_strength = signal_strength

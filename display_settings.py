@@ -7,10 +7,10 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class DisplaySettings(plugins.Plugin):
-    __author__ = 'Sniffleupagus'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'Control backlight, and maybe other settings for displays. (but only pimoroni displayhatmini for now)'
+    __author__ = "Sniffleupagus"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "Control backlight, and maybe other settings for displays. (but only pimoroni displayhatmini for now)"
 
     def __init__(self):
         logging.debug("DisplaySettings plugin created")
@@ -37,27 +37,27 @@ class DisplaySettings(plugins.Plugin):
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
-      try:
-        self._ui = ui
-        self._display = ui._implementation
-        if hasattr(self._display, "get_backlight"):
-            logging.info("UI backlight ready")
-        if hasattr(self._ui, "set_backgroundcolor"):
-            logging.info("UI backgrounds ready")
-        # add custom UI elements
-      except Exception as err:
-          logging.warn("Display: %s, err: %s" % (repr(self._display), repr(err)))
-    
+        try:
+            self._ui = ui
+            self._display = ui._implementation
+            if hasattr(self._display, "get_backlight"):
+                logging.info("UI backlight ready")
+            if hasattr(self._ui, "set_backgroundcolor"):
+                logging.info("UI backgrounds ready")
+            # add custom UI elements
+        except Exception as err:
+            logging.warn("Display: %s, err: %s" % (repr(self._display), repr(err)))
+
     # called when the ui is updated
     def on_ui_update(self, ui):
         # update those elements
         pass
-    
+
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
         self._display = display
-        #if hasattr(display, "get_backlight"):
-            
+        # if hasattr(display, "get_backlight"):
+
         pass
 
     # called when everything is ready and the main loop is about to start
@@ -120,7 +120,7 @@ class DisplaySettings(plugins.Plugin):
     def on_excited(self, agent):
         try:
             if hasattr(self._display, "set_backlight"):
-              self._display.set_backlight(0.9)
+                self._display.set_backlight(0.9)
             if hasattr(self._ui, "set_backgroundcolor"):
                 self._ui.set_backgroundcolor("#c08080")
         except Exception as err:

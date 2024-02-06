@@ -11,9 +11,9 @@ try:
 except ImportError:
     import Queue as queue
 
-ADDR = 0x3f
+ADDR = 0x3F
 
-__version__ = '0.0.2x'
+__version__ = "0.0.2x"
 
 _bus = None
 
@@ -38,7 +38,7 @@ BUTTON_D = 3
 BUTTON_E = 4
 """Button E"""
 
-NAMES = ['A', 'B', 'C', 'D', 'E']
+NAMES = ["A", "B", "C", "D", "E"]
 """Sometimes you want to print the plain text name of the button that's triggered.
 
 You can use::
@@ -54,22 +54,263 @@ ERROR_LIMIT = 10
 FPS = 60
 
 LED_GAMMA = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
-    2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5,
-    6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 11,
-    11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 18, 18,
-    19, 19, 20, 21, 21, 22, 22, 23, 23, 24, 25, 25, 26, 27, 27, 28,
-    29, 29, 30, 31, 31, 32, 33, 34, 34, 35, 36, 37, 37, 38, 39, 40,
-    40, 41, 42, 43, 44, 45, 46, 46, 47, 48, 49, 50, 51, 52, 53, 54,
-    55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
-    71, 72, 73, 74, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 88, 89,
-    90, 91, 93, 94, 95, 96, 98, 99, 100, 102, 103, 104, 106, 107, 109, 110,
-    111, 113, 114, 116, 117, 119, 120, 121, 123, 124, 126, 128, 129, 131, 132, 134,
-    135, 137, 138, 140, 142, 143, 145, 146, 148, 150, 151, 153, 155, 157, 158, 160,
-    162, 163, 165, 167, 169, 170, 172, 174, 176, 178, 179, 181, 183, 185, 187, 189,
-    191, 193, 194, 196, 198, 200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220,
-    222, 224, 227, 229, 231, 233, 235, 237, 239, 241, 244, 246, 248, 250, 252, 255]
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    6,
+    6,
+    6,
+    7,
+    7,
+    7,
+    8,
+    8,
+    8,
+    9,
+    9,
+    9,
+    10,
+    10,
+    11,
+    11,
+    11,
+    12,
+    12,
+    13,
+    13,
+    13,
+    14,
+    14,
+    15,
+    15,
+    16,
+    16,
+    17,
+    17,
+    18,
+    18,
+    19,
+    19,
+    20,
+    21,
+    21,
+    22,
+    22,
+    23,
+    23,
+    24,
+    25,
+    25,
+    26,
+    27,
+    27,
+    28,
+    29,
+    29,
+    30,
+    31,
+    31,
+    32,
+    33,
+    34,
+    34,
+    35,
+    36,
+    37,
+    37,
+    38,
+    39,
+    40,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    83,
+    84,
+    85,
+    86,
+    88,
+    89,
+    90,
+    91,
+    93,
+    94,
+    95,
+    96,
+    98,
+    99,
+    100,
+    102,
+    103,
+    104,
+    106,
+    107,
+    109,
+    110,
+    111,
+    113,
+    114,
+    116,
+    117,
+    119,
+    120,
+    121,
+    123,
+    124,
+    126,
+    128,
+    129,
+    131,
+    132,
+    134,
+    135,
+    137,
+    138,
+    140,
+    142,
+    143,
+    145,
+    146,
+    148,
+    150,
+    151,
+    153,
+    155,
+    157,
+    158,
+    160,
+    162,
+    163,
+    165,
+    167,
+    169,
+    170,
+    172,
+    174,
+    176,
+    178,
+    179,
+    181,
+    183,
+    185,
+    187,
+    189,
+    191,
+    193,
+    194,
+    196,
+    198,
+    200,
+    202,
+    204,
+    206,
+    208,
+    210,
+    212,
+    214,
+    216,
+    218,
+    220,
+    222,
+    224,
+    227,
+    229,
+    231,
+    233,
+    235,
+    237,
+    239,
+    241,
+    244,
+    246,
+    248,
+    250,
+    252,
+    255,
+]
 
 # The LED is an APA102 driven via the i2c IO expander.
 # We must set and clear the Clock and Data pins
@@ -137,7 +378,9 @@ def _run():
             _errors += 1
             if _errors > ERROR_LIMIT:
                 _running = False
-                raise IOError("More than {} IO errors have occurred!".format(ERROR_LIMIT))
+                raise IOError(
+                    "More than {} IO errors have occurred!".format(ERROR_LIMIT)
+                )
 
         for x in range(NUM_BUTTONS):
             last = (_last_states >> x) & 1
@@ -161,13 +404,23 @@ def _run():
                 continue
 
             if curr == 0:
-                if callable(handler.hold) and not handler.hold_fired and (time.time() - handler.t_pressed) > handler.hold_time:
+                if (
+                    callable(handler.hold)
+                    and not handler.hold_fired
+                    and (time.time() - handler.t_pressed) > handler.hold_time
+                ):
                     Thread(target=handler.hold, args=(x,)).start()
                     handler.hold_fired = True
 
-                if handler.repeat and callable(handler.press) and (time.time() - handler.t_repeat) > handler.repeat_time:
+                if (
+                    handler.repeat
+                    and callable(handler.press)
+                    and (time.time() - handler.t_repeat) > handler.repeat_time
+                ):
                     _handlers[x].t_repeat = time.time()
-                    Thread(target=_handlers[x].press, args=(x, True, handler.plugin)).start()
+                    Thread(
+                        target=_handlers[x].press, args=(x, True, handler.plugin)
+                    ).start()
 
         _last_states = _states
 
@@ -211,7 +464,7 @@ def _set_bit(pin, value):
     global _reg_queue
 
     if value:
-        _reg_queue[-1] |= (1 << pin)
+        _reg_queue[-1] |= 1 << pin
     else:
         _reg_queue[-1] &= ~(1 << pin)
 
@@ -233,9 +486,9 @@ def _enqueue():
     _reg_queue = []
 
 
-def _chunk(l, n): # noqa
+def _chunk(l, n):  # noqa
     for i in range(0, len(l) + 1, n):
-        yield l[i:i + n]
+        yield l[i : i + n]
 
 
 def _write_byte(byte):
@@ -405,16 +658,16 @@ def set_pixel(r, g, b):
     _write_byte(0)
     _write_byte(0)
     _write_byte(0b11101111)
-    _write_byte(LED_GAMMA[b & 0xff])
-    _write_byte(LED_GAMMA[g & 0xff])
-    _write_byte(LED_GAMMA[r & 0xff])
+    _write_byte(LED_GAMMA[b & 0xFF])
+    _write_byte(LED_GAMMA[g & 0xFF])
+    _write_byte(LED_GAMMA[r & 0xFF])
     _write_byte(0)
     _write_byte(0)
     _enqueue()
 
 
 def blink(r, g, b, ontime, offtime, blinktimes):
-    logging.info('[buttonshim] Blink')
+    logging.info("[buttonshim] Blink")
     for i in range(0, blinktimes):
         set_pixel(r, g, b)
         time.sleep(ontime)
@@ -423,97 +676,108 @@ def blink(r, g, b, ontime, offtime, blinktimes):
 
 
 def runCommand(button, pressed, plugin):
-    logging.info(f"[buttonshim] Button Pressed! Loading command from slot '{button}' for button '{NAMES[button]}'")
-    bCfg = plugin.options['buttons'][NAMES[button]]
-    blinkCfg = bCfg['blink']
-    logging.debug('[buttonshim] %s', blink)
-    if blinkCfg['enabled']:
-        logging.debug('[buttonshim] Blinking led')
-        red = int(blinkCfg['red'])
-        green = int(blinkCfg['green'])
-        blue = int(blinkCfg['blue'])
-        on_time = float(blinkCfg['on_time'])
-        off_time = float(blinkCfg['off_time'])
-        blink_times = int(blinkCfg['blink_times'])
-        logging.debug(f"[buttonshim] red {red} green {green} blue {blue} on_time {on_time} off_time {off_time} blink_times {blink_times}")
-        thread = Thread(target=blink, args=(red, green, blue, on_time, off_time, blink_times))
+    logging.info(
+        f"[buttonshim] Button Pressed! Loading command from slot '{button}' for button '{NAMES[button]}'"
+    )
+    bCfg = plugin.options["buttons"][NAMES[button]]
+    blinkCfg = bCfg["blink"]
+    logging.debug("[buttonshim] %s", blink)
+    if blinkCfg["enabled"]:
+        logging.debug("[buttonshim] Blinking led")
+        red = int(blinkCfg["red"])
+        green = int(blinkCfg["green"])
+        blue = int(blinkCfg["blue"])
+        on_time = float(blinkCfg["on_time"])
+        off_time = float(blinkCfg["off_time"])
+        blink_times = int(blinkCfg["blink_times"])
+        logging.debug(
+            f"[buttonshim] red {red} green {green} blue {blue} on_time {on_time} off_time {off_time} blink_times {blink_times}"
+        )
+        thread = Thread(
+            target=blink, args=(red, green, blue, on_time, off_time, blink_times)
+        )
         thread.start()
-        logging.debug('[buttonshim] Blink thread started')
-    command = bCfg['command']
-    if command == '':
-        logging.debug('[buttonshim] Command empty')
+        logging.debug("[buttonshim] Blink thread started")
+    command = bCfg["command"]
+    if command == "":
+        logging.debug("[buttonshim] Command empty")
     else:
         logging.debug(f"[buttonshim] Process create: {command}")
-        process = subprocess.Popen(command, shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        process = subprocess.Popen(
+            command,
+            shell=True,
+            stdin=None,
+            stdout=open("/dev/null", "w"),
+            stderr=None,
+            executable="/bin/bash",
+        )
         process.wait()
         process = None
-        logging.debug('[buttonshim] Process end')
+        logging.debug("[buttonshim] Process end")
 
 
 class Buttonshim(plugins.Plugin):
-    __author__ = 'gon@o2online.de'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin.'
-    __name__ = 'Buttonshim'
+    __author__ = "gon@o2online.de"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
+    __name__ = "Buttonshim"
     __help__ = """
     Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin.
     """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
-        'buttons': {
-            'A': {
-                'command': '',
-                'blink': {
-                    'enabled': False,
-                    'red': 0,
-                    'green': 0,
-                    'blue': 0,
-                    'on_time': 0,
-                    'off_time': 0,
-                    'blink_times': 0,
-                }
+        "enabled": False,
+        "buttons": {
+            "A": {
+                "command": "",
+                "blink": {
+                    "enabled": False,
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0,
+                    "on_time": 0,
+                    "off_time": 0,
+                    "blink_times": 0,
+                },
             },
-            'B': {
-                'command': '',
-                'blink': {
-                    'enabled': False,
-                    'red': 0,
-                    'green': 0,
-                    'blue': 0,
-                    'on_time': 0,
-                    'off_time': 0,
-                    'blink_times': 0,
-                }
+            "B": {
+                "command": "",
+                "blink": {
+                    "enabled": False,
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0,
+                    "on_time": 0,
+                    "off_time": 0,
+                    "blink_times": 0,
+                },
             },
-            'C': {
-                'command': '',
-                'blink': {
-                    'enabled': False,
-                    'red': 0,
-                    'green': 0,
-                    'blue': 0,
-                    'on_time': 0,
-                    'off_time': 0,
-                    'blink_times': 0,
-                }
+            "C": {
+                "command": "",
+                "blink": {
+                    "enabled": False,
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0,
+                    "on_time": 0,
+                    "off_time": 0,
+                    "blink_times": 0,
+                },
             },
-            'D': {
-                'command': '',
-                'blink': {
-                    'enabled': False,
-                    'red': 0,
-                    'green': 0,
-                    'blue': 0,
-                    'on_time': 0,
-                    'off_time': 0,
-                    'blink_times': 0,
-                }
+            "D": {
+                "command": "",
+                "blink": {
+                    "enabled": False,
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0,
+                    "on_time": 0,
+                    "off_time": 0,
+                    "blink_times": 0,
+                },
             },
-        }
+        },
     }
 
     def __init__(self):
@@ -524,5 +788,5 @@ class Buttonshim(plugins.Plugin):
         on_press([BUTTON_A, BUTTON_B, BUTTON_C, BUTTON_D, BUTTON_E], runCommand)
 
     def on_loaded(self):
-        logging.info('[buttonshim] GPIO Button plugin loaded.')
+        logging.info("[buttonshim] GPIO Button plugin loaded.")
         self.running = True
