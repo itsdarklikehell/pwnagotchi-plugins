@@ -13,23 +13,6 @@ class Sound(plugins.Plugin):
     __name__ = "sound"
     __license__ = "GPL3"
     __description__ = "An plugin for pwnagotchi that plays an wav file with aplay on events and uses a text2speech engine. tested with 1.0.0-RC4"
-    __help__ = "-this plugin needs a installed and working audio DAC HAT, USB-Soundcard or a connected bt-headset/headphone for audio output, like https://www.raspiaudio.com/
--for enable text2speech on raspberry-pi-zero with debian buster to speak the SSID on handshake and others, you need to install "pico2wave" as root:
-⋅⋅⋅wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb
-⋅⋅⋅wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico0_1.0+git20130326-3+rpi1_armhf.deb
-⋅⋅⋅apt-get install -f ./libttspico0_1.0+git20130326-3+rpi1_armhf.deb ./libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb
-⋅⋅⋅# test:
-⋅⋅⋅pico2wave -w lookdave.wav "Look Dave, I can see you're really upset about this." && aplay lookdave.wav
--with device https://www.raspiaudio.com/promo you can use the yellow button to shutdown your raspberry-pi. read sound/shutdown_button.py for help
--install: copy "sound.py" and "sound/" dir to your configured "custom_plugins" directory and add+edit sound config to /etc/pnagotchi/config.yml:
-⋅⋅⋅    custom_plugins: /usr/local/pwnagotchi/plugins
-⋅⋅⋅    plugins:
-⋅⋅⋅      sound:
-⋅⋅⋅        enabled: true
-⋅⋅⋅        sound-dir: default
-⋅⋅⋅        text2speech-use: false
-⋅⋅⋅        text2speech-lang: en-US
-"""
 
     def play_my_sound(self, event, say=""):
         "this function plays the event.wav file and if say is not empt, it talks this with text2speech after playing the event"
