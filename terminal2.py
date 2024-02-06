@@ -77,7 +77,7 @@ class WebSSH2Plugin(plugins.Plugin):
                     if ip_address is not None:
                         self.ready = True
                         logging.info(
-                            ff"[{self.__class__.__name__}] service started successfully on {ip_address}"
+                            f"[{self.__class__.__name__}] service started successfully on {ip_address}"
                         )
                         return
                 time.sleep(5)
