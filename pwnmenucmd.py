@@ -14,14 +14,14 @@ buzzerpin = 0
 
 if (len(sys.argv) != 2):
     logging.info('no menu command given. Try up/down/ok/back/close/stop')
-    print ('no menu command given. Try up/down/ok/back/close/stop')
+    #print('no menu command given. Try up/down/ok/back/close/stop')
     sys.exit()
 
 cmd = sys.argv[1]
 print 'cmd = ' + cmd
 if cmd not in ('up', 'down', 'ok', 'back', 'close', 'stop'):
     logging.info('invalid menu command given. Try up/down/ok/back/close/stop')
-    print ('invalid menu command given. Try up/down/ok/back/close/stop')
+    #print('invalid menu command given. Try up/down/ok/back/close/stop')
     sys.exit()
 
 if buzzerpin:
