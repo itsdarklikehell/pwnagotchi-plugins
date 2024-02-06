@@ -15,7 +15,6 @@ def _extract_gps_data(path):
     Extract data from gps-file
 
     return json-obj
-    """
 
     try:
         with open(path, 'r') as json_file:
