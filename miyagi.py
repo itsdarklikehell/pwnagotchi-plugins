@@ -104,6 +104,7 @@ class Miyagi(plugins.Plugin):
             if "filename" in self.options
             else "/etc/pwnagotchi/miyagi.json"
         )
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
         try:
             if os.path.isfile(self._conf_file):

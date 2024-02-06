@@ -14,7 +14,7 @@ class MyCrackedPasswords(plugins.Plugin):
     __description__ = "A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat"
 
     def on_loaded(self):
-        logging.info("[mycracked_pw] loaded]")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if not os.path.exists("/etc/pwnagotchi/wordlists/passwords/"):
             os.makedirs("/etc/pwnagotchi/wordlists/passwords/")
 

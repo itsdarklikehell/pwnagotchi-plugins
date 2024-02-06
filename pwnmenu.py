@@ -72,7 +72,7 @@ class PwnMenu(plugins.Plugin):
             view.ROOT.update(force=True)
 
     def on_loaded(self):
-        logging.info("[Pwnmenu]: Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         redrawMenuNow = False
         redrawMenuDelayed = False
         self.timeouthandler = False

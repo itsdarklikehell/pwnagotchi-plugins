@@ -94,6 +94,7 @@ class RSS_Voice(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.warning("RSS_Voice options = %s" % self.options)
         if "path" not in self.options:
             self.options["path"] = "/root/voice_rss"

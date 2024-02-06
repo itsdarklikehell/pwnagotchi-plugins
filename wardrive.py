@@ -38,7 +38,7 @@ class Wardrive(plugins.Plugin):
         else:
             self.date_format = "%m/%d/%y"
 
-        logging.info("Pwnagotchi [Wardrive] Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         memenable = False

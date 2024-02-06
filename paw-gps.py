@@ -24,7 +24,7 @@ class PawGPS(plugins.Plugin):
     }
 
     def on_loaded(self):
-        logging.info("[paw-gps] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if "ip" not in self.options or (
             "ip" in self.options and self.options["ip"] is None
         ):

@@ -36,7 +36,7 @@ class WeatherForecast(plugins.Plugin):
     }
 
     def on_loaded(self):
-        logging.info("Weather Forecast Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         config_is_toml = (

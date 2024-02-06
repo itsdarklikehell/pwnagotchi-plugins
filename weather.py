@@ -62,6 +62,7 @@ class WeatherForecast(plugins.Plugin):
             return False
 
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.previous_seticon = None
         self.areacode = None
         self.country = None

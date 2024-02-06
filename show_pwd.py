@@ -17,7 +17,7 @@ class ShowPwd(plugins.Plugin):
         self.options = dict()
 
     def on_loaded(self):
-        logging.info("show_pwd loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if "orientation" not in self.options:
             self.options["orientation"] = "horizontal"
 

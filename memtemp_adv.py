@@ -10,7 +10,7 @@ import psutil
     Based on orig memtemp plugin by https://github.com/xenDE """
 
 
-class MemTemp(plugins.Plugin):
+class MemTempAdv(plugins.Plugin):
     __author__ = "https://github.com/mavotronik/pwnagotchi-plugins"
     __version__ = "1.2.0"
     __license__ = "MIT"
@@ -29,7 +29,7 @@ class MemTemp(plugins.Plugin):
     FIELD_WIDTH = 4
 
     def on_loaded(self):
-        logging.info("memtemp_adv: plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def mem_usage(self):
         mem = psutil.virtual_memory()

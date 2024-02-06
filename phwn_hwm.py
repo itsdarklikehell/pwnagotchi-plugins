@@ -17,6 +17,7 @@ class PhwnHwm(plugins.Plugin):
         self.networks = {}
 
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         for opt in ["networks", "minimum_rssi"]:
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None

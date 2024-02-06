@@ -23,7 +23,7 @@ class SecurityMonitor(plugins.Plugin):
         logging.debug("Security Monitor plugin created")
 
     def on_loaded(self):
-        logging.info("Security Monitor plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         # Add custom UI elements for security status

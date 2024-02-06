@@ -15,7 +15,7 @@ class InternetConnectionPlugin(plugins.Plugin):
     __help__ = "A plugin that displays the Internet connection status on the pwnagotchi display."
 
     def on_loaded(self):
-        logging.info("[Internet-Connection] plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         with ui._lock:

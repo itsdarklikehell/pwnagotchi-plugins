@@ -226,6 +226,7 @@ class PWNAware(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.warning("PWNAware options = " % self.options)
         if not "numPlanes" in self.options:
             self.options["numPlanes"] = 4
@@ -237,7 +238,7 @@ class PWNAware(plugins.Plugin):
                 ui.remove_element("airplane%i" % i)
                 logging.info("Removed airplane%i" % i)
             ui.remove_element("airplane_header")
-            logging.info("[PWNAware] unloaded")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as err:
             logging.info("[PWNAware] unload err %s " % repr(err))
 

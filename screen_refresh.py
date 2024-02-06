@@ -21,7 +21,7 @@ class ScreenRefresh(plugins.Plugin):
         self.update_count = 0
 
     def on_loaded(self):
-        logging.info("[screenrefresh] Screen refresh plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_update(self, ui):
         self.update_count += 1

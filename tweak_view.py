@@ -483,6 +483,7 @@ class Tweak_View(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self._start = time.time()
         self._state = 0
         self._next = 0

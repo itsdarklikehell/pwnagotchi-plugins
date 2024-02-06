@@ -162,7 +162,7 @@ class WpaSecList(plugins.Plugin):
         self.ready = False
 
     def on_loaded(self):
-        logging.info("[Wpa-sec-list] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_config_changed(self, config):
         self.config = config

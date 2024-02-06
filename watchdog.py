@@ -31,7 +31,7 @@ class Watchdog(plugins.Plugin):
 
     def on_loaded(self):
 
-        logging.info("Watchdog plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_epoch(self, agent, epoch, epoch_data):
         if self.status.newer_then_minutes(5):

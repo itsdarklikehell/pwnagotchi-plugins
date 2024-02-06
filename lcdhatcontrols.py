@@ -36,7 +36,7 @@ class lcdhatcontrols(plugins.Plugin):
         self.loaded = True
         button_states = [False, False, False, False, False]
         last_press_times = [0.0, 0.0, 0.0, 0.0, 0.0]
-
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         while self.loaded:
             time.sleep(0.2)
             button_states[0] = self.get_input(self.KEY_PRESS_PIN)

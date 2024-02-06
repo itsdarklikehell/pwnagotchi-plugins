@@ -42,7 +42,7 @@ class QuickDic(plugins.Plugin):
         self.text_to_set = ""
 
     def on_loaded(self):
-        logging.info("[quickdic] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
         if "face" not in self.options:
             self.options["face"] = "(·ω·)"

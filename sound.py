@@ -53,7 +53,7 @@ class Sound(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.info("sound plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         # sys._getframe().f_code.co_name = "on_loaded"  <<< the event/function name
         self.play_my_sound(sys._getframe().f_code.co_name)
 

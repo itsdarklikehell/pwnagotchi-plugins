@@ -41,8 +41,7 @@ def __init__(self):
 
 def on_loaded(self, ui):
     global READY
-    logging.info(
-        "[thePolice] Quick rides to prison and dictionary check plugin loaded."
+    logging.info(f"[{self.__class__.__name__}] plugin loaded")
     READY = True
 
 

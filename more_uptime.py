@@ -38,6 +38,7 @@ class More_Uptime(plugins.Plugin):
         self._start = time.time()
         self._state = 0
         self._next = 0
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         pass
 
     # called before the plugin is unloaded

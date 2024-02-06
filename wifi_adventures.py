@@ -111,7 +111,7 @@ class FunAchievements(plugins.Plugin):
         )
 
     def on_loaded(self):
-        logging.info("[FunAchievements] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         title_label = self.get_label_based_on_adventure()

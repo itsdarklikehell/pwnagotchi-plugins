@@ -10,7 +10,7 @@ class CustomVoicePlugin(plugins.Plugin):
     __description__ = "Plugin to download and replace voice.py with a custom version"
 
     def on_loaded(self):
-        print("Custom Voice Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_config_changed(self, config):
         if "custom_voice_url" in config["main"]:
@@ -32,12 +32,12 @@ class CustomVoicePlugin(plugins.Plugin):
             os.system(
                 f"sudo cp {temp_file_path} /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py"
             )
-            print("Custom voice.py installed successfully.")
+            logging.info("Custom voice.py installed successfully.")
         except Exception as e:
-            print(f"Error installing custom voice.py: {e}")
+            logging.info(f"Error installing custom voice.py: {e}")
 
     def on_unload(self):
-        print("Custom Voice Plugin unloaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
 
 # Instanciar el plugin

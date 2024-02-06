@@ -58,9 +58,9 @@ class WebSSH2Plugin(plugins.Plugin):
         self.ready = False
 
     def on_loaded(self):
-        logging.info("[Webssh2] plugin loading")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if not os.path.exists(SERV_PATH):
-            logging.info("[Webssh2] creating systemd unit file")
+            logging.info(f"[{self.__class__.__name__}] creating systemd unit file")
             file = open(SERV_PATH, "w")
             file.write(WEBSSH2_SERV)
             file.close()
@@ -77,15 +77,15 @@ class WebSSH2Plugin(plugins.Plugin):
                     if ip_address is not None:
                         self.ready = True
                         logging.info(
-                            f"[Webssh2] service started successfully on {ip_address}"
+                            ff"[{self.__class__.__name__}] service started successfully on {ip_address}"
                         )
                         return
                 time.sleep(5)
 
-            logging.error("[Webssh2] failed to start service")
+            logging.error(f"[{self.__class__.__name__}] failed to start service")
         else:
             logging.info(
-                "[Webssh2] systemd unit file already exists, skipping creation"
+                f"[{self.__class__.__name__}] systemd unit file already exists, skipping creation"
             )
             output = subprocess.check_output(
                 ["systemctl", "is-active", "webssh2.service"]
@@ -105,11 +105,11 @@ class WebSSH2Plugin(plugins.Plugin):
         return None
 
     def on_unload(self, ui):
-        logging.info("[Webssh2] plugin unloading")
+        logging.info(f"[{self.__class__.__name__}] plugin unloading")
         os.system("sudo systemctl stop webssh2.service")
         os.system("sudo systemctl disable webssh2.service")
         os.system("sudo rm -f {}".format(SERV_PATH))
-        logging.info("[Webssh2] plugin stopped")
+        logging.info(f"[{self.__class__.__name__}] plugin stopped")
         self.ready = False
 
     def on_webhook(self, path, request):

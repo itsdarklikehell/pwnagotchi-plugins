@@ -65,3 +65,6 @@ class LcdHat(plugins.Plugin):
 
     def clear(self):
         self._display.clear()
+
+    def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")

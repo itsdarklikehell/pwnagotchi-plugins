@@ -10,9 +10,9 @@ class XPGrid(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "Level sharing between peers for xp plugin.
-    xp plugin must be enabled.
-    """
+    __description__ = (
+        "Level sharing between peers for xp plugin. xp plugin must be enabled."
+    )
 
     def __init__(self):
         self.known_peers = {}
@@ -31,7 +31,7 @@ class XPGrid(plugins.Plugin):
                 or len(self.options["position"].split(",")) != 2
             ):
                 self.options["position"] = "36,95"
-            logging.info("[xp_grid] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("xp_grid.on_loaded: %s" % e)
 

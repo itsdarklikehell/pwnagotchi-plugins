@@ -38,7 +38,7 @@ class MemTempPlus(plugins.Plugin):
     FIELD_WIDTH = 4
 
     def on_loaded(self):
-        logging.info("memtemp plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def mem_usage(self):
         return f"{int(pwnagotchi.mem_usage() * 100)}%"

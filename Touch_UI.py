@@ -38,7 +38,7 @@ class Touch_Button(Widget):
         alt_font=None,
         alt_image=None,
         alt_color=None,
-        event_handler=None
+        event_handler=None,
     ):
 
         super().__init__(position, color)
@@ -348,6 +348,7 @@ class Touch_Screen(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info("loaded with options = " % self.options)
 
         # to test pimoroni displayhatmini buttons, uncomment below, or define in your config.toml

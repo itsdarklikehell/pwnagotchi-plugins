@@ -34,7 +34,7 @@ class IPDisplay(plugins.Plugin):
         if "devices" in self.options:
             self.device_list = self.options["devices"]
         self.options["devices"] = self.device_list
-        logging.debug("IP Display Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ready(self):
         self.ready = True

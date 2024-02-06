@@ -114,7 +114,7 @@ class nextcloud(plugins.Plugin):
                 return
 
         self.ready = True
-        logging.info("NEXTCLOUD: Successfully loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_internet_available(self, agent):
         with self.lock:

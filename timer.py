@@ -34,10 +34,10 @@ class Timer(plugins.Plugin):
         self.reset_times()
 
     def on_loaded(self):
-        logging.info("[Timer] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_unload(self, ui):
-        logging.info("[Timer] Plugin unloaded")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_wifi_update(self, agent, access_points):
         time = datetime.datetime.now()

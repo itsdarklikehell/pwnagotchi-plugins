@@ -260,7 +260,7 @@ class Viz(plugins.Plugin):
         self.lock = Lock()
 
     def on_loaded(self):
-        logging.info("[viz] plugin is loaded!")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     @staticmethod
     def lookup_color(node):

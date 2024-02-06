@@ -37,9 +37,7 @@ class PrivacyNightmare(plugins.Plugin):
         self.pn_gps_coords = None
 
     def on_loaded(self):
-
-        logging.info("privacy nightmare plugin loaded")
-
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if "pn_output_path" not in self.options or (
             "pn_output_path" in self.options and self.options["pn_output_path"] is None
         ):

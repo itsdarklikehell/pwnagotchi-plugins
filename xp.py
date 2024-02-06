@@ -343,7 +343,7 @@ class XP(plugins.Plugin):
                     int(i) for i in opts["progressbar_position"].split(",")
                 ]
 
-            logging.info("[XP] plugin loaded.")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             self._error("on_loaded error: %s" % str(e))
             return False

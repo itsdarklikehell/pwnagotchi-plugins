@@ -91,7 +91,7 @@ class Tracker(plugins.Plugin):
         try:
             if not os.path.exists(self.tracker_dir):
                 os.makedirs(self.tracker_dir, exist_ok=True)
-            logging.info("[tracker] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("tracker.on_loaded: %s" % e)
 

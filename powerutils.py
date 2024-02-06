@@ -4,7 +4,7 @@ import pwnagotchi.plugins as plugins
 import logging
 
 
-class powerutils(plugins.Plugin):
+class PowerUtils(plugins.Plugin):
     __author__ = "https://gitlab.com/sn0wflake"
     __version__ = "1.0.0"
     __license__ = "MIT"
@@ -22,7 +22,7 @@ class powerutils(plugins.Plugin):
         self.running = True
 
     def on_loaded(self):
-        logging.info("Powerutils Plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         address = ("localhost", 6799)
         listener = Listener(address)
         while self.running:

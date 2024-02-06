@@ -62,7 +62,7 @@ class RTCGrid(plugins.Plugin):
                 or len(self.options["peer_position"].split(",")) != 2
             ):
                 self.options["peer_position"] = "242,94"
-            logging.info("[rtc_grid] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("rtc_grid.on_loaded: %s" % e)
 

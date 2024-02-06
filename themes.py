@@ -26,7 +26,7 @@ class Themes(plugins.Plugin):
         logging.debug("Pwnagotchi [Themes] plugin created")
 
     def on_loaded(self):
-        logging.info("Pwnagotchi [Themes] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_webhook(self, path, request):
         """
