@@ -35,7 +35,7 @@ class Beacons(plugins.Plugin):
         "enabled": False,
     }
 
-    _iface = "wlan0mon"
+    _iface = "wlan0"
     _wifimac = ""
     _packet_type = {"report": 1, "info": 2, "peers": 3}
     _mode = {"MANU": 0b0000000, "AUTO": 0b01000000, "  AI": 0b10000000}
