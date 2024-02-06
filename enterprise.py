@@ -367,7 +367,7 @@ class Enterprise(plugins.Plugin):
         self.trigger(agent)
 
     def on_loaded(self):
-        logging.info("[enterprise] is loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_update(self, ui):
         if self.rebooting:

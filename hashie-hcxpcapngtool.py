@@ -30,7 +30,7 @@ class hashie(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.info("[hashie] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.lock = Lock()
 
     # called when everything is ready and the main loop is about to start

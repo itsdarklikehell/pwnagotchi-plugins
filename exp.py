@@ -74,7 +74,7 @@ class EXP(plugins.Plugin):
 
     def on_loaded(self):
         # logging.info("Exp plugin loaded for %s" % self.options['device'])
-        self.LogInfo("Plugin Loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def save_file_modes(self, argument):
         switcher = {

@@ -41,7 +41,7 @@ class GPS_More(plugins.Plugin):
         if "keepGPSOn" not in self.options:
             self.options["keepGPSOn"] = True
 
-        logging.info("[gps_more] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ready(self, agent):
         self.agent = agent

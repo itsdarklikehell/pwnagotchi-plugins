@@ -65,7 +65,7 @@ class f0xtr0t(plugins.Plugin):
         self.ready = True
 
     def on_loaded(self):
-        logging.info("[f0xtr0t]: plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_webhook(self, path, request):
         # defaults:

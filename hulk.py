@@ -23,6 +23,7 @@ class Hulk(plugins.Plugin):
 
     def on_loaded(self):
         logging.info("[hulk] PLUGIN IS LOADED! WHAAAAAAAAAAAAAAAAAA")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.running = True
 
     def on_unload(self, ui):

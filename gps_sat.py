@@ -9,9 +9,7 @@ class GPSSat(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "Display number of satellites.
-    Requires gps plugin enabled.
-    """
+    __description__ = "Display number of satellites. Requires gps plugin enabled."
 
     def __init__(self):
         self.gps = None
@@ -24,7 +22,7 @@ class GPSSat(plugins.Plugin):
                 or len(self.options["position"].split(",")) != 2
             ):
                 self.options["position"] = "90,83"
-            logging.info("[gps_sat] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("gps_sat.on_loaded: %s" % e)
 

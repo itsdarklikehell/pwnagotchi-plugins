@@ -6,7 +6,7 @@ from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
 
-class Do_Deauth(plugins.Plugin):
+class Deauth(plugins.Plugin):
     __author__ = "evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
@@ -31,6 +31,7 @@ class Do_Deauth(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         self._count = 0
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
     def on_unload(self, ui):

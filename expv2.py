@@ -26,7 +26,7 @@ JSON_KEY_EXP_TOT = "exp_tot"
 JSON_KEY_STRENGTH = "strength"
 
 
-class EXP(plugins.Plugin):
+class EXPV2(plugins.Plugin):
     __author__ = "GaelicThunder, Kaska89, Rai, JayofElony, & Terminator"
     __version__ = "2.0.1"
     __license__ = "GPL3"
@@ -76,7 +76,7 @@ class EXP(plugins.Plugin):
 
     def on_loaded(self):
         # logging.info("Exp plugin loaded for %s" % self.options['device'])
-        self.LogInfo("Plugin Loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def save_file_modes(self, argument):
         switcher = {

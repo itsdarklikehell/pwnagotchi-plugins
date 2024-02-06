@@ -21,6 +21,7 @@ class fancyserver(plugins.Plugin):
         while self.running:
             try:
                 logging.info("Fancyserver Plugin loaded.")
+                logging.info(f"[{self.__class__.__name__}] plugin loaded")
                 address = ("localhost", 3699)
                 listener = Listener(address)
                 while self.running:
@@ -81,4 +82,4 @@ class fancyserver(plugins.Plugin):
 
     def on_unload(self, ui):
         self.running = False
-        logging.info("Fancyservers plugin unloaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")

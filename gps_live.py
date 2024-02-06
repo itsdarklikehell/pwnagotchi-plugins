@@ -15,7 +15,7 @@ class GPSLive(plugins.Plugin):
 
     def on_loaded(self):
         try:
-            logging.info("[gps_live] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("gps_live.on_loaded: %s" % e)
 

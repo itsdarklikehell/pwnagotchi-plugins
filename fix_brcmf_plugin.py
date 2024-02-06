@@ -45,7 +45,7 @@ class Fix_BRCMF(plugins.Plugin):
             r"brcmf_cfg80211_nexmon_set_channel.*?Set Channel failed"
         )
         self._status = "ld"
-        logging.info("[FixBRCMF] plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ready(self, agent):
         try:

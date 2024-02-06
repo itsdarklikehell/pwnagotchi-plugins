@@ -31,6 +31,7 @@ class Do_Assoc(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         self._count = 0
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
     def on_unload(self, ui):

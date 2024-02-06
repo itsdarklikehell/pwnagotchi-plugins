@@ -22,7 +22,7 @@ class GPSFix(plugins.Plugin):
                 or len(self.options["position"].split(",")) != 2
             ):
                 self.options["position"] = "0,83"
-            logging.info("[gps_fix] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("gps_fix.on_loaded: %s" % e)
 

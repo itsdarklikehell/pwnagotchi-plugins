@@ -51,6 +51,7 @@ class CombinedPlugin(Plugin):
 
         # Educational purposes only plugin events
         self.register_event(self.handle_wifi_update, "wifi-update")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_unload(self, ui):
         pass

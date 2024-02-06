@@ -33,6 +33,7 @@ class GPSPlus(plugins.Plugin):
         self.coordinates = None
 
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info(f"gps plugin loaded for {self.options['device']}")
 
     def on_ready(self, agent):

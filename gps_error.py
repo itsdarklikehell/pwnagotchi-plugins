@@ -15,7 +15,7 @@ class GPSError(plugins.Plugin):
 
     def on_loaded(self):
         try:
-            logging.info("[gps_error] plugin loaded")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error("gps_error.on_loaded: %s" % e)
 
@@ -23,7 +23,7 @@ class GPSError(plugins.Plugin):
         try:
             self.gps = plugins.loaded["gps"]
             if not self.gps:
-                logging.error("[gps_error] gps plugin not loaded!")
+                logging.info(f"[{self.__class__.__name__}] plugin not loaded!")
         except Exception as e:
             logging.error("gps_error.on_ready: %s" % e)
 

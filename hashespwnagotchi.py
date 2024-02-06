@@ -69,7 +69,7 @@ class hashespwnagotchi(plugins.Plugin):
             return
 
         self.ready = True
-        logging.info("hashespwnagotchi: plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):

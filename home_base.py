@@ -28,6 +28,7 @@ class HomeBase(plugins.Plugin):
                 logging.error(f"[home_base] Option {opt} is not set.")
                 return
         _log("plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.ready = 1
 
     def on_unfiltered_ap_list(self, agent, access_points):

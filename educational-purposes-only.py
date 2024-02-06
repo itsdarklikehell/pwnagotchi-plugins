@@ -33,7 +33,7 @@ class EducationalPurposesOnly(plugins.Plugin):
 
     def on_loaded(self):
         global READY
-        logging.info("educational-purposes-only loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         READY = 1
 
     def display_text(self, text):

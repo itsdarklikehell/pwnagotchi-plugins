@@ -600,6 +600,7 @@ class Fancytools(plugins.Plugin):
     def on_loaded(self):
         logging.info("")
         logging.info("[FANCYTOOLS] Beginning Fancytools load")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info("[FANCYTOOLS]" + "=" * 20)
         # Fancytools cmd
         os.system("chmod +x %s/fancytools/sys/fancytools.py" % (FANCY_ROOT))

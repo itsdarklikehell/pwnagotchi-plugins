@@ -10,7 +10,7 @@ import pwnagotchi.plugins as plugins
 from json.decoder import JSONDecodeError
 
 
-class OnlineHashCrack(plugins.Plugin):
+class BetterOnlineHashCrack(plugins.Plugin):
     __author__ = "silentree12th"
     __version__ = "2.1.1"
     __license__ = "GPL3"

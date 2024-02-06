@@ -36,6 +36,7 @@ class ext_wifi(plugins.Plugin):
                 )
                 return
         _log("plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.ready = 1
         mode = self.options["mode"]
         interface = self.options["interface"]

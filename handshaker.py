@@ -24,6 +24,7 @@ class handshaker(plugins.Plugin):
     def on_loaded(self):
         data_path = "/root/handshakes"
         self.load_data(data_path)
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info("[handshaker]: Loaded %d handshakes", self.handshakes)
 
     def on_ready(self, agent):

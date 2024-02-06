@@ -320,7 +320,7 @@ class Fancygotchi(plugins.Plugin):
         self.mode = "MANU" if agent.mode == "manual" else "AUTO"
 
     def on_loaded(self):
-        logging.info("[FANCYGOTCHI] Beginning Fancygotchi load")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
         custom_plugins_path = pwnagotchi.config["main"]["custom_plugins"]
         if not custom_plugins_path[-1] == "/":
