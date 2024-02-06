@@ -33,7 +33,9 @@ class AutoBackup(plugins.Plugin):
     def __init__(self):
         self.ready = False
         self.tries = 0
+        self.title = ""
         self.status = StatusFile("/root/.auto-backup")
+        logging.info("[auto_backup] __init__ method executed.")
 
     def on_loaded(self):
         for opt in ["files", "interval", "commands", "max_tries"]:

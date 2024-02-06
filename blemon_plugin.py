@@ -17,13 +17,16 @@ class BLEMon(plugins.Plugin):
     __help__ = (
         "An example plugin for pwnagotchi that implements all the available callbacks."
     )
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
-        logging.debug("BLEMon plugin created")
+        logging.debug("[BLEMon] plugin created")
         self.blecount = 0
         self.blemaxcount = 0
         self.stopRecon = False

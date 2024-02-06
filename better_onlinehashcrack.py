@@ -17,9 +17,17 @@ class OnlineHashCrack(plugins.Plugin):
     __description__ = (
         "This plugin automatically uploads handshakes to https://onlinehashcrack.com"
     )
-
+    __name__ = "OnlineHashCrack"
+    __help__ = (
+        "This plugin automatically uploads handshakes to https://onlinehashcrack.com"
+    )
+    __defaults__ = {
+        "enabled": False,
+    }
     def __init__(self):
         self.ready = False
+        self.title = ""
+        logging.info("[OnlineHashCrack] __init__ method executed.")
         try:
             self.report = StatusFile("/root/.ohc_uploads", data_format="json")
         except JSONDecodeError:

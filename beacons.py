@@ -28,7 +28,9 @@ class Beacons(plugins.Plugin):
     )
     __name__ = "Beacons"
     __help__ = "A plugin that advertises pwnagotchi state via valid WiFi beacons."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }

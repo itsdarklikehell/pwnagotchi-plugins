@@ -14,9 +14,12 @@ class AwayBase(plugins.Plugin):
     __description__ = (
         "Watches for known networks, connects for a while, then returns to recon"
     )
-    __help__ = ("Watches for known networks, connects for a while, then returns to recon
-    """
-
+    __help__ = (
+        "Watches for known networks, connects for a while, then returns to recon."
+    )
+    __defaults__ = {
+        "enabled": False,
+    }
     def __init__(self):
         self.ready = 0
         self.status = ""

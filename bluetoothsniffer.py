@@ -16,6 +16,15 @@ class BluetoothSniffer(plugins.Plugin):
     __version__ = "0.1.4"
     __license__ = "GPL3"
     __description__ = "A plugin that sniffs Bluetooth devices and saves their MAC addresses, name and counts to a JSON file"
+    __name__ = "BluetoothSniffer"
+    __help__ = "A plugin that sniffs Bluetooth devices and saves their MAC addresses, name and counts to a JSON file"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["none"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         # Defining the instance variables
@@ -28,11 +37,13 @@ class BluetoothSniffer(plugins.Plugin):
         }
         self.data = {}
         self.last_scan_time = 0
+        logging.info("[BluetoothSniffer] plugin loaded")
 
     def on_loaded(self):
-        logging.info("[BtS] bluetoothsniffer plugin loaded.")
+        logging.info("[BluetoothSniffer] plugin loaded.")
         logging.info(
-            "[BtS] Bluetooth devices file location: %s", self.options["devices_file"]
+            "[BluetoothSniffer] Bluetooth devices file location: %s",
+            self.options["devices_file"],
         )
         # Creating the device file path if it does not exist
         if not os.path.exists(os.path.dirname(self.options["devices_file"])):
@@ -73,13 +84,13 @@ class BluetoothSniffer(plugins.Plugin):
         # Checking the time elapsed since last scan
         if current_time - self.last_scan_time >= self.options["timer"]:
             self.last_scan_time = current_time
-            # logging.info("[BtS] Bluetooth sniffed: %s", str(self.bt_sniff_info()))
+            # logging.info("[BluetoothSniffer] Bluetooth sniffed: %s", str(self.bt_sniff_info()))
             ui.set("BtS", str(self.bt_sniff_info()))
             self.scan(ui)
 
     # Method for scanning the nearby bluetooth devices
     def scan(self, display):
-        logging.info("[BtS] Scanning for bluetooth devices...")
+        logging.info("[BluetoothSniffer] Scanning for bluetooth devices...")
         current_time = time.time()
         changed = False
         device_class = None
@@ -94,7 +105,7 @@ class BluetoothSniffer(plugins.Plugin):
                 for i in range(len(fields)):
                     if fields[i].decode() == "class:" and i + 1 < len(fields):
                         device_class = fields[i + 1].decode()
-                logging.info("[BtS] Found bluetooth %s", mac_address)
+                logging.info("[BluetoothSniffer] Found bluetooth %s", mac_address)
 
                 # Update the count, first_seen, and last_seen time of the device
                 if mac_address in self.data and len(self.data) > 0:
@@ -102,7 +113,9 @@ class BluetoothSniffer(plugins.Plugin):
                         name = self.get_device_name(mac_address)
                         self.data[mac_address]["name"] = name
                         self.data[mac_address]["new_info"] = 2
-                        logging.info("[BtS] Updated bluetooth name: %s", name)
+                        logging.info(
+                            "[BluetoothSniffer] Updated bluetooth name: %s", name
+                        )
                         changed = True
 
                     if "Unknown" == self.data[mac_address]["manufacturer"]:
@@ -110,14 +123,18 @@ class BluetoothSniffer(plugins.Plugin):
                         self.data[mac_address]["manufacturer"] = manufacturer
                         self.data[mac_address]["new_info"] = 2
                         logging.info(
-                            "[BtS] Updated bluetooth manufacturer: %s", manufacturer
+                            "[BluetoothSniffer] Updated bluetooth manufacturer: %s",
+                            manufacturer,
                         )
                         changed = True
 
                     if device_class != self.data[mac_address]["class"]:
                         self.data[mac_address]["class"] = device_class
                         self.data[mac_address]["new_info"] = 2
-                        logging.info("[BtS] Updated bluetooth class: %s", device_class)
+                        logging.info(
+                            "[BluetoothSniffer] Updated bluetooth class: %s",
+                            device_class,
+                        )
                         changed = True
 
                     last_seen_time = int(
@@ -131,7 +148,7 @@ class BluetoothSniffer(plugins.Plugin):
                             "%H:%M:%S %d-%m-%Y", time.localtime(current_time)
                         )
                         self.data[mac_address]["new_info"] = 2
-                        logging.info("[BtS] Updated bluetooth count.")
+                        logging.info("[BluetoothSniffer] Updated bluetooth count.")
                         changed = True
                 else:
                     name = self.get_device_name(mac_address)
@@ -150,25 +167,25 @@ class BluetoothSniffer(plugins.Plugin):
                         "new_info": True,
                     }
                     logging.info(
-                        "[BtS] Added new bluetooth device %s with MAC: %s",
+                        "[BluetoothSniffer] Added new bluetooth device %s with MAC: %s",
                         name,
                         mac_address,
                     )
                     changed = True
 
         except subprocess.CalledProcessError as e:
-            logging.error("[BtS] Error running command: %s", e)
+            logging.error("[BluetoothSniffer] Error running command: %s", e)
 
         # Save the updated devices to the JSON file
         if changed:
             with open(self.options["devices_file"], "w") as f:
-                logging.info("[BtS] Saving bluetooths %s into json.", name)
+                logging.info("[BluetoothSniffer] Saving bluetooths %s into json.", name)
                 json.dump(self.data, f)
             display.set("status", "Bluetooth sniffed and stored!").update(force=True)
 
     # Method to get the device name
     def get_device_name(self, mac_address):
-        logging.info("[BtS] Trying to get name for %s", mac_address)
+        logging.info("[BluetoothSniffer] Trying to get name for %s", mac_address)
         name = "Unknown"
         hcitool_process = subprocess.Popen(
             ["hcitool", "name", mac_address], stdout=subprocess.PIPE
@@ -176,7 +193,7 @@ class BluetoothSniffer(plugins.Plugin):
         output, error = hcitool_process.communicate()
         if output.decode().strip() != "":
             name = output.decode().strip()
-        logging.info("[BtS] Got name %s for %s", name, mac_address)
+        logging.info("[BluetoothSniffer] Got name %s for %s", name, mac_address)
         return name
 
     # Method to get the device manufacturer
@@ -186,7 +203,9 @@ class BluetoothSniffer(plugins.Plugin):
             f"hcitool info {mac_address} | grep 'Manufacturer:' | cut -d ' ' -f 2-"
         )
         try:
-            logging.info("[BtS] Trying to get manufacturer for %s", mac_address)
+            logging.info(
+                "[BluetoothSniffer] Trying to get manufacturer for %s", mac_address
+            )
             start_time = time.time()
             process = subprocess.Popen(
                 cmd_info, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
@@ -195,7 +214,7 @@ class BluetoothSniffer(plugins.Plugin):
                 time.sleep(0.1)
                 if time.time() - start_time > 7:
                     logging.info(
-                        "[BtS] Timeout while trying to get manufacturer for %s",
+                        "[BluetoothSniffer] Timeout while trying to get manufacturer for %s",
                         mac_address,
                     )
                     process.kill()
@@ -203,10 +222,14 @@ class BluetoothSniffer(plugins.Plugin):
             output, error = process.communicate(timeout=1)
             if output.decode().strip() != "":
                 manufacturer = output.decode().strip()
-            logging.info("[BtS] Got manufacturer %s for %s", manufacturer, mac_address)
+            logging.info(
+                "[BluetoothSniffer] Got manufacturer %s for %s",
+                manufacturer,
+                mac_address,
+            )
         except Exception as e:
             logging.info(
-                "[BtS] Error while trying to get manufacturer for %s: %s",
+                "[BluetoothSniffer] Error while trying to get manufacturer for %s: %s",
                 mac_address,
                 str(e),
             )

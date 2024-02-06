@@ -15,6 +15,14 @@ class PwnClock(plugins.Plugin):
     __version__ = "1.0.2"
     __license__ = "GPL3"
     __description__ = "Clock/Calendar for pwnagotchi"
+    __name__ = "PwnClock"
+    __help__ = "PwnClock timer for pwnagotchi."
+    __dependencies__ = {
+        "pip": ["datetime", "yaml", "toml"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def on_loaded(self):
         if "date_format" in self.options:
@@ -22,12 +30,12 @@ class PwnClock(plugins.Plugin):
         else:
             self.date_format = "%m/%d/%y"
 
-        logging.info("Pwnagotchi Clock Plugin loaded.")
+        logging.info("[PwnClock] Plugin loaded.")
 
     def on_ui_setup(self, ui):
         try:
             memenable = False
-            logging.info("Pwnagotchi Clock Plugin setup started.")
+            logging.info("[PwnClock] Plugin setup started.")
             config_is_toml = (
                 True if os.path.exists("/etc/pwnagotchi/config.toml") else False
             )
@@ -47,7 +55,7 @@ class PwnClock(plugins.Plugin):
                     if "enabled" in data["main"]["plugins"]["memtemp"]:
                         if data["main"]["plugins"]["memtemp"]["enabled"]:
                             memenable = True
-                            logging.info("Pwnagotchi Clock Plugin: memtemp is enabled")
+                            logging.info("[PwnClock] memtemp is enabled")
             # if ui.is_waveshare_v2():
             pos = (130, 80) if memenable else (20, 40)
             ui.add_element(

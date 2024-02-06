@@ -21,6 +21,14 @@ class Beaconify(plugins.Plugin):
     __version__ = "1.0.6"
     __license__ = "GPL3"
     __description__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
+    __name__ = "Beaconify"
+    __help__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
+    __defaults__ = {
+        "enabled": False,
+    }
+    dependencies__ = {
+        "pip": ["scapy"],
+    }
 
     # Define the custom Information Element IDs
     # Taken from:
@@ -51,6 +59,8 @@ class Beaconify(plugins.Plugin):
         self.waiting_pwngrid = False
         self.beacon_thread = None
         self.pwngrid_thread = None
+        self.title = ""
+        logging.info("[Beaconify] __init__ method executed."
 
     def info_element(self, id, info):
         return Dot11Elt(ID=id, info=info)

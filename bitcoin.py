@@ -14,7 +14,10 @@ class Bitcoin(plugins.Plugin):
     __description__ = "A plugin that will display the bitcoin price."
     __name__ = "Bitcoin"
     __help__ = "A plugin that will display the bitcoin price."
-    __dependencies__ = {"pip": ["requests"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["requests"],
+    }
     __defaults__ = {
         "enabled": False,
         "api_url": "https://coindesk.com",
@@ -25,7 +28,7 @@ class Bitcoin(plugins.Plugin):
     _has_internet = False
 
     def on_loaded(self):
-        logging.info("[bitcoin] bitcoin plugin loaded")
+        logging.info("[bitcoin] plugin loaded")
 
     def _fetch_price(self):
         logging.info("[bitcoin] fetching bitcoin price")

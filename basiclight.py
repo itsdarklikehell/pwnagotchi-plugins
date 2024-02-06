@@ -31,9 +31,16 @@ class BasicLight(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "GPIO traffic-light signals."
+    __name__ = "BasicLight"
+    __help__ = "GPIO traffic-light signals."
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.running = False
+        self.title = ""
+        logging.info("[BasicLight] __init__ method executed.")
 
     # Plugin load, switch Yellow high
     def on_loaded(self):

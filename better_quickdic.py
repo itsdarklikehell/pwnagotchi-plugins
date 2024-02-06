@@ -18,11 +18,14 @@ Cracked handshakes stored in handshake folder as [essid].pcap.cracked
 """
 
 
-class QuickDic(plugins.Plugin):
+class BetterQuickDic(plugins.Plugin):
     __author__ = "silentree12th"
     __version__ = "1.4.5"
     __license__ = "GPL3"
     __description__ = "Run a quick dictionary scan against captured handshakes. Optionally send found passwords as qrcode and plain text over to telegram bot."
+    __name__ = "BetterQuickDic"
+    __help__ = "Run a small aircrack scan against captured handshakes and PMKID"
+
     __dependencies__ = {
         "apt": ["aircrack-ng"],
     }

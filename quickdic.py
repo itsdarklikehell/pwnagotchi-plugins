@@ -25,6 +25,8 @@ class QuickDic(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Run a small aircrack scan against captured handshakes and PMKID"
+    __name__ = "QuickDic"
+    __help__ = "Run a small aircrack scan against captured handshakes and PMKID"
     __dependencies__ = {
         "apt": ["aircrack-ng"],
     }
@@ -40,10 +42,7 @@ class QuickDic(plugins.Plugin):
         self.text_to_set = ""
 
     def on_loaded(self):
-        logging.info("[quickdic] quickdic plugin loaded")
-
-    def on_loaded(self):
-        logging.info("[better_quickdic] plugin loaded")
+        logging.info("[quickdic] plugin loaded")
 
         if "face" not in self.options:
             self.options["face"] = "(·ω·)"

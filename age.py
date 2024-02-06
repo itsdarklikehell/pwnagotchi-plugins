@@ -29,11 +29,13 @@ class Age(plugins.Plugin):
     }
 
     def __init__(self):
-        self.ready = False
-        self.title = ""
         self.epochs = 0
         self.train_epochs = 0
-        logging.info("[Age] __init__ method executed."
+        self.access_points_seen = 0
+        self.deauths_sent = 0
+        self.title = ""
+        self.device_start_time = datetime.now()
+        logging.info("[AgeV2] __init__ method executed."
 
     def on_loaded(self):
         data_path = "/root/brain.json"

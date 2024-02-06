@@ -16,6 +16,15 @@ class Birthday(plugins.Plugin):
     __version__ = "1.0."
     __license__ = "MIT"
     __description__ = "A plugin that shows the age and birthday of your Pwnagotchi."
+    __name__ = "Birthday"
+    __help__ = "A plugin that shows the age and birthday of your Pwnagotchi."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["none"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.born_at = 0
@@ -23,6 +32,7 @@ class Birthday(plugins.Plugin):
     def on_loaded(self):
         data_path = "/root/brain.json"
         self.load_data(data_path)
+        logging.info("[Birthday] plugin loaded")
 
     def on_ui_setup(self, ui):
         if self.options["show_age"]:
