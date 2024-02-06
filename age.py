@@ -14,13 +14,9 @@ class Age(plugins.Plugin):
     __author__ = "HannaDiamond"
     __version__ = "1.0.1"
     __license__ = "MIT"
-    __description__ = (
-        "A plugin that will add age and strength stats based on epochs and trained epochs"
-    )
+    __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __name__ = "Age"
-    __help__ = (
-        "A plugin that will add age and strength stats based on epochs and trained epochs"
-    )
+    __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
         "pip": ["scapy"],
     }

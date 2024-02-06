@@ -61,17 +61,17 @@ class BasicLight(plugins.Plugin):
         GPIO.output(LEDs["green"], GPIO.HIGH)
         self.running = True
 
-    ############
+        ############
 
-    """# -X-
+    # -X-
     def on_ai_training_start(self, agent, epochs):
         global LEDs
-        GPIO.output(LEDs['green'], GPIO.LOW)
+        GPIO.output(LEDs["green"], GPIO.LOW)
 
     # X--
     def on_ai_training_end(self, agent):
         global LEDs
-        GPIO.output(LEDs['green'], GPIO.HIGH)"""
+        GPIO.output(LEDs["green"], GPIO.HIGH)
 
     # XX-
     def on_sleep(self, agent, t):

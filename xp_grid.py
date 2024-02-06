@@ -10,9 +10,7 @@ class XPGrid(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "
-)
-    Level sharing between peers for xp plugin.
+    __description__ = "Level sharing between peers for xp plugin.
     xp plugin must be enabled.
     """
 

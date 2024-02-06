@@ -31,8 +31,7 @@ class Plugin:
                     locks["%s::%s" % (plugin_name, attr_name)] = threading.Lock()
 
 
-def toggle_plugin(name, enable=True):"
-    )
+def toggle_plugin(name, enable=True):
     Load or unload a plugin
 
     returns True if changed, otherwise False"

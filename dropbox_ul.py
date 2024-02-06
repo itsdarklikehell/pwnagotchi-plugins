@@ -15,8 +15,7 @@ class dropbox(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "This plugin automatically uploads handshakes to a dropbox app"
     __name__ = "dropbox"
-    __help__ = ("This plugin automatically uploads handshakes to a dropbox app"
-    )
+    __help__ = "This plugin automatically uploads handshakes to a dropbox app"
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -35,11 +34,6 @@ class dropbox(plugins.Plugin):
         self.skip = list()
 
     def _upload_to_dropbox(self, path, timeout=30):
-        "
-)
-        Uploads the file to dropbox
-        "
-)
         head, tail = os.path.split(path)
         destFile = self.options["path"] + "/" + tail
         dbOpts = {
@@ -69,11 +63,7 @@ class dropbox(plugins.Plugin):
             raise e
 
     def on_loaded(self):
-        "
-)
-        Gets called when the plugin gets loaded
-        "
-)
+
         if "app_token" not in self.options or (
             "app_token" in self.options and self.options["app_token"] is None
         ):
@@ -83,11 +73,6 @@ class dropbox(plugins.Plugin):
         self.ready = True
 
     def on_internet_available(self, agent):
-        "
-)
-        Called in manual mode when there's internet connectivity
-        "
-)
         with self.lock:
             if self.ready:
                 config = agent.config()

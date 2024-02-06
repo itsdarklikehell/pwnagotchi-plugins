@@ -6,11 +6,9 @@ class GPSError(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "
-)
-    Display error when GPS is not running.
-    Requires gps plugin enabled.
-    """
+    __description__ = (
+        "Display error when GPS is not running. Requires gps plugin enabled."
+    )
 
     def __init__(self):
         self.gps = None

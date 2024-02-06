@@ -8,6 +8,11 @@ class Darkmode(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Darkmode plugin."
+    __name__ = "Darkmode"
+    __help__ = "Darkmode plugin."
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def _update_ui_colors(self, ui):
         for key, element in ui._state.items():

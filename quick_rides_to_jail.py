@@ -1,28 +1,3 @@
-"""
-Aircrack-ng needed, to install:
-> apt-get install aircrack-ng
-Upload wordlist files in .txt format to folder in config file (Default: /etc/pwnagotchi/wordlists/passwords/passwords/)
-Cracked handshakes stored in handshake folder as [essid].pcap.cracked
-
-Original use-case:
-    Emergency communications out to the internet, via distributed out-of-band network of
-    pwnagotchi's. My research is in support of developing a PoC prototype mesh network capable
-    of using the pwnagotchi's network to courier data over its out-of-band wireless channel
-    and bridge gaps with pwnd wireless networks. Meh. One pwnagotchi encounters another in the
-    desert, briefly. The one stranded in the desert holds out an encrypted message for family.
-    A dieing wish. The traveling pwnagotchi picks up the message, says "I got you bro", and
-    takes the message out to civilization, to pass on. The traveling pwnagotchi searches high
-    and low for the desert bro's fam, but can't find them. Just then, the traveler connects
-    to a wayward watering hole (i.e. a pwnd access point), and can send out a message, on blast
-    to desert bro's fam. Could low-key be a legit means of connectivity in a post-appocalypse
-    type situation, but is high-key probably illegal for you to do on anyone else's network.
-    Have fun in jail.
-
-For educational and testing purposes, only. If you do not think that you have violated the law,
-you most certainly are about to. By using and enabling the full functionality of this script,
-you here by agree to sit quietly in the back of the police car.
-"""
-
 import logging
 import json
 import os
@@ -50,9 +25,7 @@ __version__ = "1.0.1"
 __license__ = "GPL3"
 __description__ = "Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail."
 __name__ = "quick_rides_to_jail"
-__help__ = """
-Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail.
-"""
+__help__ = "Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail."
 __dependencies__ = {
     "pip": ["scapy"],
 }
@@ -70,7 +43,6 @@ def on_loaded(self, ui):
     global READY
     logging.info(
         "[thePolice] Quick rides to prison and dictionary check plugin loaded."
-    )
     READY = True
 
 

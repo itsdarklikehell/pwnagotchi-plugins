@@ -46,8 +46,9 @@ class f0xtr0t(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps."
     __name__ = "f0xtr0t"
-    __help__ = ("a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps."
-    )
+    __help__ = """
+    a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps.
+    """
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -307,8 +308,7 @@ class f0xtr0t(plugins.Plugin):
         return PositionFile(path)
 
     def load_gps_from_dir(self, gpsdir, newest_only=False):
-        "
-)
+        """
         Parses the gps-data from disk
         """
 
@@ -418,11 +418,9 @@ class f0xtr0t(plugins.Plugin):
         return gps_data
 
     def get_html(self):
-        "
-)
+        """
         Returns the html page
-        "
-)
+        """
         try:
             template_file = (
                 os.path.dirname(os.path.realpath(__file__)) + "/" + "f0xtr0t.html"
@@ -435,8 +433,8 @@ class f0xtr0t(plugins.Plugin):
         return html_data
 
 
-class PositionFile:"
-    )
+class PositionFile:
+    """
     Wraps gps / net-pos files
     """
 
@@ -456,11 +454,9 @@ class PositionFile:"
             raise js_e
 
     def mac(self):
-        "
-)
+        """
         Returns the mac from filename
-        "
-)
+        """
         parsed_mac = re.search(
             r".*_?([a-zA-Z0-9]{12})\.(?:gps|geo|paw-gps)\.json", self._filename
         )
@@ -470,11 +466,9 @@ class PositionFile:"
         return None
 
     def ssid(self):
-        "
-)
+        """
         Returns the ssid from filename
-        "
-)
+        """
         parsed_ssid = re.search(
             r"(.+)_[a-zA-Z0-9]{12}\.(?:gps|geo|paw-gps)\.json", self._filename
         )
@@ -483,28 +477,22 @@ class PositionFile:"
         return None
 
     def json(self):
-        "
-)
+        """
         returns the parsed json
-        "
-)
+        """
         return self._json
 
     def timestamp_first(self):
-        "
-)
+        """
         returns the timestamp of AP first seen
-        "
-)
+        """
         # use file timestamp creation time of the pcap file
         return int("%.0f" % os.path.getctime(self._file))
 
     def timestamp_last(self):
-        "
-)
+        """
         returns the timestamp of AP last seen
-        "
-)
+        """
         return_ts = None
         if "ts" in self._json:
             return_ts = self._json["ts"]
@@ -518,11 +506,9 @@ class PositionFile:"
         return return_ts
 
     def password(self):
-        "
-)
+        """
         returns the password from file.pcap.cracked or None
-        "
-)
+        """
         return_pass = None
         # 2do: make better filename split/remove extension because this one has problems with "." in path
         base_filename, ext1, ext2 = re.split("\.", self._file)
@@ -544,11 +530,9 @@ class PositionFile:"
         return return_pass
 
     def type(self):
-        "
-)
+        """
         returns the type of the file
-        "
-)
+        """
         if self._file.endswith(".gps.json"):
             return PositionFile.GPS
         if self._file.endswith(".geo.json"):

@@ -13,15 +13,13 @@ from pwnagotchi.ui.view import BLACK
 from pwnagotchi.utils import StatusFile
 
 
-class BTError(Exception):"
-    )
+class BTError(Exception):
     Custom bluetooth exception"
     )
     pass
 
 
-class BTNap:"
-    )
+class BTNap:
     This class creates a bluetooth connection to the specified bt-mac
 
     see https://github.com/bablokb/pi-btnap/blob/master/files/usr/local/sbin/btnap.service.py
@@ -37,11 +35,9 @@ class BTNap:"
 
     @staticmethod
     def get_bus():
-        "
-)
+"""
         Get systembus obj
-        "
-)
+"""
         bus = getattr(BTNap.get_bus, 'cached_obj', None)
         if not bus:
             bus = BTNap.get_bus.cached_obj = dbus.SystemBus()
@@ -49,11 +45,9 @@ class BTNap:"
 
     @staticmethod
     def get_manager():
-        "
-)
+"""
         Get manager obj
-        "
-)
+"""
         manager = getattr(BTNap.get_manager, 'cached_obj', None)
         if not manager:
             manager = BTNap.get_manager.cached_obj = dbus.Interface(
@@ -63,30 +57,25 @@ class BTNap:"
 
     @staticmethod
     def prop_get(obj, k, iface=None):
-        "
-)
+"""
         Get a property of the obj
-        "
-)
+"""
         if iface is None:
             iface = obj.dbus_interface
         return obj.Get(iface, k, dbus_interface=BTNap.IFACE_PROPS)
 
     @staticmethod
     def prop_set(obj, k, v, iface=None):
-        "
-)
+"""
         Set a property of the obj
-        "
-)
+"""
         if iface is None:
             iface = obj.dbus_interface
         return obj.Set(iface, k, v, dbus_interface=BTNap.IFACE_PROPS)
 
     @staticmethod
     def find_adapter(pattern=None):
-        "
-)
+"""
         Find the bt adapter
         """
 
@@ -94,11 +83,9 @@ class BTNap:"
 
     @staticmethod
     def find_adapter_in_objects(objects, pattern=None):
-        "
-)
+"""
         Finds the obj with a pattern
-        "
-)
+"""
         bus, obj = BTNap.get_bus(), None
         for path, ifaces in objects.items():
             adapter = ifaces.get(BTNap.IFACE_ADAPTER)
@@ -112,21 +99,17 @@ class BTNap:"
 
     @staticmethod
     def find_device(device_address, adapter_pattern=None):
-        "
-)
+"""
         Finds the device
-        "
-)
+"""
         return BTNap.find_device_in_objects(BTNap.get_manager().GetManagedObjects(),
                                             device_address, adapter_pattern)
 
     @staticmethod
     def find_device_in_objects(objects, device_address, adapter_pattern=None):
-        "
-)
+"""
         Finds the device in objects
-        "
-)
+"""
         bus = BTNap.get_bus()
         path_prefix = ''
         if adapter_pattern:
@@ -145,11 +128,9 @@ class BTNap:"
         raise BTError('Bluetooth device not found')
 
     def power(self, on=True):
-        "
-)
+"""
         Set power of devices to on/off
-        "
-)
+"""
         logging.debug("BT-TETHER: Changing bluetooth device to %s", str(on))
 
         try:
@@ -170,11 +151,9 @@ class BTNap:"
 
 
     def is_paired(self):
-        "
-)
+"""
         Check if already connected
-        "
-)
+"""
         logging.debug("BT-TETHER: Checking if device is paired")
 
         bt_dev = self.power(True)
@@ -191,13 +170,11 @@ class BTNap:"
         return False
 
     def wait_for_device(self, timeout=15):
-        "
-)
+"""
         Wait for device
 
         returns device if found None if not
-        "
-)
+"""
         logging.debug("BT-TETHER: Waiting for device")
 
         bt_dev = self.power(True)
@@ -278,8 +255,7 @@ class BTNap:"
             return net, True
 
 
-class SystemdUnitWrapper:"
-    )
+class SystemdUnitWrapper:
     systemd wrapper
     """
 
@@ -297,11 +273,9 @@ class SystemdUnitWrapper:"
 
     @staticmethod
     def daemon_reload():
-        "
-)
+"""
         Calls systemctl daemon-reload
-        "
-)
+"""
         process = subprocess.Popen("systemctl daemon-reload", shell=True, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
@@ -310,72 +284,55 @@ class SystemdUnitWrapper:"
         return True
 
     def is_active(self):
-        "
-)
+"""
         Checks if unit is active
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('is-active', self.unit)
 
     def is_enabled(self):
-        "
-)
+"""
         Checks if unit is enabled
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('is-enabled', self.unit)
 
     def is_failed(self):
-        "
-)
+"""
         Checks if unit is failed
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('is-failed', self.unit)
 
     def enable(self):
-        "
-)
+"""
         Enables the unit
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('enable', self.unit)
 
     def disable(self):
-        "
-)
+"""
         Disables the unit
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('disable', self.unit)
 
     def start(self):
-        "
-)
+"""
         Starts the unit
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('start', self.unit)
 
     def stop(self):
-        "
-)
+"""
         Stops the unit
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('stop', self.unit)
 
     def restart(self):
-        "
-)
+"""
         Restarts the unit
-        "
-)
+"""
         return SystemdUnitWrapper._action_on_unit('restart', self.unit)
 
 
-class IfaceWrapper:"
-    )
+class IfaceWrapper:
     Small wrapper to check and manage ifaces
 
     see: https://github.com/rlisagor/pynetlinux/blob/master/pynetlinux/ifconfig.py
@@ -386,27 +343,21 @@ class IfaceWrapper:"
         self.path = f"/sys/class/net/{iface}"
 
     def exists(self):
-        "
-)
+"""
         Checks if iface exists
-        "
-)
+"""
         return os.path.exists(self.path)
 
     def is_up(self):
-        "
-)
+"""
         Checks if iface is ip
-        "
-)
+"""
         return open(f"{self.path}/operstate", 'r').read().rsplit('\n') == 'up'
 
     def set_addr(self, addr):
-        "
-)
+"""
         Set the netmask
-        "
-)
+"""
         process = subprocess.Popen(f"ip addr add {addr} dev {self.iface}", shell=True, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
@@ -448,19 +399,15 @@ class Device:
         self.priority = priority
 
     def connected(self):
-        "
-)
+"""
         Checks if device is connected
-        "
-)
+"""
         return self.network and BTNap.prop_get(self.network, 'Connected')
 
     def interface(self):
-        "
-)
+"""
         Returns the interface name or None
-        "
-)
+"""
         if not self.connected():
             return None
         return BTNap.prop_get(self.network, 'Interface')
@@ -472,7 +419,7 @@ class BTTether(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This makes the display reachable over bluetooth.'
     __name__ = 'BTTether'
-    __help__ = ("This makes the display reachable over bluetooth."
+    __help__ = "This makes the display reachable over bluetooth."
     )
     __dependencies__ = {
         'pip': ['scapy']

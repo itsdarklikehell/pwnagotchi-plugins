@@ -10,8 +10,7 @@ class Example(plugins.Plugin):
     __author__ = "evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = (
-        "An example plugin for pwnagotchi that implements all the available callbacks."
+    __description__ = "An example plugin for pwnagotchi that implements all the available callbacks."
     )
     __name__ = "Example"
     __help__ = (

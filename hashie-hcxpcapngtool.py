@@ -23,9 +23,7 @@ class hashie(plugins.Plugin):
     __author__ = "junohea.mail@gmail.com"
     __version__ = "1.0.3"
     __license__ = "GPL3"
-    __description__ = "
-)
-                        Attempt to automatically convert pcaps to a crackable format.
+    __description__ = "                    Attempt to automatically convert pcaps to a crackable format.
                         If successful, the files  containing the hashes will be saved
                         in the same folder as the handshakes.
                         The files are saved in their respective Hashcat format:
@@ -57,10 +55,9 @@ class hashie(plugins.Plugin):
                               Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
                               Phase 2: Extract/construct 22000/16800 hashes entirely in python
                           Improve the code, a lot
-                        "
-)
+                """
     __name__ = "hashie"
-    __help__ = ("                    Attempt to automatically convert pcaps to a crackable format.
+    __help__ = "                    Attempt to automatically convert pcaps to a crackable format.
                         If successful, the files  containing the hashes will be saved
                         in the same folder as the handshakes.
                         The files are saved in their respective Hashcat format:
@@ -92,7 +89,6 @@ class hashie(plugins.Plugin):
                               Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
                               Phase 2: Extract/construct 22000/16800 hashes entirely in python
                           Improve the code, a lot"
-    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,

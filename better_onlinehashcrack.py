@@ -24,6 +24,7 @@ class OnlineHashCrack(plugins.Plugin):
     __defaults__ = {
         "enabled": False,
     }
+
     def __init__(self):
         self.ready = False
         self.title = ""
@@ -37,11 +38,6 @@ class OnlineHashCrack(plugins.Plugin):
         self.lock = Lock()
 
     def on_loaded(self):
-        "
-)
-        Gets called when the plugin gets loaded
-        "
-)
         if "email" not in self.options or (
             "email" in self.options and not self.options["email"]
         ):
@@ -55,11 +51,6 @@ class OnlineHashCrack(plugins.Plugin):
         logging.info("OHC: OnlineHashCrack plugin loaded.")
 
     def _upload_to_ohc(self, path, timeout=30):
-        "
-)
-        Uploads the file to onlinehashcrack.com
-        "
-)
         with open(path, "rb") as file_to_upload:
             data = {"email": self.options["email"]}
             payload = {"file": file_to_upload}
@@ -78,13 +69,6 @@ class OnlineHashCrack(plugins.Plugin):
                 raise e
 
     def _download_cracked(self, save_file, timeout=120):
-        "
-)
-        Downloads the cracked passwords and saves them
-
-        returns the number of downloaded passwords
-        "
-)
         try:
             s = requests.Session()
             dashboard = s.get(self.options["dashboard"], timeout=timeout)
@@ -110,11 +94,6 @@ class OnlineHashCrack(plugins.Plugin):
         return redirect(r.url, code=302)
 
     def on_internet_available(self, agent):
-        "
-)
-        Called in manual mode when there's internet connectivity
-        """
-
         if not self.ready or self.lock.locked():
             return
 

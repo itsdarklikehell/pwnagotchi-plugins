@@ -9,9 +9,7 @@ class GPSSat(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "
-)
-    Display number of satellites.
+    __description__ = "Display number of satellites.
     Requires gps plugin enabled.
     """
 

@@ -299,8 +299,7 @@ class Fancygotchi(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
     __name__ = "Fancygotchi"
-    __help__ = ("A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
-    )
+    __help__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -335,26 +334,17 @@ class Fancygotchi(plugins.Plugin):
             pwnagotchi.config["ui"]["display"]["type"],
         ]
         # logging.info('[FANCYGOTCHI] %s' % display)
-
-        "
-)
         check_update(self.__version__)
         update(True)
-        replace_file(['target.txt', 'test.txt'], ['/home/pi/', '/home/pi/'], True, False, False)
+        replace_file(
+            ["target.txt", "test.txt"], ["/home/pi/", "/home/pi/"], True, False, False
+        )
         check_update(self.__version__)
 
         dev_backup(FILES_TO_MODIFY, "/home/pi/plugins/fancygotchi/mod/2022-07-10/")
 
-        subst = [
-            'main.ui = false',
-            '    hell',
-            '    hell',
-            'HELL YEAH',
-            'HELL YEAH!!!'
-        ]
-        replace('/home/pi/test.txt', 'main.ui', subst)
-        """
-
+        subst = ["main.ui = false", "    hell", "    hell", "HELL YEAH", "HELL YEAH!!!"]
+        replace("/home/pi/test.txt", "main.ui", subst)
         # Verification to the enabled display
         compatible = 0
         if ui == "lcdhat":

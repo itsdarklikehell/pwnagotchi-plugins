@@ -7,8 +7,7 @@ class Twitter(plugins.Plugin):
     __author__ = "evilsocket@gmail.com"
     __version__ = "2.0.1"
     __license__ = "GPL3"
-    __description__ = (
-        "This plugin creates tweets about the recent activity of pwnagotchi."
+    __description__ = "This plugin creates tweets about the recent activity of pwnagotchi."
     )
     __name__ = "Twitter"
     __help__ = "This plugin creates tweets about the recent activity of pwnagotchi."

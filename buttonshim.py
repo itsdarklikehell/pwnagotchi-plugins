@@ -502,23 +502,6 @@ def _write_byte(byte):
 
 
 def on_hold(buttons, handler=None, hold_time=2):
-    """Attach a hold handler to one or more buttons.
-
-    This handler is fired when you hold a button for hold_time seconds.
-
-    When fired it will run in its own Thread.
-
-    It will be passed one argument, the button index::
-
-        @buttonshim.on_hold(buttonshim.BUTTON_A)
-        def handler(button):
-            # Your code here
-
-    :param buttons: A single button, or a list of buttons
-    :param handler: Optional: a function to bind as the handler
-    :param hold_time: Optional: the hold time in seconds (default 2)
-"
-    )
     setup()
 
     if buttons is None:
@@ -539,25 +522,6 @@ def on_hold(buttons, handler=None, hold_time=2):
 
 
 def on_press(buttons, handler=None, repeat=False, repeat_time=0.5):
-    """Attach a press handler to one or more buttons.
-
-    This handler is fired when you press a button.
-
-    When fired it will be run in its own Thread.
-
-    It will be passed two arguments, the button index and a
-    boolean indicating whether the button has been pressed/released::
-
-        @buttonshim.on_press(buttonshim.BUTTON_A)
-        def handler(button, pressed):
-            # Your code here
-
-    :param buttons: A single button, or a list of buttons
-    :param handler: Optional: a function to bind as the handler
-    :param repeat: Optional: Repeat the handler if the button is held
-    :param repeat_time: Optional: Time, in seconds, after which to repeat
-"
-    )
     setup()
 
     if buttons is None:
@@ -579,23 +543,6 @@ def on_press(buttons, handler=None, repeat=False, repeat_time=0.5):
 
 
 def on_release(buttons=None, handler=None):
-    """Attach a release handler to one or more buttons.
-
-    This handler is fired when you let go of a button.
-
-    When fired it will be run in its own Thread.
-
-    It will be passed two arguments, the button index and a
-    boolean indicating whether the button has been pressed/released::
-
-        @buttonshim.on_release(buttonshim.BUTTON_A)
-        def handler(button, pressed):
-            # Your code here
-
-    :param buttons: A single button, or a list of buttons
-    :param handler: Optional: a function to bind as the handler
-"
-    )
     setup()
 
     if buttons is None:
@@ -629,19 +576,6 @@ def set_brightness(brightness):
 
 
 def set_pixel(r, g, b):
-    """Set the Button SHIM RGB pixel
-
-    Display an RGB colour on the Button SHIM pixel.
-
-    :param r: Amount of red, from 0 to 255
-    :param g: Amount of green, from 0 to 255
-    :param b: Amount of blue, from 0 to 255
-
-    You can use HTML colours directly with hexadecimal notation in Python. EG::
-
-        buttonshim.set_pixel(0xFF, 0x00, 0xFF)
-"
-    )
     setup()
 
     if not isinstance(r, int) or r < 0 or r > 255:
@@ -722,7 +656,7 @@ class Buttonshim(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
     __name__ = "Buttonshim"
-    __help__ = ("Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
+    __help__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
     )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {

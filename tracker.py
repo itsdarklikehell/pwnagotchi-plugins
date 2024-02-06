@@ -8,9 +8,7 @@ class Tracker(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "
-)
-    Track seen access points & clients.
+    __description__ = "Track seen access points & clients.
     If gps plugin is enabled, position will be saved.
     """
 

@@ -14,7 +14,7 @@ class WpaSec(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin automatically uploads handshakes to https://wpa-sec.stanev.org'
     __name__ = 'WpaSec'
-    __help__ = ("This plugin automatically uploads handshakes to https://wpa-sec.stanev.org"
+    __help__ = "This plugin automatically uploads handshakes to https://wpa-sec.stanev.org"
     )
     __dependencies__ = {
         'pip': ['requests']
@@ -47,11 +47,9 @@ class WpaSec(plugins.Plugin):
         self.shutdown = True
 
     def _upload_to_wpasec(self, path, timeout=30):
-        "
-)
+"""
         Uploads the file to https://wpa-sec.stanev.org, or another endpoint.
-        "
-)
+"""
         with open(path, 'rb') as file_to_upload:
             cookie = {'key': self.options['api_key']}
             payload = {'file': file_to_upload}
@@ -67,13 +65,11 @@ class WpaSec(plugins.Plugin):
                 raise req_e
 
     def _download_from_wpasec(self, output, timeout=30):
-        "
-)
+"""
         Downloads the results from wpasec and safes them to output
 
         Output-Format: bssid, station_mac, ssid, password
-        "
-)
+"""
         api_url = self.options['api_url']
         if not api_url.endswith('/'):
             api_url = f"{api_url}/"
@@ -90,11 +86,7 @@ class WpaSec(plugins.Plugin):
             raise os_e
 
     def on_loaded(self):
-        "
-)
-        Gets called when the plugin gets loaded
-        "
-)
+
         if not self.options['api_key']:
             logging.error('[wpasec] API-KEY isn\'t set. Can\'t upload.')
             return
@@ -115,11 +107,9 @@ class WpaSec(plugins.Plugin):
         return response
 
     def on_internet_available(self, agent):
-        "
-)
+"""
         Called in manual mode when there's internet connectivity
-        "
-)
+"""
         if not self.ready or self.lock.locked() or self.shutdown:
             return
 

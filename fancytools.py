@@ -488,7 +488,8 @@ def verify_fancygotchi_status(config):
     missing_files, total_files = verify_config_files(config["fancygotchi"]["files"])
     logging.debug("missing files: " + str(len(missing_files)) + "/" + str(total_files))
     missing_backup, total_files = verify_config_files(
-        config["fancygotchi"]["files"], ".original"
+        config["fancygotchi"]["files"],
+        ".original",
     )
     logging.debug(
         "missing backup: " + str(len(missing_backup)) + "/" + str(total_files)
@@ -715,25 +716,6 @@ class Fancytools(plugins.Plugin):
         if request.method == "GET":
             if path == "/" or not path:
                 # pwnagotchi.fancy_change = True
-                "
-)
-                tools info and process needed:
-                -----------------------------
-                is it installed?
-                if installed
-                    uninstall button
-                    check_update button
-                if installed and embedded
-                    no button
-                if not installed
-                    install button
-
-                if services
-                    on or off service button
-
-
-                "
-)
                 title = os.path.basename(__file__)[:-3]
                 logging.debug(title)
 

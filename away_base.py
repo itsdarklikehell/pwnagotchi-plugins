@@ -11,12 +11,8 @@ class AwayBase(plugins.Plugin):
     __author__ = "@nope"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = (
-        "Watches for known networks, connects for a while, then returns to recon"
-    )
-    __help__ = (
-        "Watches for known networks, connects for a while, then returns to recon."
-    )
+    __description__ = "Watches for known networks, connects for a while, then returns to recon"
+    __help__ = "Watches for known networks, connects for a while, then returns to recon."
     __defaults__ = {
         "enabled": False,
     }

@@ -8,15 +8,6 @@ import qrcode
 import io
 import os
 
-# from telegram import Bot  # install with pip install python-telegram-bot
-
-"""
-Aircrack-ng needed, to install:
-> apt-get install aircrack-ng
-Upload wordlist files in .txt format to folder in config file (Default: /opt/wordlists/)
-Cracked handshakes stored in handshake folder as [essid].pcap.cracked
-"""
-
 
 class BetterQuickDic(plugins.Plugin):
     __author__ = "silentree12th"
@@ -25,7 +16,6 @@ class BetterQuickDic(plugins.Plugin):
     __description__ = "Run a quick dictionary scan against captured handshakes. Optionally send found passwords as qrcode and plain text over to telegram bot."
     __name__ = "BetterQuickDic"
     __help__ = "Run a small aircrack scan against captured handshakes and PMKID"
-
     __dependencies__ = {
         "apt": ["aircrack-ng"],
     }

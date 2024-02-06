@@ -42,9 +42,7 @@ class WaveshareV3Touch(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "
-)
-    Experimental plugin for Waveshare V3 2.13inch Touch e-Paper HAT.
+    __description__ = "Experimental plugin for Waveshare V3 2.13inch Touch e-Paper HAT.
     Product: https://www.amazon.fr/gp/product/B09H4HZHXF
     Resources: https://www.waveshare.com/wiki/2.13inch_Touch_e-Paper_HAT
     Examples: https://github.com/waveshareteam/Touch_e-Paper_HAT/

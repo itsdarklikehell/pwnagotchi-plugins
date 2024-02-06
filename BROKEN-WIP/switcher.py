@@ -112,7 +112,7 @@ class Switcher(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin is a generic task scheduler.'
     __name__ = 'switcher'
-    __help__ = ("This plugin is a generic task scheduler."
+    __help__ = "This plugin is a generic task scheduler."
     )
     __dependencies__ = {
         'pip': ['scapy'],

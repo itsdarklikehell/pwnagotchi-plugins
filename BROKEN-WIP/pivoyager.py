@@ -15,7 +15,7 @@ class PiVoyager(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'PiVoyager UPS plugin.'
     __name__ = 'PiVoyager'
-    __help__ = ("PiVoyager UPS plugin."
+    __help__ = "PiVoyager UPS plugin."
     )
     __dependencies__ = {
         'pip': ['scapy'],

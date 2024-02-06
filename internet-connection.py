@@ -12,7 +12,7 @@ class InternetConnectionPlugin(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "A plugin that displays the Internet connection status on the pwnagotchi display."
     __name__ = "InternetConnectionPlugin"
-    __help__ = ("A plugin that displays the Internet connection status on the pwnagotchi display.
+    __help__ = "A plugin that displays the Internet connection status on the pwnagotchi display.
     """
 
     def on_loaded(self):

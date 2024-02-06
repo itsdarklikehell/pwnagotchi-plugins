@@ -12,7 +12,9 @@ class ext_wifi(plugins.Plugin):
     __description__ = "Activates external wifi adapter."
     __name__ = "ext_wifi"
     __help__ = "Activates external wifi adapter."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
         "interface": "wlan0mon",

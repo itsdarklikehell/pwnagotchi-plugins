@@ -12,13 +12,11 @@ class NetPos(plugins.Plugin):
     __author__ = 'zenzen san'
     __version__ = '3.0.0'
     __license__ = 'GPL3'
-    __description__ = (
-        "Saves a json file with the access points with more signal whenever a handshake is captured."
+    __description__ = "Saves a json file with the access points with more signal whenever a handshake is captured."
         "When internet is available the files are converted in geo locations using Mozilla LocationService."
     )
     __name__ = 'NetPos'
-    __help__ = (
-        "Saves a json file with the access points with more signal whenever a handshake is captured."
+    __help__ = "Saves a json file with the access points with more signal whenever a handshake is captured."
         "When internet is available the files are converted in geo locations using Mozilla LocationService."
     )
     __dependencies__ = {

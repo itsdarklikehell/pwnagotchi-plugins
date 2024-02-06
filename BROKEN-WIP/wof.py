@@ -401,29 +401,29 @@ INDEX = """
 {% endblock %}
 """
 
+
 class WofBridge:
     def __init__(self, json_file):
         self.__json_file = json_file
         known_flippers = self.__load_data()
-        self.__known_flippers = [ flipper["UUID"] for flipper in known_flippers ]
-        self.__session_flippers = [] # New flipper met during the current session
+        self.__known_flippers = [flipper["UUID"] for flipper in known_flippers]
+        self.__session_flippers = []  # New flipper met during the current session
         if len(self.__known_flippers) > 0:
             logging.info(f"[wof] Already met {len(self.__known_flippers)} Flippers")
 
     def get_update(self):
-        update = {
-            "online": [],
-            "offline": [],
-            "running": False
-        }
+        update = {"online": [], "offline": [], "running": False}
 
         update["running"] = os.system("systemctl is-active --quiet wof.service") == 0
-        
+
         flippers = self.__load_data()
-        flippers.sort(key = lambda flipper: flipper["unixLastSeen"], reverse = True)
+        flippers.sort(key=lambda flipper: flipper["unixLastSeen"], reverse=True)
         for flipper in flippers:
             # new discovered flippers
-            if flipper["UUID"] in self.__known_flippers and flipper["UUID"] not in self.__session_flippers:
+            if (
+                flipper["UUID"] in self.__known_flippers
+                and flipper["UUID"] not in self.__session_flippers
+            ):
                 flipper["new"] = False
                 flipper["first_met"] = False
             else:
@@ -434,7 +434,7 @@ class WofBridge:
                 else:
                     flipper["first_met"] = False
                 flipper["new"] = True
-        
+
             # online flippers (it is considered if last seen is max 5 minutes ago)
             if time.time() - flipper["unixLastSeen"] < 60 * 5:
                 update["online"].append(flipper)
@@ -449,7 +449,9 @@ class WofBridge:
                 try:
                     return json.loads(file.read())
                 except Exception as e:
-                    logging.critical(f"[wof] Error while loading and parsing json file: {e}")
+                    logging.critical(
+                        f"[wof] Error while loading and parsing json file: {e}"
+                    )
                     return []
         else:
             logging.critical(f"[wof] File not found: {self.__json_file}")
@@ -457,44 +459,51 @@ class WofBridge:
 
 
 class WofPlugin(plugins.Plugin):
-    __author__ = 'CyberArtemio'
-    __version__ = '1.1'
-    __license__ = 'GPL3'
-    __description__ = 'Display found Flipper Zeros from Wall of Flippers'
-    
+    __author__ = "CyberArtemio"
+    __version__ = "1.1"
+    __license__ = "GPL3"
+    __description__ = "Display found Flipper Zeros from Wall of Flippers"
+
     DEFAULT_POS = (5, 84)
     DEFAULT_WOF_FILE = "/root/Wall-of-Flippers/Flipper.json"
 
-
     def on_loaded(self):
         try:
-            self.__wof_file = self.options['wof_file']
+            self.__wof_file = self.options["wof_file"]
         except Exception:
             self.__wof_file = self.DEFAULT_WOF_FILE
         self.__wof_bridge = WofBridge(self.__wof_file)
-        
+
         logging.info("[wof] Plugin loaded")
         # logging.debug("Checking that wof is installed...") # TODO: check installation
         # logging.debug("Checking that wof is running...") # TODO: check running
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element('wof')
+            ui.remove_element("wof")
             logging.info("[wof] plugin unloaded")
 
     def on_ui_setup(self, ui):
         try:
-            self.__position = (self.options['position']['x'], self.options['position']['y'])
+            self.__position = (
+                self.options["position"]["x"],
+                self.options["position"]["y"],
+            )
         except Exception:
             self.__position = self.DEFAULT_POS
 
         # add custom UI elements
-        ui.add_element('wof', LabeledValue(color=BLACK,
-                                           label='[wof]',
-                                           value=" - ",
-                                           position=self.__position,
-                                           label_font=fonts.Small,
-                                           text_font=fonts.Small))
+        ui.add_element(
+            "wof",
+            LabeledValue(
+                color=BLACK,
+                label="[wof]",
+                value=" - ",
+                position=self.__position,
+                label_font=fonts.Small,
+                text_font=fonts.Small,
+            ),
+        )
 
     def on_ui_update(self, ui):
         flippers = self.__wof_bridge.get_update()
@@ -506,22 +515,28 @@ class WofPlugin(plugins.Plugin):
         for flipper in flippers["offline"]:
             if flipper["first_met"]:
                 new_flippers.append(flipper)
-        
+
         if len(new_flippers) > 0:
             if len(new_flippers) == 1:
-                ui.set('status', f'Ooh, just met flipper {new_flippers[0]["Name"]}')
+                ui.set("status", f'Ooh, just met flipper {new_flippers[0]["Name"]}')
             else:
-                ui.set('status', f'Yooh, just met {len(new_flippers)} flippers')
-        
+                ui.set("status", f"Yooh, just met {len(new_flippers)} flippers")
+
         if len(flippers["online"]) == 0:
-            ui.set('wof', f'{len(flippers["online"]) + len(flippers["offline"])} flippers met')
+            ui.set(
+                "wof",
+                f'{len(flippers["online"]) + len(flippers["offline"])} flippers met',
+            )
         else:
-            ui.set('wof', f'{flippers["online"][0]["Name"]} ({len(flippers["online"]) + len(flippers["offline"])} met)')
+            ui.set(
+                "wof",
+                f'{flippers["online"][0]["Name"]} ({len(flippers["online"]) + len(flippers["offline"])} met)',
+            )
 
     def on_webhook(self, path, request):
         if request.method == "GET":
             if path == "/" or not path:
-                return render_template_string(INDEX, plugin_version = self.__version__ )
+                return render_template_string(INDEX, plugin_version=self.__version__)
             elif path == "flippers":
                 data = self.__wof_bridge.get_update()
                 return json.dumps(data)

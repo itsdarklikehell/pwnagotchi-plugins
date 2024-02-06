@@ -13,8 +13,7 @@ class Watchdog(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Restart pwnagotchi when blindbug is detected."
     __name__ = "Watchdog"
-    __help__ = ("Restart pwnagotchi when blindbug is detected."
-    )
+    __help__ = "Restart pwnagotchi when blindbug is detected."
     __dependencies__ = {
         "pip": ["scapy"],
     }
@@ -31,11 +30,7 @@ class Watchdog(plugins.Plugin):
         self.status.update()
 
     def on_loaded(self):
-        "
-)
-        Gets called when the plugin gets loaded
-        "
-)
+
         logging.info("Watchdog plugin loaded.")
 
     def on_epoch(self, agent, epoch, epoch_data):

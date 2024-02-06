@@ -468,7 +468,7 @@ class WebConfig(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'This plugin allows the user to make runtime changes.'
     __name__ = 'WebConfig'
-    __help__ = ("This plugin allows the user to make runtime changes."
+    __help__ = "This plugin allows the user to make runtime changes."
     )
     __dependencies__ = {
         'pip': ['scapy'],
@@ -492,20 +492,14 @@ class WebConfig(plugins.Plugin):
         self.mode = 'MANU' if agent.mode == 'manual' else 'AUTO'
 
     def on_loaded(self):
-        "
-)
-        Gets called when the plugin gets loaded
-        "
-)
+
         logging.info("webcfg: Plugin loaded.")
 
 
     def on_webhook(self, path, request):
-        "
-)
+"""
         Serves the current configuration
-        "
-)
+"""
         if not self.ready:
             return "Plugin not ready"
 

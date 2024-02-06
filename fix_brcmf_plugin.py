@@ -21,8 +21,7 @@ class Fix_BRCMF(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG."
     __name__ = "Fix_BRCMF"
-    __help__ = ("Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG."
-    )
+    __help__ = "Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -41,11 +40,7 @@ class Fix_BRCMF(plugins.Plugin):
         self._count = 0
 
     def on_loaded(self):
-        "
-)
-        Gets called when the plugin gets loaded
-        "
-)
+
         self.pattern = re.compile(
             r"brcmf_cfg80211_nexmon_set_channel.*?Set Channel failed"
         )
