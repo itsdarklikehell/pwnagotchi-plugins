@@ -31,13 +31,11 @@ class Age(plugins.Plugin):
         self.deauths_sent = 0
         self.title = ""
         self.device_start_time = datetime.now()
-        logging.info("[Age] __init__ method executed."
 
     def on_loaded(self):
         data_path = "/root/brain.json"
         self.load_data(data_path)
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-
 
     def on_ui_setup(self, ui):
         ui.add_element(
@@ -167,7 +165,8 @@ class Age(plugins.Plugin):
 
         age_str = f"{years}y {months}m {days}d"
         return age_str
-        
+
+
 # Instantiate the plugin
 age_plugin = Age()
 

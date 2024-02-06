@@ -11,7 +11,7 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
 
-class Agev2(plugins.Plugin):
+class Age(plugins.Plugin):
     __author__ = "Kaska"
     __version__ = "1.1.0"
     __license__ = "MIT"
@@ -32,7 +32,6 @@ class Agev2(plugins.Plugin):
         self.deauths_sent = 0
         self.device_start_time = datetime.now()
         self.title = ""
-        logging.info("[AgeV2] __init__ method executed.")
 
     def on_loaded(self):
         data_path = "/root/brain.json"
