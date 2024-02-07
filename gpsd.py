@@ -40,7 +40,8 @@ class gpsd_coord(plugins.Plugin):
     __author__ = "tom@dankmemes2020.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "Talk to GPSD and save coordinates whenever a handshake is captured."
+    __description__ = (
+        "Talk to GPSD and save coordinates whenever a handshake is captured."
     )
     __name__ = "gpsd_coord"
     __help__ = "Talk to GPSD and save coordinates whenever a handshake is captured."
