@@ -11,7 +11,7 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
 
-class Age(plugins.Plugin):
+class AgeV2(plugins.Plugin):
     __author__ = "Kaska"
     __version__ = "1.1.0"
     __license__ = "MIT"
@@ -175,7 +175,7 @@ class Age(plugins.Plugin):
 
 
 # Instantiate the plugin
-age_plugin = Age()
+age_plugin = AgeV2()
 
 # Example usage (replace this with the actual Pwnagotchi usage)
 # For example, calling on_ai_training_step and on_ui_update methods
