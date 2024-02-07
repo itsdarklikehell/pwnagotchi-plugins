@@ -24,6 +24,7 @@ class MemTempPlus(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "orientation": "horizontal",
     }
 
     ALLOWED_FIELDS = {
