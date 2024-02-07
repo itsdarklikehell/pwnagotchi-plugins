@@ -117,3 +117,7 @@ class dropbox(plugins.Plugin):
                         except OSError as os_e:
                             logging.error("dropbox_ul: %s", os_e)
                             continue
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

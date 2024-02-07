@@ -29,6 +29,7 @@ class DisplayPassword(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "orientation": "horizontal",
     }
 
     def on_loaded(self):
