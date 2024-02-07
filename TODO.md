@@ -103,15 +103,16 @@ wifi_adventures.py
 wpa-sec-list.py
 xp_grid.py
 xp.py
+apfaker.py
 
 
 ### NOT (yet) WORKING FOR SOME REASON
 
-apfaker.py
 apprise-notify.py
 auto_backup.py
 banthex-de.py
 banthex.py
+
 birthday.py
 bitcoin.py
 buttonshim.py

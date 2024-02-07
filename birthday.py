@@ -70,10 +70,16 @@ class Birthday(plugins.Plugin):
     def on_unload(self, ui):
         if self.options["show_age"]:
             with ui._lock:
-                ui.remove_element("Age")
+                try:
+                    ui.remove_element("Age")
+                except Exception as e:
+                    logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
         elif self.options["show_birthday"]:
             with ui._lock:
-                ui.remove_element("Birthday")
+                try:
+                    ui.remove_element("Birthday")
+                except Exception as e:
+                    logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
         logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
@@ -109,3 +115,7 @@ class Birthday(plugins.Plugin):
         today = datetime.datetime.now()
         age = relativedelta(today, born_date)
         return age.years, age.months, age.days
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
