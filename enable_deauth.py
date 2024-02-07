@@ -86,4 +86,4 @@ class Do_Deauth(plugins.Plugin):
         try:
             ui.set("deauth_count", "%d" % (self._count))
         except Exception as err:
-            logging.info("enable deauth ui error: %s" % repr(err))
+            logging.info(f"[{self.__class__.__name__}] ui error: %s" % repr(err))
