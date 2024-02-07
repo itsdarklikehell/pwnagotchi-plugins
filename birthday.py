@@ -28,6 +28,7 @@ class Birthday(plugins.Plugin):
 
     def __init__(self):
         self.born_at = 0
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         data_path = "/root/brain.json"
@@ -73,6 +74,7 @@ class Birthday(plugins.Plugin):
         elif self.options["show_birthday"]:
             with ui._lock:
                 ui.remove_element("Birthday")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         if self.options["show_age"]:

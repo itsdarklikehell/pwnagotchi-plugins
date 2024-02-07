@@ -31,7 +31,7 @@ class Bitcoin(plugins.Plugin):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def _fetch_price(self):
-        logging.info("[bitcoin] fetching bitcoin price")
+        logging.info(f"[{self.__class__.__name__}]  fetching bitcoin price")
         bitcoin_api_url = "https://api.coindesk.com/v1/bpi/currentprice.json/"
         try:
             response = requests.get(bitcoin_api_url)
@@ -70,6 +70,7 @@ class Bitcoin(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element("bitcoin")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         ui.set("bitcoin", self._last_price)

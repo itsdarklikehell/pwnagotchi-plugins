@@ -20,6 +20,7 @@ class Age(plugins.Plugin):
     __name__ = "Age"
     __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["scapy"],
     }
     __defaults__ = {
