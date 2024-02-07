@@ -392,7 +392,10 @@ class EXPV2(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("Lv")
-            ui.remove_element("Exp")
-            ui.remove_element("Str")
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            try:
+                ui.remove_element("Lv")
+                ui.remove_element("Exp")
+                ui.remove_element("Str")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
