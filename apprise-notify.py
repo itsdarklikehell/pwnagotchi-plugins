@@ -88,49 +88,6 @@ class Apprise(plugins.Plugin):
         self.config = config
         self.ready = True
 
-    # called when the ui is updated
-    # def on_ui_update(self, ui):
-    #     title = ("[apprise]")
-    #     short = ("on_ui_update")
-    #     body = ("The UI is updated")
-    #     logging.debug(title + " " + short + " " + body)
-    #     outputfile = '/tmp/' + short + '.wav'
-
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #         attach=picture,
-    #     )
-    #     time.sleep(1)
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #         attach=outputfile,
-    #     )
-
-    # called hen there's internet connectivity
-    # def on_internet_available(self, agent):
-    #     title = ("[apprise]")
-    #     short = ("on_internet_available")
-    #     body = ("I now have internet.")
-    #     logging.debug(title + " " + short + " " + body)
-    #     outputfile = '/tmp/' + short + '.wav'
-
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #         attach=picture,
-    #     )
-    #     time.sleep(1)
-    #     apobj.notify(
-    #         title=title,
-    #         body=body,
-    #         attach=outputfile,
-    #     )
-
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
         title = "[apprise]"

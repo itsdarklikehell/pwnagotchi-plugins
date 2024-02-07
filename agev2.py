@@ -173,6 +173,10 @@ class AgeV2(plugins.Plugin):
         age_str = f"{years}y {months}m {days}d"
         return age_str
 
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
+
 
 # Instantiate the plugin
 age_plugin = AgeV2()

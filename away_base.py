@@ -14,6 +14,7 @@ class AwayBase(plugins.Plugin):
     __description__ = (
         "Watches for known networks, connects for a while, then returns to recon"
     )
+    __name__ = "away_base"
     __help__ = (
         "Watches for known networks, connects for a while, then returns to recon."
     )
@@ -38,7 +39,7 @@ class AwayBase(plugins.Plugin):
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None
             ):
-                logging.error(f"[away_base] Option {opt} is not set.")
+                logging.error(f"[{self.__class__.__name__}] Option {opt} is not set.")
                 return
         _log("plugin loaded")
         self.ready = 1
@@ -125,6 +126,10 @@ class AwayBase(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
 
 
 def _run(cmd):
@@ -337,4 +342,4 @@ def _restart_monitor_mode(self, agent):
 
 
 def _log(message):
-    logging.info("[away_base] %s" % message)
+    logging.info(f"[{self.__class__.__name__}] %s" % message)

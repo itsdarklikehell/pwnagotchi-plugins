@@ -23,7 +23,8 @@ class Beaconify(plugins.Plugin):
     __description__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
     __name__ = "Beaconify"
     __help__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
-    dependencies__ = {
+    __dependencies__ = {
+        "apt": ["none"],
         "pip": ["scapy"],
     }
     __defaults__ = {
@@ -283,3 +284,7 @@ class Beaconify(plugins.Plugin):
             logging.info(
                 f"[{self.__class__.__name__}] Skipping beacon thread because there is one alive yet."
             )
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

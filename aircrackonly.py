@@ -91,3 +91,7 @@ class AircrackOnly(plugins.Plugin):
             ui.set("face", self.options["face"])
             ui.set("status", self.text_to_set)
             self.text_to_set = ""
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

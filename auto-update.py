@@ -185,10 +185,12 @@ class AutoUpdate(plugins.Plugin):
         if "interval" not in self.options or (
             "interval" in self.options and not self.options["interval"]
         ):
-            logging.error("[update] main.plugins.auto-update.interval is not set")
+            logging.error(
+                f"[{self.__class__.__name__}] main.plugins.auto-update.interval is not set"
+            )
             return
         self.ready = True
-        logging.info("[update] plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded.")
 
     def on_internet_available(self, agent):
         if self.lock.locked():
@@ -196,7 +198,8 @@ class AutoUpdate(plugins.Plugin):
 
         with self.lock:
             logging.debug(
-                "[update] internet connectivity is available (ready %s)" % self.ready
+                f"[{self.__class__.__name__}] internet connectivity is available (ready %s)"
+                % self.ready
             )
 
             if not self.ready:
@@ -204,12 +207,12 @@ class AutoUpdate(plugins.Plugin):
 
             if self.status.newer_then_hours(self.options["interval"]):
                 logging.debug(
-                    "[update] last check happened less than %d hours ago"
+                    f"[{self.__class__.__name__}] last check happened less than %d hours ago"
                     % self.options["interval"]
                 )
                 return
 
-            logging.info("[update] checking for updates ...")
+            logging.info(f"[{self.__class__.__name__}] checking for updates ...")
 
             display = agent.view()
             prev_status = display.get("status")
@@ -267,7 +270,7 @@ class AutoUpdate(plugins.Plugin):
                             "s" if num_updates > 1 else "",
                         )
 
-                logging.info("[update] done")
+                logging.info(f"[{self.__class__.__name__}] done")
 
                 self.status.update()
 
@@ -277,9 +280,13 @@ class AutoUpdate(plugins.Plugin):
                     os.system("service pwnagotchi restart")
 
             except Exception as e:
-                logging.error("[update] %s" % e)
+                logging.error(f"[{self.__class__.__name__}] %s" % e)
 
             display.update(
                 force=True,
                 new_data={"status": prev_status if prev_status is not None else ""},
             )
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

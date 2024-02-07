@@ -34,7 +34,8 @@ class BasicLight(plugins.Plugin):
     __name__ = "BasicLight"
     __help__ = "GPIO traffic-light signals."
     __dependencies__ = {
-        "pip": ["none"],
+        "apt": ["none"],
+        "pip": ["scapy"],
     }
     __defaults__ = {
         "enabled": False,
@@ -59,7 +60,7 @@ class BasicLight(plugins.Plugin):
     # On ready, switch Yellow low
     def on_ready(self, agent):
         global LEDs
-        logging.info("Basic Lights ready.")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
         GPIO.output(LEDs["yellow"], GPIO.LOW)
         GPIO.output(LEDs["green"], GPIO.HIGH)
         self.running = True
@@ -115,3 +116,9 @@ class BasicLight(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        global LEDs
+        Blink(LEDs["red"], 3)
+        pass

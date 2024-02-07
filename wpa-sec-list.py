@@ -183,7 +183,6 @@ class WpaSecList(plugins.Plugin):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
         if not self.ready:
             return "Plugin not ready"
-
         if path == "/" or not path:
             try:
                 passwords = []
