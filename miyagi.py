@@ -19,9 +19,19 @@ class Miyagi(plugins.Plugin):
     __description__ = (
         "Manage AI training. Pwn on. Pwn off. (just kidding. always b pwn'in'!)"
     )
+    __name__ = "Miyagi"
+    __help__ = "Manage AI training. Pwn on. Pwn off. (just kidding. always b pwn'in'!)"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
-        logging.debug("Mr. Miyagi busy. Go start training.")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] Go start training.")
         self._epoch = 0
         self._train_epoch = 0
         self._total_train_epoch = 0
@@ -48,7 +58,7 @@ class Miyagi(plugins.Plugin):
         try:
             if request.method == "GET":
                 if path == "/" or not path:
-                    logging.info("[miyagi] webook called")
+                    logging.info(f"[{self.__class__.__name__}] webook called")
                     ret = '<html><head><title>Mr. Miyagi AI Training</title><meta name="csrf_token" content="{{ csrf_token() }}"></head>'
                     ret += "<body><h1>Mr. Miyagi AI Training</h1><p>I'm busy. You train yourself. This doesn't do anything yet.</p>"
                     ret += "<form method=post>"
@@ -92,7 +102,9 @@ class Miyagi(plugins.Plugin):
         except Exception as e:
             ret = "<html><head><title>Mr. Miyagi says you made a mistake</title></head>"
             ret += "<body><h1>%s</h1></body></html>" % repr(e)
-            logging.error("[miyagi] what did you do now? %s" % repr(e))
+            logging.error(
+                f"[{self.__class__.__name__}] what did you do now? %s" % repr(e)
+            )
             return render_template_string(ret)
         pass
 
@@ -111,11 +123,14 @@ class Miyagi(plugins.Plugin):
                 with open(self._conf_file, "r") as f:
                     self._mconfig = json.load(f)
                     for k, v in self._mconfig.items():
-                        logging.info("miyagi[%s] => %s" % (repr(k), repr(v)))
+                        logging.info(
+                            f"[{self.__class__.__name__}][%s] => %s"
+                            % (repr(k), repr(v))
+                        )
         except Exception as err:
-            logging.error("%s" % repr(err))
+            logging.error(f"[{self.__class__.__name__}] %s" % repr(err))
 
-        logging.info("PWN on, PWN off!")
+        logging.info(f"[{self.__class__.__name__}] PWN on, PWN off!")
 
     def save_settings(self):
         self._mconfig["laziness"] = self._laziness
@@ -128,7 +143,9 @@ class Miyagi(plugins.Plugin):
             with open(self._conf_file, "w") as f:
                 f.write(json.dumps(self._mconfig, indent=4))
         except Exception as err:
-            logging.error("Save config err: %s" % repr(err))
+            logging.error(
+                f"[{self.__class__.__name__}] Save config err: %s" % repr(err)
+            )
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
@@ -136,12 +153,13 @@ class Miyagi(plugins.Plugin):
         try:
             ui.remove_element("miyagi")
             ui.remove_element("m_epoch")
-
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             self.save_settings()
         except Exception as e:
-            logging.warn("[miyagi] how hard is it to unload? %s" % repr(e))
-
-        logging.info("[miyagi] Good PWNing to you!")
+            logging.warn(
+                f"[{self.__class__.__name__}] how hard is it to unload? %s" % repr(e)
+            )
+        logging.info(f"[{self.__class__.__name__}] Good PWNing to you!")
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
@@ -178,7 +196,7 @@ class Miyagi(plugins.Plugin):
                 ),
             )
         except Exception as e:
-            logging.error("[miyagi] ui not allowed: %s" % repr(e))
+            logging.error(f"[{self.__class__.__name__}] ui not allowed: %s" % repr(e))
 
     # called when the ui is updated
     def on_ui_update(self, ui):
@@ -193,7 +211,8 @@ class Miyagi(plugins.Plugin):
     def on_ready(self, agent):
         # turn off deauth until AI is ready, so all those startup deauths don't get skipped?
 
-        logging.info("[miyagi] Ready for training")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
+        logging.info(f"[{self.__class__.__name__}] Ready for training")
         self.agent = agent
 
         # check brain file. if empty or missing, restore backup
@@ -201,7 +220,9 @@ class Miyagi(plugins.Plugin):
         if not os.path.isfile(self._nn_path) or os.path.getsize(self._nn_path) == 0:
             back = "%s.bak" % self._nn_path
             if os.path.isfile(back):
-                logging.info("[miyagi] Clear your mind, not empty brain!")
+                logging.info(
+                    f"[{self.__class__.__name__}] Clear your mind, not empty brain!"
+                )
                 os.replace(back, self._nn_path)
 
         # grab from system if not in plugin config file
@@ -214,7 +235,9 @@ class Miyagi(plugins.Plugin):
         # increase training for a while, if laziness is really high
         if self._laziness > 0.98:
             self._laziness = 0.5
-            logging.info("[miyagi] Enough rest. You train hard now!")
+            logging.info(
+                f"[{self.__class__.__name__}] Enough rest. You train hard now!"
+            )
         self._view.set("miyagi", "%0.1f%%" % ((self._laziness * 100)))
 
         self.agent._config["ai"]["laziness"] = self._laziness
@@ -222,7 +245,7 @@ class Miyagi(plugins.Plugin):
     # called when the AI finished loading
     def on_ai_ready(self, agent):
         self._view.set("mode", "AI  ")
-        logging.info("AI is ready")
+        logging.info(f"[{self.__class__.__name__}] AI is ready")
         pass
 
     # called when the AI finds a new set of parameters
@@ -244,7 +267,9 @@ class Miyagi(plugins.Plugin):
                 self._view.set("mode", "STRT")
 
         except Exception as e:
-            logging.warn("[miyagi] you did not start training: %s" % repr(e))
+            logging.warn(
+                f"[{self.__class__.__name__}] you did not start training: %s" % repr(e)
+            )
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
@@ -268,7 +293,10 @@ class Miyagi(plugins.Plugin):
             self.agent._config["ai"]["laziness"] *= 0.8
             self.agent._config["ai"]["laziness"] += 0.2
         self._laziness = self.agent._config["ai"]["laziness"]
-        logging.info("[miyagi] laziness = %0.4f" % self.agent._config["ai"]["laziness"])
+        logging.info(
+            f"[{self.__class__.__name__}] laziness = %0.4f"
+            % self.agent._config["ai"]["laziness"]
+        )
         self.save_settings()
         if self.agent._config["ai"]["laziness"] < 10:
             self._view.set(
@@ -349,17 +377,21 @@ class Miyagi(plugins.Plugin):
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
-        logging.info("[miyagi] on_epoch called %s: %s" % (epoch, repr(epoch_data)))
+        logging.info(
+            f"[{self.__class__.__name__}] on_epoch called %s: %s"
+            % (epoch, repr(epoch_data))
+        )
         try:
             self._epoch += 1
             self._view.set(
                 "m_epoch", "%0.2f%%" % (self._total_train_epoch / self._epoch * 100.0)
             )
             logging.info(
-                "[miyagi] epoch %s  %s" % (self._epoch, self._total_train_epoch)
+                f"[{self.__class__.__name__}] epoch %s  %s"
+                % (self._epoch, self._total_train_epoch)
             )
         except Exception as e:
-            logging.error("[miyagi] on_epoch: %s" % repr(e))
+            logging.error(f"[{self.__class__.__name__}] on_epoch: %s" % repr(e))
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
