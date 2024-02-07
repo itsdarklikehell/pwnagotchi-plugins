@@ -8,9 +8,18 @@ class instattack(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Pwn more aggressively. Launch immediate associate or deauth attack when bettercap spots a device."
+    __name__ = "instattack"
+    __help__ = "Pwn more aggressively. Launch immediate associate or deauth attack when bettercap spots a device."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
-        logging.debug("instattack plugin created")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.old_name = None
 
     # called before the plugin is unloaded
@@ -20,7 +29,7 @@ class instattack(plugins.Plugin):
         else:
             ui.set("name", "%s>  " % ui.get("name")[:-3])
         self.old_name = None
-        logging.info("instattack out.")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
@@ -36,7 +45,8 @@ class instattack(plugins.Plugin):
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
-        logging.info("instattack attack!")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
+        logging.info(f"[{self.__class__.__name__}] instattack attack!")
         if self._ui:
             self._ui.set("status", "Be aggressive!\nBE BE AGGRESSIVE!")
 
@@ -49,7 +59,7 @@ class instattack(plugins.Plugin):
         try:
             if agent._config["personality"]["associate"]:
                 logging.info(
-                    "insta-associate: %s (%s)"
+                    f"[{self.__class__.__name__}] insta-associate: %s (%s)"
                     % (event["data"]["hostname"], event["data"]["mac"])
                 )
                 agent.associate(event["data"], 0.3)
@@ -60,7 +70,7 @@ class instattack(plugins.Plugin):
         try:
             if agent._config["personality"]["deauth"]:
                 logging.info(
-                    "insta-deauth: %s (%s)->'%s'(%s)(%s)"
+                    f"[{self.__class__.__name__}] insta-deauth: %s (%s)->'%s'(%s)(%s)"
                     % (
                         event["data"]["AP"]["hostname"],
                         event["data"]["AP"]["mac"],

@@ -16,12 +16,18 @@ class LcdHat(plugins.Plugin):
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __name__ = "Age"
     __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self, config):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         super(LcdHat, self).__init__(config, "lcdhat")
         self._display = None
 
@@ -68,3 +74,7 @@ class LcdHat(plugins.Plugin):
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

@@ -13,6 +13,13 @@ class InternetConnectionPlugin(plugins.Plugin):
     __description__ = "A plugin that displays the Internet connection status on the pwnagotchi display."
     __name__ = "InternetConnectionPlugin"
     __help__ = "A plugin that displays the Internet connection status on the pwnagotchi display."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -36,9 +43,9 @@ class InternetConnectionPlugin(plugins.Plugin):
     def on_internet_available(self, agent):
         display = agent.view()
         display.set("connection_status", "C")
-        logging.debug("[Internet-Connection] connected to the World Wide Web!")
+        logging.debug(f"[{self.__class__.__name__}] connected to the World Wide Web!")
 
     def on_unload(self, ui):
         with ui._lock:
-            logging.info("[Internet-Connection] plugin unloaded")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             ui.remove_element("connection_status")

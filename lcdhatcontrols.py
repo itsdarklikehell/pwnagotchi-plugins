@@ -10,6 +10,15 @@ class lcdhatcontrols(plugins.Plugin):
     __version__ = "0.0.2"
     __license__ = "GPL3"
     __description__ = "lcdhat controls"
+    __name__ = "Age"
+    __help__ = "lcdhat controls"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     KEY_PRESS_PIN = 13
     KEY_DOWN_PIN = 19
@@ -20,6 +29,9 @@ class lcdhatcontrols(plugins.Plugin):
     pluginloc = "/home/pi/custom_plugins/fix_brcmf_plugin.py"
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.KEY_PRESS_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.KEY_DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -81,6 +93,8 @@ class lcdhatcontrols(plugins.Plugin):
                 last_press_times[0] = 0.0
                 last_press_times[4] = 0.0
 
-    def on_unloaded(self):
-        logging.info("[Controls] unloaded")
-        self
+    def on_unloaded(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            logging.info("[Controls] unloaded")
+            self

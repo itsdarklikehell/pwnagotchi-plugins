@@ -23,12 +23,23 @@ class IPDisplay(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Display IP addresses on the Pwnagotchi UI"
+    __name__ = "IPDisplay"
+    __help__ = "Display IP addresses on the Pwnagotchi UI"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.options = dict()
         self.device_list = ["bnep0", "usb0", "eth0"]
         self.device_index = 0
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         if "devices" in self.options:
@@ -38,7 +49,7 @@ class IPDisplay(plugins.Plugin):
 
     def on_ready(self):
         self.ready = True
-        logging.info("IP Display Plugin ready.")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
 
     def on_ui_setup(self, ui):
         pos1 = (0, 82)
@@ -69,6 +80,7 @@ class IPDisplay(plugins.Plugin):
         self.device_index = (self.device_index + 1) % len(self.device_list)
 
     def on_unload(self, ui):
-        self.ready = False
-        ui.remove_element("ip1")
-        logging.info("IP Display Plugin unloaded.")
+        with ui._lock:
+            self.ready = False
+            ui.remove_element("ip1")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
