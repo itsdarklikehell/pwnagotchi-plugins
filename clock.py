@@ -24,6 +24,10 @@ class PwnClock(plugins.Plugin):
         "enabled": False,
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+
     def on_loaded(self):
         if "date_format" in self.options:
             self.date_format = self.options["date_format"]
@@ -34,7 +38,7 @@ class PwnClock(plugins.Plugin):
     def on_ui_setup(self, ui):
         try:
             memenable = False
-            logging.info("[PwnClock] Plugin setup started.")
+            logging.info(f"[{self.__class__.__name__}] Plugin setup started.")
             config_is_toml = (
                 True if os.path.exists("/etc/pwnagotchi/config.toml") else False
             )
@@ -54,7 +58,9 @@ class PwnClock(plugins.Plugin):
                     if "enabled" in data["main"]["plugins"]["memtemp"]:
                         if data["main"]["plugins"]["memtemp"]["enabled"]:
                             memenable = True
-                            logging.info("[PwnClock] memtemp is enabled")
+                            logging.info(
+                                f"[{self.__class__.__name__}] memtemp is enabled"
+                            )
             # if ui.is_waveshare_v2():
             pos = (130, 80) if memenable else (20, 40)
             ui.add_element(
@@ -74,6 +80,7 @@ class PwnClock(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element("clock")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         try:
@@ -82,4 +89,4 @@ class PwnClock(plugins.Plugin):
             time_rn = now.strftime("%Y-%m-%d %H:%M")
             ui.set("clock", time_rn)
         except Exception as wtf:
-            logging.error("[clock] %s" % repr(wtf))
+            logging.error(f"[{self.__class__.__name__}] %s" % repr(wtf))
