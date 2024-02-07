@@ -13,7 +13,7 @@ import zipfile
 
 
 class GdriveSync(plugins.Plugin):
-    __author__ = "@jayofelony"
+    __author__ = "SgtStroopwafel, @jayofelony"
     __version__ = "1.2"
     __license__ = "GPL3"
     __description__ = "A plugin to backup various pwnagotchi files and folders to Google Drive. Once every hour from loading plugin."

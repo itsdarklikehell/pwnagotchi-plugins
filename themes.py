@@ -7,7 +7,7 @@ from flask import Response
 
 
 class Themes(plugins.Plugin):
-    __author__ = "@alistar79"
+    __author__ = "SgtStroopwafel, @alistar79"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Theme/script kicker plugin for pwnagotchi."

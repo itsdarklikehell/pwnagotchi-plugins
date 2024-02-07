@@ -8,7 +8,7 @@ import os
 
 
 class DisplayAircrack(plugins.Plugin):
-    __author__ = "@7h30th3r0n3"
+    __author__ = "SgtStroopwafel, @7h30th3r0n3"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display if aircrack is runing or not"

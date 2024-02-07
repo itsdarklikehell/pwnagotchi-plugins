@@ -12,7 +12,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Birthday(plugins.Plugin):
-    __author__ = "nullm0ose"
+    __author__ = "SgtStroopwafel, nullm0ose"
     __version__ = "1.0."
     __license__ = "MIT"
     __description__ = "A plugin that shows the age and birthday of your Pwnagotchi."

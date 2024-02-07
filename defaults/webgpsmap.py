@@ -25,7 +25,7 @@ from dateutil.parser import parse
 
 
 class Webgpsmap(plugins.Plugin):
-    __author__ = "https://github.com/xenDE and https://github.com/dadav"
+    __author__ = "SgtStroopwafel, https://github.com/xenDE and https://github.com/dadav"
     __version__ = "1.4.0"
     __name__ = "webgpsmap"
     __license__ = "GPL3"

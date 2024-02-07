@@ -148,7 +148,7 @@ def singleton(cls, *args, **kw):
 
 @singleton
 class Touch_Screen(plugins.Plugin):
-    __author__ = "Sniffleupagus"
+    __author__ = "SgtStroopwafel, Sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Use touchscreen input to toggle settings."

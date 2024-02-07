@@ -9,7 +9,7 @@ GUIDE HERE: https://community.pwnagotchi.ai/t/setting-up-paw-gps-on-android
 
 
 class PawGPS(plugins.Plugin):
-    __author__ = "leont"
+    __author__ = "SgtStroopwafel, leont"
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Saves GPS coordinates whenever an handshake is captured. The GPS data is get from PAW on android."

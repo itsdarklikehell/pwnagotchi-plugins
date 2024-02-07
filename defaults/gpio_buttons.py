@@ -5,7 +5,7 @@ import pwnagotchi.plugins as plugins
 
 
 class GPIOButtons(plugins.Plugin):
-    __author__ = "ratmandu@gmail.com"
+    __author__ = "SgtStroopwafel, ratmandu@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "GPIO Button support plugin"

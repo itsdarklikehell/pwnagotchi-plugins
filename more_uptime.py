@@ -9,7 +9,7 @@ import pwnagotchi.utils as utils
 
 
 class More_Uptime(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads."

@@ -169,7 +169,7 @@ def parse_version(cmd):
 
 
 class AutoUpdate(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.1.1"
     __name__ = "auto-update"
     __license__ = "GPL3"

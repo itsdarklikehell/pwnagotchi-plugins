@@ -49,7 +49,7 @@ TEMPLATE = """
 
 
 class WebSSH2Plugin(plugins.Plugin):
-    __author__ = "NeonLightning"
+    __author__ = "SgtStroopwafel, NeonLightning"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "WebSSH2 Access"

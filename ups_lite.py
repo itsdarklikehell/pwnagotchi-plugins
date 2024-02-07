@@ -68,7 +68,7 @@ class UPS:
 
 
 class UPSLite(plugins.Plugin):
-    __author__ = "marbasec"
+    __author__ = "SgtStroopwafel, marbasec"
     __version__ = "1.3.0"
     __license__ = "GPL3"
     __description__ = "A plugin that will add a voltage indicator for the UPS Lite v1.3"

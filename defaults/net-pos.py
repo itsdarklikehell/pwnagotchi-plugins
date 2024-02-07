@@ -9,7 +9,7 @@ from pwnagotchi.utils import StatusFile
 
 
 class NetPos(plugins.Plugin):
-    __author__ = "zenzen san"
+    __author__ = "SgtStroopwafel, zenzen san"
     __version__ = "2.0.3"
     __license__ = "GPL3"
     __description__ = """Saves a json file with the access points with more signal

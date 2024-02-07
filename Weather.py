@@ -20,7 +20,7 @@ import json
 
 
 class WeatherForecast(plugins.Plugin):
-    __author__ = "Bauke Molenaar"
+    __author__ = "SgtStroopwafel, Bauke Molenaar"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

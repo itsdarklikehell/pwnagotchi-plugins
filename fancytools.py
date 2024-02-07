@@ -571,7 +571,7 @@ def verify_tool_status(config):
 
 class Fancytools(plugins.Plugin):
     __name__ = "FancyTools"
-    __author__ = "@V0rT3x https://github.com/V0r-T3x"
+    __author__ = "SgtStroopwafel, @V0rT3x https://github.com/V0r-T3x"
     __version__ = "2023.12.2"
     __license__ = "GPL3"
     __description__ = "Fancygotchi and additional debug/dev tools"

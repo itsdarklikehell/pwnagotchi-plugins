@@ -10,7 +10,7 @@ import time
 
 
 class HomeBase(plugins.Plugin):
-    __author__ = "@troystauffer"
+    __author__ = "SgtStroopwafel, @troystauffer"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Connects to home network for internet when available"

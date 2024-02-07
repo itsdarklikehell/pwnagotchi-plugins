@@ -7,7 +7,7 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class Example(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

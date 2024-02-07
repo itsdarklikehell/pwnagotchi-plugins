@@ -10,7 +10,7 @@ from json.decoder import JSONDecodeError
 
 
 class nextcloud(plugins.Plugin):
-    __author__ = "github@disterhoft.de"
+    __author__ = "SgtStroopwafel, github@disterhoft.de"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = (

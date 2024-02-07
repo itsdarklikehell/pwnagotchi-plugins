@@ -487,7 +487,7 @@ def serializer(obj):
 
 
 class WebConfig(plugins.Plugin):
-    __author__ = "33197631+dadav@users.noreply.github.com"
+    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "This plugin allows the user to make runtime changes."

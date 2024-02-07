@@ -97,7 +97,7 @@ class UPS:
 
 
 class UPSC(plugins.Plugin):
-    __author__ = "HannaDiamond"
+    __author__ = "SgtStroopwafel, HannaDiamond"
     __version__ = "1.0.1"
     __license__ = "MIT"
     __description__ = "A plugin that will add a battery capacity and charging indicator for the UPS HAT C."

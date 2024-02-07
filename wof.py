@@ -464,7 +464,7 @@ class WofBridge:
 
 
 class WofPlugin(plugins.Plugin):
-    __author__ = "CyberArtemio"
+    __author__ = "SgtStroopwafel, CyberArtemio"
     __version__ = "1.1"
     __license__ = "GPL3"
     __description__ = "Display found Flipper Zeros from Wall of Flippers"

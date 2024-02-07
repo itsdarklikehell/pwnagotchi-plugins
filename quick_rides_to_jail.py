@@ -21,7 +21,7 @@ crackable_handshake_re = re.compile(
 
 
 class quick_rides_to_jail(plugins.Plugin):
-    __author__ = "forrest"
+    __author__ = "SgtStroopwafel, forrest"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "Run a quick dictionary scan against captured handshakes, update wpa_supplicant for the supplied interface, and go straight to jail."

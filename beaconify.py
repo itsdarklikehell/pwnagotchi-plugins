@@ -17,7 +17,7 @@ from pwnagotchi.grid import call, get_advertisement_data
 
 
 class Beaconify(plugins.Plugin):
-    __author__ = "Artur Oliveira"
+    __author__ = "SgtStroopwafel, Artur Oliveira"
     __version__ = "1.0.6"
     __license__ = "GPL3"
     __description__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
