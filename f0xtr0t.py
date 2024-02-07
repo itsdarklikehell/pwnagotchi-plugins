@@ -26,6 +26,7 @@ class GPSD:
         gpsd.connect(host=gpsdhost, port=gpsdport)
         self.running = True
         self.coords = {"Latitude": None, "Longitude": None, "Altitude": None}
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def update_gps(self):
         if self.running:
@@ -47,7 +48,10 @@ class f0xtr0t(plugins.Plugin):
     __description__ = "a plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps."
     __name__ = "f0xtr0t"
     __help__ = "A plugin for pwnagotchi that shows a openstreetmap with positions of ap-handshakes in your webbrowser. Based on the origional webgpsmaps."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -58,6 +62,8 @@ class f0xtr0t(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.gpsd = None
 
     def on_config_changed(self, config):
@@ -430,6 +436,10 @@ class f0xtr0t(plugins.Plugin):
             )
         return html_data
 
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
 
 class PositionFile:
     """
@@ -443,6 +453,7 @@ class PositionFile:
     def __init__(self, path):
         self._file = path
         self._filename = os.path.basename(path)
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         try:
             logging.debug(f"[f0xtr0t] loading {path}")
             with open(path, "r") as json_file:

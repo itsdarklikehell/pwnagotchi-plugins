@@ -22,7 +22,9 @@ class ext_wifi(plugins.Plugin):
     }
 
     def __init__(self):
-        self.ready = 0
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.status = ""
         self.network = ""
 
@@ -105,6 +107,10 @@ class ext_wifi(plugins.Plugin):
             ).stdout
             _log("Internal adapter activated")
 
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
 
 def _run(cmd):
     result = subprocess.run(
@@ -119,4 +125,4 @@ def _run(cmd):
 
 
 def _log(message):
-    logging.info("[ext_wifi] %s" % message)
+    logging.info(f"[{self.__class__.__name__}] %s" % message)

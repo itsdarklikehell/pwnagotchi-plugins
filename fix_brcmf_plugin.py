@@ -22,12 +22,18 @@ class Fix_BRCMF(plugins.Plugin):
     __description__ = "Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG."
     __name__ = "Fix_BRCMF"
     __help__ = "Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.options = dict()
         self.pattern = re.compile(
             r"brcmf_cfg80211_nexmon_set_channel.*?Set Channel failed"
@@ -40,7 +46,6 @@ class Fix_BRCMF(plugins.Plugin):
         self._count = 0
 
     def on_loaded(self):
-
         self.pattern = re.compile(
             r"brcmf_cfg80211_nexmon_set_channel.*?Set Channel failed"
         )
@@ -50,7 +55,10 @@ class Fix_BRCMF(plugins.Plugin):
     def on_ready(self, agent):
         try:
             cmd_output = subprocess.check_output("ip link show wlan0mon", shell=True)
-            logging.info("[FixBRCMF ip link show wlan0mon]: %s" % repr(cmd_output))
+            logging.info(
+                f"[{self.__class__.__name__}] ip link show wlan0mon]: %s"
+                % repr(cmd_output)
+            )
             if ",UP," in str(cmd_output):
                 logging.info("wlan0mon is up.")
                 self._status = "up"
@@ -70,35 +78,48 @@ class Fix_BRCMF(plugins.Plugin):
                     display.set("status", "Blind-Bug detected. Restarting.")
                     display.update(force=True)
                 logging.info(
-                    "[FixBRCMF] Blind-Bug detected. Restarting.\n%s" % repr(last_lines)
+                    f"[{self.__class__.__name__}] Blind-Bug detected. Restarting.\n%s"
+                    % repr(last_lines)
                 )
                 try:
                     self._tryTurningItOffAndOnAgain(agent)
                 except Exception as err:
-                    logging.warning("[FixBRCMF turnOffAndfOn] %s" % repr(err))
+                    logging.warn(
+                        f"[{self.__class__.__name__}] turnOffAndfOn] %s" % repr(err)
+                    )
             else:
-                logging.info("[FixBRCMF] Logs look good, too:\n%s" % (last_lines))
+                logging.info(
+                    f"[{self.__class__.__name__}] Logs look good, too:\n%s"
+                    % (last_lines)
+                )
                 self._status = ""
 
         except Exception as err:
-            logging.error("[FixBRCMF ip link show wlan0mon]: %s" % repr(err))
+            logging.error(
+                f"[{self.__class__.__name__}] ip link show wlan0mon]: %s" % repr(err)
+            )
             try:
                 self._status = "xx"
                 self._tryTurningItOffAndOnAgain(agent)
             except Exception as err:
-                logging.error("[FixBRCMF OffNOn]: %s" % repr(err))
+                logging.error(f"[{self.__class__.__name__}] OffNOn]: %s" % repr(err))
 
     # bettercap sys_log event
     # search syslog events for the brcmf channel fail, and reset when it shows up
     # apparently this only gets messages from bettercap going to syslog, not from syslog
     def on_bcap_sys_log(self, agent, event):
         if re.search("wifi error while hopping to channel", event["data"]["Message"]):
-            logging.info("[FixBRCMF]SYSLOG MATCH: %s" % event["data"]["Message"])
-            logging.info("[FixBRCMF]**** restarting wifi.recon")
+            logging.info(
+                f"[{self.__class__.__name__}] SYSLOG MATCH: %s"
+                % event["data"]["Message"]
+            )
+            logging.info(f"[{self.__class__.__name__}] **** restarting wifi.recon")
             try:
                 result = agent.run("wifi.recon off; wifi.recon on")
                 if result["success"]:
-                    logging.info("[FixBRCMF] wifi.recon flip: success!")
+                    logging.info(
+                        f"[{self.__class__.__name__}] wifi.recon flip: success!"
+                    )
                     if hasattr(agent, "view"):
                         display = agent.view()
                         if display:
@@ -112,15 +133,18 @@ class Fix_BRCMF(plugins.Plugin):
                     else:
                         print("Wifi recon flipped")
                 else:
-                    logging.warning(
-                        "[FixBRCMF] wifi.recon flip: FAILED: %s" % repr(result)
+                    logging.warn(
+                        f"[{self.__class__.__name__}] wifi.recon flip: FAILED: %s"
+                        % repr(result)
                     )
             except Exception as err:
-                logging.error("[FixBRCMF]SYSLOG wifi.recon flip fail: %s" % err)
+                logging.error(
+                    f"[{self.__class__.__name__}] SYSLOG wifi.recon flip fail: %s" % err
+                )
 
     def on_epoch(self, agent, epoch, epoch_data):
         # don't check if we ran a reset recently
-        logging.debug("[FixBRCMF]**** epoch")
+        logging.debug(f"[{self.__class__.__name__}] **** epoch")
         if time.time() - self.LASTTRY > 180:
             # get last 10 lines
             display = None
@@ -142,32 +166,38 @@ class Fix_BRCMF(plugins.Plugin):
                     )
                 )[-10:]
             )
-            logging.debug("[FixBRCMF]**** checking")
+            logging.debug(f"[{self.__class__.__name__}] **** checking")
             if len(self.pattern.findall(last_lines)) >= 3:
                 logging.info(
-                    "[FixBRCMF]**** Should trigger a reload of the wlan0mon device:\n%s"
+                    f"[{self.__class__.__name__}] **** Should trigger a reload of the wlan0mon device:\n%s"
                     % last_lines
                 )
                 if hasattr(agent, "view"):
                     display = agent.view()
                     display.set("status", "Blind-Bug detected. Restarting.")
                     display.update(force=True)
-                logging.info("[FixBRCMF] Blind-Bug detected. Restarting.")
+                logging.info(
+                    f"[{self.__class__.__name__}] Blind-Bug detected. Restarting."
+                )
                 try:
                     self._tryTurningItOffAndOnAgain(agent)
                 except Exception as err:
-                    logging.warn("[FixBRCMF] TTOAOA: %s" % repr(err))
+                    logging.warn(f"[{self.__class__.__name__}] TTOAOA: %s" % repr(err))
             elif len(self.pattern2.findall(other_last_lines)) >= 5:
                 if hasattr(agent, "view"):
                     display = agent.view()
                     display.set("status", "Wifi channel stuck. Restarting recon.")
                     display.update(force=True)
-                logging.info("[FixBRCMF] Wifi channel stuck. Restarting recon.")
+                logging.info(
+                    f"[{self.__class__.__name__}] Wifi channel stuck. Restarting recon."
+                )
 
                 try:
                     result = agent.run("wifi.recon off; wifi.recon on")
                     if result["success"]:
-                        logging.info("[FixBRCMF] wifi.recon flip: success!")
+                        logging.info(
+                            f"[{self.__class__.__name__}] wifi.recon flip: success!"
+                        )
                         if display:
                             display.update(
                                 force=True,
@@ -180,12 +210,15 @@ class Fix_BRCMF(plugins.Plugin):
                         else:
                             print("Wifi recon flipped\nthat was easy!")
                     else:
-                        logging.warning(
-                            "[FixBRCMF] wifi.recon flip: FAILED: %s" % repr(result)
+                        logging.warn(
+                            f"[{self.__class__.__name__}] wifi.recon flip: FAILED: %s"
+                            % repr(result)
                         )
 
                 except Exception as err:
-                    logging.error("[FixBRCMF wifi.recon flip] %s" % repr(err))
+                    logging.error(
+                        f"[{self.__class__.__name__}] wifi.recon flip] %s" % repr(err)
+                    )
 
             else:
                 print("logs look good")
@@ -195,7 +228,7 @@ class Fix_BRCMF(plugins.Plugin):
             if level is "error":
                 logging.error(message)
             elif level is "warning":
-                logging.warning(message)
+                logging.warn(message)
             elif level is "debug":
                 logging.debug(message)
             else:
@@ -214,7 +247,7 @@ class Fix_BRCMF(plugins.Plugin):
         # avoid overlapping restarts, but allow it if its been a while
         # (in case the last attempt failed before resetting "isReloadingwlan0mon")
         if self.isReloadingwlan0mon and (time.time() - self.LASTTRY) < 180:
-            logging.info("[FixBRCMF] Duplicate attempt ignored")
+            logging.info(f"[{self.__class__.__name__}] Duplicate attempt ignored")
         else:
             self.isReloadingwlan0mon = True
             self.LASTTRY = time.time()
@@ -248,7 +281,10 @@ class Fix_BRCMF(plugins.Plugin):
                 cmd_output = subprocess.check_output(
                     "ip link show wlan0mon", shell=True
                 )
-                logging.info("[FixBRCMF ip link show wlan0mon]: %s" % repr(cmd_output))
+                logging.info(
+                    f"[{self.__class__.__name__}] ip link show wlan0mon]: %s"
+                    % repr(cmd_output)
+                )
                 if ",UP," in str(cmd_output):
                     logging.info("wlan0mon is up. Skip reset?")
                     # not reliable, so don't skip just yet
@@ -256,14 +292,18 @@ class Fix_BRCMF(plugins.Plugin):
                     # self.isReloadingwlan0mon = False
                     # return
             except Exception as err:
-                logging.error("[FixBRCMF ip link show wlan0mon]: %s" % repr(err))
+                logging.error(
+                    f"[{self.__class__.__name__}] ip link show wlan0mon]: %s"
+                    % repr(err)
+                )
 
             try:
                 result = connection.run("wifi.recon off")
                 if "success" in result:
                     self.logPrintView(
                         "info",
-                        "[FixBRCMF] wifi.recon off: %s!" % repr(result),
+                        f"[{self.__class__.__name__}] wifi.recon off: %s!"
+                        % repr(result),
                         display,
                         {"status": "Wifi recon paused!", "face": faces.COOL},
                     )
@@ -271,7 +311,8 @@ class Fix_BRCMF(plugins.Plugin):
                 else:
                     self.logPrintView(
                         "warning",
-                        "[FixBRCMF] wifi.recon off: FAILED: %s" % repr(result),
+                        f"[{self.__class__.__name__}] wifi.recon off: FAILED: %s"
+                        % repr(result),
                         display,
                         {
                             "status": "Recon was busted (probably)",
@@ -279,9 +320,14 @@ class Fix_BRCMF(plugins.Plugin):
                         },
                     )
             except Exception as err:
-                logging.error("[FixBRCMF wifi.recon off] error  %s" % (repr(err)))
+                logging.error(
+                    f"[{self.__class__.__name__}] wifi.recon off] error  %s"
+                    % (repr(err))
+                )
 
-            logging.info("[FixBRCMF] recon paused. Now trying wlan0mon reload")
+            logging.info(
+                f"[{self.__class__.__name__}] recon paused. Now trying wlan0mon reload"
+            )
 
             try:
                 cmd_output = subprocess.check_output(
@@ -291,15 +337,16 @@ class Fix_BRCMF(plugins.Plugin):
                 self._status = "dn"
                 self.logPrintView(
                     "info",
-                    "[FixBRCMF] wlan0mon down and deleted: %s" % cmd_output,
+                    f"[{self.__class__.__name__}] wlan0mon down and deleted: %s"
+                    % cmd_output,
                     display,
                     {"status": "wlan0mon d-d-d-down!", "face": faces.BORED},
                 )
             except Exception as nope:
-                logging.error("[FixBRCMF delete wlan0mon] %s" % nope)
+                logging.error(f"[{self.__class__.__name__}] delete wlan0mon] %s" % nope)
                 pass
 
-            logging.debug("[FixBRCMF] Now trying modprobe -r")
+            logging.debug(f"[{self.__class__.__name__}] Now trying modprobe -r")
 
             # Try this sequence 3 times until it is reloaded
             #
@@ -314,7 +361,7 @@ class Fix_BRCMF(plugins.Plugin):
                     )
                     self.logPrintView(
                         "info",
-                        "[FixBRCMF] unloaded brcmfmac",
+                        f"[{self.__class__.__name__}] unloaded brcmfmac",
                         display,
                         {"status": "Turning it off #%d" % tries, "face": faces.SMART},
                     )
@@ -328,7 +375,9 @@ class Fix_BRCMF(plugins.Plugin):
                             "sudo modprobe brcmfmac", shell=True
                         )
 
-                        self.logPrintView("info", "[FixBRCMF] reloaded brcmfmac")
+                        self.logPrintView(
+                            "info", f"[{self.__class__.__name__}] reloaded brcmfmac"
+                        )
                         self._status = "rl"
                         time.sleep(
                             10 + 4 * tries
@@ -342,7 +391,7 @@ class Fix_BRCMF(plugins.Plugin):
                             )
                             self.logPrintView(
                                 "info",
-                                "[FixBRCMF interface add wlan0mon] worked #%d: %s"
+                                f"[{self.__class__.__name__}] interface add wlan0mon] worked #%d: %s"
                                 % (tries, cmd_output),
                             )
                             self._status = "up"
@@ -352,7 +401,7 @@ class Fix_BRCMF(plugins.Plugin):
                                 result = connection.run("set wifi.interface wlan0mon")
                                 if "success" in result:
                                     logging.info(
-                                        "[FixBRCMF set wifi.interface wlan0mon] worked: %s"
+                                        f"[{self.__class__.__name__}] set wifi.interface wlan0mon] worked: %s"
                                         % repr(result)
                                     )
                                     self._status = ""
@@ -362,12 +411,12 @@ class Fix_BRCMF(plugins.Plugin):
                                     break
                                 else:
                                     logging.info(
-                                        "[FixBRCMF set wifi.interfaceface wlan0mon] failed? %s"
+                                        f"[{self.__class__.__name__}] set wifi.interfaceface wlan0mon] failed? %s"
                                         % repr(result)
                                     )
                             except Exception as err:
                                 logging.info(
-                                    "[FixBRCMF set wifi.interface wlan0mon] except: %s"
+                                    f"[{self.__class__.__name__}] set wifi.interface wlan0mon] except: %s"
                                     % (repr(result), repr(err))
                                 )
                         except Exception as cerr:  #
@@ -380,19 +429,28 @@ class Fix_BRCMF(plugins.Plugin):
                         if not display:
                             print("Failed reloading brcmfmac")
                         logging.error(
-                            "[FixBRCMF] Failed reloading brcmfmac %s" % repr(err)
+                            f"[{self.__class__.__name__}] Failed reloading brcmfmac %s"
+                            % repr(err)
                         )
 
                 except Exception as nope:  # from modprobe -r
                     # fails if already unloaded, so probably fine
-                    logging.error("[FixBRCMF #%d modprobe -r] %s" % (tries, repr(nope)))
+                    logging.error(
+                        f"[{self.__class__.__name__}] #%d modprobe -r] %s"
+                        % (tries, repr(nope))
+                    )
                     if not display:
-                        print("[FixBRCMF #%d modprobe -r] %s" % (tries, repr(nope)))
+                        print(
+                            f"[{self.__class__.__name__}] #%d modprobe -r] %s"
+                            % (tries, repr(nope))
+                        )
                     pass
 
                 tries = tries + 1
                 if tries < 3:
-                    logging.info("[FixBRCMF] wlan0mon didn't make it. trying again")
+                    logging.info(
+                        f"[{self.__class__.__name__}] wlan0mon didn't make it. trying again"
+                    )
                     if not display:
                         print(" wlan0mon didn't make it. trying again")
 
@@ -409,7 +467,7 @@ class Fix_BRCMF(plugins.Plugin):
                     )
                 else:
                     print("And back on again...")
-                logging.info("[FixBRCMF] wlan0mon back up")
+                logging.info(f"[{self.__class__.__name__}] wlan0mon back up")
             else:
                 self.LASTTRY = time.time()
 
@@ -418,7 +476,7 @@ class Fix_BRCMF(plugins.Plugin):
             )  # give it a bit before restarting recon in bettercap
             self.isReloadingwlan0mon = False
 
-            logging.info("[FixBRCMF] re-enable recon")
+            logging.info(f"[{self.__class__.__name__}] re-enable recon")
             try:
                 result = connection.run("wifi.clear; wifi.recon on")
 
@@ -436,17 +494,22 @@ class Fix_BRCMF(plugins.Plugin):
                         )
                     else:
                         print("I can see again")
-                    logging.info("[FixBRCMF] wifi.recon on %s" % repr(result))
+                    logging.info(
+                        f"[{self.__class__.__name__}] wifi.recon on %s" % repr(result)
+                    )
                     self.LASTTRY = time.time() + 120  # 2 minute pause until next time.
                 else:
                     logging.error(
-                        "[FixBRCMF] wifi.recon did not start up: %s" % repr(result)
+                        f"[{self.__class__.__name__}] wifi.recon did not start up: %s"
+                        % repr(result)
                     )
                     self.LASTTRY = time.time() - 300  # failed, so try again ASAP
                     self.isReloadingwlan0mon = False
 
             except Exception as err:
-                logging.error("[FixBRCMF wifi.recon on] %s" % repr(err))
+                logging.error(
+                    f"[{self.__class__.__name__}] wifi.recon on] %s" % repr(err)
+                )
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
@@ -475,9 +538,9 @@ class Fix_BRCMF(plugins.Plugin):
     def on_unload(self, ui):
         try:
             ui.remove_element("brcmfmac_status")
-            logging.info("[FixBRCMF] unloaded")
+            logging.info(f"[{self.__class__.__name__}] unloaded")
         except Exception as err:
-            logging.info("[FixBRCMF] unload err %s " % repr(err))
+            logging.info(f"[{self.__class__.__name__}] unload err %s " % repr(err))
         pass
 
 

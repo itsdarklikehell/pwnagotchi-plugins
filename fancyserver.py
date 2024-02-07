@@ -13,14 +13,25 @@ class fancyserver(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "A server to receive extra commands to control your Pwnagotchi"
+    __name__ = "fancyserver"
+    __help__ = "A server to receive extra commands to control your Pwnagotchi"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.running = True
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         while self.running:
             try:
-                logging.info("Fancyserver Plugin loaded.")
                 logging.info(f"[{self.__class__.__name__}] plugin loaded")
                 address = ("localhost", 3699)
                 listener = Listener(address)

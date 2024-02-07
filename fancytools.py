@@ -171,7 +171,9 @@ def install(config):
         tooltype = "custom"
     name = config["info"]["name"]
 
-    logging.info("[FANCYTOOLS] starting " + config["info"]["name"] + " install")
+    logging.info(
+        f"[{self.__class__.__name__}] starting " + config["info"]["name"] + " install"
+    )
     if not config["files"].get("pwnagotchi") and not config["files"].get("system"):
         logging.debug("No install files")
     else:
@@ -222,7 +224,9 @@ def uninstall(config):
         logging.debug("load config: %s/%s" % (ROOT_PATH, "ui/theme/config.toml"))
         config = load_config("%s/%s" % (ROOT_PATH, "ui/themes/config.toml"))
 
-    logging.info("[FANCYTOOLS] starting " + config["info"]["name"] + " install")
+    logging.info(
+        f"[{self.__class__.__name__}] starting " + config["info"]["name"] + " install"
+    )
 
     logging.info("uninstall function start")
     if not config["commands"].get("uninstall"):
@@ -498,13 +502,15 @@ def verify_fancygotchi_status(config):
     fancy_status = 0
 
     if len(missing_files) == total_files:
-        logging.info("[FANCYTOOLS] Fancygotchi is not installed")
+        logging.info(f"[{self.__class__.__name__}] Fancygotchi is not installed")
         fancy_status = 0
     elif len(missing_files) == 0 and len(missing_backup) == total_files:
-        logging.info("[FANCYTOOLS] Fancygotchi is installed and is embedded")
+        logging.info(
+            f"[{self.__class__.__name__}] Fancygotchi is installed and is embedded"
+        )
         fancy_status = 1
     elif len(missing_files) == 0 and len(missing_backup) != total_files:
-        logging.info("[FANCYTOOLS] Fancygotchi is installed manually")
+        logging.info(f"[{self.__class__.__name__}] Fancygotchi is installed manually")
         fancy_status = 2
     # logging.debug(str(fancy_status))
     return fancy_status
@@ -569,9 +575,20 @@ class Fancytools(plugins.Plugin):
     __version__ = "2023.12.2"
     __license__ = "GPL3"
     __description__ = "Fancygotchi and additional debug/dev tools"
+    __name__ = "Fancytools"
+    __help__ = "Fancygotchi and additional debug/dev tools"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.mode = "MANU"
 
     def toggle_plugin(name, enable=True):
@@ -590,18 +607,19 @@ class Fancytools(plugins.Plugin):
     def on_config_changed(self, config):
         self.config = config
         self.ready = True
+        logging.info(f"[{self.__class__.__name__}] config changed")
 
     def on_ready(self, agent):
         self.mode = "MANU" if agent.mode == "manual" else "AUTO"
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
 
     def on_internet_available(self, agent):
         self.mode = "MANU" if agent.mode == "manual" else "AUTO"
 
     def on_loaded(self):
-        logging.info("")
-        logging.info("[FANCYTOOLS] Beginning Fancytools load")
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        logging.info("[FANCYTOOLS]" + "=" * 20)
+        logging.info(f"[{self.__class__.__name__}] Beginning Fancytools load")
+        logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
         # Fancytools cmd
         os.system("chmod +x %s/fancytools/sys/fancytools.py" % (FANCY_ROOT))
         os.system(
@@ -618,10 +636,10 @@ class Fancytools(plugins.Plugin):
 
         self.deftools = scan_folder(deftool_path)
         self.custools = scan_folder(custool_path)
-        logging.info("[FANCYTOOLS] Default tools")
-        logging.info("[FANCYTOOLS]" + "=" * 20)
+        logging.info(f"[{self.__class__.__name__}] Default tools")
+        logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
         for tool in self.deftools:
-            logging.info("[FANCYTOOLS] " + tool + " tool")
+            logging.info(f"[{self.__class__.__name__}] " + tool + " tool")
             self.deftools[tool]["info"]["is_embedded"] = False
             # logging.debug(f'{deftool_path}{tool}/frontend.html')
             file_path = os.path.join(
@@ -653,45 +671,45 @@ class Fancytools(plugins.Plugin):
 
             # adding the is_installed to the deftools[tool]['info']['installed']
             if is_installed == 0:
-                logging.info("[FANCYTOOLS] tool need install")
+                logging.info(f"[{self.__class__.__name__}] tool need install")
             else:
-                logging.info("[FANCYTOOLS] tool don't need install")
+                logging.info(f"[{self.__class__.__name__}] tool don't need install")
             self.deftools[tool]["info"]["is_installed"] = is_installed
             logging.debug(tool + " : " + str(self.deftools[tool]["services"]))
-            logging.info("[FANCYTOOLS]" + "=" * 20)
+            logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
 
-        logging.info("[FANCYTOOLS] Custom tools")
-        logging.info("[FANCYTOOLS]" + "=" * 20)
+        logging.info(f"[{self.__class__.__name__}] Custom tools")
+        logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
         for tool in self.custools:
             with open(
                 "%s/fancytools/tools/default/%s/frontend.html" % (FANCY_ROOT, tool), "r"
             ) as file:
                 html_contents = file.read()
             self.deftools[tool]["info"]["html"] = html_contents
-            logging.info("[FANCYTOOLS] " + tool + " tool")
+            logging.info(f"[{self.__class__.__name__}] " + tool + " tool")
             is_installed, is_embed = verify_tool_status(self.custools[tool])
             self.deftools[tool]["info"]["is_embedded"] = is_embed
             self.deftools[tool]["info"]["default"] = False
             logging.debug(is_installed)
             # adding the is_installed to the deftools[tool]['info']['installed']
             if is_installed == 0:
-                logging.info("[FANCYTOOLS] tool need install")
+                logging.info(f"[{self.__class__.__name__}] tool need install")
             else:
-                logging.info("[FANCYTOOLS] tool don't need install")
+                logging.info(f"[{self.__class__.__name__}] tool don't need install")
             self.deftools[tool]["info"]["is_installed"] = is_installed
             logging.debug(
                 tool + " : " + str(self.custools[tool]["info"]["is_installed"])
             )
-            logging.info("[FANCYTOOLS]" + "=" * 20)
+            logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
 
             # linking the local path deftools[tool]['info']['local_path']
 
-        logging.info("[FANCYTOOLS] Ending Fancytools load")
+        logging.info(f"[{self.__class__.__name__}] Ending Fancytools load")
 
     def on_unload(self, ui):
         os.system("rm /usr/local/bin/fancytools")
         # logging.debug('rm /usr/local/bin/fancytools')
-        logging.info("[FANCYTOOLS] Fancytools unloaded")
+        logging.info(f"[{self.__class__.__name__}] Fancytools unloaded")
 
     def on_webhook(self, path, request):
         # logging.info(request.remote_addr)

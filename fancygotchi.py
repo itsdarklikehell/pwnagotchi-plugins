@@ -300,21 +300,28 @@ class Fancygotchi(plugins.Plugin):
     __description__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
     __name__ = "Fancygotchi"
     __help__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.mode = "MANU"
 
     def on_config_changed(self, config):
         self.config = config
         self.ready = True
+        logging.info(f"[{self.__class__.__name__}] config changed")
 
     def on_ready(self, agent):
         self.mode = "MANU" if agent.mode == "manual" else "AUTO"
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
 
     def on_internet_available(self, agent):
         self.mode = "MANU" if agent.mode == "manual" else "AUTO"
@@ -556,3 +563,7 @@ class Fancygotchi(plugins.Plugin):
                     logging.error(ex)
                     return "update error", 500
         abort(404)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
