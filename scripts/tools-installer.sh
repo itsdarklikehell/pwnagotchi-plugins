@@ -133,10 +133,11 @@ create_backup() {
 
     echo "Shrinking Backup..."
     echo "Cecking md5 sum..."
-    if md5sum -c md5sum.txt; then
+    if md5sum -c Paimon.img.md5; then
         sudo pishrink.sh -Za Paimon.img
-        md5sum Paimon.img >md5sum.txt
+        md5sum Paimon.img >Paimon.img.md5
         echo "Backup done!"
+        sudo chown $USER Paimon.img
     else
         echo "MD5 sum does not match!"
         exit
@@ -148,7 +149,7 @@ restore_backup() {
     lsblk
 
     echo "Cecking md5 sum..."
-    if md5sum -c md5sum.txt; then
+    if md5sum -c Paimon.img.md5; then
         sudo dd if=Paimon.img of=/dev/sdc bs=4M conv=fsync status=progress
         sync
         echo "Restore done!"
