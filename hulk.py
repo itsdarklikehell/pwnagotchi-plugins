@@ -12,22 +12,32 @@ class Hulk(plugins.Plugin):
     __description__ = "This will put pwnagotchi in hulk mode. Hulk is always angry!"
     __name__ = "Hulk"
     __help__ = "This will put pwnagotchi in hulk mode. Hulk is always angry!"
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.options = dict()
         self.running = False
 
     def on_loaded(self):
-        logging.info("[hulk] PLUGIN IS LOADED! WHAAAAAAAAAAAAAAAAAA")
+        logging.info(
+            f"[{self.__class__.__name__}]  PLUGIN IS LOADED! WHAAAAAAAAAAAAAAAAAA"
+        )
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.running = True
 
     def on_unload(self, ui):
-        self.running = False
+        with ui._lock:
+            self.running = False
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ready(self, agent):
         display = agent.view()

@@ -15,9 +15,18 @@ class CombinedPlugin(Plugin):
     __version__ = "1.0.27"
     __license__ = "GPL3"
     __description__ = "A combined Pwnagotchi plugin for setting up a honey pot and performing network authentication."
+    __name__ = "CombinedPlugin"
+    __help__ = "A combined Pwnagotchi plugin for setting up a honey pot and performing network authentication."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self, home_network="test-net", home_password="TestNet1"):
-        logging.debug("Combined plugin created")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.ui = None
         self.honey_pot_aps = set()
         self.detected_fake_aps = 0
@@ -41,7 +50,7 @@ class CombinedPlugin(Plugin):
             threading.Timer(self.update_interval, self.render_network_status).start()
         else:
             logging.warning(
-                "The interface wlan0mon is not present. All functions stopped."
+                f"[{self.__class__.__name__}] The interface wlan0mon is not present. All functions stopped."
             )
 
     def on_loaded(self):
@@ -54,7 +63,12 @@ class CombinedPlugin(Plugin):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_unload(self, ui):
-        pass
+        ui.remove_element("status")
+        ui.remove_element("honey-pots")
+        ui.remove_element("detected-fake-aps")
+        ui.remove_element("active-fake-aps")
+        ui.remove_element("network-status")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_setup(self, ui):
         # Common UI elements for both plugins
@@ -104,7 +118,6 @@ class CombinedPlugin(Plugin):
                 text_font=fonts.Medium,
             ),
         )
-
         # UI elements specific to educational purposes only plugin
         ui.add_element(
             "network-status",

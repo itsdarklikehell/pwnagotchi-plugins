@@ -14,8 +14,20 @@ class HomeBase(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Connects to home network for internet when available"
+    __name__ = "HomeBase"
+    __help__ = "Connects to home network for internet when available"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.ready = 0
         self.status = ""
         self.network = ""
@@ -91,6 +103,10 @@ class HomeBase(plugins.Plugin):
             "iwconfig wlan0mon"
         ):
             _restart_monitor_mode(self, agent)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
 
 def _run(cmd):
@@ -302,4 +318,4 @@ def _restart_monitor_mode(self, agent):
 
 
 def _log(message):
-    logging.info("[home_base] %s" % message)
+    logging.info(f"[{self.__class__.__name__}] %s" % message)
