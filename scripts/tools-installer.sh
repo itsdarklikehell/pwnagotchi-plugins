@@ -138,6 +138,7 @@ create_backup() {
         md5sum Paimon.img >Paimon.img.md5
         echo "Backup done!"
         sudo chown $USER Paimon.img
+        sudo chown $USER Paimon.img.xz
     else
         echo "MD5 sum does not match!"
         exit
