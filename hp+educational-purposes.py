@@ -63,12 +63,15 @@ class CombinedPlugin(Plugin):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_unload(self, ui):
-        ui.remove_element("status")
-        ui.remove_element("honey-pots")
-        ui.remove_element("detected-fake-aps")
-        ui.remove_element("active-fake-aps")
-        ui.remove_element("network-status")
-        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+        try:
+            ui.remove_element("status")
+            ui.remove_element("honey-pots")
+            ui.remove_element("detected-fake-aps")
+            ui.remove_element("active-fake-aps")
+            ui.remove_element("network-status")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+        except Exception as e:
+            logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_setup(self, ui):
         # Common UI elements for both plugins
