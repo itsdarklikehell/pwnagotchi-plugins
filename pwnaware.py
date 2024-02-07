@@ -3,20 +3,15 @@ import json
 import time
 import logging
 import math, numpy as np
-
 import pwnagotchi.plugins as plugins
 from pwnagotchi.ui.components import Text, LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
-
 from flask import abort
 from flask import render_template_string
-
 from geopy import distance
 from math import pi
-
 from operator import itemgetter, attrgetter
-
 from PIL import ImageFont
 
 # should not be changed
@@ -27,6 +22,15 @@ class PWNAware(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "display information from dump1090 about nearby airplanes"
+    __name__ = "PWNAware"
+    __help__ = "display information from dump1090 about nearby airplanes"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy", "geopy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def get_bearing(self, lat1, lon1, lat2, lon2):
 
@@ -94,7 +98,9 @@ class PWNAware(plugins.Plugin):
                     p["alt_baro"] if not "alt_geom" in p else p["alt_geom"]
                 )
                 flight = p["flight"].strip()
-                logging.debug("pwnaware: %s %s" % (i, len(self.ap_text)))
+                logging.debug(
+                    f"[{self.__class__.__name__}] %s %s" % (i, len(self.ap_text))
+                )
                 if flight in self.watch_planes:
                     watch = self.watch_planes[flight]
                 elif ("*" + p["hex"]) in self.watch_planes:
@@ -108,17 +114,22 @@ class PWNAware(plugins.Plugin):
                     alt,
                     watch,
                 )
-                logging.debug("pwnaware: %s %s" % (i, len(self.ap_text)))
+                logging.debug(
+                    f"[{self.__class__.__name__}] %s %s" % (i, len(self.ap_text))
+                )
                 nb += self.ap_text[i]
 
             self.scoreboard = nb
         except Exception as e:
-            logging.error("pwnaware update scoreboard: %s" % repr(err))
+            logging.error(
+                f"[{self.__class__.__name__}] update scoreboard: %s" % repr(err)
+            )
 
         self._updated = True
 
     def __init__(self):
-        logging.debug("pwn the friendly skies!")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.info(f"[{self.__class__.__name__}] pwn the friendly skies!")
 
         self._updated = False
         self.airplanes = []
@@ -153,9 +164,9 @@ class PWNAware(plugins.Plugin):
                 if True or path == "/" or not path:
                     ret = '<html><head><title>Pwnaware</title><meta name="csrf_token" content="{{ csrf_token() }}"></head>'
                     ret += "<body><h1>Pwnaware</h1>"
-                    logging.info("[PWNAware] webook called2")
+                    logging.info(f"[{self.__class__.__name__}] webook called2")
                     ret += '<img src="/ui?%s">' % int(time.time())
-                    logging.info("[PWNAware] webook called")
+                    logging.info(f"[{self.__class__.__name__}] webook called")
                     ret += '<form method=post action="pwnaware/update">'
                     ret += '<input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">'
                     ret += "<table><tr><th>hex id</th><th>Flight</th><th>Dist</th><th>Dir</th><th>Alt</th><th>Notes</th><th>Enter new note</th></tr>\n"
@@ -191,7 +202,7 @@ class PWNAware(plugins.Plugin):
                     return render_template_string(ret)
             # else if POST, update new settings in a json file and apply them at runtime
             elif request.method == "POST":
-                logging.info("POST: %s" % path)
+                logging.info(f"[{self.__class__.__name__}] POST: %s" % path)
                 ret = '<html><head><title>PWNAware. Update!</title><meta name="csrf_token" content="{{ csrf_token() }}"></head><body>'
                 if path == "update":
                     ret += "<h1>PWNAware Update</h1>"
@@ -220,14 +231,14 @@ class PWNAware(plugins.Plugin):
         except Exception as e:
             ret = "<html><head><title>Pwnaware Error</title></head>"
             ret += "<body><h1>%s</h1></body></html>" % repr(e)
-            logging.error("pwnaware: %s" % repr(r))
+            logging.error(f"[{self.__class__.__name__}] %s" % repr(r))
             return render_template_string(ret)
         pass
 
     # called when the plugin is loaded
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        logging.warn("PWNAware options = " % self.options)
+        logging.warn(f"[{self.__class__.__name__}] options = " % self.options)
         if not "numPlanes" in self.options:
             self.options["numPlanes"] = 4
 
@@ -236,11 +247,11 @@ class PWNAware(plugins.Plugin):
         try:
             for i in range(self.options["numPlanes"]):
                 ui.remove_element("airplane%i" % i)
-                logging.info("Removed airplane%i" % i)
+                logging.info(f"[{self.__class__.__name__}] Removed airplane%i" % i)
             ui.remove_element("airplane_header")
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as err:
-            logging.info("[PWNAware] unload err %s " % repr(err))
+            logging.info(f"[{self.__class__.__name__}] unload err %s " % repr(err))
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
@@ -279,7 +290,7 @@ class PWNAware(plugins.Plugin):
                 ),
             )
         except Exception as e:
-            logging.error("PWNAware UI setup: %s" % repr(e))
+            logging.error(f"[{self.__class__.__name__}] UI setup: %s" % repr(e))
 
     # called when the ui is updated
     def on_ui_update(self, ui):
@@ -295,7 +306,7 @@ class PWNAware(plugins.Plugin):
                     )
             except Exception as e:
                 logging.warn(
-                    "[PWNAware] ui_update: i %s airplanes %s ap_text %s err %s"
+                    f"[{self.__class__.__name__}] ui_update: i %s airplanes %s ap_text %s err %s"
                     % (i, len(self.airplanes), len(self.ap_text), repr(e))
                 )
 
@@ -310,7 +321,7 @@ class PWNAware(plugins.Plugin):
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
-        logging.info("unit is ready")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
 
         if os.path.isfile("/etc/pwnagotchi/airplane.notes"):
             with open("/etc/pwnagotchi/airplane.notes", "r") as f:
@@ -342,7 +353,10 @@ class PWNAware(plugins.Plugin):
                 self.coordinates = coords
 
         except Exception as err:
-            logging.warn("[pwnaware] gps.new err: %s, %s" % (repr(event), repr(err)))
+            logging.warn(
+                f"[{self.__class__.__name__}] gps.new err: %s, %s"
+                % (repr(event), repr(err))
+            )
 
 
 if __name__ == "__main__":

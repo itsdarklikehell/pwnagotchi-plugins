@@ -61,11 +61,22 @@ class PwnZero(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "Plugin to display the Pwnagotchi on the Flipper Zero"
-
+    __name__ = "PwnZero"
+    __help__ = "Plugin to display the Pwnagotchi on the Flipper Zero"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
     PROTOCOL_START = 0x02
     PROTOCOL_END = 0x03
 
     def __init__(self, port: str = "/dev/serial0", baud: int = 115200):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self._port = port
         self._baud = baud
 
@@ -73,6 +84,9 @@ class PwnZero(plugins.Plugin):
             self._serialConn = serial.Serial(port, baud)
         except:
             raise "Cannot bind to port ({}) with baud ({})".format(port, baud)
+
+    def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def close(self):
         self._serialConn.close()
@@ -259,3 +273,15 @@ class PwnZero(plugins.Plugin):
 
         shakesCurr = handshakes.split(" ")[0]
         shakesTotal = handshakes.split(" ")[1].replace(")", "").replace("(", "")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

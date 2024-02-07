@@ -15,7 +15,7 @@ config = {
     "username": "pi",  # Set your SSH username
     "password": "raspberry",  # Set your SSH password
     "handshake_dir": "/home/pi/handshakes/",  # Set your handshake directory on the Pwnagotchi
-    "local_dir": "./pcap/",
+    "local_dir": "/home/pi/handshakes/",
 }
 
 

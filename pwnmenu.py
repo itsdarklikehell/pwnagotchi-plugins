@@ -30,6 +30,15 @@ class PwnMenu(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "A simple popup menu to run scripts from"
+    __name__ = "PwnMenu"
+    __help__ = "A simple popup menu to run scripts from"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.menuvisible = False
@@ -64,6 +73,7 @@ class PwnMenu(plugins.Plugin):
         self.uparrowvisible = False  # Use these because remove_element() locks up.
         self.showdownarrow = False
         self.downarrowvisible = False  # Use these because remove_elements() locks up.
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def forcedisplayupdate(self):
         self.timeouthandler = False
@@ -97,7 +107,9 @@ class PwnMenu(plugins.Plugin):
                     self.timeouthandler.start()
 
             if runcommand:
-                logging.info("Pwnmenu running command: %s" % runcommand)
+                logging.info(
+                    f"[{self.__class__.__name__}] running command: %s" % runcommand
+                )
                 os.system(runcommand)
 
             conn = listener.accept()
@@ -383,7 +395,7 @@ class PwnMenu(plugins.Plugin):
         self.updatelabels = True
 
     def on_unload(self, ui):
-        logging.info("Pwnmenu plugin unloaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         if self.menuiconvisible:
             self.menuiconvisible = False
             ui.remove_element("menuicon")
@@ -450,3 +462,11 @@ class PwnMenu(plugins.Plugin):
                     ui.set("menuitem3", menuitem_text3)
                     ui.set("menuitem4", menuitem_text4)
                     ui.set("menuitem5", menuitem_text5)
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
