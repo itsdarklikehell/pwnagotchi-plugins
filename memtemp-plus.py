@@ -37,6 +37,11 @@ class MemTempPlus(plugins.Plugin):
     LABEL_SPACING = 0
     FIELD_WIDTH = 4
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
@@ -143,6 +148,7 @@ class MemTempPlus(plugins.Plugin):
             )
 
     def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         with ui._lock:
             if self.options["orientation"] == "vertical":
                 for idx, field in enumerate(self.fields):

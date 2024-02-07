@@ -15,6 +15,15 @@ class MemTempAdv(plugins.Plugin):
     __version__ = "1.2.0"
     __license__ = "MIT"
     __description__ = "A plugin that will display memory/cpu/disk usage and temperature"
+    __name__ = "MemTempAdv"
+    __help__ = "A plugin that will display memory/cpu/disk usage and temperature"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     ALLOWED_FIELDS = {
         "mem": "mem_usage",
@@ -23,13 +32,19 @@ class MemTempAdv(plugins.Plugin):
         "freq": "cpu_freq",
         "disk": "disk_usage",
     }
+
     DEFAULT_FIELDS = ["mem", "cpu", "temp", "disk"]
     LINE_SPACING = 10
     LABEL_SPACING = 0
     FIELD_WIDTH = 4
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def on_loaded(self):
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin laoded")
 
     def mem_usage(self):
         mem = psutil.virtual_memory()
@@ -157,7 +172,7 @@ class MemTempAdv(plugins.Plugin):
             )
 
     def on_unload(self, ui):
-        logging.info("memtemp_adv: plugin unloaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         with ui._lock:
             if self.options["orientation"] == "vertical":
                 for idx, field in enumerate(self.fields):
