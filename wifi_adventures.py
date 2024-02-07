@@ -43,10 +43,19 @@ class FunAchievements(plugins.Plugin):
     __description__ = (
         "Taking Pwnagotchi on WiFi adventures and collect fun achievements."
     )
-    __defaults__ = {"enabled": False}
+    __name__ = "FunAchievements"
+    __help__ = "Taking Pwnagotchi on WiFi adventures and collect fun achievements."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.fun_achievement_count = 0
         self.handshake_count = 0
         self.new_networks_count = 0
@@ -77,7 +86,7 @@ class FunAchievements(plugins.Plugin):
             return "Mysterious Quest:  "
 
     def load_from_json(self):
-        logging.info("[FunAchievements] Loading data from JSON...")
+        logging.info(f"[{self.__class__.__name__}] Loading data from JSON...")
         if os.path.exists(self.data_path):
             with open(self.data_path, "r") as file:
                 data = json.load(file)
@@ -95,7 +104,7 @@ class FunAchievements(plugins.Plugin):
                     else None
                 )
                 self.current_adventure = FunAchievements.choose_random_adventure()
-        logging.info(f"[FunAchievements] Loaded data from JSON: {data}")
+        logging.info(f"[{self.__class__.__name__}] Loaded data from JSON: {data}")
 
     @staticmethod
     def choose_random_adventure():
@@ -180,7 +189,7 @@ class FunAchievements(plugins.Plugin):
         # Actualizar el atributo 'title'
         if current_title is not None and current_title != self.title:
             self.title = current_title
-            logging.info(f"[FunAchievements] Updated title: {self.title}")
+            logging.info(f"[{self.__class__.__name__}] Updated title: {self.title}")
 
     def get_title_based_on_achievements(self):
         # Llamar a update_title para asegurarse de que el atributo 'title' esté actualizado
@@ -239,7 +248,7 @@ class FunAchievements(plugins.Plugin):
 
     def on_handshake(self, agent, filename, access_point, client_station):
         logging.info(
-            f"[FunAchievements] on_handshake - Current Adventure: {self.current_adventure}, Handshake Count: {self.handshake_count}"
+            f"[{self.__class__.__name__}] on_handshake - Current Adventure: {self.current_adventure}, Handshake Count: {self.handshake_count}"
         )
 
         difficulty_multiplier = {
@@ -290,7 +299,7 @@ class FunAchievements(plugins.Plugin):
     def process_captured_packet(self, packet_type):
         # Logic for processing a captured packet during the Packet Party
         logging.info(
-            f"[FunAchievements] Captured a {packet_type} during the Packet Party!"
+            f"[{self.__class__.__name__}] Captured a {packet_type} during the Packet Party!"
         )
 
         # Determine the effects or challenges based on the captured packet type
@@ -306,14 +315,18 @@ class FunAchievements(plugins.Plugin):
 
     def gain_experience(self, experience_points):
         # Logic for gaining experience points
-        logging.info(f"[FunAchievements] Gained {experience_points} experience points!")
+        logging.info(
+            f"[{self.__class__.__name__}] Gained {experience_points} experience points!"
+        )
 
         # Update Pwnagotchi's experience points attribute (assuming it exists)
         self.experience_points += experience_points
 
     def temporarily_boost_speed(self):
         # Logic for temporarily boosting Pwnagotchi's speed
-        logging.info("[FunAchievements] Pwnagotchi's speed is temporarily boosted!")
+        logging.info(
+            f"[{self.__class__.__name__}] Pwnagotchi's speed is temporarily boosted!"
+        )
 
         # Increase speed attribute for a short duration
         self.speed += 5  # adjust as needed
@@ -323,14 +336,16 @@ class FunAchievements(plugins.Plugin):
 
     def end_speed_boost(self):
         # Logic for ending the temporary speed boost
-        logging.info("[FunAchievements] Temporary speed boost has ended.")
+        logging.info(f"[{self.__class__.__name__}] Temporary speed boost has ended.")
 
         # Reset the boosted speed attribute to its original value
         self.speed -= 5  # adjust as needed
 
     def encounter_management_challenge(self):
         # Logic for encountering a challenge or puzzle related to management packets
-        logging.info("[FunAchievements] Encountered a management packet challenge!")
+        logging.info(
+            f"[{self.__class__.__name__}] Encountered a management packet challenge!"
+        )
 
         # Implement a challenge or puzzle scenario
         # For example, prompt the player to solve a puzzle or answer a question related to networking concepts.
@@ -338,19 +353,23 @@ class FunAchievements(plugins.Plugin):
 
         # Example:
         user_response = input(
-            "[FunAchievements] Solve the puzzle: What is the purpose of a management packet? "
+            f"[{self.__class__.__name__}] Solve the puzzle: What is the purpose of a management packet? "
         )
 
         if user_response.lower() == "network_management":
-            logging.info("[FunAchievements] Puzzle solved! Gain a reward.")
+            logging.info(f"[{self.__class__.__name__}] Puzzle solved! Gain a reward.")
             self.gain_reward()
         else:
-            logging.info("[FunAchievements] Incorrect answer. Face a consequence.")
+            logging.info(
+                f"[{self.__class__.__name__}] Incorrect answer. Face a consequence."
+            )
             self.face_consequence()
 
     def gain_reward(self):
         # Logic for gaining a reward after successfully solving a challenge
-        logging.info("[FunAchievements] Congratulations! You've earned a reward.")
+        logging.info(
+            f"[{self.__class__.__name__}] Congratulations! You've earned a reward."
+        )
 
         # Determine and apply the reward (e.g., gain virtual coins, unlock an achievement, etc.)
         self.virtual_coins += 20
@@ -359,7 +378,7 @@ class FunAchievements(plugins.Plugin):
     def face_consequence(self):
         # Logic for facing a consequence after an incorrect answer
         logging.info(
-            "[FunAchievements] Oh no! Incorrect answer comes with consequences."
+            f"[{self.__class__.__name__}] Oh no! Incorrect answer comes with consequences."
         )
 
         # Determine and apply the consequence (e.g., decrease virtual coins, face a setback, etc.)
@@ -397,7 +416,7 @@ class FunAchievements(plugins.Plugin):
 
     def trigger_special_pixel_event(self):
         # Logic for the special Pixel Parade event
-        logging.info("[FunAchievements] Special Pixel Parade event reached!")
+        logging.info(f"[{self.__class__.__name__}] Special Pixel Parade event reached!")
 
         # Determine the type of special event based on random chance
         special_event_type = random.choice(
@@ -407,17 +426,17 @@ class FunAchievements(plugins.Plugin):
         # Execute actions based on the type of special event
         if special_event_type == "Treasure Hunt":
             logging.info(
-                "[FunAchievements] You've triggered a Treasure Hunt! Search for hidden treasures."
+                f"[{self.__class__.__name__}] You've triggered a Treasure Hunt! Search for hidden treasures."
             )
             self.start_treasure_hunt()
         elif special_event_type == "Stat Boost":
             logging.info(
-                "[FunAchievements] Your Pwnagotchi receives a temporary stat boost!"
+                f"[{self.__class__.__name__}] Your Pwnagotchi receives a temporary stat boost!"
             )
             self.boost_pwnagotchi_stats()
         elif special_event_type == "New Ability":
             logging.info(
-                "[FunAchievements] Your Pwnagotchi gains a new special ability!"
+                f"[{self.__class__.__name__}] Your Pwnagotchi gains a new special ability!"
             )
             self.give_new_ability()
 
@@ -426,7 +445,7 @@ class FunAchievements(plugins.Plugin):
 
     def start_treasure_hunt(self):
         # Logic for starting a treasure hunt
-        logging.info("[FunAchievements] Welcome to the Treasure Hunt!")
+        logging.info(f"[{self.__class__.__name__}] Welcome to the Treasure Hunt!")
 
         # Generate a random number of hidden treasures (adjust as needed)
         num_hidden_treasures = random.randint(3, 8)
@@ -438,29 +457,33 @@ class FunAchievements(plugins.Plugin):
         while treasures_found < num_hidden_treasures:
             # Present clues or prompts to guide the player
             user_input = input(
-                "[FunAchievements] Clue: Enter 'hunt' to search for treasure or 'end' to end the hunt: "
+                f"[{self.__class__.__name__}] Clue: Enter 'hunt' to search for treasure or 'end' to end the hunt: "
             )
 
             if user_input.lower() == "hunt":
                 # Player chooses to search for treasure
                 if random.random() < 0.4:  # 40% chance of finding a treasure
-                    logging.info("[FunAchievements] You found a hidden treasure!")
+                    logging.info(
+                        f"[{self.__class__.__name__}] You found a hidden treasure!"
+                    )
                     treasures_found += 1
                 else:
-                    logging.info("[FunAchievements] No treasure found this time.")
+                    logging.info(
+                        f"[{self.__class__.__name__}] No treasure found this time."
+                    )
 
             elif user_input.lower() == "end":
                 # Player chooses to end the treasure hunt
                 break
 
         logging.info(
-            f"[FunAchievements] Treasure Hunt ended. You found {treasures_found} treasures!"
+            f"[{self.__class__.__name__}] Treasure Hunt ended. You found {treasures_found} treasures!"
         )
 
     def boost_pwnagotchi_stats(self):
         # Logic for boosting Pwnagotchi stats
         logging.info(
-            "[FunAchievements] Your Pwnagotchi receives a temporary stat boost!"
+            f"[{self.__class__.__name__}] Your Pwnagotchi receives a temporary stat boost!"
         )
 
         # Increase relevant attributes for a limited time (adjust values as needed)
@@ -477,7 +500,7 @@ class FunAchievements(plugins.Plugin):
 
     def end_stat_boost(self, boost_amount):
         # Logic for ending the temporary stat boost
-        logging.info("[FunAchievements] Temporary stat boost has ended.")
+        logging.info(f"[{self.__class__.__name__}] Temporary stat boost has ended.")
 
         # Reset boosted attributes to their original values
         self.speed -= boost_amount
@@ -486,7 +509,9 @@ class FunAchievements(plugins.Plugin):
 
     def give_new_ability(self):
         # Logic for giving the Pwnagotchi a new special ability
-        logging.info("[FunAchievements] Your Pwnagotchi gains a new special ability!")
+        logging.info(
+            f"[{self.__class__.__name__}] Your Pwnagotchi gains a new special ability!"
+        )
 
         # Define a list of possible abilities (customize as needed)
         abilities = [
@@ -505,7 +530,7 @@ class FunAchievements(plugins.Plugin):
         # Randomly assign a new ability to the Pwnagotchi
         new_ability = random.choice(abilities)
 
-        logging.info(f"[FunAchievements] New Ability: {new_ability}")
+        logging.info(f"[{self.__class__.__name__}] New Ability: {new_ability}")
 
         # Add the new ability to the Pwnagotchi's list of abilities (assuming you have such a list)
         self.abilities.append(new_ability)
@@ -527,14 +552,14 @@ class FunAchievements(plugins.Plugin):
 
     def trigger_special_data_dazzle_event(self):
         # Logic for the special Data Dazzle event
-        logging.info("[FunAchievements] Special Data Dazzle event reached!")
+        logging.info(f"[{self.__class__.__name__}] Special Data Dazzle event reached!")
 
         # Offer the player options for data to dazzle
         data_options = ["Email", "Password", "Credit Card Number", "Secret Message"]
 
         # Randomly choose a data type to dazzle
         chosen_data = random.choice(data_options)
-        logging.info(f"[FunAchievements] Dazzle: {chosen_data}")
+        logging.info(f"[{self.__class__.__name__}] Dazzle: {chosen_data}")
 
         # Depending on the chosen data type, grant different rewards or present challenges to the player
         if chosen_data == "Email":
@@ -550,7 +575,7 @@ class FunAchievements(plugins.Plugin):
         elif chosen_data == "Secret Message":
             # Example: Present a special message or challenge to the player
             logging.info(
-                "[FunAchievements] Decode the secret message for an additional reward!"
+                f"[{self.__class__.__name__}] Decode the secret message for an additional reward!"
             )
 
         # Reset the Data Dazzle count
@@ -626,7 +651,7 @@ class FunAchievements(plugins.Plugin):
 
         # Log the updated difficulty
         logging.info(
-            f"[FunAchievements] Difficulty increased for {self.current_adventure}. New daily quest target: {self.daily_quest_target}"
+            f"[{self.__class__.__name__}] Difficulty increased for {self.current_adventure}. New daily quest target: {self.daily_quest_target}"
         )
 
     def show_status_message(self, ui, message):
@@ -641,7 +666,7 @@ class FunAchievements(plugins.Plugin):
                     "statusMessage",
                     LabeledValue(
                         color=BLACK,
-                        label="Status:  ",
+                        label="Status:",
                         value=message,
                         position=(0, 110),
                         label_font=fonts.Small,
@@ -779,4 +804,21 @@ class FunAchievements(plugins.Plugin):
     def check_treasure_chest(self):
         if random.random() < 0.1:  # 10% chance to find a treasure chest
             self.treasure_chests_count += 1
-            logging.info("[FunAchievements] You found a treasure chest!")
+            logging.info(f"[{self.__class__.__name__}] You found a treasure chest!")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            try:
+                ui.remove_element("showFunAchievements")
+                ui.remove_element("statusMessage")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
