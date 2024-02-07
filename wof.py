@@ -404,12 +404,15 @@ INDEX = """
 
 class WofBridge:
     def __init__(self, json_file):
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.__json_file = json_file
         known_flippers = self.__load_data()
         self.__known_flippers = [flipper["UUID"] for flipper in known_flippers]
         self.__session_flippers = []  # New flipper met during the current session
         if len(self.__known_flippers) > 0:
-            logging.info(f"[wof] Already met {len(self.__known_flippers)} Flippers")
+            logging.info(
+                f"[{self.__class__.__name__}] Already met {len(self.__known_flippers)} Flippers"
+            )
 
     def get_update(self):
         update = {"online": [], "offline": [], "running": False}
@@ -450,11 +453,13 @@ class WofBridge:
                     return json.loads(file.read())
                 except Exception as e:
                     logging.critical(
-                        f"[wof] Error while loading and parsing json file: {e}"
+                        f"[{self.__class__.__name__}] Error while loading and parsing json file: {e}"
                     )
                     return []
         else:
-            logging.critical(f"[wof] File not found: {self.__json_file}")
+            logging.critical(
+                f"[{self.__class__.__name__}] File not found: {self.__json_file}"
+            )
             return []
 
 
@@ -463,9 +468,22 @@ class WofPlugin(plugins.Plugin):
     __version__ = "1.1"
     __license__ = "GPL3"
     __description__ = "Display found Flipper Zeros from Wall of Flippers"
+    __name__ = "WofPlugin"
+    __help__ = "Display found Flipper Zeros from Wall of Flippers"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     DEFAULT_POS = (5, 84)
     DEFAULT_WOF_FILE = "/root/Wall-of-Flippers/Flipper.json"
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         try:
@@ -474,14 +492,17 @@ class WofPlugin(plugins.Plugin):
             self.__wof_file = self.DEFAULT_WOF_FILE
         self.__wof_bridge = WofBridge(self.__wof_file)
 
-        logging.info("[wof] Plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         # logging.debug("Checking that wof is installed...") # TODO: check installation
         # logging.debug("Checking that wof is running...") # TODO: check running
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("wof")
-            logging.info("[wof] plugin unloaded")
+            try:
+                ui.remove_element("wof")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_setup(self, ui):
         try:

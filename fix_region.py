@@ -73,7 +73,10 @@ class fix_region(plugins.Plugin):
     __description__ = "Let you change the iw region to unlock channel."
     __name__ = "Fix_Region"
     __help__ = "Let you change the iw region to unlock channel."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -81,10 +84,10 @@ class fix_region(plugins.Plugin):
     def __init__(self):
         self.ready = False
         self.mode = "MANU"
-        logging.info("[FIX_REGION] Region: " + REGION)
+        logging.info(f"[{self.__class__.__name__}] Region: " + REGION)
 
     def on_loaded(self):
-        logging.info("[FIX_REGION] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
         if not os.path.exists(SH_PATH):
             file = open(SH_PATH, "w")
@@ -105,9 +108,13 @@ class fix_region(plugins.Plugin):
                 return "config error", 500
 
     def on_unload(self, ui):
-        logging.info("[FIX_REGION] plugin unloaded")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
         os.system("rm " + SERV_PATH)
         os.system("rm " + SH_PATH)
         os.system("sudo systemctl stop network-fix")
         os.system("sudo systemctl disable network-fix")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

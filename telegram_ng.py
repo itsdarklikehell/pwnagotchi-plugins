@@ -15,9 +15,7 @@ class Telegram(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'Periodically sent messages to Telegram about the recent activity of pwnagotchi.'
     __name__ = 'Telegram'
-    __help__ = "Periodically sent messages to Telegram about the recent activity of pwnagotchi."
-    )
-    __dependencies__ = {
+    __help__ = "Periodically sent messages to Telegram about the recent activity of pwnagotchi."    __dependencies__ = {
         'pip': ['python-telegram-bot'],
     }
     __defaults__ = {

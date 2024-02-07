@@ -13,9 +13,18 @@ class HoneyPotPlugin(Plugin):
     __version__ = "1.4.5"
     __license__ = "GPL3"
     __description__ = "A Pwnagotchi plugin for setting up a honey pot to detect other Pwnagotchis making deauths."
+    __name__ = "HoneyPotPlugin"
+    __help__ = "A Pwnagotchi plugin for setting up a honey pot to detect other Pwnagotchis making deauths."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
-        logging.debug("HoneyPot plugin created")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.ui = None
         self.honey_pot_aps = set()
         self.detected_fake_aps = 0
@@ -35,7 +44,14 @@ class HoneyPotPlugin(Plugin):
 
     def on_unload(self, ui):
         """Unload method."""
-        pass
+        with ui._lock:
+            try:
+                ui.remove_element("honey-pots")
+                ui.remove_element("detected-fake-aps")
+                ui.remove_element("active-fake-aps")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_setup(self, ui):
         """Add UI elements with specific positions."""
@@ -190,6 +206,10 @@ class HoneyPotPlugin(Plugin):
     def get_fake_aps(self):
         """Get the list of fake access points in the honeypot access points set."""
         return list(self.honey_pot_aps)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
 
 
 # Register the plugin

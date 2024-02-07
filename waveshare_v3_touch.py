@@ -6,7 +6,7 @@ import pwnagotchi.ui.faces as faces
 import pwnagotchi.plugins as plugins
 
 
-class TouchCounter():
+class TouchCounter:
 
     def __init__(self):
         self.count = 0
@@ -42,7 +42,8 @@ class WaveshareV3Touch(plugins.Plugin):
     __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "Experimental plugin for Waveshare V3 2.13inch Touch e-Paper HAT.
+    __description__ = "Experimental plugin for Waveshare V3 2.13inch Touch e-Paper HAT."
+    """
     Product: https://www.amazon.fr/gp/product/B09H4HZHXF
     Resources: https://www.waveshare.com/wiki/2.13inch_Touch_e-Paper_HAT
     Examples: https://github.com/waveshareteam/Touch_e-Paper_HAT/
@@ -73,14 +74,8 @@ class WaveshareV3Touch(plugins.Plugin):
         GPIO.setup(24, GPIO.IN)
         GPIO.setup(22, GPIO.OUT)
         GPIO.setup(27, GPIO.IN)
-        GPIO.add_event_detect(27,
-                              GPIO.RISING,
-                              callback=self.callback,
-                              bouncetime=200)
-        GPIO.add_event_detect(24,
-                              GPIO.RISING,
-                              callback=self.callback,
-                              bouncetime=200)
+        GPIO.add_event_detect(27, GPIO.RISING, callback=self.callback, bouncetime=200)
+        GPIO.add_event_detect(24, GPIO.RISING, callback=self.callback, bouncetime=200)
         logging.info("Waveshare V3 Touch plugin loaded.")
 
     def on_unload(self, ui):

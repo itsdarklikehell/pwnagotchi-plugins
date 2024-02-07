@@ -12,15 +12,30 @@ import speech_recognition as sr
 import pytz
 import subprocess
 
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-MONTHS = ["january", "february", "march", "april", "may", "june","july", "august", "september","october","november", "december"]
+SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
+MONTHS = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+]
 DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 DAY_EXTENTIONS = ["rd", "th", "st", "nd"]
+
 
 def speak(text):
     engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
+
 
 def get_audio():
     r = sr.Recognizer()
@@ -36,29 +51,31 @@ def get_audio():
 
     return said.lower()
 
+
 def authenticate_google():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar."
-    )
+    """
+    Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
     creds = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    if os.path.exists("token.pickle"):
+        with open("token.pickle", "rb") as token:
             creds = pickle.load(token)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
             creds = flow.run_local_server(port=0)
 
-        with open('token.pickle', 'wb') as token:
+        with open("token.pickle", "wb") as token:
             pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
+    service = build("calendar", "v3", credentials=creds)
 
     return service
+
 
 def get_events(day, service):
     # Call the Calendar API
@@ -68,27 +85,38 @@ def get_events(day, service):
     date = date.astimezone(utc)
     end_date = end_date.astimezone(utc)
 
-    events_result = service.events().list(calendarId='primary', timeMin=date.isoformat(), timeMax=end_date.isoformat(),
-                                        singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
+    events_result = (
+        service.events()
+        .list(
+            calendarId="primary",
+            timeMin=date.isoformat(),
+            timeMax=end_date.isoformat(),
+            singleEvents=True,
+            orderBy="startTime",
+        )
+        .execute()
+    )
+    events = events_result.get("items", [])
 
     if not events:
-        speak('No upcoming events found.')
+        speak("No upcoming events found.")
     else:
         speak(f"You have {len(events)} events on this day.")
 
         for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            print(start, event['summary'])
+            start = event["start"].get("dateTime", event["start"].get("date"))
+            print(start, event["summary"])
             start_time = str(start.split("T")[1].split("-")[0])
             if int(start_time.split(":")[0]) < 12:
                 start_time = start_time + "am"
             else:
-                start_time = str(int(start_time.split(":")[0])-12) + start_time.split(":")[1]
+                start_time = (
+                    str(int(start_time.split(":")[0]) - 12) + start_time.split(":")[1]
+                )
                 start_time = start_time + "pm"
 
             speak(event["summary"] + " at " + start_time)
+
 
 def get_date(text):
     text = text.lower()
@@ -119,8 +147,10 @@ def get_date(text):
                         pass
 
     # THE NEW PART STARTS HERE
-    if month < today.month and month != -1:  # if the month mentioned is before the current month set the year to the next
-        year = year+1
+    if (
+        month < today.month and month != -1
+    ):  # if the month mentioned is before the current month set the year to the next
+        year = year + 1
 
     # This is slighlty different from the video but the correct version
     if month == -1 and day != -1:  # if we didn't find a month, but we have a day
@@ -144,6 +174,7 @@ def get_date(text):
     if day != -1:  # FIXED FROM VIDEO
         return datetime.date(month=month, day=day, year=year)
 
+
 def note(text):
     date = datetime.datetime.now()
     file_name = str(date).replace(":", "-") + "-note.txt"
@@ -151,6 +182,7 @@ def note(text):
         f.write(text)
 
     subprocess.Popen(["notepad.exe", file_name])
+
 
 WAKE = "hey rupert"
 SERVICE = authenticate_google()
@@ -181,7 +213,7 @@ while True:
                 note(note_text)
                 speak("I've made a note of that.")
 
-        PWN_STRS = ["handshakes","handshake","what are you dooing"]
+        PWN_STRS = ["handshakes", "handshake", "what are you dooing"]
         for phrase in PWN_STRS:
             if prase in text:
                 speak("Whatsup dude?")

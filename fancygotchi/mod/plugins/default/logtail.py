@@ -237,10 +237,20 @@ class Logtail(plugins.Plugin):
     __version__ = "0.1.0"
     __license__ = "GPL3"
     __description__ = "This plugin tails the logfile."
+    __name__ = "Logtail"
+    __help__ = "This plugin tails the logfile."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.lock = threading.Lock()
         self.options = dict()
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.ready = False
 
     def on_config_changed(self, config):
@@ -248,8 +258,7 @@ class Logtail(plugins.Plugin):
         self.ready = True
 
     def on_loaded(self):
-
-        logging.info("Logtail plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_webhook(self, path, request):
         if not self.ready:

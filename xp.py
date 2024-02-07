@@ -225,9 +225,19 @@ class XP(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "XP / Leveling implementation. Just for fun!"
+    __name__ = "XP"
+    __help__ = "XP / Leveling implementation. Just for fun!"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.xp_file = "/var/local/pwnagotchi/xp.txt"
         self.xp = 0
         self.level = 0
@@ -249,7 +259,7 @@ class XP(plugins.Plugin):
         self.progressbar_position = False
 
     def _error(self, msg):
-        logging.error("[XP] %s" % msg)
+        logging.error(f"[{self.__class__.__name__}] %s" % msg)
         self.errors.append(msg)
 
     def _save_xp(self):
@@ -262,13 +272,16 @@ class XP(plugins.Plugin):
     def _update_xp(self, event, multiplier=1):
         if event in EVENTS_XP:
             if not self.ready:
-                logging.warn("[XP] Plugin not ready yet!")
+                logging.warn(f"[{self.__class__.__name__}] Plugin not ready yet!")
                 return False
 
             xp = EVENTS_XP[event] * multiplier
             if not self.ai_ready:
                 xp /= 4
-            logging.info("[XP] Update %.3f xp from event %s" % (xp, event))
+            logging.info(
+                f"[{self.__class__.__name__}] Update %.3f xp from event %s"
+                % (xp, event)
+            )
             self.xp += float("%.3f" % xp)
             self._save_xp()
             self._update_level()
@@ -359,17 +372,25 @@ class XP(plugins.Plugin):
                 with open(self.xp_file, "r") as f:
                     self.xp = float(f.read())
             elif self.options["load_initial_xp"]:
-                logging.info("[XP] Loading initial XP from last activities..")
+                logging.info(
+                    f"[{self.__class__.__name__}] Loading initial XP from last activities.."
+                )
                 xp = 0
 
                 if os.path.exists("/root/brain.json"):
                     with open("/root/brain.json", "r") as f:
                         xp = json.load(f)["epochs_lived"] * EVENTS_XP["epoch"]
-                        logging.info("[XP] Loaded %d XP from lived epoch" % xp)
+                        logging.info(
+                            f"[{self.__class__.__name__}] Loaded %d XP from lived epoch"
+                            % xp
+                        )
                         self.xp += xp
 
                 xp = self.handshakes * EVENTS_XP["handshake"]
-                logging.info("[XP] Loaded %d XP from pwned hanshakes" % xp)
+                logging.info(
+                    f"[{self.__class__.__name__}] Loaded %d XP from pwned hanshakes"
+                    % xp
+                )
                 self.xp += xp
 
                 if os.path.exists("/root/peers"):
@@ -377,19 +398,25 @@ class XP(plugins.Plugin):
                         len(glob.glob("/root/peers/*.json"))
                         * EVENTS_XP["peer_detected"]
                     )
-                    logging.info("[XP] Loaded %d XP from detected peers" % xp)
+                    logging.info(
+                        f"[{self.__class__.__name__}] Loaded %d XP from detected peers"
+                        % xp
+                    )
                     self.xp += xp
 
             self._save_xp()
 
-            logging.info("[XP] plugin initialized: current xp: %f" % self._get_xp())
+            logging.info(
+                f"[{self.__class__.__name__}] plugin initialized: current xp: %f"
+                % self._get_xp()
+            )
             self.ready = True
             self._update_level()
         except Exception as e:
             self._error("on_ready error: %s" % str(e))
 
     def on_level_up(self, level):
-        logging.info("[XP] LEVEL UP! (%d)" % level)
+        logging.info(f"[{self.__class__.__name__}] LEVEL UP! (%d)" % level)
         self.messages.append("LEVEL UP! %s" % faces.COOL)
 
         try:
@@ -635,7 +662,8 @@ class XP(plugins.Plugin):
         try:
             while not os.path.exists(filename):
                 logging.warn(
-                    "[XP] on_handshake: Waiting for %s to be created." % filename
+                    f"[{self.__class__.__name__}] on_handshake: Waiting for %s to be created."
+                    % filename
                 )
                 time.sleep(1)
 
