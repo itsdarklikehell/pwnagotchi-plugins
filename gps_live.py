@@ -9,8 +9,20 @@ class GPSLive(plugins.Plugin):
     __description__ = (
         "Update GPS coordinates on each epoch. Requires gps plugin enabled."
     )
+    __name__ = "GPSLive"
+    __help__ = "Update GPS coordinates on each epoch. Requires gps plugin enabled."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.gps = None
 
     def on_loaded(self):
@@ -44,3 +56,7 @@ class GPSLive(plugins.Plugin):
                     ui.set("altitude", "-")
         except Exception as e:
             logging.error("gps_live.on_ui_update: %s" % e)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

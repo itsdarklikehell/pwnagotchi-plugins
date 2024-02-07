@@ -9,8 +9,20 @@ class GPSError(plugins.Plugin):
     __description__ = (
         "Display error when GPS is not running. Requires gps plugin enabled."
     )
+    __name__ = "GPSError"
+    __help__ = "Display error when GPS is not running. Requires gps plugin enabled."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.gps = None
 
     def on_loaded(self):
@@ -45,3 +57,7 @@ class GPSError(plugins.Plugin):
                 ui.set("latitude", "Not fixed")
         except Exception as e:
             logging.error("gps_error.on_ui_update: %s" % e)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

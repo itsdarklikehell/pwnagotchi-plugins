@@ -16,7 +16,10 @@ class GPS_More(plugins.Plugin):
     __description__ = "Save GPS coordinates whenever it seems reasonable. on epoch to get starting point, handshake to update."
     __name__ = "GPS_More"
     __help__ = "Save GPS coordinates whenever it seems reasonable. on epoch to get starting point, handshake to update."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -25,28 +28,27 @@ class GPS_More(plugins.Plugin):
     LABEL_SPACING = 0
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.running = False
         self.coordinates = None
         self.agent = None
 
     def on_loaded(self):
         self.coordinates = None
-
         if "speed" not in self.options:
             self.options["speed"] = "9600"
-
         if "device" not in self.options:
             self.options["device"] = "/dev/ttyACM0"
-
         if "keepGPSOn" not in self.options:
             self.options["keepGPSOn"] = True
-
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ready(self, agent):
         self.agent = agent
-
         device = None
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
         for d in [self.options["device"], "/dev/ttyACM0", "/dev/ttyACM1"]:
             if ":" in d:
                 device = d
@@ -55,20 +57,26 @@ class GPS_More(plugins.Plugin):
                 device = d
                 break
             else:
-                logging.debug(f"gps_more unable to find device {d}")
+                logging.debug(f"[{self.__class__.__name__}] unable to find device {d}")
 
         if device:
-            logging.info(f"[gps_more] enabling bettercap's gps module for {device}")
+            logging.info(
+                f"[{self.__class__.__name__}] enabling bettercap's gps module for {device}"
+            )
             try:
                 agent.run("gps off")
             except Exception:
-                logging.debug(f"gps_more bettercap gps module was already off")
+                logging.debug(
+                    f"[{self.__class__.__name__}] bettercap gps module was already off"
+                )
                 pass
 
             agent.run(f"set gps.device {device}")
             agent.run(f"set gps.baudrate {self.options['speed']}")
             agent.run("gps on")
-            logging.info(f"gps_more bettercap gps module enabled on {device}")
+            logging.info(
+                f"[{self.__class__.__name__}] bettercap gps module enabled on {device}"
+            )
             self.running = True
 
     def _update_coordinates(self, agent, context="[gps update]"):
@@ -79,7 +87,10 @@ class GPS_More(plugins.Plugin):
                 # valid coords
                 self.coordinates = coords
 
-                logging.info("%s gps update %s" % (context, repr(self.coordinates)))
+                logging.info(
+                    f"[{self.__class__.__name__}] %s gps update %s"
+                    % (context, repr(self.coordinates))
+                )
 
                 if "save_file" in self.options:
                     save_file = self.options["save_file"]
@@ -99,7 +110,7 @@ class GPS_More(plugins.Plugin):
                             os.makedirs(save_dir)
                         except Exception as err:
                             logging.warn(
-                                "%s could not make save directory: %s: %s"
+                                f"[{self.__class__.__name__}] %s could not make save directory: %s: %s"
                                 % (context, save_dir, repr(err))
                             )
                             save_dir = None  # mark none, so don't try writing to an impossible file
@@ -115,7 +126,7 @@ class GPS_More(plugins.Plugin):
                                 fp.write(json.dumps(self.coordinates) + "\n")
                         except OSError as err:
                             logging.info(
-                                "%s open %s failed: %s"
+                                f"[{self.__class__.__name__}] %s open %s failed: %s"
                                 % (context, save_file, repr(err))
                             )
 
@@ -134,13 +145,17 @@ class GPS_More(plugins.Plugin):
                 if self.coordinates and all(
                     [self.coordinates["Latitude"], self.coordinates["Longitude"]]
                 ):
-                    logging.info(f"saving GPS to {gps_filename} ({self.coordinates})")
+                    logging.info(
+                        f"[{self.__class__.__name__}] saving GPS to {gps_filename} ({self.coordinates})"
+                    )
                     with open(gps_filename, "w+t") as fp:
                         json.dump(self.coordinates, fp)
                 else:
-                    logging.info("not saving GPS. Couldn't find location.")
+                    logging.info(
+                        f"[{self.__class__.__name__}] not saving GPS. Couldn't find location."
+                    )
             except Exception as err:
-                logging.warn("[gps_more handshake] %s" % repr(err))
+                logging.warn(f"[{self.__class__.__name__}] [handshake] %s" % repr(err))
 
     def on_epoch(self, agent, epoch, epoch_data):
         # update during epochs until there is a good lock
@@ -153,7 +168,7 @@ class GPS_More(plugins.Plugin):
             ]
         ):
             info = self._update_coordinates(agent)
-            logging.info("[gps_more] epoch %s" % repr(info["gps"]))
+            logging.info(f"[{self.__class__.__name__}] epoch %s" % repr(info["gps"]))
 
     def on_bcap_gps_new(self, agent, event):
         try:
@@ -161,7 +176,10 @@ class GPS_More(plugins.Plugin):
             if coords and all([coords["Latitude"], coords["Longitude"]]):
                 self.coordinates = coords
         except Exception as err:
-            logging.warning("[gps more] gps.new err: %s, %s" % (repr(event), repr(err)))
+            logging.warning(
+                f"[{self.__class__.__name__}] gps.new err: %s, %s"
+                % (repr(event), repr(err))
+            )
 
     def on_ui_setup(self, ui):
         try:
@@ -256,17 +274,19 @@ class GPS_More(plugins.Plugin):
                 ui.remove_element("latitude")
                 ui.remove_element("longitude")
                 ui.remove_element("altitude")
-                logging.info("gps_more unloaded")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             except Exception:
-                logging.info("gps_more unload ui issues")
+                logging.info(f"[{self.__class__.__name__}] plugin ui was not unloaded")
 
             try:
                 if not self.options["keepGPSOn"]:
                     self.agent.run("gps off")
-                    logging.info(f"[gps_more] disabled bettercap's gps module")
+                    logging.info(
+                        f"[{self.__class__.__name__}] disabled bettercap's gps module"
+                    )
             except Exception as err:
                 logging.info(
-                    f"gps_more bettercap gps module was already off {repr(err)}"
+                    f"[{self.__class__.__name__}] bettercap gps module was already off {repr(err)}"
                 )
                 self.running = False
                 pass

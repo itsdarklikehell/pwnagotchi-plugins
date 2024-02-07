@@ -20,7 +20,10 @@ class GPSPlus(plugins.Plugin):
     __description__ = "Save GPS coordinates whenever an handshake is captured."
     __name__ = "GPSPlus"
     __help__ = "Save GPS coordinates whenever an handshake is captured."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -29,6 +32,9 @@ class GPSPlus(plugins.Plugin):
     LABEL_SPACING = 0
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.running = False
         self.coordinates = None
 
@@ -39,7 +45,7 @@ class GPSPlus(plugins.Plugin):
     def on_ready(self, agent):
         if os.path.exists(self.options["device"]):
             logging.info(
-                f"enabling bettercap's gps module for {self.options['device']}"
+                f"[{self.__class__.__name__}] enabling bettercap's gps module for {self.options['device']}"
             )
             try:
                 agent.run("gps off")
@@ -51,7 +57,7 @@ class GPSPlus(plugins.Plugin):
             agent.run("gps on")
             self.running = True
         else:
-            logging.warning("no GPS detected")
+            logging.warning(f"[{self.__class__.__name__}] no GPS detected")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         if self.running:
@@ -66,11 +72,15 @@ class GPSPlus(plugins.Plugin):
                     self.coordinates["Longitude"],
                 ]
             ):
-                logging.info(f"saving GPS to {gps_filename} ({self.coordinates})")
+                logging.info(
+                    f"[{self.__class__.__name__}] saving GPS to {gps_filename} ({self.coordinates})"
+                )
                 with open(gps_filename, "w+t") as fp:
                     json.dump(self.coordinates, fp)
             else:
-                logging.info("not saving GPS. Couldn't find location.")
+                logging.info(
+                    f"[{self.__class__.__name__}] not saving GPS. Couldn't find location."
+                )
 
     def on_ui_setup(self, ui):
         try:
@@ -133,6 +143,7 @@ class GPSPlus(plugins.Plugin):
             ui.remove_element("gps_lat")
             ui.remove_element("gps_long")
             ui.remove_element("gps_alt")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         if self.coordinates and all(

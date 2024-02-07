@@ -10,8 +10,20 @@ class GPSFix(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Display GPS fix quality. Requires gps plugin enabled."
+    __name__ = "GPSFix"
+    __help__ = "Display GPS fix quality. Requires gps plugin enabled."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.gps = None
 
     def on_loaded(self):
@@ -30,7 +42,7 @@ class GPSFix(plugins.Plugin):
         try:
             self.gps = plugins.loaded["gps"]
             if not self.gps:
-                logging.error("[gps_fix] gps plugin not loaded!")
+                logging.error(f"[{self.__class__.__name__}] gps plugin not loaded!")
         except Exception as e:
             logging.error("gps_fix.on_ready: %s" % e)
 

@@ -10,8 +10,20 @@ class GPSSat(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Display number of satellites. Requires gps plugin enabled."
+    __name__ = "GPSSat"
+    __help__ = "Display number of satellites. Requires gps plugin enabled."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.gps = None
 
     def on_loaded(self):
@@ -30,7 +42,7 @@ class GPSSat(plugins.Plugin):
         try:
             self.gps = plugins.loaded["gps"]
             if not self.gps:
-                logging.error("[gps_sat] gps plugin not loaded!")
+                logging.error(f"[{self.__class__.__name__}] gps plugin not loaded!")
         except Exception as e:
             logging.error("gps_sat.on_ready: %s" % e)
 
@@ -62,5 +74,6 @@ class GPSSat(plugins.Plugin):
         try:
             with ui._lock:
                 ui.remove_element("sattelites")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as e:
             logging.error("gps_sat.on_unload: %s" % e)

@@ -8,8 +8,20 @@ class GPSGrid(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Share GPS coordinates with grid. Requires gps plugin enabled."
+    __name__ = "GPSGrid"
+    __help__ = "Share GPS coordinates with grid. Requires gps plugin enabled."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.gps = None
         self.coordinates = None
 
@@ -43,3 +55,7 @@ class GPSGrid(plugins.Plugin):
                 self.coordinates = coords
         except Exception as e:
             logging.error("gps_grid.on_epoch: %s" % e)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
