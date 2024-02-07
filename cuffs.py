@@ -29,9 +29,12 @@ class Cuffs(plugins.Plugin):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_unload(self, ui):
-        self.agent.get_access_points = self.original_get_access_points
-        self.original_get_access_points = None
-        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+        try:
+            self.agent.get_access_points = self.original_get_access_points
+            self.original_get_access_points = None
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+        except Exception as e:
+            logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_unfiltered_ap_list(self, agent, access_points):
         # Store the original get_access_points function if we do not already have it
