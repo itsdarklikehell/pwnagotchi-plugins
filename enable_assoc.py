@@ -13,12 +13,18 @@ class Do_Assoc(plugins.Plugin):
     __description__ = "Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads."
     __name__ = "Do_Assoc"
     __help__ = "Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self._agent = None
         self._count = 0
 
@@ -38,7 +44,7 @@ class Do_Assoc(plugins.Plugin):
         if self._agent:
             self._agent._config["personality"]["associate"] = False
         ui.remove_element("assoc_count")
-        logging.info("[Enable_Assoc] unloading: disabled association")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):

@@ -285,7 +285,10 @@ class Enterprise(plugins.Plugin):
     __description__ = "This plugin will attempt to obtain credentials from enterprise networks when bored and networks are available."
     __name__ = "enterprise"
     __help__ = "This plugin will attempt to obtain credentials from enterprise networks when bored and networks are available."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["hostapd"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -310,9 +313,12 @@ class Enterprise(plugins.Plugin):
         }
         self.rebooting = False
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_ready(self, agent):
         self.ready = True
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
 
     # called when the agent refreshed an unfiltered access point list
     # this list contains all access points that were detected BEFORE filtering
@@ -327,26 +333,30 @@ class Enterprise(plugins.Plugin):
     def trigger(self, agent):
         try:
             if not self.ready:
-                logging.info("[enterprise] trigger called but not ready")
+                logging.info(
+                    f"[{self.__class__.__name__}] trigger called but not ready"
+                )
                 return
 
             if not self.config["enabled"]:
-                logging.info("[enterprise] trigger called but not enabled")
+                logging.info(
+                    f"[{self.__class__.__name__}] trigger called but not enabled"
+                )
                 return
 
             interface = self.options["interface"]
-            logging.info("[enterprise] interface set")
+            logging.info(f"[{self.__class__.__name__}] interface set")
             privateKeyPassword = "whatever"  # default password in configuration
 
             self.rebooting = True
 
-            logging.info("[enterprise] Updating config")
+            logging.info(f"[{self.__class__.__name__}] Updating config")
             update_hostapd_config(interface, self.config, privateKeyPassword)
 
-            logging.info("[enterprise] Generating certs")
+            logging.info(f"[{self.__class__.__name__}] Generating certs")
             generate_certificates(self.config, privateKeyPassword)
 
-            logging.info("[enterprise] Adding Task")
+            logging.info(f"[{self.__class__.__name__}] Adding Task")
             add_task(
                 {
                     "timeout": self.options["duration"],
@@ -354,7 +364,7 @@ class Enterprise(plugins.Plugin):
                 }
             )
 
-            logging.info("[enterprise] Finished triggering task")
+            logging.info(f"[{self.__class__.__name__}] Finished triggering task")
         except Exception as ex:
             logging.error(ex)
 

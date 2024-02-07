@@ -20,6 +20,20 @@ class EducationalPurposesOnly(Plugin):
     __version__ = "1.0.15.2"
     __license__ = "GPL3"
     __description__ = "A plugin to automatically authenticate to known networks and perform internal network recon"
+    __name__ = "EducationalPurposesOnly"
+    __help__ = "A plugin to automatically authenticate to known networks and perform internal network recon"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["requests"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         global READY
@@ -360,3 +374,7 @@ class EducationalPurposesOnly(Plugin):
         logging.info(
             f"Successfully connected to {target_ip} at {datetime.datetime.now()}"
         )
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

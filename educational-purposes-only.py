@@ -26,10 +26,18 @@ class EducationalPurposesOnly(plugins.Plugin):
     __description__ = "A plugin to automatically authenticate to known networks and perform internal network recon."
     __name__ = "EducationalPurposesOnly"
     __help__ = "A plugin to automatically authenticate to known networks and perform internal network recon."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         global READY
@@ -315,3 +323,7 @@ class EducationalPurposesOnly(plugins.Plugin):
                             % (signal_strength)
                         )
                         STATUS = "rssi_low"
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
