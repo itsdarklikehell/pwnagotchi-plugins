@@ -101,7 +101,7 @@ class Age(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             try:
-                ui.remove_element("Age")
+                ui.remove_element("AgeV2")
                 ui.remove_element("Strength")
                 ui.remove_element("Access Points")
                 ui.remove_element("Deauths Sent")
