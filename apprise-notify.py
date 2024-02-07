@@ -44,13 +44,15 @@ class Apprise(plugins.Plugin):
     __author__ = "bauke.molenaar@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "An Apprise plugin for pwnagotchi that implements all the available callbacks."
+    __description__ = (
+        "An Apprise plugin for pwnagotchi that implements all the available callbacks."
     )
     __name__ = "Apprise"
     __help__ = (
         "An Apprise plugin for pwnagotchi that implements all the available callbacks."
     )
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["apprise"],
     }
     __defaults__ = {
@@ -59,6 +61,9 @@ class Apprise(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.text_to_set = ""
         title = "[apprise]"
         short = "__init__"
@@ -127,6 +132,7 @@ class Apprise(plugins.Plugin):
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         title = "[apprise]"
         short = "on_webhook"
         body = "Webhook clicked! " + path + " " + request
@@ -147,6 +153,7 @@ class Apprise(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         title = "[apprise]"
         short = "on_loaded"
         body = "plugin loaded"
@@ -167,6 +174,7 @@ class Apprise(plugins.Plugin):
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         title = "[apprise]"
         short = "on_unload"
         body = "plugin unloaded"
