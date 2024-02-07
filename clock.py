@@ -18,6 +18,7 @@ class PwnClock(plugins.Plugin):
     __name__ = "PwnClock"
     __help__ = "PwnClock timer for pwnagotchi."
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["datetime", "yaml", "toml"],
     }
     __defaults__ = {

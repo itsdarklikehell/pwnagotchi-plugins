@@ -16,11 +16,17 @@ class Christmas(plugins.Plugin):
     __name__ = "Christmas"
     __help__ = "Christmas Countdown timer for pwnagotchi."
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["datetime", "yaml", "toml"],
     }
     __defaults__ = {
         "enabled": False,
     }
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -67,6 +73,7 @@ class Christmas(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element("christmas")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         try:
