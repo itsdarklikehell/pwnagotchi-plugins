@@ -58,8 +58,8 @@ class Achievements(plugins.Plugin):
         )
 
     def load_from_json(self):
-        logging.info("[Achievements] Loading data from JSON...")
-        logging.info("[Achievements] load_from_json method started.")
+        logging.info(f"[{self.__class__.__name__}] Loading data from JSON...")
+        logging.info(f"[{self.__class__.__name__}] load_from_json method started.")
         if os.path.exists(self.data_path):
             with open(self.data_path, "r") as file:
                 data = json.load(file)
@@ -75,10 +75,10 @@ class Achievements(plugins.Plugin):
                 self.current_challenge = data.get(
                     "current_challenge", choose_random_challenge()
                 )
-        logging.info(f"[Achievements] Loaded data from JSON: {data}")
+        logging.info(f"[{self.__class__.__name__}] Loaded data from JSON: {data}")
 
     def on_loaded(self):
-        logging.info("[Achievements] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         # self.load_from_json()  # Load the data from JSON when the plugin is loaded
 
     def on_ui_setup(self, ui):
@@ -86,7 +86,7 @@ class Achievements(plugins.Plugin):
         label = self.get_label_based_on_challenge()
 
         logging.info(
-            f"[Achievements] Updating UI - Handshake Count: {self.handshake_count}, Daily Target: {self.daily_target}, Title: {self.get_title_based_on_achievements()}"
+            f"[{self.__class__.__name__}] Updating UI - Handshake Count: {self.handshake_count}, Daily Target: {self.daily_target}, Title: {self.get_title_based_on_achievements()}"
         )
         ui.add_element(
             "showAchievements",
@@ -99,7 +99,7 @@ class Achievements(plugins.Plugin):
                 text_font=fonts.Medium,
             ),
         )
-        # logging.info(f"[Achievements] Updating UI - Handshake Count: {self.handshake_count}, Daily Target: {self.daily_target}, Title: {self.get_title_based_on_achievements()}")
+        # logging.info(f"[{self.__class__.__name__}] Updating UI - Handshake Count: {self.handshake_count}, Daily Target: {self.daily_target}, Title: {self.get_title_based_on_achievements()}")
 
     def on_ui_update(self, ui):
         if self.ready:
@@ -194,3 +194,19 @@ class Achievements(plugins.Plugin):
 
     def choose_random_challenge():
         return random.choice([ChallengeType.HANDSHAKE, ChallengeType.NEW_NETWORK])
+
+    def on_unload(self, ui):
+        with ui._lock:
+            try:
+                ui.remove_element("showAchievements")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
