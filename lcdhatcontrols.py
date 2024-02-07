@@ -96,5 +96,4 @@ class lcdhatcontrols(plugins.Plugin):
     def on_unloaded(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
-            logging.info("[Controls] unloaded")
             self
