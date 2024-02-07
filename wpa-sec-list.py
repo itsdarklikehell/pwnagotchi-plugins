@@ -157,9 +157,20 @@ class WpaSecList(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "List cracked passwords from wpa-sec"
+    __name__ = "WpaSecList"
+    __help__ = "List cracked passwords from wpa-sec"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -169,6 +180,7 @@ class WpaSecList(plugins.Plugin):
         self.ready = True
 
     def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         if not self.ready:
             return "Plugin not ready"
 
@@ -191,5 +203,7 @@ class WpaSecList(plugins.Plugin):
                     TEMPLATE, title="Passwords list", passwords=passwords
                 )
             except Exception as e:
-                logging.error("[wpa-sec-list] error while loading passwords: %s" % e)
+                logging.error(
+                    f"[{self.__class__.__name__}] error while loading passwords: %s" % e
+                )
                 logging.debug(e, exc_info=True)
