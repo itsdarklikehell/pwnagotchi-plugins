@@ -18,6 +18,14 @@ class Counter(plugins.Plugin):
     __description__ = (
         "This will add some UI stuff to your Pwnagotchi to count assocs and deauths!"
     )
+    __name__ = "Counter"
+    __help__ = (
+        "This will add some UI stuff to your Pwnagotchi to count assocs and deauths!"
+    )
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -27,6 +35,7 @@ class Counter(plugins.Plugin):
         self.running = False
         self.deauth_counter = 0
         self.assoc_counter = 0
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -34,6 +43,7 @@ class Counter(plugins.Plugin):
 
     def on_unload(self, ui):
         self.running = False
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_setup(self, ui):
         ui.add_element(

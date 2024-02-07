@@ -22,7 +22,7 @@
 #  '/root/handshakes/my.potfile',
 #  '/root/handshakes/OnlineHashCrack.cracked',
 # ]
-# main.plugins.crack_house.saving_path = '/root/handshakes/crackhouse.potfile'
+# main.plugins.crack_house.saving_path = '/root/handshakes/crack_house.potfile'
 # main.plugins.crack_house.display_stats = true
 # ```
 # The plugin manage .potfile from wpa-sec & .cracked from OnlineHashCrack
@@ -56,11 +56,25 @@ TOTAL_CRACK = 0
 TIME_WIFI_UPDATE = "00:00"
 
 
-class CrackHouse(plugins.Plugin):
+class crack_house(plugins.Plugin):
     __author__ = "@V0rT3x"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "A plugin to display closest cracked network & it password"
+    __description__ = "A plugin to display closest cracked network & it password."
+    __name__ = "crack_house"
+    __help__ = "A plugin to display closest cracked network & it password."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["requests"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         global READY
@@ -86,7 +100,7 @@ class CrackHouse(plugins.Plugin):
                         tmp_list.append(tmp_line)
             else:
                 logging.info(
-                    "[CRACK HOUSE] %s type is not managed"
+                    f"[{self.__class__.__name__}] %s type is not managed"
                     % (os.path.splitext(file_path))
                 )
 
@@ -100,8 +114,10 @@ class CrackHouse(plugins.Plugin):
             for crack in CRACK_MENU:
                 f.write(crack + "\n")
         READY = 1
-        logging.info("[CRACK HOUSE] Successfully loaded")
-        logging.info("[CRACK HOUSE] all paths: " + str(self.options["files"]))
+        logging.info(f"[{self.__class__.__name__}] Successfully loaded")
+        logging.info(
+            f"[{self.__class__.__name__}] all paths: " + str(self.options["files"])
+        )
 
     def on_ui_setup(self, ui):
         if ui.is_waveshare_v2():
@@ -157,7 +173,7 @@ class CrackHouse(plugins.Plugin):
             )
 
         if self.options["display_stats"]:
-            logging.info("[CRACK HOUSE] display stats loaded")
+            logging.info(f"[{self.__class__.__name__}] display stats loaded")
 
             ui.add_element(
                 "crack_house_stats",
@@ -175,6 +191,7 @@ class CrackHouse(plugins.Plugin):
         with ui._lock:
             ui.remove_element("crack_house")
             ui.remove_element("crack_house_stats")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_wifi_update(self, agent, access_points):
         global READY
@@ -185,7 +202,7 @@ class CrackHouse(plugins.Plugin):
         global TIME_WIFI_UPDATE
         tmp_crack = list()
         TIME_WIFI_UPDATE = str(time.strftime("%H:%M", time.localtime()))
-        # logging.info("[CRACK HOUSE] Total cracks: %d" % (len(CRACK_MENU)))
+        # logging.info(f"[{self.__class__.__name__}] Total cracks: %d" % (len(CRACK_MENU)))
 
         if READY == 1 and "Not-Associated" in os.popen("iwconfig wlan0").read():
             BEST_RSSI = -1000

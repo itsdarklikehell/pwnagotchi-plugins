@@ -9,7 +9,10 @@ class Cuffs(plugins.Plugin):
     __description__ = "Restricts the pwnagotchi to only attack specified ap's."
     __name__ = "Cuffs"
     __help__ = "Restricts the pwnagotchi to only attack specified ap's."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -20,8 +23,6 @@ class Cuffs(plugins.Plugin):
         self.agent = None
 
     def on_loaded(self):
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
-
         if "whitelist" not in self.options:
             self.options["whitelist"] = list()
         self.original_get_access_points = None
