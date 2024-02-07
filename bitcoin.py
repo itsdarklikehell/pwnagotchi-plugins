@@ -69,8 +69,11 @@ class Bitcoin(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("bitcoin")
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            try:
+                ui.remove_element("bitcoin")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         ui.set("bitcoin", self._last_price)
@@ -82,3 +85,7 @@ class Bitcoin(plugins.Plugin):
         if self._has_internet == True:
             price = self._fetch_price()
             self._last_price = " BTC/USD: \n $%s " % price
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

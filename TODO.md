@@ -104,6 +104,7 @@ wpa-sec-list.py
 xp_grid.py
 xp.py
 apfaker.py
+birthday.py
 
 
 ### NOT (yet) WORKING FOR SOME REASON
@@ -113,7 +114,6 @@ auto_backup.py
 banthex-de.py
 banthex.py
 
-birthday.py
 bitcoin.py
 buttonshim.py
 crack_house-dev.py
