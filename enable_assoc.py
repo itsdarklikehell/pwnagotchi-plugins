@@ -50,7 +50,7 @@ class Do_Assoc(plugins.Plugin):
     def on_ready(self, agent):
         agent._config["personality"]["associate"] = True
         self._agent = agent
-        logging.info("[Enable_Assoc] ready: enabled association")
+        logging.info(f"[{self.__class__.__name__}] ready: enabled association")
 
     def on_association(self, agent, access_point):
         self._count += 1
