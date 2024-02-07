@@ -2,7 +2,7 @@ import os
 import logging
 import threading
 from time import sleep
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from pwnagotchi import plugins
 from pwnagotchi.utils import StatusFile
 from flask import render_template_string
@@ -156,8 +156,10 @@ TEMPLATE = """
 {% endblock %}
 """
 
+
 class GhettoClock:
     def __init__(self):
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.lock = threading.Lock()
         self._track = datetime.now()
         self._counter_thread = threading.Thread(target=self.counter)
@@ -176,21 +178,21 @@ class GhettoClock:
 
 
 class SessionStats(plugins.Plugin):
-    __author__ = '33197631+dadav@users.noreply.github.com'
-    __version__ = '0.1.0'
-    __license__ = 'GPL3'
-    __description__ = 'This plugin displays stats of the current session.'
-    __name__ = 'SessionStats'
+    __author__ = "33197631+dadav@users.noreply.github.com"
+    __version__ = "0.1.0"
+    __license__ = "GPL3"
+    __description__ = "This plugin displays stats of the current session."
+    __name__ = "SessionStats"
     __help__ = "This plugin displays stats of the current session."
-    )
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.lock = threading.Lock()
         self.options = dict()
         self.stats = dict()
@@ -200,71 +202,84 @@ class SessionStats(plugins.Plugin):
 
         # this has to happen in "loaded" because the options are not yet
         # available in the __init__
-        os.makedirs(self.options['save_directory'], exist_ok=True)
-        self.session_name = "stats_{}.json".format(self.clock.now().strftime("%Y_%m_%d_%H_%M"))
-        self.session = StatusFile(os.path.join(self.options['save_directory'],
-                                               self.session_name),
-                                  data_format='json')
-        logging.info("Session-stats plugin loaded.")
+        os.makedirs(self.options["save_directory"], exist_ok=True)
+        self.session_name = "stats_{}.json".format(
+            self.clock.now().strftime("%Y_%m_%d_%H_%M")
+        )
+        self.session = StatusFile(
+            os.path.join(self.options["save_directory"], self.session_name),
+            data_format="json",
+        )
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_epoch(self, agent, epoch, epoch_data):
-"""
+        """
         Save the epoch_data to self.stats
-"""
+        """
         with self.lock:
             self.stats[self.clock.now().strftime("%H:%M:%S")] = epoch_data
-            self.session.update(data={'data': self.stats})
+            self.session.update(data={"data": self.stats})
 
     @staticmethod
     def extract_key_values(data, subkeys):
         result = dict()
-        result['values'] = list()
-        result['labels'] = subkeys
+        result["values"] = list()
+        result["labels"] = subkeys
         for plot_key in subkeys:
-            v = [ [ts,d[plot_key]] for ts, d in data.items()]
-            result['values'].append(v)
+            v = [[ts, d[plot_key]] for ts, d in data.items()]
+            result["values"].append(v)
         return result
 
+    def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
     def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         if not path or path == "/":
             return render_template_string(TEMPLATE)
 
-        session_param = request.args.get('session')
+        session_param = request.args.get("session")
 
         if path == "os":
-            extract_keys = ['cpu_load','mem_usage',]
+            extract_keys = [
+                "cpu_load",
+                "mem_usage",
+            ]
         elif path == "temp":
-            extract_keys = ['temperature']
+            extract_keys = ["temperature"]
         elif path == "wifi":
             extract_keys = [
-                'missed_interactions',
-                'num_hops',
-                'num_peers',
-                'tot_bond',
-                'avg_bond',
-                'num_deauths',
-                'num_associations',
-                'num_handshakes',
+                "missed_interactions",
+                "num_hops",
+                "num_peers",
+                "tot_bond",
+                "avg_bond",
+                "num_deauths",
+                "num_associations",
+                "num_handshakes",
             ]
         elif path == "duration":
             extract_keys = [
-                'duration_secs',
-                'slept_for_secs',
+                "duration_secs",
+                "slept_for_secs",
             ]
         elif path == "reward":
             extract_keys = [
-                'reward',
+                "reward",
             ]
         elif path == "epoch":
             extract_keys = [
-                'active_for_epochs',
+                "active_for_epochs",
             ]
         elif path == "session":
-            return jsonify({'files': os.listdir(self.options['save_directory'])})
+            return jsonify({"files": os.listdir(self.options["save_directory"])})
 
         with self.lock:
             data = self.stats
-            if session_param and session_param != 'Current':
-                file_stats = StatusFile(os.path.join(self.options['save_directory'], session_param), data_format='json')
-                data = file_stats.data_field_or('data', default=dict())
+            if session_param and session_param != "Current":
+                file_stats = StatusFile(
+                    os.path.join(self.options["save_directory"], session_param),
+                    data_format="json",
+                )
+                data = file_stats.data_field_or("data", default=dict())
             return jsonify(SessionStats.extract_key_values(data, extract_keys))
