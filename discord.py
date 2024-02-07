@@ -12,29 +12,30 @@ class Discord(plugins.Plugin):
     __name__ = "Discord"
     __help__ = "Post recent activity to a Discord channel using webhooks. Requires discord.py module."
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["discord"],
-        "webhook_url": "",
-        "username": "pwnagotchi",
     }
     __defaults__ = {
         "enabled": False,
+        "webhook_url": "",
+        "username": "pwnagotchi",
     }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
-
         if "webhook_url" not in self.options or not self.options["webhook_url"]:
-            logging.error("[discord] Webhook URL is not set, cannot post to Discord")
+            logging.error(
+                f"[{self.__class__.__name__}] Webhook URL is not set, cannot post to Discord"
+            )
             return
-
         if "username" not in self.options or not self.options["username"]:
             with open("/etc/hostname") as fp:
                 self.options["username"] = fp.read().strip()
-
         self.ready = True
-        logging.info("[discord] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called when there's available internet
     def on_internet_available(self, agent):
@@ -49,11 +50,13 @@ class Discord(plugins.Plugin):
             try:
                 from discord import Webhook, RequestsWebhookAdapter, File
             except ImportError as e:
-                logging.error("[discord] couldn't import discord.py (%s)", e)
+                logging.error(
+                    f"[{self.__class__.__name__}] couldn't import discord.py (%s)", e
+                )
                 return
 
             logging.info(
-                "[discord] detected new activity and internet, time to send a message!"
+                f"[{self.__class__.__name__}] detected new activity and internet, time to send a message!"
             )
 
             picture = (
@@ -66,7 +69,7 @@ class Discord(plugins.Plugin):
             display.update(force=True)
 
             try:
-                logging.info("[discord] sending message...")
+                logging.info(f"[{self.__class__.__name__}] sending message...")
 
                 message = Voice(lang=config["main"]["lang"]).on_last_session_tweet(
                     last_session
@@ -76,10 +79,16 @@ class Discord(plugins.Plugin):
 
                 webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
                 webhook.send(message, username=username, file=File(picture))
-                logging.info("[discord] message sent: %s", message)
+                logging.info(f"[{self.__class__.__name__}] message sent: %s", message)
 
                 last_session.save_session_id()
                 display.set("status", "Discord notification sent!")
                 display.update(force=True)
             except Exception as e:
-                logging.exception("[discord] error while sending message (%s)", e)
+                logging.exception(
+                    f"[{self.__class__.__name__}] error while sending message (%s)", e
+                )
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

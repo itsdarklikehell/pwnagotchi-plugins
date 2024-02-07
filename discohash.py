@@ -15,6 +15,7 @@ class discohash(plugins.Plugin):
     __name__ = "discohash"
     __help__ = "DiscoHash extracts hashes from pcaps (hashcat mode 22000) using hcxpcapngtool, analyses the hash using hcxhashtool and posts the output to Discord along with any obtained GPS coordinates."
     __dependencies__ = {
+        "apt": ["hcxhashtool"],
         "pip": ["requests"],
     }
     __defaults__ = {
@@ -22,14 +23,13 @@ class discohash(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.debug("[*] DiscoHash plugin created")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     # called when the plugin is loaded
     def on_loaded(self):
         global tether
         tether = False
-        logging.info("[DiscoHash] plugin loaded")
-        logging.info(f"[*] DiscoHash plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called when internet is available
     def on_internet_available(self, agent):
@@ -201,3 +201,7 @@ class discohash(plugins.Plugin):
             logging.warning(
                 "[!] DiscoHash: An error occured with the plugin!{}".format(e)
             )
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

@@ -16,13 +16,18 @@ class dropbox(plugins.Plugin):
     __description__ = "This plugin automatically uploads handshakes to a dropbox app"
     __name__ = "dropbox"
     __help__ = "This plugin automatically uploads handshakes to a dropbox app"
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.lock = threading.Lock()
         try:
             self.report = StatusFile("/root/.dropbox_ul_uploads", data_format="json")
@@ -63,7 +68,6 @@ class dropbox(plugins.Plugin):
             raise e
 
     def on_loaded(self):
-
         if "app_token" not in self.options or (
             "app_token" in self.options and self.options["app_token"] is None
         ):

@@ -13,14 +13,21 @@ class DisplayVersion(plugins.Plugin):
     __description__ = (
         "A plugin that will add the Pwnagotchi version to the left of the current mode."
     )
-    __name__ = "Display Version"
+    __name__ = "DisplayVersion"
     __help__ = (
         "A plugin that will add the Pwnagotchi version to the left of the current mode."
     )
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -40,3 +47,8 @@ class DisplayVersion(plugins.Plugin):
 
     def on_ui_update(self, ui):
         ui.set("version", f"v{pwnagotchi.__version__}")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            ui.remove_element("version")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

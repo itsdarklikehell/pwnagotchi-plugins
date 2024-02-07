@@ -11,9 +11,17 @@ class DisplaySettings(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Control backlight, and maybe other settings for displays. (but only pimoroni displayhatmini for now)"
+    __name__ = "DisplaySettings"
+    __help__ = "Control backlight, and maybe other settings for displays. (but only pimoroni displayhatmini for now)"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
-        logging.debug("DisplaySettings plugin created")
         logging.debug(f"[{self.__class__.__name__}] plugin created")
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
@@ -25,12 +33,12 @@ class DisplaySettings(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.info("DisplaySettings options = %s" % self.options)
+        logging.info(f"[{self.__class__.__name__}] options = %s" % self.options)
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
-        logging.info("goodbye")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         pass
 
     # called hen there's internet connectivity

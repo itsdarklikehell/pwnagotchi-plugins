@@ -7,11 +7,25 @@ import logging
 import os
 
 
-class DisplayPassword(plugins.Plugin):
+class DisplayAircrack(plugins.Plugin):
     __author__ = "@7h30th3r0n3"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display if aircrack is runing or not"
+    __name__ = "DisplayAircrack"
+    __help__ = "A plugin to display if aircrack is runing or not"
+    __dependencies__ = {
+        "apt": ["aircrack-ng"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -32,6 +46,7 @@ class DisplayPassword(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element("aircrack-ng-status")
+            logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_update(self, ui):
         # Check if aircrack-ng is running and update status display

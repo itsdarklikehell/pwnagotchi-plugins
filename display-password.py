@@ -21,6 +21,15 @@ class DisplayPassword(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display recently cracked passwords"
+    __name__ = "DisplayPassword"
+    __help__ = "A plugin to display recently cracked passwords"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -74,6 +83,7 @@ class DisplayPassword(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             ui.remove_element("display-password")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
