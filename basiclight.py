@@ -33,12 +33,16 @@ class BasicLight(plugins.Plugin):
     __description__ = "GPIO traffic-light signals."
     __name__ = "BasicLight"
     __help__ = "GPIO traffic-light signals."
+    __dependencies__ = {
+        "pip": ["none"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
         self.running = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
 
     # Plugin load, switch Yellow high
@@ -107,3 +111,7 @@ class BasicLight(plugins.Plugin):
     def on_deauthentication(self, agent, access_point, client_station):
         global LEDs
         Blink(LEDs["red"], 3)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

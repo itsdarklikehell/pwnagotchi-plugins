@@ -17,6 +17,7 @@ class BetterQuickDic(plugins.Plugin):
     __name__ = "BetterQuickDic"
     __help__ = "Run a small aircrack scan against captured handshakes and PMKID"
     __dependencies__ = {
+        "pip": ["qrcode"],
         "apt": ["aircrack-ng"],
     }
     __defaults__ = {
@@ -28,11 +29,12 @@ class BetterQuickDic(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
         self.text_to_set = ""
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-
         if "face" not in self.options:
             self.options["face"] = "(·ω·)"
         if "wordlist_folder" not in self.options:
@@ -155,3 +157,7 @@ class BetterQuickDic(plugins.Plugin):
             ui.set("face", self.options["face"])
             ui.set("status", self.text_to_set)
             self.text_to_set = ""
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

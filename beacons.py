@@ -67,6 +67,7 @@ class Beacons(plugins.Plugin):
     _busy = False
 
     def __init__(self):
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         logging.debug(" *beacons* plugin created")
         self._wifimac = open("/sys/class/net/" + self._iface + "/address").readline()[
             0:17

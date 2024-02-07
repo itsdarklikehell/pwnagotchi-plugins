@@ -32,7 +32,9 @@ class Banthex(plugins.Plugin):
     )
     __name__ = "Banthex"
     __help__ = "This plugin automatically uploads handshakes to https://banthex.de/wpa/"
-    __dependencies__ = {"pip": ["requests"]}
+    __dependencies__ = {
+        "pip": ["requests"],
+    }
     __defaults__ = {
         "enabled": False,
         "api_key": "",
@@ -51,6 +53,7 @@ class Banthex(plugins.Plugin):
             self.report = StatusFile("/root/.banthex_uploads", data_format="json")
         self.options = dict()
         self.skip = list()
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def _upload_to_wpasec(self, path, timeout=30):
         with open(path, "rb") as file_to_upload:
@@ -91,7 +94,6 @@ class Banthex(plugins.Plugin):
         ):
             logging.error("BANTHEX: API-KEY isn't set. Can't upload to banthex.de")
             return
-
         if "api_url" not in self.options or (
             "api_url" in self.options and not self.options["api_url"]
         ):
@@ -99,10 +101,8 @@ class Banthex(plugins.Plugin):
                 "BANTHEX: API-URL isn't set. Can't upload, no endpoint configured."
             )
             return
-
         if "whitelist" not in self.options:
             self.options["whitelist"] = list()
-
         self.ready = True
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
@@ -173,3 +173,7 @@ class Banthex(plugins.Plugin):
                     logging.debug("BANTHEX: %s", req_e)
                 except OSError as os_e:
                     logging.debug("BANTHEX: %s", os_e)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

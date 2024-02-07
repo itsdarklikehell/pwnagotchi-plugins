@@ -26,12 +26,14 @@ class Age(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.epochs = 0
         self.train_epochs = 0
         self.access_points_seen = 0
         self.deauths_sent = 0
         self.device_start_time = datetime.now()
-        self.title = ""
 
     def on_loaded(self):
         data_path = "/root/brain.json"
@@ -102,6 +104,7 @@ class Age(plugins.Plugin):
             ui.remove_element("Strength")
             ui.remove_element("Access Points")
             ui.remove_element("Deauths Sent")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
         ui.set("Age", self.calculate_device_age())

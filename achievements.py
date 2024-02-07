@@ -29,16 +29,20 @@ class Achievements(plugins.Plugin):
     __help__ = (
         "A plugin that will add Achievement stats based on epochs and trained epochs"
     )
+    __dependencies__ = {
+        "pip": ["none"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.achievement_count = 0  # Overall achievements unlocked
         self.handshake_count = 0
         self.new_networks_count = 0  # Counter for new networks found
-        self.title = ""
         self.last_claimed = None
         self.daily_target = 3
         self.current_challenge = choose_random_challenge()

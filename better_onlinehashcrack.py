@@ -21,12 +21,16 @@ class BetterOnlineHashCrack(plugins.Plugin):
     __help__ = (
         "This plugin automatically uploads handshakes to https://onlinehashcrack.com"
     )
+    __dependencies__ = {
+        "pip": ["requests"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         try:
             self.report = StatusFile("/root/.ohc_uploads", data_format="json")
@@ -173,3 +177,7 @@ class BetterOnlineHashCrack(plugins.Plugin):
                                         "w",
                                     ) as f:
                                         f.write(row["password"])
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

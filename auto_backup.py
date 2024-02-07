@@ -32,8 +32,9 @@ class AutoBackup(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        self.tries = 0
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
+        self.tries = 0
         self.status = StatusFile("/root/.auto-backup")
 
     def on_loaded(self):

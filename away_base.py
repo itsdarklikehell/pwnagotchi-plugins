@@ -17,11 +17,17 @@ class AwayBase(plugins.Plugin):
     __help__ = (
         "Watches for known networks, connects for a while, then returns to recon."
     )
+    __dependencies__ = {
+        "pip": ["none"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.ready = 0
         self.status = ""
         self.network = ""
@@ -115,6 +121,10 @@ class AwayBase(plugins.Plugin):
             > self.options["disconnect_after_cycles"]
         ):
             _restart_monitor_mode(self, agent)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
 
 def _run(cmd):

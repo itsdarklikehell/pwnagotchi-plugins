@@ -33,6 +33,11 @@ class AutoHotSpot(plugins.Plugin):
         "face": "(>.<)",
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def on_loaded(self):
         global READY
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -317,3 +322,7 @@ class AutoHotSpot(plugins.Plugin):
                             % (signal_strength)
                         )
                         STATUS = "rssi_low"
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
