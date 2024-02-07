@@ -89,7 +89,7 @@ def verify(name, path, source_path, display, update):
     checksums = glob.glob("%s/*.sha256" % path)
     if len(checksums) == 0:
         if update["native"]:
-            logging.warning("[update] native update without SHA256 checksum file")
+            logging.warn("[update] native update without SHA256 checksum file")
             return False
 
     else:
@@ -108,7 +108,7 @@ def verify(name, path, source_path, display, update):
         )
 
         if real != expected:
-            logging.warning(
+            logging.warn(
                 "[update] checksum mismatch for %s: expected=%s got=%s"
                 % (source_path, expected, real)
             )
@@ -137,7 +137,7 @@ def install(display, update):
     if update["native"]:
         dest_path = subprocess.getoutput("which %s" % name)
         if dest_path == "":
-            logging.warning("[update] can't find path for %s" % name)
+            logging.warn("[update] can't find path for %s" % name)
             return False
 
         logging.info("[update] stopping %s ..." % update["service"])
@@ -248,7 +248,7 @@ class AutoUpdate(plugins.Plugin):
                 for repo, local_version, is_native, svc_name in to_check:
                     info = check(local_version, repo, is_native)
                     if info["url"] is not None:
-                        logging.warning(
+                        logging.warn(
                             "update for %s available (local version is '%s'): %s"
                             % (repo, info["current"], info["url"])
                         )

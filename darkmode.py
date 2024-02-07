@@ -26,7 +26,7 @@ class Darkmode(plugins.Plugin):
     def _update_ui_colors(self, ui):
         for key, element in ui._state.items():
             if element.color != pwnagotchi.ui.view.BLACK:
-                logging.warning(
+                logging.warn(
                     f"[{self.__class__.__name__}] Update element color: %s" % key
                 )
                 element.color = pwnagotchi.ui.view.BLACK

@@ -120,7 +120,7 @@ def load_from_path(path, enabled=()):
             try:
                 load_from_file(filename)
             except Exception as e:
-                logging.warning("error while loading %s: %s" % (filename, e))
+                logging.warn("error while loading %s: %s" % (filename, e))
                 logging.debug(e, exc_info=True)
 
     return loaded

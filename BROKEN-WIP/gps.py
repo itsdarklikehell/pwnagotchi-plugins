@@ -47,7 +47,7 @@ class GPS(plugins.Plugin):
             logging.info(f"bettercap gps module enabled on {self.options['device']}")
             self.running = True
         else:
-            logging.warning("no GPS detected")
+            logging.warn("no GPS detected")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         if self.running:

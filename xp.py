@@ -262,7 +262,7 @@ class XP(plugins.Plugin):
     def _update_xp(self, event, multiplier=1):
         if event in EVENTS_XP:
             if not self.ready:
-                logging.warning("[XP] Plugin not ready yet!")
+                logging.warn("[XP] Plugin not ready yet!")
                 return False
 
             xp = EVENTS_XP[event] * multiplier
@@ -634,7 +634,7 @@ class XP(plugins.Plugin):
     def on_handshake(self, agent, filename, ap, client):
         try:
             while not os.path.exists(filename):
-                logging.warning(
+                logging.warn(
                     "[XP] on_handshake: Waiting for %s to be created." % filename
                 )
                 time.sleep(1)

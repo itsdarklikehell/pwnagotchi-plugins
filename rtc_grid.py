@@ -77,7 +77,7 @@ class RTCGrid(plugins.Plugin):
                 logging.info("RTC module found (busy).")
                 self.rtc = True
             else:
-                logging.warning("RTC module not found: %s" % e)
+                logging.warn("RTC module not found: %s" % e)
         except Exception as e:
             logging.error("rtc_grid.on_ready: %s" % e)
 

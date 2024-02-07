@@ -96,7 +96,7 @@ def dev_backup(file_paths, dest_fold):
             path = "%s/%s" % (ROOT_PATH, path)
         else:
             back_path = "%s%s" % (dest_fold, path)
-        # logging.warning('%s%s' % (path, file))
+        # logging.warn('%s%s' % (path, file))
         folders = os.path.split(back_path)[0]
         if not os.path.exists(folders):
             os.makedirs(folders)
@@ -128,17 +128,17 @@ def replace_file(name, path, backup, force, hidden, extension="bak"):
     path_target = "%s%s" % (path[0], name[0])
     if backup:
         if (force) or (not force and not os.path.exists(path_backup)):
-            logging.warning("%s ~~bak~~> %s" % (path_target, path_backup))
+            logging.warn("%s ~~bak~~> %s" % (path_target, path_backup))
             shutil.copyfile(path_target, path_backup)
     if len(path) == 2:
-        logging.warning("%s --mod--> %s" % (path_source, path_target))
+        logging.warn("%s --mod--> %s" % (path_source, path_target))
         shutil.copyfile(path_source, path_target)
 
 
 # function to verify if a new version is available
 def check_update(vers, online):
-    # logging.warning(("check update, online: %s") % (online))
-    # logging.warning(FANCY_ROOT)
+    # logging.warn(("check update, online: %s") % (online))
+    # logging.warn(FANCY_ROOT)
     nofile = False
     online_version = ""
     if online:
@@ -163,15 +163,15 @@ def check_update(vers, online):
             lines = lines.splitlines()
             count = 0
             for line in lines:
-                # logging.warning(line)
+                # logging.warn(line)
                 if "__version__ =" in line:
-                    # logging.warning(line)
+                    # logging.warn(line)
                     count += 1
                     if count == 3:
                         online_version = line.split("= ")[-1]
-                        # logging.warning(online_version)
+                        # logging.warn(online_version)
                         online_version = online_version[1:-1]
-                        # logging.warning(online_version)
+                        # logging.warn(online_version)
         else:
             nofile = True
 
@@ -200,7 +200,7 @@ def check_update(vers, online):
 
 
 def update(online):
-    logging.warning("The updater is starting, online: %s" % (online))
+    logging.warn("The updater is starting, online: %s" % (online))
     if online:  # <-- Download from the Git & define the update path
         URL = "https://github.com/V0r-T3x/fancygotchi/archive/refs/heads/main.zip"
         response = requests.get(URL)
@@ -214,9 +214,7 @@ def update(online):
     if not online:  # <-- Define the update local path
         path_upd = "%s/fancygotchi/update" % (FANCY_ROOT)
 
-    logging.warning(
-        "%s/fancygotchi.py ====> %s/fancygotchi.py" % (path_upd, FANCY_ROOT)
-    )
+    logging.warn("%s/fancygotchi.py ====> %s/fancygotchi.py" % (path_upd, FANCY_ROOT))
     # replace_file(['/fancygotchi.py'], [path_upd, FANCY_ROOT], False, False, False)
     shutil.copyfile(
         "%s/fancygotchi.py" % (path_upd), "%s/fancygotchi.py" % (FANCY_ROOT)
@@ -225,26 +223,26 @@ def update(online):
     uninstall(True)
 
     mod_path = "%s/fancygotchi/mod" % (FANCY_ROOT)
-    logging.warning("removing mod folder: %s" % (mod_path))
+    logging.warn("removing mod folder: %s" % (mod_path))
     os.system("rm -R %s" % (mod_path))
     deftheme_path = "%s/fancygotchi/theme/.default" % (FANCY_ROOT)
-    logging.warning("removing mod folder: %s" % (deftheme_path))
+    logging.warn("removing mod folder: %s" % (deftheme_path))
     os.system("rm -R %s" % (deftheme_path))
 
     path_upd = "%s/fancygotchi" % (path_upd)
-    logging.warning(path_upd)
+    logging.warn(path_upd)
     for root, dirs, files in os.walk(path_upd):
-        # logging.warning('%s %s %s' % (root, dirs, files))
+        # logging.warn('%s %s %s' % (root, dirs, files))
         for name in files:
-            # logging.warning(name)
+            # logging.warn(name)
             if not name in ["README.md", "readme.md"]:
                 src_file = os.path.join(root, name)
-                logging.warning(src_file)
+                logging.warn(src_file)
                 dst_path = "%s/%s" % (FANCY_ROOT, root.split("fancygotchi-main/")[-1])
                 dst_file = "%s/%s" % (dst_path, name)
-                logging.warning(dst_file)
-                logging.warning("%s ~~~~>%s" % (src_file, dst_file))
-                logging.warning(dst_path)
+                logging.warn(dst_file)
+                logging.warn("%s ~~~~>%s" % (src_file, dst_file))
+                logging.warn(dst_path)
                 if not os.path.exists(dst_path):
                     os.makedirs(dst_path)
                 shutil.copyfile(src_file, dst_file)
@@ -256,14 +254,14 @@ def update(online):
             # Copy the file to the destination path
             shutil.copyfile(src_file, dst_file)
     if online:
-        logging.warning("removing the update temporary folder: %s" % (path_upd_src))
+        logging.warn("removing the update temporary folder: %s" % (path_upd_src))
         os.system("rm -R %s" % (path_upd_src))
 
 
 def uninstall(soft=False):
     # deleting the sym link for the img file
     dest = "%s/ui/web/static/img/" % (ROOT_PATH)
-    logging.warning(dest)
+    logging.warn(dest)
     os.system("rm %s" % (dest))
 
     for i in range(len(FILES_TO_MOD["path"])):
@@ -271,21 +269,21 @@ def uninstall(soft=False):
         file = data_dict["file"][i]
         if path[0] != "/":
             path = "%s/%s" % (ROOT_PATH, path)
-        # logging.warning(path)
-        # logging.warning('%s.%s.original' % (path, file))
-        logging.warning("%s%s" % (path, file))
+        # logging.warn(path)
+        # logging.warn('%s.%s.original' % (path, file))
+        logging.warn("%s%s" % (path, file))
         shutil.copyfile("%s.%s.original" % (path, file), "%s%s" % (path, file))
         os.system("rm %s" % ("%s.%s.original" % (path, file)))
         # disable the fancygotchi inside the config.toml
     if not soft:
-        logging.warning("config.toml disable")
+        logging.warn("config.toml disable")
         replace_line(
             "/etc/pwnagotchi/config.toml",
             "fancygotchi.enabled",
             ["main.plugins.fancygotchi.enabled = false"],
         )
     else:
-        logging.warning("config.toml enable")
+        logging.warn("config.toml enable")
         replace_line(
             "/etc/pwnagotchi/config.toml",
             "fancygotchi.enabled",
@@ -380,9 +378,7 @@ class Fancygotchi(plugins.Plugin):
             compatible = 1
             logging.info("[FANCYGOTCHI] Pwnagotchi headless mode")
         else:
-            logging.warning(
-                "[FANCYGOTCHI] The screen is not compatible with the plugin"
-            )
+            logging.warn("[FANCYGOTCHI] The screen is not compatible with the plugin")
 
         # If the initial screen isn't compatible the mod will not install
         # logging.info('[FANCYGOTCHI] compatible: %s' % (compatible))
@@ -400,11 +396,11 @@ class Fancygotchi(plugins.Plugin):
         for i in range(len(FILES_TO_MOD["path"])):
             path = data_dict["path"][i]
             file = data_dict["file"][i]
-            # logging.warning(path)
-            # logging.warning(file)
+            # logging.warn(path)
+            # logging.warn(file)
             slash = ""
             if not path[0] == "/":
-                # logging.warning(path[0])
+                # logging.warn(path[0])
                 dest_path = "%s/%s" % (ROOT_PATH, path)
                 slash = "/"
                 # src_path = '%s/fancygotchi/mod%s' % (FANCY_ROOT, path)
@@ -412,14 +408,14 @@ class Fancygotchi(plugins.Plugin):
                 dest_path = path
                 slash = ""
             ori_bak = "%s.%s.original" % (dest_path, file)
-            # logging.warning(ori_bak)
+            # logging.warn(ori_bak)
             src_path = "%s/fancygotchi/mod%s%s" % (FANCY_ROOT, slash, path)
-            # logging.warning(src_path)
-            # logging.warning(dest_path)
+            # logging.warn(src_path)
+            # logging.warn(dest_path)
             if not os.path.exists(ori_bak):
-                # logging.warning(ori_bak)
-                # logging.warning(src_path)
-                # logging.warning(dest_path)
+                # logging.warn(ori_bak)
+                # logging.warn(src_path)
+                # logging.warn(dest_path)
                 replace_file(
                     [file], [dest_path, src_path], True, False, True, "original"
                 )

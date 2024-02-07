@@ -49,7 +49,7 @@ class CombinedPlugin(Plugin):
             self.network = ""
             threading.Timer(self.update_interval, self.render_network_status).start()
         else:
-            logging.warning(
+            logging.warn(
                 f"[{self.__class__.__name__}] The interface wlan0mon is not present. All functions stopped."
             )
 

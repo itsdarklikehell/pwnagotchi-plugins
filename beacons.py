@@ -75,7 +75,7 @@ class Beacons(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.warning(
+        logging.warn(
             " *beacons* this plugin is not stealthy at all! Anyone could see the beacons when they search for WiFi networks!"
         )
         Beacons._busy = False
@@ -112,9 +112,9 @@ class Beacons(plugins.Plugin):
             )
             self.broadcast_info(packedInfo, self._packet_type["report"])
         except Exception as e:
-            logging.warning(" *beacons* -> exec_update exception: ")
-            logging.warning(" *beacons* -> " + str(type(e)))
-            logging.warning(" *beacons* -> " + str(e))
+            logging.warn(" *beacons* -> exec_update exception: ")
+            logging.warn(" *beacons* -> " + str(type(e)))
+            logging.warn(" *beacons* -> " + str(e))
         Beacons._busy = False
 
     def pack_info(self, channel, aps, shakes, uptime, face, mode, name):
@@ -175,7 +175,7 @@ class Beacons(plugins.Plugin):
         return base64.b64encode(result)
 
     def broadcast_info(self, info_packet, packet_type):
-        #        logging.warning(" *beacons* -> sending packets " + str(time.time()) )
+        #        logging.warn(" *beacons* -> sending packets " + str(time.time()) )
         SSID = info_packet
         iface = self._iface
         # android has some kind of mac filtering for vendors, not all spoofed macs work.

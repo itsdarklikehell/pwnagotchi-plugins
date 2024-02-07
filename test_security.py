@@ -189,7 +189,7 @@ class SecurityMonitor(plugins.Plugin):
 
         # Example: Check for specific patterns or anomalies in the captured packets
         if "malicious_pattern" in deep_packet_result:
-            logging.warning("Malicious pattern detected in the network traffic.")
+            logging.warn("Malicious pattern detected in the network traffic.")
             # You can perform additional actions, such as alerting or blocking
 
         # Example: Extract information from the captured packets
@@ -202,9 +202,7 @@ class SecurityMonitor(plugins.Plugin):
         if security_checks_passed:
             logging.info("Deep packet inspection passed security checks.")
         else:
-            logging.warning(
-                "Security checks failed. Potential security issues detected."
-            )
+            logging.warn("Security checks failed. Potential security issues detected.")
             # You can take appropriate actions based on the security check results
 
     def extract_info_from_packets(self, deep_packet_result):
@@ -328,7 +326,7 @@ class SecurityMonitor(plugins.Plugin):
         try:
             # Example: Check for a specific pattern or anomaly in the packet
             if "malicious_pattern" in str(packet.payload):
-                logging.warning("Malicious pattern detected in the network traffic.")
+                logging.warn("Malicious pattern detected in the network traffic.")
                 self.security_issue_detected = True
                 # You can perform additional actions, such as alerting or blocking
 
@@ -340,7 +338,7 @@ class SecurityMonitor(plugins.Plugin):
             # Example: Perform additional security checks based on the packet content
             security_checks_passed = self.perform_security_checks(packet)
             if not security_checks_passed:
-                logging.warning(
+                logging.warn(
                     "Security checks failed. Potential security issues detected."
                 )
                 self.security_issue_detected = True
@@ -370,12 +368,12 @@ class SecurityMonitor(plugins.Plugin):
     def perform_security_checks(self, packet):
         # Example: Check for known vulnerabilities in the packet content
         if "malicious_pattern" in str(packet.payload):
-            logging.warning("Malicious pattern detected in the packet.")
+            logging.warn("Malicious pattern detected in the packet.")
             return False  # Security check failed
 
         # Example: Check for suspicious behavior or conditions
         if "SuspiciousHeader" in packet:
-            logging.warning("Suspicious header detected in the packet.")
+            logging.warn("Suspicious header detected in the packet.")
             return False  # Security check failed
 
         # Add more security check logic based on your specific requirements

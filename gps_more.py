@@ -176,7 +176,7 @@ class GPS_More(plugins.Plugin):
             if coords and all([coords["Latitude"], coords["Longitude"]]):
                 self.coordinates = coords
         except Exception as err:
-            logging.warning(
+            logging.warn(
                 f"[{self.__class__.__name__}] gps.new err: %s, %s"
                 % (repr(event), repr(err))
             )

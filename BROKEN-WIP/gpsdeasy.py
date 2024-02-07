@@ -76,7 +76,7 @@ class GPSD:
             self.socket.connect((host, port))
             self.stream = self.socket.makefile(mode="rw")
         except:
-            logging.warning(
+            logging.warn(
                 "[gpseasy] error occured during socket setup, try power cycle the device"
             )
 
@@ -372,7 +372,7 @@ class Gpsdeasy(plugins.Plugin):
                 try:
                     ui.remove_element(element)
                 except:
-                    logging.warning("[gpsdeasy] Element would not be removed skipping")
+                    logging.warn("[gpsdeasy] Element would not be removed skipping")
                     pass
 
         logging.info("[gpsdeasy] plugin disabled")
@@ -584,7 +584,7 @@ class Gpsdeasy(plugins.Plugin):
                     return self.generatePolarPlot(self.gpsd.get_current("sky"))
 
             except Exception as e:
-                logging.warning("webhook err: %s" % repr(e))
+                logging.warn("webhook err: %s" % repr(e))
                 return (
                     "<html><head><title>GPSD Easy: Error</title></head><body><code>%s</code></body></html>"
                     % repr(e)

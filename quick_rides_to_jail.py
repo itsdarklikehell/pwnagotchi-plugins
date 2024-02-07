@@ -110,12 +110,12 @@ def _do_crack(self, agent, filename):
 
     try:
         if config["main"]["plugins"]["quickdic"]["enabled"] == "true":
-            logging.warning(
+            logging.warn(
                 "[thePolice] Plugin quickdic is enabled. Cannot run with quickdic enabled..."
             )
             return
     except Exception as e:
-        logging.warning(
+        logging.warn(
             "[thePolice] Exception while checking for quickdic plugin in config file: %s",
             e,
         )
@@ -126,7 +126,7 @@ def _do_crack(self, agent, filename):
         )
         result = aircrack_execution.stdout.decode("utf-8").strip()
     except Exception as e:
-        logging.warning(
+        logging.warn(
             "[thePolice] Exception while running initial aircrack-ng check: %s", e
         )
         return

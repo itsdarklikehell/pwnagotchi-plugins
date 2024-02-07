@@ -19,6 +19,9 @@ class PowerUtils(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.running = True
 
     def on_loaded(self):

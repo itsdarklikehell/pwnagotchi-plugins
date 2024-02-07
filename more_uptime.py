@@ -16,6 +16,7 @@ class More_Uptime(plugins.Plugin):
     __name__ = "More_Uptime"
     __help__ = "Enable and disable ASSOC  on the fly. Enabled when plugin loads, disabled when plugin unloads."
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["scapy"],
     }
     __defaults__ = {
@@ -23,6 +24,9 @@ class More_Uptime(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self._agent = None
         self._start = time.time()
         pass
@@ -31,6 +35,7 @@ class More_Uptime(plugins.Plugin):
     # must return a html page
     # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         pass
 
     # called when the plugin is loaded
@@ -46,8 +51,9 @@ class More_Uptime(plugins.Plugin):
         try:
             if ui.has_element("more_uptime"):
                 ui.remove_element("more_uptime")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as err:
-            logging.warn("[more uptime] %s" % repr(err))
+            logging.warn(f"[{self.__class__.__name__}] %s" % repr(err))
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
@@ -74,7 +80,7 @@ class More_Uptime(plugins.Plugin):
                         ),
                     )
         except Exception as err:
-            logging.warn("[more uptime] ui setup: %s" % repr(err))
+            logging.warn(f"[{self.__class__.__name__}] ui setup: %s" % repr(err))
 
     HZ = os.sysconf(os.sysconf_names["SC_CLK_TCK"])
 
@@ -101,16 +107,21 @@ class More_Uptime(plugins.Plugin):
                 # instance, since plugin loaded
                 res = utils.secs_to_hhmmss(time.time() - self._start)
                 label = "IN"
-            logging.debug("[more uptime] %s: %s" % (label, res))
+            logging.debug(f"[{self.__class__.__name__}] %s: %s" % (label, res))
             # hijack the stock uptime view, modify label as needed
             if "override" in self.options and self.options["override"]:
                 try:
                     uiItems = ui._state._state
                     uiItems["uptime"].label = label
                 except Exception as err:
-                    logging.warn("[more uptime] label hijack err: %s", (repr(err)))
+                    logging.warn(
+                        f"[{self.__class__.__name__}] label hijack err: %s", (repr(err))
+                    )
                 ui.set("uptime", res)
             else:
                 ui.set("more_uptime", "%s %s" % (label, res))
         except Exception as err:
-            logging.warn("[more uptime] ui update: %s, %s" % (repr(err), repr(uiItems)))
+            logging.warn(
+                f"[{self.__class__.__name__}] ui update: %s, %s"
+                % (repr(err), repr(uiItems))
+            )

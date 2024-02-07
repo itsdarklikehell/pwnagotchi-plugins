@@ -69,7 +69,7 @@ class PiVoyager(plugins.Plugin):
             run(["date", "-s", date], stdout=DEVNULL)
             logging.info("pivoyager - updated local time from RTC")
         else:
-            logging.warning("RTC not set could not sync local time")
+            logging.warn("RTC not set could not sync local time")
 
       # enable pivoyager power wakeup function
         run([self.path, "enable", "power-wakeup"])

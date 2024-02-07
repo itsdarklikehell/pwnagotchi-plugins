@@ -57,7 +57,7 @@ class GPSPlus(plugins.Plugin):
             agent.run("gps on")
             self.running = True
         else:
-            logging.warning(f"[{self.__class__.__name__}] no GPS detected")
+            logging.warn(f"[{self.__class__.__name__}] no GPS detected")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         if self.running:

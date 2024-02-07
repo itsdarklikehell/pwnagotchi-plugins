@@ -108,6 +108,14 @@ class Age(plugins.Plugin):
             ui.remove_element("Deauths Sent")
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
+
     def on_ui_update(self, ui):
         ui.set("Age", self.calculate_device_age())
         ui.set("Strength", str(self.train_epochs))

@@ -20,7 +20,7 @@ class GPIOShutdown(plugins.Plugin):
     }
 
     def shutdown(self, channel):
-        logging.warning("[gpioshutdown] Received shutdown command from GPIO")
+        logging.warn("[gpioshutdown] Received shutdown command from GPIO")
         pwnagotchi.shutdown()
 
     def on_loaded(self):

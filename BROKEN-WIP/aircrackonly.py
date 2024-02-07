@@ -39,7 +39,7 @@ class AircrackOnly(plugins.Plugin):
         if check != "aircrack-ng <none>":
             logging.info("[aircrackonly] Found %s", check)
         else:
-            logging.warning("[aircrackonly] aircrack-ng is not installed!")
+            logging.warn("[aircrackonly] aircrack-ng is not installed!")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         display = agent._view
@@ -83,7 +83,7 @@ class AircrackOnly(plugins.Plugin):
         if todelete == 1:
             os.remove(filename)
             self.text_to_set = "Removed an uncrackable pcap"
-            logging.warning("[aircrackonly] Removed uncrackable pcap %s", filename)
+            logging.warn("[aircrackonly] Removed uncrackable pcap %s", filename)
             display.update(force=True)
 
     def on_ui_update(self, ui):

@@ -357,13 +357,13 @@ class Touch_Screen(plugins.Plugin):
         try:
             self.init_gpio()
         except Exception as e:
-            logging.warning(repr(e))
+            logging.warn(repr(e))
 
         # start touch screen background thread
         try:
             self.init_ts_handler()
         except Exception as e:
-            logging.warning(repr(e))
+            logging.warn(repr(e))
 
         # notify plugins
         plugins.on("touch_ready", self)
@@ -604,7 +604,7 @@ class Touch_Screen(plugins.Plugin):
                         bouncetime=600,
                     )
                 except Exception as err:
-                    logging.warning("OK button: %s" % repr(err))
+                    logging.warn("OK button: %s" % repr(err))
             if "next" in self.options["gpios"]:
                 try:
                     GPIO.setup(int(self.options["gpios"]["next"]), GPIO.IN, GPIO.PUD_UP)
@@ -621,7 +621,7 @@ class Touch_Screen(plugins.Plugin):
                         bouncetime=600,
                     )
                 except Exception as err:
-                    logging.warning("Next button: %s" % repr(err))
+                    logging.warn("Next button: %s" % repr(err))
             if "back" in self.options["gpios"]:
                 try:
                     GPIO.setup(int(self.options["gpios"]["back"]), GPIO.IN, GPIO.PUD_UP)
@@ -638,7 +638,7 @@ class Touch_Screen(plugins.Plugin):
                         bouncetime=600,
                     )
                 except Exception as err:
-                    logging.warning("Back button: %s" % repr(err))
+                    logging.warn("Back button: %s" % repr(err))
             if "prev" in self.options["gpios"]:
                 try:
                     GPIO.setup(int(self.options["gpios"]["prev"]), GPIO.IN, GPIO.PUD_UP)
@@ -655,7 +655,7 @@ class Touch_Screen(plugins.Plugin):
                         bouncetime=600,
                     )
                 except Exception as err:
-                    logging.warning("Prev button: %s" % repr(err))
+                    logging.warn("Prev button: %s" % repr(err))
 
     def init_ts_handler(self):
         # start touchscreen handler thread

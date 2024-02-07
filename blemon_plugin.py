@@ -42,7 +42,7 @@ class BLEMon(plugins.Plugin):
     def on_loaded(self):
         if "face" not in self.options:
             self.options["face"] = "(B+B)"
-        logging.warning(
+        logging.warn(
             f"[{self.__class__.__name__}] plugin loaded! with options = %s"
             % repr(self.options)
         )
@@ -58,9 +58,7 @@ class BLEMon(plugins.Plugin):
                 self.agent = None
                 ui.remove_element("blemon_count")
             except Exception as err:
-                logging.warning(
-                    f"[{self.__class__.__name__}] unload err: %s" % repr(err)
-                )
+                logging.warn(f"[{self.__class__.__name__}] unload err: %s" % repr(err))
         pass
 
     # called hen there's internet connectivity
@@ -107,7 +105,7 @@ class BLEMon(plugins.Plugin):
             agent.run("ble.clear; ble.recon on")
             self.stopRecon = True
         except Exception as err:
-            logging.warning(
+            logging.warn(
                 f"[{self.__class__.__name__}] ble probably already running: %s"
                 % repr(err)
             )
@@ -242,7 +240,7 @@ class BLEMon(plugins.Plugin):
             else:
                 display.set("status", "Blue buddy %s" % name)
         except Exception as err:
-            logging.warning(f"[{self.__class__.__name__}] ble new Error: %s" % err)
+            logging.warn(f"[{self.__class__.__name__}] ble new Error: %s" % err)
 
     def on_bcap_ble_device_connected(self, agent, event):
         try:
@@ -250,7 +248,7 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device CON: %s" % repr(event)
             )
         except Exception as err:
-            logging.warning(f"[{self.__class__.__name__}] ble CON Error: %s" % err)
+            logging.warn(f"[{self.__class__.__name__}] ble CON Error: %s" % err)
 
     def on_bcap_ble_device_service_discovered(self, agent, event):
         try:
@@ -258,7 +256,7 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device SVC: %s" % repr(event)
             )
         except Exception as err:
-            logging.warning(f"[{self.__class__.__name__}] ble SVC Error: %s" % err)
+            logging.warn(f"[{self.__class__.__name__}] ble SVC Error: %s" % err)
 
     def on_bcap_ble_device_characteristic_discovered(self, agent, event):
         try:
@@ -266,7 +264,7 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device CHR: %s" % repr(event)
             )
         except Exception as err:
-            logging.warning(f"[{self.__class__.__name__}] ble CHR Error: %s" % err)
+            logging.warn(f"[{self.__class__.__name__}] ble CHR Error: %s" % err)
 
     def on_bcap_ble_device_disconnected(self, agent, event):
         try:
@@ -274,7 +272,7 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device DISCON: %s" % repr(event)
             )
         except Exception as err:
-            logging.warning(f"[{self.__class__.__name__}] ble disconn Error: %s" % err)
+            logging.warn(f"[{self.__class__.__name__}] ble disconn Error: %s" % err)
 
     def on_bcap_ble_device_lost(self, agent, event):
         try:
@@ -291,4 +289,4 @@ class BLEMon(plugins.Plugin):
             else:
                 ui.set("status", "Bye %s" % name)
         except Exception as err:
-            logging.warning(f"[{self.__class__.__name__}] ble lost Error: %s" % err)
+            logging.warn(f"[{self.__class__.__name__}] ble lost Error: %s" % err)

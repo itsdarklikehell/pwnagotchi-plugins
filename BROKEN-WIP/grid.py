@@ -134,7 +134,7 @@ class Grid(plugins.Plugin):
                                     self.set_reported(reported, net_id)
                                 time.sleep(1.5)
                         else:
-                            logging.warning("no bssid found?!")
+                            logging.warn("no bssid found?!")
             else:
                 logging.debug("grid: reporting disabled")
 

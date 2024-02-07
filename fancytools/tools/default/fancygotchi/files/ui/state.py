@@ -32,7 +32,7 @@ class State(object):
         with self._lock:
             return self._state[key].value if key in self._state else None
 
-    def get_attr(self, key, attribute='value'):
+    def get_attr(self, key, attribute="value"):
         with self._lock:
             if key in self._state:
                 return getattr(self._state[key], attribute)
@@ -82,10 +82,10 @@ class State(object):
                 self._state[key].label_font = value
 
     def set_attr(self, key, attribute, value):
-        #logging.warning('%s %s %s' % (key, attribute, value))
+        # logging.warn('%s %s %s' % (key, attribute, value))
         with self._lock:
             if key in self._state:
-                #logging.warning(self._state[key])
+                # logging.warn(self._state[key])
                 prev = getattr(self._state[key], attribute)
                 setattr(self._state[key], attribute, value)
 

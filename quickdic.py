@@ -29,6 +29,7 @@ class QuickDic(plugins.Plugin):
     __help__ = "Run a small aircrack scan against captured handshakes and PMKID"
     __dependencies__ = {
         "apt": ["aircrack-ng"],
+        "pip": ["scapy"],
     }
     __defaults__ = {
         "enabled": False,
@@ -39,6 +40,9 @@ class QuickDic(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.text_to_set = ""
 
     def on_loaded(self):
@@ -62,9 +66,9 @@ class QuickDic(plugins.Plugin):
         )
         check = check.stdout.decode("utf-8").strip()
         if check != "aircrack-ng <none>":
-            logging.info("[quickdic] Found %s" % check)
+            logging.info(f"[{self.__class__.__name__}] Found %s" % check)
         else:
-            logging.warning("[quickdic] aircrack-ng is not installed!")
+            logging.warn(f"[{self.__class__.__name__}] aircrack-ng is not installed!")
 
         # if self.options['id'] != None and self.options['api'] != None:
         # self._send_message(filename='Android AP', pwd='12345678')
@@ -84,9 +88,9 @@ class QuickDic(plugins.Plugin):
             {ord(c): None for c in string.whitespace}
         )
         if not result:
-            logging.info("[quickdic] No handshake")
+            logging.info(f"[{self.__class__.__name__}] No handshake")
         else:
-            logging.info("[quickdic] Handshake confirmed")
+            logging.info(f"[{self.__class__.__name__}] Handshake confirmed")
             result2 = subprocess.run(
                 (
                     "aircrack-ng -w `echo "
@@ -103,12 +107,12 @@ class QuickDic(plugins.Plugin):
                 stdout=subprocess.PIPE,
             )
             result2 = result2.stdout.decode("utf-8").strip()
-            logging.info("[quickdic] %s" % result2)
+            logging.info(f"[{self.__class__.__name__}] %s" % result2)
             if result2 != "KEY NOT FOUND":
                 key = re.search(r"\[(.*)\]", result2)
                 pwd = str(key.group(1))
                 self.text_to_set = "Cracked password: " + pwd
-                # logging.warning('!!! [quickdic] !!! %s' % self.text_to_set)
+                # logging.warn('!!! [quickdic] !!! %s' % self.text_to_set)
                 display.set("face", self.options["face"])
                 display.set("status", self.text_to_set)
                 self.text_to_set = ""
@@ -166,3 +170,7 @@ class QuickDic(plugins.Plugin):
             ui.set("face", self.options["face"])
             ui.set("status", self.text_to_set)
             self.text_to_set = ""
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")

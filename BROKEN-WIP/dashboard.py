@@ -88,7 +88,7 @@ class Dashboard(plugins.Plugin):
             run(["date", "-s", date], stdout=DEVNULL)
             logging.debug("[Dashboard]: Pivoyager update local time from RTC.")
         else:
-            logging.warning(
+            logging.warn(
                 "[Dashboard]: Pivoyager RTC not set, could not sync local time."
             )
 

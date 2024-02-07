@@ -148,7 +148,7 @@ class discohash(plugins.Plugin):
                 "hcxhashtool -i {}.22000 --info=stdout".format(fullpathNoExt)
             )
         except Exception as e:
-            logging.warning(
+            logging.warn(
                 "[!] DiscoHash: An error occured while analysing the hash: {}".format(e)
             )
         try:
@@ -198,9 +198,7 @@ class discohash(plugins.Plugin):
             )
             logging.debug("[*] DiscoHash: Webhook sent!")
         except Exception as e:
-            logging.warning(
-                "[!] DiscoHash: An error occured with the plugin!{}".format(e)
-            )
+            logging.warn("[!] DiscoHash: An error occured with the plugin!{}".format(e))
 
     def on_unload(self, ui):
         with ui._lock:

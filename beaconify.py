@@ -96,19 +96,19 @@ class Beaconify(plugins.Plugin):
                     )
                     process.wait()
                     if process.returncode > 0:
-                        logging.warning(
+                        logging.warn(
                             f"[{self.__class__.__name__}] pwngrid restarted! Waiting {obj.init_pwngrid_time} for its initialization."
                         )
                         time.sleep(obj.init_pwngrid_time)
                         self.waiting_pwngrid = False
                         return
                     else:
-                        logging.warning(
+                        logging.warn(
                             f"[{self.__class__.__name__}] Failed to restart pwngrid! Waiting {obj.restart_pwngrid_time} before trying again."
                         )
                         time.sleep(obj.restart_pwngrid_time)
                         retries -= 1
-                logging.warning(
+                logging.warn(
                     f"[{self.__class__.__name__}] Failed to restart pwngrid too many times! The unit probably won't send or receive beacons until reboot."
                 )
                 self.waiting_pwngrid = False

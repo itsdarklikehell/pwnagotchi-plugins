@@ -99,7 +99,7 @@ class Tracker(plugins.Plugin):
         try:
             self.gps = plugins.loaded["gps"]
             if not self.gps:
-                logging.warning(
+                logging.warn(
                     "[tracker] gps plugin not loaded! Coordinates will not be saved."
                 )
         except Exception as e:

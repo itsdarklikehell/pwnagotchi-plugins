@@ -26,10 +26,14 @@ class KeyPair(object):
         while True:
             # first time, generate new keys
             if not os.path.exists(self.priv_path) or not os.path.exists(self.pub_path):
-                if os.path.exists(f'{self.priv_path}.original') and os.path.exists(f'{self.pub_path}.original') and os.path.exists(f'{self.fingerprint_path}.original'):
-                    logging.warning('loading backup')
-                    shutil.copy(f'{self.priv_path}.original', self.priv_path)
-                    shutil.copy(f'{self.pub_path}.original', self.pub_path)
+                if (
+                    os.path.exists(f"{self.priv_path}.original")
+                    and os.path.exists(f"{self.pub_path}.original")
+                    and os.path.exists(f"{self.fingerprint_path}.original")
+                ):
+                    logging.warn("loading backup")
+                    shutil.copy(f"{self.priv_path}.original", self.priv_path)
+                    shutil.copy(f"{self.pub_path}.original", self.pub_path)
                 else:
                     self._view.on_keys_generation()
                     logging.info("generating %s ..." % self.priv_path)
@@ -43,36 +47,42 @@ class KeyPair(object):
 
                 with open(self.pub_path) as fp:
                     self.pub_key = RSA.importKey(fp.read())
-                    self.pub_key_pem = self.pub_key.exportKey('PEM').decode("ascii")
+                    self.pub_key_pem = self.pub_key.exportKey("PEM").decode("ascii")
                     # python is special
-                    if 'RSA PUBLIC KEY' not in self.pub_key_pem:
-                        self.pub_key_pem = self.pub_key_pem.replace('PUBLIC KEY', 'RSA PUBLIC KEY')
+                    if "RSA PUBLIC KEY" not in self.pub_key_pem:
+                        self.pub_key_pem = self.pub_key_pem.replace(
+                            "PUBLIC KEY", "RSA PUBLIC KEY"
+                        )
 
                 pem_ascii = self.pub_key_pem.encode("ascii")
 
                 self.pub_key_pem_b64 = base64.b64encode(pem_ascii).decode("ascii")
                 self.fingerprint = hashlib.sha256(pem_ascii).hexdigest()
 
-                with open(self.fingerprint_path, 'w+t') as fp:
+                with open(self.fingerprint_path, "w+t") as fp:
                     fp.write(self.fingerprint)
 
                 # no exception, keys loaded correctly.
                 self._view.on_starting()
-                if not os.path.exists(f'{self.priv_path}.original'):
-                    shutil.copy(self.priv_path, f'{self.priv_path}.original')
-                if not os.path.exists(f'{self.pub_path}.original'):
-                    shutil.copy(self.pub_path, f'{self.pub_path}.original')
-                if not os.path.exists(f'{self.fingerprint_path}.original'):
-                    shutil.copy(self.fingerprint_path, f'{self.fingerprint_path}.original')
+                if not os.path.exists(f"{self.priv_path}.original"):
+                    shutil.copy(self.priv_path, f"{self.priv_path}.original")
+                if not os.path.exists(f"{self.pub_path}.original"):
+                    shutil.copy(self.pub_path, f"{self.pub_path}.original")
+                if not os.path.exists(f"{self.fingerprint_path}.original"):
+                    shutil.copy(
+                        self.fingerprint_path, f"{self.fingerprint_path}.original"
+                    )
                 return
 
             except Exception as e:
                 # if we're here, loading the keys broke something ...
-                logging.exception("error loading keys, maybe corrupted, deleting and regenerating ...")
+                logging.exception(
+                    "error loading keys, maybe corrupted, deleting and regenerating ..."
+                )
                 try:
                     os.remove(self.priv_path)
                     os.remove(self.pub_path)
-                    #if os.path.exists(f'{self.priv_path}.original') and os.path.exists(f'{self.pub_path}.original') and os.path.exists(f'{self.fingerprint_path}.original'):
+                    # if os.path.exists(f'{self.priv_path}.original') and os.path.exists(f'{self.pub_path}.original') and os.path.exists(f'{self.fingerprint_path}.original'):
                     #    shutil.copy(f'{self.priv_path}.original', self.priv_path)
                     #    shutil.copy(f'{self.pub_path}.original', self.pub_path)
                 except:

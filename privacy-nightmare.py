@@ -22,6 +22,7 @@ class PrivacyNightmare(plugins.Plugin):
     __name__ = "PrivacyNightmare"
     __help__ = "Private Nightmare. Eavesdropping metadata for fun and profit (well, education and awareness mostly)."
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["scapy"],
     }
     __defaults__ = {
@@ -29,6 +30,9 @@ class PrivacyNightmare(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.running = True
         self.second_ws_ready = False
         self.gps_up = False
@@ -48,7 +52,7 @@ class PrivacyNightmare(plugins.Plugin):
             os.makedirs(self.options["pn_output_path"])
 
     def on_ready(self, agent):
-
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
         self.hook_ws_events(agent)
         self.enable_gps(agent)
 
@@ -71,7 +75,7 @@ class PrivacyNightmare(plugins.Plugin):
             LabeledValue(
                 color=BLACK,
                 label="",
-                value="PN: Active",
+                value=f"[{self.__class__.__name__}]: Active",
                 position=pos,
                 label_font=fonts.Small,
                 text_font=fonts.Small,
@@ -84,7 +88,7 @@ class PrivacyNightmare(plugins.Plugin):
             LabeledValue(
                 color=BLACK,
                 label="",
-                value="PN: Active",
+                value=f"[{self.__class__.__name__}]: Active",
                 position=pos,
                 label_font=fonts.Small,
                 text_font=fonts.Small,
@@ -92,21 +96,18 @@ class PrivacyNightmare(plugins.Plugin):
         )
 
     def on_ui_update(self, ui):
-        ui.set("pn_status", "PN: %s" % (self.pn_status))
-        ui.set("pn_count", "PN: %s/%s" % (self.pn_count, self.pn_count))
+        ui.set("pn_status", "%s" % (self.pn_status))
+        ui.set("pn_count", "%s/%s" % (self.pn_count, self.pn_count))
 
     async def on_event(self, msg):
-
         jmsg = json.loads(msg)
-        logging.info("PN: Event %s" % (jmsg["tag"]))
+        logging.info(f"[{self.__class__.__name__}]: Event %s" % (jmsg["tag"]))
         if jmsg["tag"] == "wifi.client.probe":
-
             self.pn_status = "Probe from %s" % jmsg["data"]["essid"]
-            logging.info("PN: !!! Probe !!! %s" % (jmsg))
-
+            logging.info(f"[{self.__class__.__name__}]: !!! Probe !!! %s" % (jmsg))
         if jmsg["tag"] == "wifi.ap.new":
             self.pn_status = "New AP %s" % jmsg["data"]["essid"]
-            logging.info("PN: !!! NEW AP !!! %s" % (jmsg))
+            logging.info(f"[{self.__class__.__name__}]: !!! NEW AP !!! %s" % (jmsg))
             self.aps_update("NE", None, jmsg["data"])
 
     def hook_ws_events(self, agent):
@@ -120,7 +121,7 @@ class PrivacyNightmare(plugins.Plugin):
     def _event_poller(self, loop):
 
         while True:
-            logging.info("Probe listener up!")
+            logging.info(f"[{self.__class__.__name__}]: Probe listener up!")
             self.pn_status = "Probe listner up!"
             try:
                 loop.create_task(self.agent.start_websocket(self.on_event))
@@ -134,7 +135,7 @@ class PrivacyNightmare(plugins.Plugin):
         if "gps_device" in self.options:
             if os.path.exists(self.options["gps_device"]):
                 logging.info(
-                    f"enabling bettercap's gps module for {self.options['gps_device']}"
+                    f"[{self.__class__.__name__}]: enabling bettercap's gps module for {self.options['gps_device']}"
                 )
                 try:
                     agent.run("gps off")
@@ -146,9 +147,9 @@ class PrivacyNightmare(plugins.Plugin):
                 agent.run("gps on")
                 self.gps_up = True
             else:
-                logging.warning("PN: no GPS detected")
+                logging.warn(f"[{self.__class__.__name__}]: no GPS detected")
         else:
-            logging.warning("PN: no GPS configured")
+            logging.warn(f"[{self.__class__.__name__}]: no GPS configured")
 
     def get_gps(self, agent):
         if self.gps_up:
@@ -158,15 +159,15 @@ class PrivacyNightmare(plugins.Plugin):
                 [self.pn_gps_coords["Latitude"], self.pn_gps_coords["Longitude"]]
             ):
                 logging.info(
-                    "PN: GPS %s %s"
+                    f"[{self.__class__.__name__}]: GPS %s %s"
                     % (self.pn_gps_coords["Latitude"], self.pn_gps_coords["Longitude"])
                 )
                 self.gps_hot = True
             else:
-                logging.info("Unknown location")
+                logging.info(f"[{self.__class__.__name__}]: Unknown location")
                 self.gps_hot = False
         else:
-            logging.info("Unknown location (gps not up).")
+            logging.info(f"[{self.__class__.__name__}]: Unknown location (gps not up).")
             self.gps_hot = False
 
     def aps_update(self, update_type, agent, access_points):
@@ -193,19 +194,26 @@ class PrivacyNightmare(plugins.Plugin):
                     if "hostname" in ap:
                         hostname = ap["hostname"]
                     else:
-                        logging.info("PN: AP (Debug - %s): %s" % (update_type, str(ap)))
+                        logging.info(
+                            f"[{self.__class__.__name__}]: AP (Debug - %s): %s"
+                            % (update_type, str(ap))
+                        )
                         hostname = "Unknown-%s" % ap["vendor"]
 
                     APUID = "%s%%%s" % (hostname, ap["mac"])
                     if APUID in self.ap_list:
                         logging.info(
-                            "PN: We already know about %s, so ignoring" % APUID
+                            f"[{self.__class__.__name__}]: We already know about %s, so ignoring"
+                            % APUID
                         )
                         # TODO: Look at merging metadata here
                     else:
-                        logging.info("PN: NEW AP/mac combo %s" % APUID)
                         logging.info(
-                            "PN: AP (%s): %s at %s" % (update_type, hostname, latlong)
+                            f"[{self.__class__.__name__}]: NEW AP/mac combo %s" % APUID
+                        )
+                        logging.info(
+                            f"[{self.__class__.__name__}]: AP (%s): %s at %s"
+                            % (update_type, hostname, latlong)
                         )
                         self.ap_list[APUID] = str(ap)
                         self.pn_status = "AP (%s): %s" % (update_type, hostname)
@@ -221,8 +229,8 @@ class PrivacyNightmare(plugins.Plugin):
                             json.dump(ap, fp)
                             json.dump(self.pn_gps_coords, fp)
             else:
-                logging.warning(
-                    "PN: Empty AP list from %s list is %s"
+                logging.warn(
+                    f"[{self.__class__.__name__}]: Empty AP list from %s list is %s"
                     % (update_type, access_points)
                 )
 

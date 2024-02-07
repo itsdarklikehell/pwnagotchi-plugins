@@ -32,7 +32,7 @@ class Example(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.warning(
+        logging.warn(
             "WARNING: this plugin should be disabled! options = " % self.options
         )
 

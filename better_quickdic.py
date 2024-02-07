@@ -55,7 +55,7 @@ class BetterQuickDic(plugins.Plugin):
         if check != "aircrack-ng <none>":
             logging.info("[quickdic] Found %s" % check)
         else:
-            logging.warning("[quickdic] aircrack-ng is not installed!")
+            logging.warn("[quickdic] aircrack-ng is not installed!")
 
         # if self.options['id'] != None and self.options['api'] != None:
         # self._send_message(filename='Android AP', pwd='12345678')
@@ -99,7 +99,7 @@ class BetterQuickDic(plugins.Plugin):
                 key = re.search(r"\[(.*)\]", result2)
                 pwd = str(key.group(1))
                 self.text_to_set = "Cracked password: " + pwd
-                # logging.warning('!!! [quickdic] !!! %s' % self.text_to_set)
+                # logging.warn('!!! [quickdic] !!! %s' % self.text_to_set)
                 display.set("face", self.options["face"])
                 display.set("status", self.text_to_set)
                 self.text_to_set = ""

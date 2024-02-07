@@ -21,6 +21,7 @@ class nextcloud(plugins.Plugin):
         "This plugin automatically uploads handshakes to a nextcloud webdav endpoint."
     )
     __dependencies__ = {
+        "apt": ["none"],
         "pip": ["scapy"],
     }
     __defaults__ = {
@@ -29,6 +30,8 @@ class nextcloud(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.lock = threading.Lock()
         try:
             self.report = StatusFile("/root/.nextcloud_uploads", data_format="json")
@@ -198,3 +201,15 @@ class nextcloud(plugins.Plugin):
                         except OSError as os_e:
                             logging.error("nextcloud: %s", os_e)
                             continue
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

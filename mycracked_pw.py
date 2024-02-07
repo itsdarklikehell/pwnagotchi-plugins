@@ -12,15 +12,22 @@ class MyCrackedPasswords(plugins.Plugin):
     __version__ = "5.2.3"
     __license__ = "GPL3"
     __description__ = "A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat"
+    __name__ = "MyCrackedPasswords"
+    __help__ = "A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if not os.path.exists("/etc/pwnagotchi/wordlists/passwords/"):
             os.makedirs("/etc/pwnagotchi/wordlists/passwords/")
-
         if not os.path.exists("/home/pi/qrcodes/"):
             os.makedirs("/home/pi/qrcodes/")
-
         self._update_all()
 
     def on_handshake(self, agent, filename, access_point, client_station):
@@ -41,7 +48,7 @@ class MyCrackedPasswords(plugins.Plugin):
             f.close()
         except Exception as e:
             logging.error(
-                f"[mycracked_pw] encountered a problem in wpa-sec.cracked.potfile:\n{e}"
+                f"[{self.__class__.__name__}] encountered a problem in wpa-sec.cracked.potfile:\n{e}"
             )
 
         try:
@@ -58,7 +65,7 @@ class MyCrackedPasswords(plugins.Plugin):
             h.close()
         except Exception as e:
             logging.error(
-                f"[mycracked_pw] encountered a problem in onlinehashcrack.cracked:\n{e}"
+                f"[{self.__class__.__name__}] encountered a problem in onlinehashcrack.cracked:\n{e}"
             )
 
         # save all the wifi-qrcodes
@@ -92,8 +99,10 @@ class MyCrackedPasswords(plugins.Plugin):
                     logging.info(filename)
                     logging.info(q.read())
             except:
-                logging.error("[mycracked_pw] something went wrong generating qrcode")
-            logging.info("[mycracked_pw] qrcode generated.")
+                logging.error(
+                    f"[{self.__class__.__name__}] something went wrong generating qrcode"
+                )
+            logging.info(f"[{self.__class__.__name__}] qrcode generated.")
 
             # start with blank file
             open("/etc/pwnagotchi/wordlists/passwords/mycracked.txt", "w+").close()
@@ -104,4 +113,17 @@ class MyCrackedPasswords(plugins.Plugin):
                 for i in new_lines:
                     g.write(i + "\n")
 
-            logging.info("[mycracked_pw] pw list updated")
+            logging.info(f"[{self.__class__.__name__}] pw list updated")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        self._update_all()
+        pass

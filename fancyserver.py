@@ -37,7 +37,7 @@ class fancyserver(plugins.Plugin):
                 listener = Listener(address)
                 while self.running:
                     try:
-                        logging.warning("start loop fancyserver")
+                        logging.warn("start loop fancyserver")
                         conn = listener.accept()
                         command = (
                             conn.recv()
@@ -56,7 +56,7 @@ class fancyserver(plugins.Plugin):
                             pwnagotchi.restart("auto")
 
                         elif msg == "restart-manual":
-                            logging.warning("restart in manual mode")
+                            logging.warn("restart in manual mode")
                             pwnagotchi.restart("manual")
 
                         elif msg == "reboot-auto":
@@ -66,27 +66,27 @@ class fancyserver(plugins.Plugin):
                             pwnagotchi.reboot("manual")
 
                         elif msg == "plugin":
-                            logging.warning("plugin command " + name + " " + state)
+                            logging.warn("plugin command " + name + " " + state)
                             if state == "True":
                                 is_change = toggle_plugin(name, enable=True)
-                                # logging.warning('enable: '+is_change)
+                                # logging.warn('enable: '+is_change)
                             else:
                                 is_change = toggle_plugin(name, enable=False)
-                                # logging.warning('disable: '+is_change)
+                                # logging.warn('disable: '+is_change)
                             if is_change:
-                                logging.warning(name + " changed state")
+                                logging.warn(name + " changed state")
                             else:
-                                logging.warning(name + " didn't changed state")
+                                logging.warn(name + " didn't changed state")
 
                     except ConnectionRefusedError as cre:
-                        logging.warning(f"Connection refused error: {cre}")
+                        logging.warn(f"Connection refused error: {cre}")
                         time.sleep(
                             5
                         )  # wait for a few seconds before attempting to reconnect
 
             except Exception as e:
-                logging.warning(f"An unexpected error occurred: {e}")
-                logging.warning(traceback.format_exc())
+                logging.warn(f"An unexpected error occurred: {e}")
+                logging.warn(traceback.format_exc())
                 time.sleep(
                     5
                 )  # wait for a few seconds before attempting to restart the script

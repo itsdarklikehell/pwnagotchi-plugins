@@ -22,7 +22,7 @@ class PhwnHwm(plugins.Plugin):
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None
             ):
-                logging.error(f"[phwn_hwm] Option {opt} is not set.")
+                logging.error(f"[{self.__class__.__name__}] Option {opt} is not set.")
                 return
         self.networks = {
             self.options["networks"][i]: self.options["networks"][i + 1]
@@ -190,4 +190,16 @@ class PhwnHwm(plugins.Plugin):
         return self.run("ip addr show wlan0 | grep 'inet ' | awk '{print $2}'")
 
     def log(self, message):
-        logging.info("[phwn_hwm] %s" % message)
+        logging.info(f"[{self.__class__.__name__}] %s" % message)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

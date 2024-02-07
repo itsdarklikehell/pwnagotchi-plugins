@@ -227,7 +227,7 @@ class PWNAware(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        logging.warning("PWNAware options = " % self.options)
+        logging.warn("PWNAware options = " % self.options)
         if not "numPlanes" in self.options:
             self.options["numPlanes"] = 4
 
@@ -342,7 +342,7 @@ class PWNAware(plugins.Plugin):
                 self.coordinates = coords
 
         except Exception as err:
-            logging.warning("[pwnaware] gps.new err: %s, %s" % (repr(event), repr(err)))
+            logging.warn("[pwnaware] gps.new err: %s, %s" % (repr(event), repr(err)))
 
 
 if __name__ == "__main__":

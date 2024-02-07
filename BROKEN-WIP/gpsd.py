@@ -71,7 +71,7 @@ class gpsd_coord(plugins.Plugin):
             logging.info("bettercap set and on")
             self.running = True
         else:
-            logging.warning("no GPS detected")
+            logging.warn("no GPS detected")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         coords = self.gpsd.update_gps()
