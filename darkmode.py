@@ -40,7 +40,7 @@ class Darkmode(plugins.Plugin):
             pwnagotchi.ui.view.WHITE = 0x00
             logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
-            logging.error("darkmode.on_loaded: %s" % e)
+            logging.error(f"[{self.__class__.__name__}] _loaded: %s" % e)
 
     def on_unload(self, ui):
         logging.info(f"[{self.__class__.__name__}] plugin unloaded")
@@ -50,10 +50,10 @@ class Darkmode(plugins.Plugin):
             self._update_ui_colors(ui)
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as e:
-            logging.error("darkmode.on_unload: %s" % e)
+            logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         try:
             self._update_ui_colors(ui)
         except Exception as e:
-            logging.error("darkmode.on_ui_update: %s" % e)
+            logging.error(f"[{self.__class__.__name__}] update: %s" % e)
