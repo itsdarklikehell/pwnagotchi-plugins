@@ -189,9 +189,12 @@ class crack_house(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("crack_house")
-            ui.remove_element("crack_house_stats")
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            try:
+                ui.remove_element("crack_house")
+                ui.remove_element("crack_house_stats")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_wifi_update(self, agent, access_points):
         global READY
