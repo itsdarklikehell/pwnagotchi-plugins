@@ -68,18 +68,16 @@ class Birthday(plugins.Plugin):
             )
 
     def on_unload(self, ui):
-        if self.options["show_age"]:
-            with ui._lock:
-                try:
-                    ui.remove_element("Age")
-                except Exception as e:
-                    logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
-        elif self.options["show_birthday"]:
-            with ui._lock:
-                try:
-                    ui.remove_element("Birthday")
-                except Exception as e:
-                    logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+        with ui._lock:
+            try:
+                ui.remove_element("Age")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+        with ui._lock:
+            try:
+                ui.remove_element("Birthday")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
         logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_ui_update(self, ui):
