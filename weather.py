@@ -53,6 +53,14 @@ class WeatherForecast(plugins.Plugin):
         "A plugin that displays the weather forecast on the pwnagotchi screen."
     )
     __name__ = "WeatherForecast"
+    __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def _is_internet_available(self):
         try:
@@ -60,6 +68,11 @@ class WeatherForecast(plugins.Plugin):
             return True
         except urllib.request.URLError:
             return False
+
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -88,8 +101,8 @@ class WeatherForecast(plugins.Plugin):
             self._update_lat_lon()
             self.weather_response = requests.get(self.weather_url).json()
         else:
-            logging.info("Weather Not Ready")
-        logging.info("Weather Ready")
+            logging.info(f"[{self.__class__.__name__}] plugin not ready")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
 
     def _update_lat_lon(self):
         if self.gpson == True:
@@ -104,7 +117,9 @@ class WeatherForecast(plugins.Plugin):
                         self.lat = coords["Latitude"]
                         self.lon = coords["Longitude"]
                 except Exception as err:
-                    logging.warn(f"Failed to get GPS coordinates: {err}")
+                    logging.warn(
+                        f"[{self.__class__.__name__}] Failed to get GPS coordinates: {err}"
+                    )
             else:
                 pass
         else:
@@ -115,7 +130,7 @@ class WeatherForecast(plugins.Plugin):
                 self.lon = geo_response.get("lon")
             except Exception as err:
                 logging.error(
-                    f"Error fetching latitude:{self.lat} and longitude:{self.lon} error:{err}"
+                    f"[{self.__class__.__name__}] Error fetching latitude:{self.lat} and longitude:{self.lon} error:{err}"
                 )
         self.weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat={self.lat}&lon={self.lon}&appid={self.api_key}"
         logging.debug(f"weather url: {self.weather_url}")
@@ -157,7 +172,7 @@ class WeatherForecast(plugins.Plugin):
             if self.timer >= 12:
                 self.weather_response = requests.get(self.weather_url).json()
                 self.timer = 0
-                logging.info("Weather Updated")
+                logging.info(f"[{self.__class__.__name__}] Weather Updated")
             else:
                 self.timer += 1
 
@@ -176,7 +191,9 @@ class WeatherForecast(plugins.Plugin):
                     )
                     if seticon != self.previous_seticon:
                         if os.path.exists(source_path):
-                            logging.debug(f"Weather Copying icon from {source_path}")
+                            logging.debug(
+                                f"[{self.__class__.__name__}] Weather Copying icon from {source_path}"
+                            )
                             shutil.copy(
                                 source_path,
                                 os.path.join(
@@ -188,7 +205,7 @@ class WeatherForecast(plugins.Plugin):
                         else:
                             ui.set("main", "WTHR: Icon Not Found")
                             logging.error(
-                                f"Weather ERROR: ICON NOT FOUND {source_path}"
+                                f"[{self.__class__.__name__}] Weather ERROR: ICON NOT FOUND {source_path}"
                             )
                         self.previous_seticon = seticon
                     ui.set("weatherfeels", f"TEMP:{tempc}°C")
@@ -196,7 +213,7 @@ class WeatherForecast(plugins.Plugin):
             except Exception as e:
                 ui.set("weather", "WTHR: Error")
                 ui.set("weatherfeels", f"Temp: {e}")
-                logging.exception(f"Weather ERROR: {e}")
+                logging.exception(f"[{self.__class__.__name__}] Weather ERROR: {e}")
 
     def on_unload(self, ui):
         with ui._lock:
@@ -223,4 +240,4 @@ class WeatherForecast(plugins.Plugin):
                 )
             except KeyError:
                 pass
-            logging.info("Weather Plugin unloaded")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
