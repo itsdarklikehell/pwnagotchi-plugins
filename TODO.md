@@ -2,9 +2,9 @@
 
 ## WORKING
 achievements.py
-aircrackonly.py
 age.py
 agev2.py
+aircrackonly.py
 auto-hotspot.py
 auto-update.py
 away_base.py
@@ -16,6 +16,7 @@ better_quickdic.py
 blemon_plugin.py
 bluetoothsniffer.py
 bt-tether.py
+christmas.py
 clock.py
 counter.py
 darkmode.py
@@ -48,6 +49,7 @@ gps_live.py
 gps_more.py
 gps_sat.py
 gps-plus.py
+gps.py
 gpsdeasy.py
 grid.py
 handshaker.py
@@ -101,8 +103,6 @@ wifi_adventures.py
 wpa-sec-list.py
 xp_grid.py
 xp.py
-christmas.py
-gps.py
 
 
 ### NOT (yet) WORKING FOR SOME REASON
