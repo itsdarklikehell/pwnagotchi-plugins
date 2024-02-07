@@ -53,7 +53,9 @@ class Christmas(plugins.Plugin):
                     if "enabled" in data["main"]["plugins"]["memtemp"]:
                         if data["main"]["plugins"]["memtemp"]["enabled"]:
                             memenable = True
-                            logging.info("[christmas] memtemp is enabled")
+                            logging.info(
+                                f"[{self.__class__.__name__}] memtemp is enabled"
+                            )
             # if ui.is_waveshare_v2():
             pos = (130, 80) if memenable else (200, 80)
             ui.add_element(
@@ -68,7 +70,7 @@ class Christmas(plugins.Plugin):
                 ),
             )
         except Exception as wtf:
-            logging.error("[christmas] %s" % repr(wtf))
+            logging.error(f"[{self.__class__.__name__}] %s" % repr(wtf))
 
     def on_unload(self, ui):
         with ui._lock:
@@ -98,4 +100,4 @@ class Christmas(plugins.Plugin):
             else:
                 ui.set("christmas", "christmas\n%dD %dH" % (days, hours))
         except Exception as wtf:
-            logging.error("[christmas] %s" % repr(wtf))
+            logging.error(f"[{self.__class__.__name__}] %s" % repr(wtf))
