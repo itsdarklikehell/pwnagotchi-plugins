@@ -76,21 +76,26 @@ class HandshakesDL(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "Download handshake captures from web-ui."
     __name__ = "HandshakesDL"
-    __help__ = """
-    Download handshake captures from web-ui.
-    """
-    __dependencies__ = {"pip": ["scapy"]}
+    __help__ = "Download handshake captures from web-ui."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
     def __init__(self):
         self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+        self.ready = False
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_config_changed(self, config):
+        logging.info(f"[{self.__class__.__name__}] config changed")
         self.config = config
         self.ready = True
 
@@ -119,7 +124,7 @@ class HandshakesDL(plugins.Plugin):
         else:
             dir = self.config["bettercap"]["handshakes"]
             try:
-                logging.info(f"[HandshakesDL] serving {dir}/{path}")
+                logging.info(f"[{self.__class__.__name__}] serving {dir}/{path}")
                 return send_from_directory(
                     directory=dir, filename=path, as_attachment=True
                 )

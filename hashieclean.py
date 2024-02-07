@@ -24,7 +24,6 @@ class hashieclean(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = """
-
 This version removes "lonely pcaps", those can't be converted
 either to the formats .22000 (EAPOL) or .16800 (PMKID). As
 the number of lonely pcaps increase the loading time increases
@@ -66,20 +65,76 @@ Todo:
         Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
         Phase 2: Extract/construct 22000/16800 hashes entirely in python
     Improve the code, a lot
-                        """
+"""
+    __name__ = "hashieclean"
+    __help__ = """
+This version removes "lonely pcaps", those can't be converted
+either to the formats .22000 (EAPOL) or .16800 (PMKID). As
+the number of lonely pcaps increase the loading time increases
+too. Besides that, the checking for completed handshakes
+is done more efficiently, thus reducing even further 
+the loading time of the plugin.
+
+Based on hashi by junohea.mail@gmail.com:
+
+Attempt to automatically convert pcaps to a crackable format.
+If successful, the files  containing the hashes will be saved 
+in the same folder as the handshakes. 
+The files are saved in their respective Hashcat format:
+    - EAPOL hashes are saved as *.22000
+    - PMKID hashes are saved as *.16800
+All PCAP files without enough information to create a hash are
+    stored in a file that can be read by the webgpsmap plugin.
+
+Why use it?:
+    - Automatically convert handshakes to crackable formats! 
+        We dont all upload our hashes online ;)
+    - Repair PMKID handshakes that hcxpcapngtool misses
+    - If running at time of handshake capture, on_handshake can
+        be used to improve the chance of the repair succeeding
+    - Be a completionist! Not enough packets captured to crack a network?
+        This generates an output file for the webgpsmap plugin, use the
+        location data to revisit networks you need more packets for!
+    
+Additional information:
+    - Currently requires hcxpcapngtool compiled and installed
+    - Attempts to repair PMKID hashes when hcxpcapngtool cant find the SSID
+    - hcxpcapngtool sometimes has trouble extracting the SSID, so we 
+        use the raw 16800 output and attempt to retrieve the SSID via tcpdump
+    - When access_point data is available (on_handshake), we leverage 
+        the reported AP name and MAC to complete the hash
+    - The repair is very basic and could certainly be improved!
+Todo:
+    Make it so users dont need hcxpcapngtool (unless it gets added to the base image)
+        Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
+        Phase 2: Extract/construct 22000/16800 hashes entirely in python
+    Improve the code, a lot
+"""
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.lock = Lock()
+
+    def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):
+        logging.info(f"[{self.__class__.__name__}] config changed")
         handshake_dir = config["bettercap"]["handshakes"]
-
         if "interval" not in self.options or not (
             self.status.newer_then_hours(self.options["interval"])
         ):
-            logging.info("[hashieclean] Starting batch conversion of pcap files")
+            logging.info(f"[{self.__class__.__name__}] Starting batch conversion of pcap files")
             with self.lock:
                 self._process_stale_pcaps(handshake_dir)
 
@@ -118,7 +173,7 @@ Todo:
 
             if handshake_status:
                 logging.info(
-                    "[hashieclean] Good news:\n\t" + "\n\t".join(handshake_status)
+                    f"[{self.__class__.__name__}] Good news:\n\t" + "\n\t".join(handshake_status)
                 )
 
     def _writeEAPOL(self, fullpath):
@@ -131,7 +186,7 @@ Todo:
         )
         if os.path.isfile(fullpathNoExt + ".22000"):
             logging.debug(
-                "[hashieclean] [+] EAPOL Success: {}.22000 created".format(filename)
+                f"[{self.__class__.__name__}] [+] EAPOL Success: {}.22000 created".format(filename)
             )
             return True
         else:
@@ -147,7 +202,7 @@ Todo:
         )
         if os.path.isfile(fullpathNoExt + ".16800"):
             logging.debug(
-                "[hashieclean] [+] PMKID Success: {}.16800 created".format(filename)
+                f"[{self.__class__.__name__}] [+] PMKID Success: {}.16800 created".format(filename)
             )
             return True
         else:  # make a raw dump
@@ -159,21 +214,21 @@ Todo:
             if os.path.isfile(fullpathNoExt + ".16800"):
                 if self._repairPMKID(fullpath, apJSON) == False:
                     logging.debug(
-                        "[hashieclean] [-] PMKID Fail: {}.16800 could not be repaired".format(
+                        f"[{self.__class__.__name__}] [-] PMKID Fail: {}.16800 could not be repaired".format(
                             filename
                         )
                     )
                     return False
                 else:
                     logging.debug(
-                        "[hashieclean] [+] PMKID Success: {}.16800 repaired".format(
+                        f"[{self.__class__.__name__}] [+] PMKID Success: {}.16800 repaired".format(
                             filename
                         )
                     )
                     return True
             else:
                 logging.debug(
-                    "[hashieclean] [-] Could not attempt repair of {} as no raw PMKID file was created".format(
+                    f"[{self.__class__.__name__}] [-] Could not attempt repair of {} as no raw PMKID file was created".format(
                         filename
                     )
                 )
@@ -184,7 +239,7 @@ Todo:
         clientString = []
         fullpathNoExt = fullpath.split(".")[0]
         filename = fullpath.split("/")[-1:][0].split(".")[0]
-        logging.debug("[hashieclean] Repairing {}".format(filename))
+        logging.debug(f"[{self.__class__.__name__}] Repairing {}".format(filename))
         with open(fullpathNoExt + ".16800", "r") as tempFileA:
             hashString = tempFileA.read()
         if apJSON != "":
@@ -234,7 +289,7 @@ Todo:
                     ):
                         with open(fullpath.split(".")[0] + ".16800", "w") as tempFileC:
                             logging.debug(
-                                "[hashieclean] Repaired: {} ({})".format(
+                                f"[{self.__class__.__name__}] Repaired: {} ({})".format(
                                     filename, hashString
                                 )
                             )
@@ -242,7 +297,7 @@ Todo:
                         return True
                     else:
                         logging.debug(
-                            "[hashieclean] Discarded: {} {}".format(line, hashString)
+                            f"[{self.__class__.__name__}] Discarded: {} {}".format(line, hashString)
                         )
         else:
             os.remove(fullpath.split(".")[0] + ".16800")
@@ -281,7 +336,7 @@ Todo:
             if lonely:  # no 16800 AND no 22000
                 lonely_pcaps.append(handshake)
                 logging.debug(
-                    "[hashieclean] Batch job: added {} to lonely list".format(
+                    f"[{self.__class__.__name__}] Batch job: added {} to lonely list".format(
                         pcapFileName
                     )
                 )
@@ -289,43 +344,43 @@ Todo:
                 num + 1 == len(handshakes_list)
             ):  # report progress every 50, or when done
                 logging.info(
-                    "[hashieclean] Batch job: {}/{} done ({} fails)".format(
+                    f"[{self.__class__.__name__}] Batch job: {}/{} done ({} fails)".format(
                         num + 1, len(handshakes_list), len(lonely_pcaps)
                     )
                 )
         if len(successful_jobs) > 0:
             logging.info(
-                "[hashieclean] Batch job: {} new handshake files created".format(
+                f"[{self.__class__.__name__}] Batch job: {} new handshake files created".format(
                     len(successful_jobs)
                 )
             )
         if len(lonely_pcaps) > 0:
             logging.info(
-                "[hashieclean] Batch job: {} networks without enough packets to create a hash".format(
+                f"[{self.__class__.__name__}] Batch job: {} networks without enough packets to create a hash".format(
                     len(lonely_pcaps)
                 )
             )
             logging.info(
-                f"[hashieclean] {len(lonely_pcaps)} lonely (failed) handshakes will be deleted."
+                ff"[{self.__class__.__name__}] {len(lonely_pcaps)} lonely (failed) handshakes will be deleted."
             )
             self._getLocations(lonely_pcaps)
             for filename in lonely_pcaps:
                 pcapFileName = filename.split("/")[-1:][0]
                 logging.info(
-                    "[hashieclean] The pcap file is not a valid handshake. Deleting file:"
+                    f"[{self.__class__.__name__}] The pcap file is not a valid handshake. Deleting file:"
                     + pcapFileName.split("/")[0]
                 )
                 os.remove(filename)
                 # Confirm the pcap file was deleted.
                 if not os.path.exists(filename):
                     logging.debug(
-                        "[hashieclean] The pcap file was deleted for being incomplete. FILE: "
+                        f"[{self.__class__.__name__}] The pcap file was deleted for being incomplete. FILE: "
                         + pcapFileName
                     )
                 # If the pcap file was not deleted, then send an error to the log.
                 if os.path.exists(filename):
                     logging.error(
-                        "[hashieclean] Could not delete the pcap file. Please delete it manually. FILE: "
+                        f"[{self.__class__.__name__}] Could not delete the pcap file. Please delete it manually. FILE: "
                         + pcapFileName
                     )
 
@@ -345,13 +400,13 @@ Todo:
                     count += 1
             if count != 0:
                 logging.info(
-                    "[hashieclean] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)".format(
+                    f"[{self.__class__.__name__}] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)".format(
                         str(count)
                     )
                 )
             else:
                 logging.info(
-                    "[hashieclean] Could not find any GPS/GEO/PAW-GPS files for the lonely networks".format(
+                    f"[{self.__class__.__name__}] Could not find any GPS/GEO/PAW-GPS files for the lonely networks".format(
                         str(count)
                     )
                 )
@@ -401,7 +456,11 @@ Todo:
                 for loc in locations:
                     tempFileD.write(loc + "\n")
             logging.info(
-                "[hashieclean] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!".format(
+                f"[{self.__class__.__name__}] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!".format(
                     len(locations)
                 )
             )
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
