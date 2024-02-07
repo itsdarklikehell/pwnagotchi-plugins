@@ -46,9 +46,7 @@ class Grid(plugins.Plugin):
     __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
-    __description__ = "This plugin signals the unit cryptographic identity and list of pwned networks and list of pwned "
-        "networks to api.pwnagotchi.ai "
-    )
+    __description__ = "This plugin signals the unit cryptographic identity and list of pwned networks and list of pwned networks to api.pwnagotchi.ai "
     __name__ = "Grid"
     __help__ = "This plugin signals the unit cryptographic identity and list of pwned networks and list of pwned networks to api.pwnagotchi.ai"
     __dependencies__ = {"pip": ["scapy"]}
