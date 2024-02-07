@@ -102,6 +102,7 @@ wpa-sec-list.py
 xp_grid.py
 xp.py
 christmas.py
+gps.py
 
 
 ### NOT (yet) WORKING FOR SOME REASON
@@ -120,7 +121,6 @@ cuffs.py
 educational-purposes-exclusively.py
 educational-purposes-only.py
 enterprise.py
-gps.py
 hashbot.py
 hashespwnagotchi.py
 hashie-hcxpcapngtool.py
