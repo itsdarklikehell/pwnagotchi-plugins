@@ -31,6 +31,15 @@ class EXPV2(plugins.Plugin):
     __version__ = "2.0.1"
     __license__ = "GPL3"
     __description__ = "Get exp every time a handshake get captured."
+    __name__ = "ExpV2"
+    __help__ = "Get exp every time a handshake get captured."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     # Attention number masking
     def LogInfo(self, text):
@@ -41,6 +50,9 @@ class EXPV2(plugins.Plugin):
         logging.debug(TAG + " " + text)
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.percent = 0
         self.strength = 1
         self.calculateInitialXP = False
@@ -52,7 +64,6 @@ class EXPV2(plugins.Plugin):
         self.save_file = self.getSaveFileName(self.save_file_mode)
         # Migrate from old save system
         self.migrateLegacySave()
-
         # Create save file
         if not os.path.exists(self.save_file):
             self.Save(self.save_file, self.save_file_mode)
@@ -63,7 +74,6 @@ class EXPV2(plugins.Plugin):
             except:
                 # Likely throws an exception if json file is corrupted, so we need to calculate from scratch
                 self.calculateInitialXP = True
-
         # No previous data, try get it
         if self.lv == 1 and self.exp == 0:
             self.calculateInitialXP = True
@@ -71,7 +81,6 @@ class EXPV2(plugins.Plugin):
             self.LogInfo("Need to calculate Total Exp")
             self.exp_tot = self.calcActualSum(self.lv, self.exp)
             self.Save(self.save_file, self.save_file_mode)
-
         self.expneeded = self.calcExpNeeded(self.lv)
 
     def on_loaded(self):
@@ -380,3 +389,10 @@ class EXPV2(plugins.Plugin):
             self.exp_tot = sum
             self.calcLevelFromSum(sum, agent)
             self.Save(self.save_file, self.save_file_mode)
+
+    def on_unload(self, ui):
+        with ui._lock:
+            ui.remove_element("Lv")
+            ui.remove_element("Exp")
+            ui.remove_element("Str")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
