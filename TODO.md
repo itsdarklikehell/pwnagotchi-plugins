@@ -101,6 +101,8 @@ wifi_adventures.py
 wpa-sec-list.py
 xp_grid.py
 xp.py
+christmas.py
+
 
 ### NOT (yet) WORKING FOR SOME REASON
 
@@ -112,7 +114,6 @@ banthex.py
 birthday.py
 bitcoin.py
 buttonshim.py
-christmas.py
 crack_house-dev.py
 crack_house.py
 cuffs.py

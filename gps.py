@@ -15,7 +15,10 @@ class GPS(plugins.Plugin):
     __description__ = "Save GPS coordinates whenever an handshake is captured."
     __name__ = "GPS"
     __help__ = "Save GPS coordinates whenever an handshake is captured."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -26,8 +29,10 @@ class GPS(plugins.Plugin):
     def __init__(self):
         self.running = False
         self.coordinates = None
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         logging.info(f"gps plugin loaded for {self.options['device']}")
 
     def on_ready(self, agent):
@@ -155,9 +160,12 @@ class GPS(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("latitude")
-            ui.remove_element("longitude")
-            ui.remove_element("altitude")
+            try:
+                ui.remove_element("latitude")
+                ui.remove_element("longitude")
+                ui.remove_element("altitude")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         if self.coordinates and all(
