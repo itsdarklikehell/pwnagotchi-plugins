@@ -95,3 +95,7 @@ class AutoBackup(plugins.Plugin):
             logging.info(f"[autobackup] Error: {os_e}")
             display.set("status", "Backup failed!")
             display.update()
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
