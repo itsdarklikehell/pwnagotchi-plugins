@@ -10,19 +10,31 @@ class Darkmode(plugins.Plugin):
     __description__ = "Darkmode plugin."
     __name__ = "Darkmode"
     __help__ = "Darkmode plugin."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def _update_ui_colors(self, ui):
         for key, element in ui._state.items():
             if element.color != pwnagotchi.ui.view.BLACK:
-                logging.warning("[darkmode] Update element color: %s" % key)
+                logging.warning(
+                    f"[{self.__class__.__name__}] Update element color: %s" % key
+                )
                 element.color = pwnagotchi.ui.view.BLACK
                 ui.remove_element(key)
                 ui.add_element(key, element)
 
     def on_loaded(self):
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         try:
             pwnagotchi.ui.view.BLACK = 0xFF
             pwnagotchi.ui.view.WHITE = 0x00
@@ -31,11 +43,12 @@ class Darkmode(plugins.Plugin):
             logging.error("darkmode.on_loaded: %s" % e)
 
     def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         try:
             pwnagotchi.ui.view.BLACK = 0x00
             pwnagotchi.ui.view.WHITE = 0xFF
             self._update_ui_colors(ui)
-            logging.info("[darkmode] plugin unloaded")
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as e:
             logging.error("darkmode.on_unload: %s" % e)
 

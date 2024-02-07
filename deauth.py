@@ -15,7 +15,10 @@ class Deauth(plugins.Plugin):
     )
     __name__ = "deauthcounter"
     __help__ = "A plugin that counts the successful deauth attacks of this session."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -23,6 +26,7 @@ class Deauth(plugins.Plugin):
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -65,3 +69,7 @@ class Deauth(plugins.Plugin):
 
     def on_handshake(self, agent, filename, access_point, client_station):
         self.handshake_counter += 1
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
