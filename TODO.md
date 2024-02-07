@@ -30,7 +30,6 @@ dropbox_ul.py
 enable_assoc.py
 enable_deauth.py
 example.py
-
 exp.py
 expv2.py
 ext_wifi.py
@@ -104,6 +103,9 @@ xp_grid.py
 xp.py
 
 ### NOT (yet) WORKING FOR SOME REASON
+
+apfaker.py
+apprise-notify.py
 auto_backup.py
 banthex-de.py
 banthex.py
