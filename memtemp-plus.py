@@ -150,13 +150,16 @@ class MemTempPlus(plugins.Plugin):
     def on_unload(self, ui):
         logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         with ui._lock:
-            if self.options["orientation"] == "vertical":
-                for idx, field in enumerate(self.fields):
-                    ui.remove_element(f"memtemp_{field}")
-            else:
-                # default to horizontal
-                ui.remove_element("memtemp_header")
-                ui.remove_element("memtemp_data")
+            try:
+                if self.options["orientation"] == "vertical":
+                    for idx, field in enumerate(self.fields):
+                        ui.remove_element(f"memtemp_{field}")
+                else:
+                    # default to horizontal
+                    ui.remove_element("memtemp_header")
+                    ui.remove_element("memtemp_data")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         if self.options["orientation"] == "vertical":
