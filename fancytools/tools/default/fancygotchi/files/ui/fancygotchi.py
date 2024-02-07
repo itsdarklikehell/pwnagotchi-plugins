@@ -85,7 +85,7 @@ def adjust_image(image_path, zoom, mask=False):
 
 class fancygotchi(object):
     __name__ = "Fancygotchi"
-    __author__ = "@V0rT3x https://github.com/V0r-T3x"
+    __author__ = "SgtStroopwafel, @V0rT3x https://github.com/V0r-T3x"
     __version__ = "2023.09.1"
     __license__ = "GPL3"
     __description__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"

@@ -8,7 +8,7 @@ from pwnagotchi.utils import StatusFile
 
 
 class Watchdog(plugins.Plugin):
-    __author__ = "33197631+dadav@users.noreply.github.com"
+    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Restart pwnagotchi when blindbug is detected."

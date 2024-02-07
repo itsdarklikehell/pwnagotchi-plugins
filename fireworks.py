@@ -13,7 +13,7 @@ import ledshim
 
 
 class Fireworks(plugins.Plugin):
-    __author__ = "iggdawg"
+    __author__ = "SgtStroopwafel, iggdawg"
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "Uses Pimoroni shim to put on a light show."

@@ -21,7 +21,7 @@ def choose_random_challenge():
 
 
 class Achievements(plugins.Plugin):
-    __author__ = "luca.paulmann1@gmail.com"
+    __author__ = "SgtStroopwafel, luca.paulmann1@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "Collect achievements for daily challenges."

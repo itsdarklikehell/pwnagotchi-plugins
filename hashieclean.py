@@ -20,7 +20,7 @@ hcxpcapngtool needed, to install:
 
 
 class hashieclean(plugins.Plugin):
-    __author__ = "Artur Oliveira"
+    __author__ = "SgtStroopwafel, Artur Oliveira"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = """

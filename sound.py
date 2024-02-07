@@ -8,7 +8,7 @@ import re
 
 
 class Sound(plugins.Plugin):
-    __author__ = "https://github.com/xenDE/pwnagotchi-plugin-sound"
+    __author__ = "SgtStroopwafel, https://github.com/xenDE/pwnagotchi-plugin-sound"
     __version__ = "1.2.0"
     __name__ = "sound"
     __license__ = "GPL3"

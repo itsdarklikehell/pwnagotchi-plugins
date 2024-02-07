@@ -43,7 +43,7 @@ def parse_pcap(filename):
 
 
 class Grid(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin signals the unit cryptographic identity and list of pwned networks and list of pwned "

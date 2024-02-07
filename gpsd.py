@@ -37,7 +37,7 @@ class GPSD:
 
 
 class gpsd_coord(plugins.Plugin):
-    __author__ = "tom@dankmemes2020.com"
+    __author__ = "SgtStroopwafel, tom@dankmemes2020.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Talk to GPSD and save coordinates whenever a handshake is captured."

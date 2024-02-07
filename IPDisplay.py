@@ -19,7 +19,7 @@ import ipaddress
 
 
 class IPDisplay(plugins.Plugin):
-    __author__ = "NeonLightning(thank to NurseJackass and jayofelony)"
+    __author__ = "SgtStroopwafel, NeonLightning(thank to NurseJackass and jayofelony)"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Display IP addresses on the Pwnagotchi UI"

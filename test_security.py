@@ -14,7 +14,7 @@ import scapy
 
 
 class SecurityMonitor(plugins.Plugin):
-    __author__ = "MaliosDark"
+    __author__ = "SgtStroopwafel, MaliosDark"
     __version__ = "1.0.4"
     __license__ = "GPL3"
     __description__ = "LAN Security Monitor Plugin for Pwnagotchi"
