@@ -5,7 +5,7 @@ import pandas as pd
 
 
 class Timer(plugins.Plugin):
-    __author__ = "SgtStroopwafel, idoloninmachina@gmail.com"
+    __author__ = "idoloninmachina@gmail.com"
     __version__ = "0.1.0"
     __license__ = "GPL3"
     __description__ = (

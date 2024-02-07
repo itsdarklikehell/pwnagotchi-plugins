@@ -221,7 +221,7 @@ BASE = 750
 
 
 class XP(plugins.Plugin):
-    __author__ = "SgtStroopwafel, sliim@mailoo.org"
+    __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "XP / Leveling implementation. Just for fun!"

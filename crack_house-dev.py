@@ -50,7 +50,7 @@ TOTAL_CRACK = 0
 
 
 class crack_house(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @V0rT3x"
+    __author__ = "@V0rT3x"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display closest cracked network & it password."

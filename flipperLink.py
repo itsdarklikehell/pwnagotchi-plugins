@@ -13,7 +13,7 @@ from pwnagotchi.utils import StatusFile
 
 
 class FlipperLink(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Allordacia"
+    __author__ = "Allordacia"
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "A plugin that will add functionality for pwnagotchi to connect to the Flipper Zero."

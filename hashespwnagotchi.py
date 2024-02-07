@@ -20,7 +20,7 @@ hcxpcapngtool needed, to install:
 
 
 class hashespwnagotchi(plugins.Plugin):
-    __author__ = "SgtStroopwafel, meow@hashes.pw"
+    __author__ = "meow@hashes.pw"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = "uploads handshakes to https://hashes.pw"

@@ -4,7 +4,7 @@ from pwnagotchi import plugins
 
 
 class CustomVoicePlugin(plugins.Plugin):
-    __author__ = "SgtStroopwafel, MaliosDark"
+    __author__ = "MaliosDark"
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "Plugin to download and replace voice.py with a custom version"

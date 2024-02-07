@@ -41,7 +41,7 @@ picture = (
 
 
 class Apprise(plugins.Plugin):
-    __author__ = "SgtStroopwafel, bauke.molenaar@gmail.com"
+    __author__ = "bauke.molenaar@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

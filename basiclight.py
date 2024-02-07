@@ -27,7 +27,7 @@ def Blink(LED, times=1):
 
 
 class BasicLight(plugins.Plugin):
-    __author__ = "SgtStroopwafel, github.com/shir0tetsuo"
+    __author__ = "github.com/shir0tetsuo"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "GPIO traffic-light signals."

@@ -11,7 +11,7 @@ from json.decoder import JSONDecodeError
 
 
 class BetterOnlineHashCrack(plugins.Plugin):
-    __author__ = "SgtStroopwafel, silentree12th"
+    __author__ = "silentree12th"
     __version__ = "2.1.1"
     __license__ = "GPL3"
     __description__ = (

@@ -3,7 +3,7 @@ import logging
 
 
 class ScreenRefresh(plugins.Plugin):
-    __author__ = "SgtStroopwafel, pwnagotchi [at] rossmarks [dot] uk"
+    __author__ = "pwnagotchi [at] rossmarks [dot] uk"
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Refresh he e-ink display after X amount of updates."

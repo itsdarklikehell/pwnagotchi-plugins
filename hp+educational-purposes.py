@@ -11,7 +11,7 @@ from pwnagotchi.plugins import Plugin
 
 
 class CombinedPlugin(Plugin):
-    __author__ = "SgtStroopwafel, Andryu Schittone, @nagy_craig"
+    __author__ = "Andryu Schittone, @nagy_craig"
     __version__ = "1.0.27"
     __license__ = "GPL3"
     __description__ = "A combined Pwnagotchi plugin for setting up a honey pot and performing network authentication."

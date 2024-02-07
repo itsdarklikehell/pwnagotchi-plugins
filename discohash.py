@@ -8,7 +8,7 @@ import pwnagotchi.plugins as plugins
 
 
 class discohash(plugins.Plugin):
-    __author__ = "SgtStroopwafel, v0yager"
+    __author__ = "v0yager"
     __version__ = "1.1.0"
     __license__ = "GPL3"
     __description__ = "DiscoHash extracts hashes from pcaps (hashcat mode 22000) using hcxpcapngtool, analyses the hash using hcxhashtool and posts the output to Discord along with any obtained GPS coordinates."

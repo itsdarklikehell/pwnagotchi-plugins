@@ -6,7 +6,7 @@ import pwnagotchi.plugins as plugins
 
 
 class handshaker(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Allordacia"
+    __author__ = "Allordacia"
     __version__ = "1.0.1"
     __license__ = "MIT"
     __description__ = "A plugin to help access important pwnagotchi information when the device cannot be accessed via SSH."

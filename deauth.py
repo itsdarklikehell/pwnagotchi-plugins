@@ -7,7 +7,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Deauth(plugins.Plugin):
-    __author__ = "SgtStroopwafel, scorp"
+    __author__ = "scorp"
     __version__ = "2.0.0"
     __license__ = "MIT"
     __description__ = (

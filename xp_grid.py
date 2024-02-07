@@ -7,7 +7,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class XPGrid(plugins.Plugin):
-    __author__ = "SgtStroopwafel, sliim@mailoo.org"
+    __author__ = "sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

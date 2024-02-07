@@ -46,7 +46,7 @@ class WeatherIcon(pwnagotchi.ui.components.Widget):
 
 
 class WeatherForecast(plugins.Plugin):
-    __author__ = "SgtStroopwafel, NeonLightning"
+    __author__ = "NeonLightning"
     __version__ = "1.5.0"
     __license__ = "GPL3"
     __description__ = (

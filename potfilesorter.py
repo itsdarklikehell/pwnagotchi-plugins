@@ -13,7 +13,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class potfilesorter(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Bauke Molenaar"
+    __author__ = "Bauke Molenaar"
     __version__ = "1.0.1"
     __license__ = "MIT"
     __description__ = "A plugin that will sort a potfile and output its to a usable wpa_supplicant.conf."

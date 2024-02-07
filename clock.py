@@ -11,7 +11,7 @@ import yaml
 
 
 class PwnClock(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/LoganMD"
+    __author__ = "https://github.com/LoganMD"
     __version__ = "1.0.2"
     __license__ = "GPL3"
     __description__ = "Clock/Calendar for pwnagotchi"

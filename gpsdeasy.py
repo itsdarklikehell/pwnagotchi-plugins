@@ -120,7 +120,7 @@ class GPSD:
 
 
 class Gpsdeasy(plugins.Plugin):
-    __author__ = "SgtStroopwafel, discord@rai68"
+    __author__ = "discord@rai68"
     __version__ = "1.3.0"
     __license__ = "LGPL"
     __description__ = "uses gpsd to report lat/long on the screen and setup bettercap pcap gps logging"

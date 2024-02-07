@@ -57,7 +57,7 @@ class PwnFace(Enum):
 
 
 class PwnZero(plugins.Plugin):
-    __author__ = "SgtStroopwafel, github.com/Matt-London"
+    __author__ = "github.com/Matt-London"
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "Plugin to display the Pwnagotchi on the Flipper Zero"

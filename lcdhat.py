@@ -10,7 +10,7 @@ from pwnagotchi.ui.hw.base import DisplayImpl
 
 
 class LcdHat(plugins.Plugin):
-    __author__ = "SgtStroopwafel, HannaDiamond"
+    __author__ = "HannaDiamond"
     __version__ = "1.0.1"
     __license__ = "MIT"
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"

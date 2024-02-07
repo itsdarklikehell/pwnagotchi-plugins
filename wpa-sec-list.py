@@ -153,7 +153,7 @@ TEMPLATE = """
 
 
 class WpaSecList(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 37124354+dbukovac@users.noreply.github.com"
+    __author__ = "37124354+dbukovac@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "List cracked passwords from wpa-sec"

@@ -8,7 +8,7 @@ import requests
 
 
 class Bitcoin(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/jfrader"
+    __author__ = "https://github.com/jfrader"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = "A plugin that will display the bitcoin price."

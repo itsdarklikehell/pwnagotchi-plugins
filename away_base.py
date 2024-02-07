@@ -8,7 +8,7 @@ from operator import methodcaller
 
 
 class AwayBase(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @nope"
+    __author__ = "@nope"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

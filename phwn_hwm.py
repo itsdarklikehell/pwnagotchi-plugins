@@ -7,7 +7,7 @@ import os
 
 
 class PhwnHwm(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @necrosato"
+    __author__ = "@necrosato"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Define hwms for your pwnagotchi"

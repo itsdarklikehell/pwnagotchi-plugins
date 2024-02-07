@@ -4,7 +4,7 @@ import pwnagotchi.plugins as plugins
 
 
 class instattack(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 129890632+Sniffleupagus@users.noreply.github.com"
+    __author__ = "129890632+Sniffleupagus@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Pwn more aggressively. Launch immediate associate or deauth attack when bettercap spots a device."

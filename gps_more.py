@@ -10,7 +10,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class GPS_More(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Sniffleupagus"
+    __author__ = "Sniffleupagus"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "Save GPS coordinates whenever it seems reasonable. on epoch to get starting point, handshake to update."

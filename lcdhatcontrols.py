@@ -6,7 +6,7 @@ import RPi.GPIO as GPIO
 
 
 class lcdhatcontrols(plugins.Plugin):
-    __author__ = "SgtStroopwafel, NeonLightning"
+    __author__ = "NeonLightning"
     __version__ = "0.0.2"
     __license__ = "GPL3"
     __description__ = "lcdhat controls"

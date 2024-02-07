@@ -26,7 +26,7 @@ JSON_KEY_EXP_TOT = "exp_tot"
 
 
 class EXP(plugins.Plugin):
-    __author__ = "SgtStroopwafel, GaelicThunder"
+    __author__ = "GaelicThunder"
     __version__ = "1.0.5"
     __license__ = "GPL3"
     __description__ = "Get exp every time a handshake get captured."

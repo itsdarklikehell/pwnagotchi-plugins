@@ -50,10 +50,13 @@ class GPS(plugins.Plugin):
             self.coordinates = info["gps"]
             gps_filename = filename.replace(".pcap", ".gps.json")
 
-            if self.coordinates and all([
-                # avoid 0.000... measurements
-                self.coordinates["Latitude"], self.coordinates["Longitude"]
-            ]):
+            if self.coordinates and all(
+                [
+                    # avoid 0.000... measurements
+                    self.coordinates["Latitude"],
+                    self.coordinates["Longitude"],
+                ]
+            ):
                 logging.info(f"saving GPS to {gps_filename} ({self.coordinates})")
                 with open(gps_filename, "w+t") as fp:
                     json.dump(self.coordinates, fp)
@@ -63,14 +66,14 @@ class GPS(plugins.Plugin):
     def on_ui_setup(self, ui):
         try:
             # Configure line_spacing
-            line_spacing = int(self.options['linespacing'])
+            line_spacing = int(self.options["linespacing"])
         except Exception:
             # Set default value
             line_spacing = self.LINE_SPACING
 
         try:
             # Configure position
-            pos = self.options['position'].split(',')
+            pos = self.options["position"].split(",")
             pos = [int(x.strip()) for x in pos]
             lat_pos = (pos[0] + 5, pos[1])
             lon_pos = (pos[0], pos[1] + line_spacing)
@@ -147,16 +150,19 @@ class GPS(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element('latitude')
-            ui.remove_element('longitude')
-            ui.remove_element('altitude')
+            ui.remove_element("latitude")
+            ui.remove_element("longitude")
+            ui.remove_element("altitude")
 
     def on_ui_update(self, ui):
         with ui._lock:
-            if self.coordinates and all([
-                # avoid 0.000... measurements
-                self.coordinates["Latitude"], self.coordinates["Longitude"]
-            ]):
+            if self.coordinates and all(
+                [
+                    # avoid 0.000... measurements
+                    self.coordinates["Latitude"],
+                    self.coordinates["Longitude"],
+                ]
+            ):
                 # last char is sometimes not completely drawn ¯\_(ツ)_/¯
                 # using an ending-whitespace as workaround on each line
                 ui.set("latitude", f"{self.coordinates['Latitude']:.4f} ")

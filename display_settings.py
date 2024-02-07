@@ -7,7 +7,7 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class DisplaySettings(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Sniffleupagus"
+    __author__ = "Sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Control backlight, and maybe other settings for displays. (but only pimoroni displayhatmini for now)"
