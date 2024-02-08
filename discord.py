@@ -24,6 +24,7 @@ class Discord(plugins.Plugin):
     def __init__(self):
         self.ready = False
         logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         if "webhook_url" not in self.options or not self.options["webhook_url"]:
@@ -90,5 +91,8 @@ class Discord(plugins.Plugin):
                 )
 
     def on_unload(self, ui):
-        with ui._lock:
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

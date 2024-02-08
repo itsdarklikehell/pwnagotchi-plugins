@@ -32,6 +32,11 @@ class DisplayPassword(plugins.Plugin):
         "orientation": "horizontal",
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
@@ -92,3 +97,7 @@ class DisplayPassword(plugins.Plugin):
     def on_ui_update(self, ui):
         last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
         ui.set("display-password", "%s" % (os.popen(last_line).read().rstrip()))
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

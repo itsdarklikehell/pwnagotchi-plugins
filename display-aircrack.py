@@ -45,8 +45,11 @@ class DisplayAircrack(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("aircrack-ng-status")
-            logging.info(f"[{self.__class__.__name__}] plugin loaded")
+            try:
+                ui.remove_element("aircrack-ng-status")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         # Check if aircrack-ng is running and update status display
@@ -54,3 +57,7 @@ class DisplayAircrack(plugins.Plugin):
             ui.set("aircrack-ng-status", "(1)")
         else:
             ui.set("aircrack-ng-status", "(0)")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

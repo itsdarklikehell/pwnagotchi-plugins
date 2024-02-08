@@ -23,7 +23,9 @@ class discohash(plugins.Plugin):
     }
 
     def __init__(self):
+        self.ready = False
         logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     # called when the plugin is loaded
     def on_loaded(self):
@@ -203,3 +205,7 @@ class discohash(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

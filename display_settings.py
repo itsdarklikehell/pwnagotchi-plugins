@@ -22,7 +22,9 @@ class DisplaySettings(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.debug(f"[{self.__class__.__name__}] plugin created")
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_webhook(self, path, request):
         # show sliders and control and shit :)
@@ -36,7 +38,6 @@ class DisplaySettings(plugins.Plugin):
     # called before the plugin is unloaded
     def on_unload(self, ui):
         logging.info(f"[{self.__class__.__name__}] plugin unloaded")
-        pass
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):

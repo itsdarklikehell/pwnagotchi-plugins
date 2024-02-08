@@ -28,6 +28,7 @@ class DisplayVersion(plugins.Plugin):
     def __init__(self):
         self.ready = False
         logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -50,5 +51,12 @@ class DisplayVersion(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("version")
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            try:
+                ui.remove_element("version")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
