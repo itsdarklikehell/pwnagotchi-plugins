@@ -74,8 +74,8 @@ class HttpServerPlugin(plugins.Plugin):
         from flask import redirect
 
         s = requests.Session()
-        s.get("http://paimon.local:8080/")
-        r = s.post("http://paimon.local:8080/")
+        s.get("http://paimon.local:8000/")
+        r = s.post("http://paimon.local:8000/")
         return redirect(r.url, code=302)
 
 
