@@ -31,7 +31,6 @@ class Deauth(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
-    # called to setup the ui elements
     def on_ui_setup(self, ui):
         # add custom UI elements
         ui.add_element(
@@ -57,13 +56,11 @@ class Deauth(plugins.Plugin):
             ),
         )
 
-    # called when the ui is updated
     def on_ui_update(self, ui):
         # update those elements
         ui.set("deauth", str(self.deauth_counter))
         ui.set("hand", str(self.handshake_counter))
 
-    # called when the agent is deauthenticating a client station from an AP
     def on_deauthentication(self, agent, access_point, client_station):
         self.deauth_counter += 1
 
@@ -72,4 +69,13 @@ class Deauth(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            try:
+                ui.remove_element("deauth")
+                ui.remove_element("hand")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

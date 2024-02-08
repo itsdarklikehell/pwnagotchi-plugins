@@ -25,6 +25,7 @@ class Dashboard2(plugins.Plugin):
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         # Initiate clock plugin
@@ -32,8 +33,7 @@ class Dashboard2(plugins.Plugin):
             self.date_format = self.options["date_format"]
         else:
             self.date_format = "%m/%d/%y"
-        logging.debug("[Dashboard2]: Clock plugin loaded.")
-        logging.info("[Dashboard2]: plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def mem_usage(self):
         return int(pwnagotchi.mem_usage() * 100)
@@ -146,13 +146,17 @@ class Dashboard2(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("clock")
-            ui.remove_element("ram")
-            ui.remove_element("cpu")
-            ui.remove_element("tmp")
-            ui.remove_element("deauth")
-            ui.remove_element("hand")
-            ui.remove_element("cracked")
+            try:
+                ui.remove_element("clock")
+                ui.remove_element("ram")
+                ui.remove_element("cpu")
+                ui.remove_element("tmp")
+                ui.remove_element("deauth")
+                ui.remove_element("hand")
+                ui.remove_element("cracked")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         now = datetime.datetime.now()
@@ -174,3 +178,7 @@ class Dashboard2(plugins.Plugin):
 
     def on_handshake(self, agent, filename, access_point, client_station):
         self.handshake_counter += 1
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

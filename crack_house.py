@@ -250,3 +250,7 @@ class crack_house(plugins.Plugin):
         if self.options["display_stats"]:
             msg_stats = "(%s)%d/%d" % (TIME_WIFI_UPDATE, TOTAL_CRACK, len(CRACK_MENU))
             ui.set("crack_house_stats", "%s" % (msg_stats))
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

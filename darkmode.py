@@ -57,3 +57,7 @@ class Darkmode(plugins.Plugin):
             self._update_ui_colors(ui)
         except Exception as e:
             logging.error(f"[{self.__class__.__name__}] update: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

@@ -28,6 +28,7 @@ class Dashboard(plugins.Plugin):
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0
+        logging.info(f"[{self.__class__.__name__}] plugin init")
 
     # Get the current status of the pivoyager
     def get_status(self):
@@ -45,11 +46,13 @@ class Dashboard(plugins.Plugin):
         while True:
             status = self.get_status()
             if not "pg" in status["stat"] and "low battery" in status["bat"]:
-                logging.warn("[Dashboard]: Pivoyager battery low! Shutting down...")
+                logging.warn(
+                    f"[{self.__class__.__name__}] Pivoyager battery low! Shutting down..."
+                )
                 break
             elif "button" in status["stat"]:
                 logging.warn(
-                    "[Dashboard]: Pivoyager button is pressed! Shutting down..."
+                    f"[{self.__class__.__name__}] Pivoyager button is pressed! Shutting down..."
                 )
                 run([self.path, "clear", "button"])
                 break
@@ -57,7 +60,7 @@ class Dashboard(plugins.Plugin):
         # enable watchdog timer
         run([self.path, "watchdog", "30"])
         logging.warn(
-            "[Dashboard]: Shutdown Initiated... Enabling pivoyager watchdog timer."
+            f"[{self.__class__.__name__}] Shutdown Initiated... Enabling pivoyager watchdog timer."
         )
         pwnagotchi.shutdown()
 
@@ -67,7 +70,7 @@ class Dashboard(plugins.Plugin):
             self.date_format = self.options["date_format"]
         else:
             self.date_format = "%m/%d/%y"
-        logging.debug("[Dashboard]: Clock plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
         # Initialise pivoyager options
         self.path = (
@@ -86,18 +89,22 @@ class Dashboard(plugins.Plugin):
         if "inits" in status["stat"]:
             date = run([self.path, "date"], stdout=PIPE).stdout.decode()
             run(["date", "-s", date], stdout=DEVNULL)
-            logging.debug("[Dashboard]: Pivoyager update local time from RTC.")
+            logging.debug(
+                f"[{self.__class__.__name__}] Pivoyager update local time from RTC."
+            )
         else:
             logging.warn(
-                "[Dashboard]: Pivoyager RTC not set, could not sync local time."
+                f"[{self.__class__.__name__}] Pivoyager RTC not set, could not sync local time."
             )
 
         # enable pivoyager power wakeup
         run([self.path, "enable", "power-wakeup"])
-        logging.debug("[Dashboard]: Enable pivoyager power-wakeup function.")
-        logging.debug("[Dashboard]: Pivoyager plugin loaded.")
+        logging.debug(
+            f"[{self.__class__.__name__}] Enable pivoyager power-wakeup function."
+        )
+        logging.debug(f"[{self.__class__.__name__}] Pivoyager plugin loaded.")
 
-        logging.info("[Dashboard]: plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded.")
 
     def mem_usage(self):
         return int(pwnagotchi.mem_usage() * 100)
@@ -241,19 +248,23 @@ class Dashboard(plugins.Plugin):
         if not "inits" in self.get_status()["stat"]:
             # Update RTC if local time is ntp-synced and RTC is not initialised
             run([self.path, "date", "sync"])
-            logging.debug("[Dashboard]: Pivoyager update RTC from NTP")
+            logging.debug(f"[{self.__class__.__name__}] Pivoyager update RTC from NTP")
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("clock")
-            ui.remove_element("ram")
-            ui.remove_element("cpu")
-            ui.remove_element("tmp")
-            ui.remove_element("pivoyager")
-            ui.remove_element("deauth")
-            ui.remove_element("hand")
-            ui.remove_element("cracked")
-            ui.remove_element("connection_status")
+            try:
+                ui.remove_element("clock")
+                ui.remove_element("ram")
+                ui.remove_element("cpu")
+                ui.remove_element("tmp")
+                ui.remove_element("pivoyager")
+                ui.remove_element("deauth")
+                ui.remove_element("hand")
+                ui.remove_element("cracked")
+                ui.remove_element("connection_status")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         now = datetime.datetime.now()
@@ -294,3 +305,7 @@ class Dashboard(plugins.Plugin):
 
     def on_handshake(self, agent, filename, access_point, client_station):
         self.handshake_counter += 1
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

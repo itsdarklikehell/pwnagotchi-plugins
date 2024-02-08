@@ -98,3 +98,7 @@ class Cuffs(plugins.Plugin):
             )
         aps.sort(key=lambda ap: ap["channel"])
         return self.agent.set_access_points(aps)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
