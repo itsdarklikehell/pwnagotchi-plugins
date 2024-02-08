@@ -68,7 +68,7 @@ class Beacons(plugins.Plugin):
 
     def __init__(self):
         logging.info(f"[{self.__class__.__name__}] plugin init")
-        logging.debug(" *beacons* plugin created")
+        logging.debug(f"[{self.__class__.__name__}] plugin created")
         self._wifimac = open("/sys/class/net/" + self._iface + "/address").readline()[
             0:17
         ]
@@ -76,7 +76,7 @@ class Beacons(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         logging.warn(
-            " *beacons* this plugin is not stealthy at all! Anyone could see the beacons when they search for WiFi networks!"
+            f"[{self.__class__.__name__}] this plugin is not stealthy at all! Anyone could see the beacons when they search for WiFi networks!"
         )
         Beacons._busy = False
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -88,7 +88,10 @@ class Beacons(plugins.Plugin):
     # called when the ui is updated
     def on_ui_update(self, ui):
         if Beacons._busy:
-            logging.debug(" *beacons* -> ui_update busy to send " + str(time.time()))
+            logging.debug(
+                f"[{self.__class__.__name__}] -> ui_update busy to send "
+                + str(time.time())
+            )
             return
         _thread.start_new_thread(self.exec_update, (ui,))
         # self.exec_update(ui)
@@ -112,9 +115,9 @@ class Beacons(plugins.Plugin):
             )
             self.broadcast_info(packedInfo, self._packet_type["report"])
         except Exception as e:
-            logging.warn(" *beacons* -> exec_update exception: ")
-            logging.warn(" *beacons* -> " + str(type(e)))
-            logging.warn(" *beacons* -> " + str(e))
+            logging.warn(f"[{self.__class__.__name__}] -> exec_update exception: ")
+            logging.warn(f"[{self.__class__.__name__}] -> " + str(type(e)))
+            logging.warn(f"[{self.__class__.__name__}] -> " + str(e))
         Beacons._busy = False
 
     def pack_info(self, channel, aps, shakes, uptime, face, mode, name):
@@ -154,7 +157,7 @@ class Beacons(plugins.Plugin):
         cm = m + c
         # result = pack('!HHHHIHBB',ac,at,pr,pt,up,f,c,m)
         logging.debug(
-            " *beacons* -> packing state: "
+            f"[{self.__class__.__name__}] -> packing state: "
             + str(face)
             + " pwnd_run: "
             + str(pr)
@@ -175,7 +178,7 @@ class Beacons(plugins.Plugin):
         return base64.b64encode(result)
 
     def broadcast_info(self, info_packet, packet_type):
-        #        logging.warn(" *beacons* -> sending packets " + str(time.time()) )
+        #        logging.warn(f"[{self.__class__.__name__}] -> sending packets " + str(time.time()) )
         SSID = info_packet
         iface = self._iface
         # android has some kind of mac filtering for vendors, not all spoofed macs work.
@@ -200,4 +203,8 @@ class Beacons(plugins.Plugin):
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
+        pass
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         pass

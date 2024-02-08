@@ -44,7 +44,9 @@ class BetterOnlineHashCrack(plugins.Plugin):
         if "email" not in self.options or (
             "email" in self.options and not self.options["email"]
         ):
-            logging.error("OHC: Email isn't set. Can't upload to onlinehashcrack.com")
+            logging.error(
+                f"[{self.__class__.__name__}] Email isn't set. Can't upload to onlinehashcrack.com"
+            )
             return
 
         if "whitelist" not in self.options:
@@ -68,7 +70,9 @@ class BetterOnlineHashCrack(plugins.Plugin):
                 if "already been sent" in result.text:
                     logging.debug(f"{path} was already uploaded.")
             except requests.exceptions.RequestException as e:
-                logging.debug(f"OHC: Got an exception while uploading {path} -> {e}")
+                logging.debug(
+                    f"[{self.__class__.__name__}] Got an exception while uploading {path} -> {e}"
+                )
                 raise e
 
     def _download_cracked(self, save_file, timeout=120):
@@ -118,7 +122,7 @@ class BetterOnlineHashCrack(plugins.Plugin):
             handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
             if handshake_new:
                 logging.info(
-                    "OHC: Internet connectivity detected. Uploading new handshakes to onlinehashcrack.com"
+                    f"[{self.__class__.__name__}] Internet connectivity detected. Uploading new handshakes to onlinehashcrack.com"
                 )
                 for idx, handshake in enumerate(handshake_new):
                     display.on_uploading(
@@ -130,14 +134,16 @@ class BetterOnlineHashCrack(plugins.Plugin):
                         if handshake not in reported:
                             reported.append(handshake)
                             self.report.update(data={"reported": reported})
-                            logging.debug(f"OHC: Successfully uploaded {handshake}")
+                            logging.debug(
+                                f"[{self.__class__.__name__}] Successfully uploaded {handshake}"
+                            )
                     except requests.exceptions.RequestException as req_e:
                         self.skip.append(handshake)
-                        logging.debug("OHC: %s", req_e)
+                        logging.debug(f"[{self.__class__.__name__}] %s", req_e)
                         continue
                     except OSError as os_e:
                         self.skip.append(handshake)
-                        logging.debug("OHC: %s", os_e)
+                        logging.debug(f"[{self.__class__.__name__}] %s", os_e)
                         continue
 
                 display.on_normal()
@@ -153,11 +159,13 @@ class BetterOnlineHashCrack(plugins.Plugin):
                         return
                 try:
                     self._download_cracked(cracked_file)
-                    logging.info("OHC: Downloaded cracked passwords.")
+                    logging.info(
+                        f"[{self.__class__.__name__}] Downloaded cracked passwords."
+                    )
                 except requests.exceptions.RequestException as req_e:
-                    logging.debug("OHC: %s", req_e)
+                    logging.debug(f"[{self.__class__.__name__}] %s", req_e)
                 except OSError as os_e:
-                    logging.debug("OHC: %s", os_e)
+                    logging.debug(f"[{self.__class__.__name__}] %s", os_e)
                 if "single_files" in self.options and self.options["single_files"]:
                     with open(cracked_file, "r") as cracked_list:
                         for row in csv.DictReader(cracked_list):

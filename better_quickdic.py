@@ -53,9 +53,9 @@ class BetterQuickDic(plugins.Plugin):
         )
         check = check.stdout.decode("utf-8").strip()
         if check != "aircrack-ng <none>":
-            logging.info("[quickdic] Found %s" % check)
+            logging.info(f"[{self.__class__.__name__}] Found %s" % check)
         else:
-            logging.warn("[quickdic] aircrack-ng is not installed!")
+            logging.warn(f"[{self.__class__.__name__}] aircrack-ng is not installed!")
 
         # if self.options['id'] != None and self.options['api'] != None:
         # self._send_message(filename='Android AP', pwd='12345678')
@@ -75,9 +75,9 @@ class BetterQuickDic(plugins.Plugin):
             {ord(c): None for c in string.whitespace}
         )
         if not result:
-            logging.info("[quickdic] No handshake")
+            logging.info(f"[{self.__class__.__name__}] No handshake")
         else:
-            logging.info("[quickdic] Handshake confirmed")
+            logging.info(f"[{self.__class__.__name__}] Handshake confirmed")
             result2 = subprocess.run(
                 (
                     "aircrack-ng -w `echo "
@@ -94,7 +94,7 @@ class BetterQuickDic(plugins.Plugin):
                 stdout=subprocess.PIPE,
             )
             result2 = result2.stdout.decode("utf-8").strip()
-            logging.info("[quickdic] %s" % result2)
+            logging.info(f"[{self.__class__.__name__}] %s" % result2)
             if result2 != "KEY NOT FOUND":
                 key = re.search(r"\[(.*)\]", result2)
                 pwd = str(key.group(1))
@@ -145,11 +145,13 @@ class BetterQuickDic(plugins.Plugin):
             message_text = f"\nSSID: {ssid}\nPassword: {password}\n```\n{q.read()}\n```"
             # bot.send_message(chat_id=chat_id, text=message_text, parse_mode="Markdown")
             logging.info(message_text)
-            logging.info("[better_quickdic] QR code content sent to Telegram.")
+            logging.info(
+                f"[{self.__class__.__name__}] QR code content sent to Telegram."
+            )
 
         except Exception as e:
             logging.error(
-                f"[better_quickdic] Error sending QR code content to Telegram: {str(e)}"
+                f"[{self.__class__.__name__}] Error sending QR code content to Telegram: {str(e)}"
             )
 
     def on_ui_update(self, ui):
@@ -161,3 +163,7 @@ class BetterQuickDic(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

@@ -102,7 +102,9 @@ class APFaker(plugins.Plugin):
         frames = list()
         for idx, ssid in enumerate(self.ssids[: self.options["max"]]):
             try:
-                logging.info('[apfaker] creating fake ap with ssid "%s"', ssid)
+                logging.info(
+                    f'[{self.__class__.__name__}] creating fake ap with ssid "%s"', ssid
+                )
                 frames.append(
                     APFaker.create_beacon(
                         ssid, password_protected=self.options["password_protected"]
@@ -143,3 +145,7 @@ class APFaker(plugins.Plugin):
                 logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             except Exception as e:
                 logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
