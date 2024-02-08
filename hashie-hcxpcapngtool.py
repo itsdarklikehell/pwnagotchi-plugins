@@ -24,92 +24,41 @@ class hashie(plugins.Plugin):
     __version__ = "1.0.3"
     __license__ = "GPL3"
     __description__ = """
-This version removes "lonely pcaps", those can't be converted
-either to the formats .22000 (EAPOL) or .16800 (PMKID). As
-the number of lonely pcaps increase the loading time increases
-too. Besides that, the checking for completed handshakes
-is done more efficiently, thus reducing even further 
-the loading time of the plugin.
-
-Based on hashi by junohea.mail@gmail.com:
-
-Attempt to automatically convert pcaps to a crackable format.
-If successful, the files  containing the hashes will be saved 
-in the same folder as the handshakes. 
-The files are saved in their respective Hashcat format:
-    - EAPOL hashes are saved as *.22000
-    - PMKID hashes are saved as *.16800
-All PCAP files without enough information to create a hash are
-    stored in a file that can be read by the webgpsmap plugin.
-
-Why use it?:
-    - Automatically convert handshakes to crackable formats! 
-        We dont all upload our hashes online ;)
-    - Repair PMKID handshakes that hcxpcapngtool misses
-    - If running at time of handshake capture, on_handshake can
-        be used to improve the chance of the repair succeeding
-    - Be a completionist! Not enough packets captured to crack a network?
-        This generates an output file for the webgpsmap plugin, use the
-        location data to revisit networks you need more packets for!
-    
-Additional information:
-    - Currently requires hcxpcapngtool compiled and installed
-    - Attempts to repair PMKID hashes when hcxpcapngtool cant find the SSID
-    - hcxpcapngtool sometimes has trouble extracting the SSID, so we 
-        use the raw 16800 output and attempt to retrieve the SSID via tcpdump
-    - When access_point data is available (on_handshake), we leverage 
-        the reported AP name and MAC to complete the hash
-    - The repair is very basic and could certainly be improved!
-Todo:
-    Make it so users dont need hcxpcapngtool (unless it gets added to the base image)
-        Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
-        Phase 2: Extract/construct 22000/16800 hashes entirely in python
-    Improve the code, a lot
-    """
+                        Attempt to automatically convert pcaps to a crackable format.
+                        If successful, the files  containing the hashes will be saved 
+                        in the same folder as the handshakes. 
+                        The files are saved in their respective Hashcat format:
+                          - EAPOL hashes are saved as *.22000
+                          - PMKID hashes are saved as *.16800
+                        All PCAP files without enough information to create a hash are
+                          stored in a file that can be read by the webgpsmap plugin.
+                        
+                        Why use it?:
+                          - Automatically convert handshakes to crackable formats! 
+                              We dont all upload our hashes online ;)
+                          - Repair PMKID handshakes that hcxpcapngtool misses
+                          - If running at time of handshake capture, on_handshake can
+                              be used to improve the chance of the repair succeeding
+                          - Be a completionist! Not enough packets captured to crack a network?
+                              This generates an output file for the webgpsmap plugin, use the
+                              location data to revisit networks you need more packets for!
+                          
+                        Additional information:
+                          - Currently requires hcxpcapngtool compiled and installed
+                          - Attempts to repair PMKID hashes when hcxpcapngtool cant find the SSID
+                            - hcxpcapngtool sometimes has trouble extracting the SSID, so we 
+                                use the raw 16800 output and attempt to retrieve the SSID via tcpdump
+                            - When access_point data is available (on_handshake), we leverage 
+                                the reported AP name and MAC to complete the hash
+                            - The repair is very basic and could certainly be improved!
+                        Todo:
+                          Make it so users dont need hcxpcapngtool (unless it gets added to the base image)
+                              Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
+                              Phase 2: Extract/construct 22000/16800 hashes entirely in python
+                          Improve the code, a lot
+                        """
     __name__ = "hashie"
-    __help__ = """
-This version removes "lonely pcaps", those can't be converted
-either to the formats .22000 (EAPOL) or .16800 (PMKID). As
-the number of lonely pcaps increase the loading time increases
-too. Besides that, the checking for completed handshakes
-is done more efficiently, thus reducing even further 
-the loading time of the plugin.
-
-Based on hashi by junohea.mail@gmail.com:
-
-Attempt to automatically convert pcaps to a crackable format.
-If successful, the files  containing the hashes will be saved 
-in the same folder as the handshakes. 
-The files are saved in their respective Hashcat format:
-    - EAPOL hashes are saved as *.22000
-    - PMKID hashes are saved as *.16800
-All PCAP files without enough information to create a hash are
-    stored in a file that can be read by the webgpsmap plugin.
-
-Why use it?:
-    - Automatically convert handshakes to crackable formats! 
-        We dont all upload our hashes online ;)
-    - Repair PMKID handshakes that hcxpcapngtool misses
-    - If running at time of handshake capture, on_handshake can
-        be used to improve the chance of the repair succeeding
-    - Be a completionist! Not enough packets captured to crack a network?
-        This generates an output file for the webgpsmap plugin, use the
-        location data to revisit networks you need more packets for!
-    
-Additional information:
-    - Currently requires hcxpcapngtool compiled and installed
-    - Attempts to repair PMKID hashes when hcxpcapngtool cant find the SSID
-    - hcxpcapngtool sometimes has trouble extracting the SSID, so we 
-        use the raw 16800 output and attempt to retrieve the SSID via tcpdump
-    - When access_point data is available (on_handshake), we leverage 
-        the reported AP name and MAC to complete the hash
-    - The repair is very basic and could certainly be improved!
-Todo:
-    Make it so users dont need hcxpcapngtool (unless it gets added to the base image)
-        Phase 1: Extract/construct 22000/16800 hashes through tcpdump commands
-        Phase 2: Extract/construct 22000/16800 hashes entirely in python
-    Improve the code, a lot
-    """
+    __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
         "apt": ["none"],
         "pip": ["scapy"],
@@ -119,23 +68,17 @@ Todo:
     }
 
     def __init__(self):
-        self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
-        self.title = ""
+        logging.info("[hashie] plugin init")
         self.lock = Lock()
-
-    def on_loaded(self):
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):
-        logging.info(f"[{self.__class__.__name__}] config changed")
         handshake_dir = config["bettercap"]["handshakes"]
-        self.uuid = str(uuid.uuid5(uuid.NAMESPACE_OID, config["main"]["name"]))
+
         if "interval" not in self.options or not (
             self.status.newer_then_hours(self.options["interval"])
         ):
-            logging.info(f"[{self.__class__.__name__}] Starting batch conversion of pcap files")
+            logging.info("[hashie] Starting batch conversion of pcap files")
             with self.lock:
                 self._process_stale_pcaps(handshake_dir)
 
@@ -144,20 +87,23 @@ Todo:
             handshake_status = []
             fullpathNoExt = filename.split(".")[0]
             name = filename.split("/")[-1:][0].split(".")[0]
+
             if os.path.isfile(fullpathNoExt + ".22000"):
                 handshake_status.append("Already have {}.22000 (EAPOL)".format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append(
                     "Created {}.22000 (EAPOL) from pcap".format(name)
                 )
+
             if os.path.isfile(fullpathNoExt + ".16800"):
                 handshake_status.append("Already have {}.16800 (PMKID)".format(name))
             elif self._writePMKID(filename, access_point):
                 handshake_status.append(
                     "Created {}.16800 (PMKID) from pcap".format(name)
                 )
+
             if handshake_status:
-                logging.info(f"[{self.__class__.__name__}] Good news:\n\t" + "\n\t".join(handshake_status))
+                logging.info("[hashie] Good news:\n\t" + "\n\t".join(handshake_status))
 
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split(".")[0]
@@ -220,7 +166,7 @@ Todo:
         clientString = []
         fullpathNoExt = fullpath.split(".")[0]
         filename = fullpath.split("/")[-1:][0].split(".")[0]
-        logging.debug(f"[{self.__class__.__name__}] Repairing {}".format(filename))
+        logging.debug("[hashie] Repairing {}".format(filename))
         with open(fullpathNoExt + ".16800", "r") as tempFileA:
             hashString = tempFileA.read()
         if apJSON != "":
@@ -413,11 +359,3 @@ Todo:
                     len(locations)
                 )
             )
-
-    def on_unload(self, ui):
-        with ui._lock:
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
-
-    def on_webhook(self, path, request):
-        logging.info(f"[{self.__class__.__name__}] webhook pressed")
-        pass

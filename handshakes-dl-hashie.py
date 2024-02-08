@@ -71,7 +71,7 @@ class handshakes:
 
 
 class HandshakesDL(plugins.Plugin):
-    __author__ = "SgtStroopwafel, me@sayakb.com"
+    __author__ = "me@sayakb.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Download handshake captures from web-ui."
@@ -86,16 +86,13 @@ class HandshakesDL(plugins.Plugin):
     }
 
     def __init__(self):
-        self.ready = False
         logging.info(f"[{self.__class__.__name__}] plugin init")
-        self.title = ""
         self.ready = False
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_config_changed(self, config):
-        logging.info(f"[{self.__class__.__name__}] config changed")
         self.config = config
         self.ready = True
 
