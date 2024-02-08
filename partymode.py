@@ -42,8 +42,8 @@ class Partymode(plugins.Plugin):
             rand_fgc = hex(randint(0, 255))
             print(rand_fgc)
 
-            pwnagotchi.ui.view.BLACK = rand_fgc
-            pwnagotchi.ui.view.WHITE = rand_bgc
+            pwnagotchi.ui.view.BLACK = str(rand_fgc)
+            pwnagotchi.ui.view.WHITE = str(rand_bgc)
 
             logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
