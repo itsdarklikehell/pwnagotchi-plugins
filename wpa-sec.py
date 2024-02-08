@@ -76,7 +76,7 @@ class WpaSec(plugins.Plugin):
             "api_key" in self.options and not self.options["api_key"]
         ):
             logging.error(
-                "WPA_SEC: API-KEY isn't set. Can't upload to wpa-sec.stanev.org"
+                f"[{self.__class__.__name__}] API-KEY isn't set. Can't upload to wpa-sec.stanev.org"
             )
             return
 
@@ -84,12 +84,12 @@ class WpaSec(plugins.Plugin):
             "api_url" in self.options and not self.options["api_url"]
         ):
             logging.error(
-                "WPA_SEC: API-URL isn't set. Can't upload, no endpoint configured."
+                f"[{self.__class__.__name__}] API-URL isn't set. Can't upload, no endpoint configured."
             )
             return
 
         self.ready = True
-        logging.info("WPA_SEC: plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_webhook(self, path, request):
         from flask import make_response, redirect
@@ -123,7 +123,7 @@ class WpaSec(plugins.Plugin):
 
             if handshake_new:
                 logging.info(
-                    "WPA_SEC: Internet connectivity detected. Uploading new handshakes to wpa-sec.stanev.org"
+                    f"[{self.__class__.__name__}] Internet connectivity detected. Uploading new handshakes to wpa-sec.stanev.org"
                 )
                 for idx, handshake in enumerate(handshake_new):
                     display.on_uploading(
@@ -134,13 +134,16 @@ class WpaSec(plugins.Plugin):
                         self._upload_to_wpasec(handshake)
                         reported.append(handshake)
                         self.report.update(data={"reported": reported})
-                        logging.debug("WPA_SEC: Successfully uploaded %s", handshake)
+                        logging.debug(
+                            f"[{self.__class__.__name__}] Successfully uploaded %s",
+                            handshake,
+                        )
                     except requests.exceptions.RequestException as req_e:
                         self.skip.append(handshake)
-                        logging.debug("WPA_SEC: %s", req_e)
+                        logging.debug(f"[{self.__class__.__name__}] %s", req_e)
                         continue
                     except OSError as os_e:
-                        logging.debug("WPA_SEC: %s", os_e)
+                        logging.debug(f"[{self.__class__.__name__}] %s", os_e)
                         continue
 
                 display.on_normal()
@@ -158,8 +161,10 @@ class WpaSec(plugins.Plugin):
                     self._download_from_wpasec(
                         os.path.join(handshake_dir, "wpa-sec.cracked.potfile")
                     )
-                    logging.info("WPA_SEC: Downloaded cracked passwords.")
+                    logging.info(
+                        f"[{self.__class__.__name__}] Downloaded cracked passwords."
+                    )
                 except requests.exceptions.RequestException as req_e:
-                    logging.debug("WPA_SEC: %s", req_e)
+                    logging.debug(f"[{self.__class__.__name__}] %s", req_e)
                 except OSError as os_e:
-                    logging.debug("WPA_SEC: %s", os_e)
+                    logging.debug(f"[{self.__class__.__name__}] %s", os_e)

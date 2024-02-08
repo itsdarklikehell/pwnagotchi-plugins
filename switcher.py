@@ -189,3 +189,7 @@ class Switcher(plugins.Plugin):
             setattr(Switcher, "on_%s" % m, partial(self.trigger, m))
 
         logging.debug("[switcher] triggers are ready to fire...")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

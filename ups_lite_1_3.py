@@ -23,6 +23,7 @@ class UPS:
     def __init__(self):
         # only import when the module is loaded and enabled
         import smbus
+
         # 0 = /dev/i2c-0 (port I2C0), 1 = /dev/i2c-1 (port I2C1)
         self._bus = smbus.SMBus(1)
 
@@ -55,16 +56,16 @@ class UPS:
         try:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(4, GPIO.IN)
-            return '+' if GPIO.input(4) == GPIO.HIGH else '-'
+            return "+" if GPIO.input(4) == GPIO.HIGH else "-"
         except:
-            return '?'
+            return "?"
 
 
 class UPSLite(plugins.Plugin):
-    __author__ = 'evilsocket@gmail.com'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'A plugin that will add a voltage indicator for the UPS Lite v1.1'
+    __author__ = "evilsocket@gmail.com"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = "A plugin that will add a voltage indicator for the UPS Lite v1.1"
 
     def __init__(self):
         self.ups = None
@@ -75,18 +76,34 @@ class UPSLite(plugins.Plugin):
         logging.info("[ups_lite] plugin loaded")
 
     def on_ui_setup(self, ui):
-        ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 + 15, 0),
-                                           label_font=fonts.Bold, text_font=fonts.Medium))
+        ui.add_element(
+            "ups",
+            LabeledValue(
+                color=BLACK,
+                label="UPS",
+                value="0%/0V",
+                position=(ui.width() / 2 + 15, 0),
+                label_font=fonts.Bold,
+                text_font=fonts.Medium,
+            ),
+        )
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element('ups')
+            ui.remove_element("ups")
 
     def on_ui_update(self, ui):
         capacity = self.ups.capacity()
         charging = self.ups.charging()
-        ui.set('ups', "%2i%s" % (capacity, charging))
-        if capacity <= self.options['shutdown'] and charging == '-':
-            logging.info('[ups_lite] Empty battery (<= %s%%): shuting down' % self.options['shutdown'])
-            ui.update(force=True, new_data={'status': 'Battery exhausted, bye ...'})
+        ui.set("ups", "%2i%s" % (capacity, charging))
+        if capacity <= self.options["shutdown"] and charging == "-":
+            logging.info(
+                "[ups_lite] Empty battery (<= %s%%): shuting down"
+                % self.options["shutdown"]
+            )
+            ui.update(force=True, new_data={"status": "Battery exhausted, bye ..."})
             pwnagotchi.shutdown()
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

@@ -131,6 +131,15 @@ class Wigle(plugins.Plugin):
     __version__ = "3.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin automatically uploads collected WiFi to wigle.net"
+    __name__ = "Wigle"
+    __help__ = "This plugin automatically uploads collected WiFi to wigle.net"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False
@@ -143,14 +152,16 @@ class Wigle(plugins.Plugin):
         if "api_key" not in self.options or (
             "api_key" in self.options and self.options["api_key"] is None
         ):
-            logging.debug("WIGLE: api_key isn't set. Can't upload to wigle.net")
+            logging.debug(
+                f"[{self.__class__.__name__}] api_key isn't set. Can't upload to wigle.net"
+            )
             return
 
         if "donate" not in self.options:
             self.options["donate"] = False
 
         self.ready = True
-        logging.info("WIGLE: ready")
+        logging.info(f"[{self.__class__.__name__}] ready")
 
     def on_internet_available(self, agent):
         """
@@ -176,7 +187,7 @@ class Wigle(plugins.Plugin):
         new_gps_files = set(all_gps_files) - set(reported) - set(self.skip)
         if new_gps_files:
             logging.info(
-                "WIGLE: Internet connectivity detected. Uploading new handshakes to wigle.net"
+                f"[{self.__class__.__name__}] Internet connectivity detected. Uploading new handshakes to wigle.net"
             )
             csv_entries = list()
             no_err_entries = list()
@@ -186,22 +197,24 @@ class Wigle(plugins.Plugin):
                 if gps_file.endswith(".geo.json"):
                     pcap_filename = gps_file.replace(".geo.json", ".pcap")
                 if not os.path.exists(pcap_filename):
-                    logging.debug("WIGLE: Can't find pcap for %s", gps_file)
+                    logging.debug(
+                        f"[{self.__class__.__name__}] Can't find pcap for %s", gps_file
+                    )
                     self.skip.append(gps_file)
                     continue
                 try:
                     gps_data = _extract_gps_data(gps_file)
                 except OSError as os_err:
-                    logging.debug("WIGLE: %s", os_err)
+                    logging.debug(f"[{self.__class__.__name__}] %s", os_err)
                     self.skip.append(gps_file)
                     continue
                 except json.JSONDecodeError as json_err:
-                    logging.debug("WIGLE: %s", json_err)
+                    logging.debug(f"[{self.__class__.__name__}] %s", json_err)
                     self.skip.append(gps_file)
                     continue
                 if gps_data["Latitude"] == 0 and gps_data["Longitude"] == 0:
                     logging.debug(
-                        "WIGLE: Not enough gps-information for %s. Trying again next time.",
+                        f"[{self.__class__.__name__}] Not enough gps-information for %s. Trying again next time.",
                         gps_file,
                     )
                     self.skip.append(gps_file)
@@ -219,12 +232,13 @@ class Wigle(plugins.Plugin):
                     )
                 except FieldNotFoundError:
                     logging.debug(
-                        "WIGLE: Could not extract all information. Skip %s", gps_file
+                        f"[{self.__class__.__name__}] Could not extract all information. Skip %s",
+                        gps_file,
                     )
                     self.skip.append(gps_file)
                     continue
                 except Scapy_Exception as sc_e:
-                    logging.debug("WIGLE: %s", sc_e)
+                    logging.debug(f"[{self.__class__.__name__}] %s", sc_e)
                     self.skip.append(gps_file)
                     continue
                 new_entry = _transform_wigle_entry(
@@ -244,13 +258,23 @@ class Wigle(plugins.Plugin):
                     reported += no_err_entries
                     self.report.update(data={"reported": reported})
                     logging.info(
-                        "WIGLE: Successfully uploaded %d files", len(no_err_entries)
+                        f"[{self.__class__.__name__}] Successfully uploaded %d files",
+                        len(no_err_entries),
                     )
                 except requests.exceptions.RequestException as re_e:
                     self.skip += no_err_entries
-                    logging.debug("WIGLE: Got an exception while uploading %s", re_e)
+                    logging.debug(
+                        f"[{self.__class__.__name__}] Got an exception while uploading %s",
+                        re_e,
+                    )
                 except OSError as os_e:
                     self.skip += no_err_entries
-                    logging.debug("WIGLE: Got the following error: %s", os_e)
+                    logging.debug(
+                        f"[{self.__class__.__name__}] Got the following error: %s", os_e
+                    )
 
                 display.on_normal()
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

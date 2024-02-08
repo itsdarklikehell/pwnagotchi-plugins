@@ -339,8 +339,7 @@ class Touch_Screen(plugins.Plugin):
             logging.info("Handler: %s" % repr(e))
 
     def on_webhook(self, path, request):
-        # define which elements are active or not
-        # show pwny image. send clicks through
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         pass
 
     # called when the plugin is loaded

@@ -69,3 +69,7 @@ class Twitter(plugins.Plugin):
                 logging.info("[twitter] tweeted: %s", tweet)
             except Exception as e:
                 logging.exception("[twitter] error while tweeting (%s)", e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

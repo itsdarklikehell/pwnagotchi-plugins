@@ -100,3 +100,7 @@ class UPSLite(plugins.Plugin):
         capacity = self.ups.capacity()
         charging = self.ups.charging()
         ui.set("ups", "%2i%s" % (capacity, charging))
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

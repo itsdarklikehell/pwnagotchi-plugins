@@ -13,8 +13,20 @@ class XPGrid(plugins.Plugin):
     __description__ = (
         "Level sharing between peers for xp plugin. xp plugin must be enabled."
     )
+    __name__ = "XPGrid"
+    __help__ = "Level sharing between peers for xp plugin. xp plugin must be enabled."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.known_peers = {}
 
     def on_loaded(self):
@@ -107,8 +119,13 @@ class XPGrid(plugins.Plugin):
             logging.error("xp_grid.on_ui_update: %s" % e)
 
     def on_unload(self, ui):
-        try:
-            with ui._lock:
+        with ui._lock:
+            try:
                 ui.remove_element("friend_level")
-        except Exception as e:
-            logging.error("xp_grid.on_unload: %s" % e)
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error("xp_grid.on_unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

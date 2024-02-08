@@ -58,3 +58,7 @@ class ShowPwd(plugins.Plugin):
         )
         last_line = last_line.read().rstrip()
         ui.set("show_pwd", "%s" % last_line)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

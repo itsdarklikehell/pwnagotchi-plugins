@@ -98,3 +98,7 @@ class Timer(plugins.Plugin):
         self.wifi_update_time = None
         self.wifi_deauth_time = None
         self.wifi_handshake_time = None
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

@@ -387,3 +387,7 @@ class SecurityMonitor(plugins.Plugin):
         # For demonstration purposes, log the AI policy
         logging.info(f"AI Policy: {policy}")
         # You can implement further actions, such as adjusting security thresholds based on AI insights
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

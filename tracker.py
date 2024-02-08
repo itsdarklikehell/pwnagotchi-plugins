@@ -143,3 +143,7 @@ class Tracker(plugins.Plugin):
                     self._save_client(ap, client)
         except Exception as e:
             logging.error("tracker.on_handshake: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

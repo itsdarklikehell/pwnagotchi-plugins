@@ -23,8 +23,20 @@ class RTCGrid(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Share RTC clock with peers. Some part of this code is based from: https://stackoverflow.com/questions/12081310"
+    __name__ = "RTCGrid"
+    __help__ = "Share RTC clock with peers. Some part of this code is based from: https://stackoverflow.com/questions/12081310"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.rtc = False
         self.peer_rtc = None
         self.friends = {}
@@ -33,7 +45,10 @@ class RTCGrid(plugins.Plugin):
         if not self.peer_rtc or not self.peer_rtc.adv.get("rtc"):
             return False
 
-        logging.info("[rtc_grid] Set datetime from peer %s", self.peer_rtc.full_name())
+        logging.info(
+            f"[{self.__class__.__name__}] Set datetime from peer %s",
+            self.peer_rtc.full_name(),
+        )
 
         time_tuple = datetime.datetime.fromtimestamp(
             self.peer_rtc.adv.get("rtc")["timestamp"]
@@ -159,3 +174,7 @@ class RTCGrid(plugins.Plugin):
                 ui.remove_element("rtc_peer")
         except Exception as e:
             logging.error("rtc_grid.on_unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

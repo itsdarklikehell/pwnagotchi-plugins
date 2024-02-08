@@ -39,6 +39,10 @@ class CustomVoicePlugin(plugins.Plugin):
     def on_unload(self):
         logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
+
 
 # Instanciar el plugin
 custom_voice_plugin = CustomVoicePlugin()

@@ -30,3 +30,7 @@ class ScreenRefresh(plugins.Plugin):
             ui.set("status", "Screen cleaned")
             logging.info("[screenrefresh] Screen refreshing")
             self.update_count = 0
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

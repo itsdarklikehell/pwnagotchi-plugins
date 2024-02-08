@@ -79,3 +79,7 @@ class Sound(plugins.Plugin):
         self.play_my_sound(
             sys._getframe().f_code.co_name, str(access_point["hostname"])
         )
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

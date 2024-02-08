@@ -130,8 +130,7 @@ class Telegram(plugins.Plugin):
 (☓‿‿☓) /pwnmenu Relays pwnmenu commands up/down/ok/back/close/stop
 (⇀‿‿↼)(≖‿‿≖)(◕‿‿◕)( ⚆_⚆)(☉_☉ )( ◕‿◕)(◕‿◕ )(°▃▃°)(⌐■_■)(•‿‿•)
 (^‿‿^)(ᵔ◡◡ᵔ)(✜‿‿✜)(♥‿‿♥)(☼‿‿☼)(≖__≖)(-__-)(╥☁╥ )(ب__ب)(☓‿‿☓)
-"
-)
+"""
                 bot.sendMessage(chat_id=self.options['chat_id'], text=repmessage, disable_web_page_preview=True)
             elif message == "/handshakes":
                 os.chdir('/root/handshakes')
