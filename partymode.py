@@ -51,8 +51,8 @@ class Partymode(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         try:
-            pwnagotchi.ui.view.BLACK = randfgcolor
-            pwnagotchi.ui.view.WHITE = randbgcolor
+            pwnagotchi.ui.view.BLACK = 0xFF, 0x00, 0x00
+            pwnagotchi.ui.view.WHITE = 0x00, 0xFF, 0x00
             logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error(f"[{self.__class__.__name__}] _loaded: %s" % e)
