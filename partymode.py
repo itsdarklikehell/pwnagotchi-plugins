@@ -1,7 +1,7 @@
 import logging
 import pwnagotchi
 import pwnagotchi.plugins as plugins
-import random
+from random import randint
 
 
 class Partymode(plugins.Plugin):
@@ -18,20 +18,6 @@ class Partymode(plugins.Plugin):
     __defaults__ = {
         "enabled": False,
     }
-
-    def __randomcolor__(self):
-        fgcolor = random.randrange(0, 2**24)
-        randfgcolor = int(hex(fgcolor), 16)
-
-        bgcolor = random.randrange(0, 2**24)
-        randbgcolor = int(hex(bgcolor), 16)
-
-        logging.info(
-            f"[{self.__class__.__name__}] picked as random color: %s" % randfgcolor
-        )
-        logging.info(
-            f"[{self.__class__.__name__}] picked as random color: %s" % randbgcolor
-        )
 
     def __init__(self):
         self.ready = False
@@ -51,8 +37,14 @@ class Partymode(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         try:
-            pwnagotchi.ui.view.BLACK = 0xFF, 0x00, 0x00
-            pwnagotchi.ui.view.WHITE = 0x00, 0xFF, 0x00
+            rand_bgc = hex(randint(0, 255))
+            print(rand_bgc)
+            rand_fgc = hex(randint(0, 255))
+            print(rand_fgc)
+
+            pwnagotchi.ui.view.BLACK = rand_fgc
+            pwnagotchi.ui.view.WHITE = rand_bgc
+
             logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
             logging.error(f"[{self.__class__.__name__}] _loaded: %s" % e)
