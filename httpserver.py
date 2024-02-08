@@ -1,3 +1,8 @@
+"""Edit the config.toml
+
+main.plugins.httpserver.enabled = true
+"""
+
 import logging
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 
