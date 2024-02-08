@@ -13,7 +13,7 @@ class Deauth(plugins.Plugin):
     __description__ = (
         "A plugin that counts the successful deauth attacks of this session."
     )
-    __name__ = "deauthcounter"
+    __name__ = "deauth"
     __help__ = "A plugin that counts the successful deauth attacks of this session."
     __dependencies__ = {
         "apt": ["none"],
