@@ -70,13 +70,6 @@ class HttpServerPlugin(plugins.Plugin):
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
-        import requests
-        from flask import redirect
-
-        s = requests.Session()
-        s.get("http://paimon.local:8000/")
-        r = s.post("http://paimon.local:8000/")
-        return redirect(r.url, code=302)
 
 
 # Instantiate the plugin
