@@ -86,7 +86,7 @@ class HandshakesDL(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.ready = False
 
     def on_loaded(self):

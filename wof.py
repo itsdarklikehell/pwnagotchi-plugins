@@ -404,7 +404,7 @@ INDEX = """
 
 class WofBridge:
     def __init__(self, json_file):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.__json_file = json_file
         known_flippers = self.__load_data()
         self.__known_flippers = [flipper["UUID"] for flipper in known_flippers]
@@ -483,7 +483,7 @@ class WofPlugin(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         try:
@@ -492,7 +492,7 @@ class WofPlugin(plugins.Plugin):
             self.__wof_file = self.DEFAULT_WOF_FILE
         self.__wof_bridge = WofBridge(self.__wof_file)
 
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         # logging.debug("Checking that wof is installed...") # TODO: check installation
         # logging.debug("Checking that wof is running...") # TODO: check running
 

@@ -713,7 +713,7 @@ class Buttonshim(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.running = False
         self.options = dict()
         global _handlers

@@ -30,7 +30,7 @@ class lcdhatcontrols(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.KEY_PRESS_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)

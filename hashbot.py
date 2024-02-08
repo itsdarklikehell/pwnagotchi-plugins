@@ -26,7 +26,7 @@ class hashbot(plugins.Plugin):
     # 4. Add these to a .env file containted in the same directory
     def __init__(self):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         TOKEN = os.getenv("example")
         GUILD = os.getenv("example")

@@ -26,7 +26,7 @@ class LcdHat(plugins.Plugin):
 
     def __init__(self, config):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         super(LcdHat, self).__init__(config, "lcdhat")
         self._display = None

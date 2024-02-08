@@ -26,7 +26,7 @@ class GPSD:
         gpsd.connect(host=gpsdhost, port=gpsdport)
         self.running = True
         self.coords = {"Latitude": None, "Longitude": None, "Altitude": None}
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def update_gps(self):
         if self.running:
@@ -62,7 +62,7 @@ class f0xtr0t(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         self.gpsd = None
 
@@ -453,7 +453,7 @@ class PositionFile:
     def __init__(self, path):
         self._file = path
         self._filename = os.path.basename(path)
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         try:
             logging.debug(f"[f0xtr0t] loading {path}")
             with open(path, "r") as json_file:

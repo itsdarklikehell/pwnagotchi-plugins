@@ -38,7 +38,7 @@ class IPDisplay(plugins.Plugin):
         self.device_list = ["bnep0", "usb0", "eth0"]
         self.device_index = 0
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
 
     def on_loaded(self):

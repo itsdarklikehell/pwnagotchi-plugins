@@ -26,7 +26,7 @@ class CombinedPlugin(Plugin):
     }
 
     def __init__(self, home_network="test-net", home_password="TestNet1"):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.ui = None
         self.honey_pot_aps = set()
         self.detected_fake_aps = 0

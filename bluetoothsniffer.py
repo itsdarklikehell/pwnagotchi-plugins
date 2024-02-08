@@ -37,7 +37,7 @@ class BluetoothSniffer(plugins.Plugin):
         }
         self.data = {}
         self.last_scan_time = 0
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")

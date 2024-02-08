@@ -313,7 +313,7 @@ class Enterprise(plugins.Plugin):
         }
         self.rebooting = False
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
 
     def on_ready(self, agent):

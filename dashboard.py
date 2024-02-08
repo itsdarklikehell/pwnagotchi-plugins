@@ -28,7 +28,7 @@ class Dashboard(plugins.Plugin):
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     # Get the current status of the pivoyager
     def get_status(self):

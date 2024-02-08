@@ -28,7 +28,7 @@ class Birthday(plugins.Plugin):
 
     def __init__(self):
         self.born_at = 0
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         data_path = "/root/brain.json"

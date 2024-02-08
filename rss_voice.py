@@ -44,7 +44,7 @@ class RSS_Voice(plugins.Plugin):
 
     def __init__(self):
         self.last_checks = {"wait": 0}
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.voice = ""
 
     def _wget(self, url, rssfile, verbose=False):

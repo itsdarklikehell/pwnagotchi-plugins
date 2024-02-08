@@ -53,7 +53,7 @@ class Banthex(plugins.Plugin):
             self.report = StatusFile("/root/.banthex_uploads", data_format="json")
         self.options = dict()
         self.skip = list()
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def _upload_to_wpasec(self, path, timeout=30):
         with open(path, "rb") as file_to_upload:

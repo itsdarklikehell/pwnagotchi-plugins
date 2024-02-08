@@ -128,7 +128,7 @@ class PWNAware(plugins.Plugin):
         self._updated = True
 
     def __init__(self):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         logging.info(f"[{self.__class__.__name__}] pwn the friendly skies!")
 
         self._updated = False

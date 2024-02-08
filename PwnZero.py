@@ -75,7 +75,7 @@ class PwnZero(plugins.Plugin):
 
     def __init__(self, port: str = "/dev/serial0", baud: int = 115200):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         self._port = port
         self._baud = baud

@@ -43,7 +43,7 @@ class BasicLight(plugins.Plugin):
 
     def __init__(self):
         self.running = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
 
     # Plugin load, switch Yellow high

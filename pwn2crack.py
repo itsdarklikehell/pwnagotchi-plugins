@@ -35,7 +35,7 @@ class Pwn2Crack(plugins.Plugin):
     def __init__(self):
         self.running = False
         self.lock = Lock()
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     # This function is called when the config.toml file is changed. This is needed to be able to read the options of other pluguin from the config.toml file.
     def on_config_changed(self, config):

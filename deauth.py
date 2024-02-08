@@ -26,7 +26,7 @@ class Deauth(plugins.Plugin):
     def __init__(self):
         self.deauth_counter = 0
         self.handshake_counter = 0
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")

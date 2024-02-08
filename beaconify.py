@@ -59,7 +59,7 @@ class Beaconify(plugins.Plugin):
         self.waiting_pwngrid = False
         self.beacon_thread = None
         self.pwngrid_thread = None
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
 
     def info_element(self, id, info):

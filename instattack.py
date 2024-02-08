@@ -19,7 +19,7 @@ class instattack(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.old_name = None
 
     # called before the plugin is unloaded

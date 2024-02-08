@@ -21,7 +21,7 @@ class GPSError(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         self.gps = None
 

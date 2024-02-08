@@ -73,7 +73,7 @@ class PwnMenu(plugins.Plugin):
         self.uparrowvisible = False  # Use these because remove_element() locks up.
         self.showdownarrow = False
         self.downarrowvisible = False  # Use these because remove_elements() locks up.
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def forcedisplayupdate(self):
         self.timeouthandler = False

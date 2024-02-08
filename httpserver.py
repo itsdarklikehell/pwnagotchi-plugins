@@ -28,13 +28,14 @@ class HttpServerPlugin(plugins.Plugin):
     }
 
     def __init__(self):
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
-        logging.info(f"[{self.__class__.__name__}] Loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.start_http_server()
 
     def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         self.stop_http_server()
 
     def start_http_server(self):

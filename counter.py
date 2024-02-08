@@ -35,7 +35,7 @@ class Counter(plugins.Plugin):
         self.running = False
         self.deauth_counter = 0
         self.assoc_counter = 0
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")

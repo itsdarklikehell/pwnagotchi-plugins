@@ -30,7 +30,7 @@ class BetterOnlineHashCrack(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.title = ""
         try:
             self.report = StatusFile("/root/.ohc_uploads", data_format="json")
