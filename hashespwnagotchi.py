@@ -509,3 +509,7 @@ class hashespwnagotchi(plugins.Plugin):
             return True
         except (requests.ConnectionError, requests.Timeout) as exception:
             return False
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

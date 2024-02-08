@@ -9,15 +9,28 @@ class GPIOButtons(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "GPIO Button support plugin"
+    __name__ = "GPIOButtons"
+    __help__ = "GPIO Button support plugin"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
-        self.running = False
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.ports = {}
         self.commands = None
 
     def runCommand(self, channel):
         command = self.ports[channel]
-        logging.info(f"Button Pressed! Running command: {command}")
+        logging.info(
+            f"[{self.__class__.__name__}] Button Pressed! Running command: {command}"
+        )
         process = subprocess.Popen(
             command,
             shell=True,
@@ -29,7 +42,7 @@ class GPIOButtons(plugins.Plugin):
         process.wait()
 
     def on_loaded(self):
-        logging.info("GPIO Button plugin loaded.")
+        logging.info("[{self.__class__.__name__}] plugin loaded")
 
         # get list of GPIOs
         gpios = self.options["gpios"]
@@ -49,3 +62,10 @@ class GPIOButtons(plugins.Plugin):
             GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
             GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
             logging.info("Added command: %s to GPIO #%d", command, gpio)
+
+    def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

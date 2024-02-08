@@ -45,7 +45,10 @@ class gpsd_coord(plugins.Plugin):
     )
     __name__ = "gpsd_coord"
     __help__ = "Talk to GPSD and save coordinates whenever a handshake is captured."
-    __dependencies__ = {"pip": ["scapy"]}
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
     __defaults__ = {
         "enabled": False,
     }
@@ -167,6 +170,10 @@ class gpsd_coord(plugins.Plugin):
             ui.remove_element("latitude")
             ui.remove_element("longitude")
             ui.remove_element("altitude")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
 
     def on_ui_update(self, ui):
         coords = self.gpsd.update_gps()

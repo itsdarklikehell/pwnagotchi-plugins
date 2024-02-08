@@ -22,7 +22,7 @@ import sys
 import time
 
 import gps
-import gps.fake as gpsfake   # The "as" pacifies pychecker
+import gps.fake as gpsfake  # The "as" pacifies pychecker
 
 try:
     my_input = raw_input
@@ -70,8 +70,7 @@ class Baton(object):
         if msg is None:
             msg = self.endmsg
         if self.stream:
-            self.stream.write("...(%2.2f sec) %s.\n"
-                              % (time.time() - self.time, msg))
+            self.stream.write("...(%2.2f sec) %s.\n" % (time.time() - self.time, msg))
         return
 
 
@@ -90,19 +89,23 @@ def fakehook(linenumber, fakegps):
         if singleshot and linenumber > 0:
             return False
         if progress:
-            baton.twirl('*\b')
+            baton.twirl("*\b")
         elif not singleshot:
             if not quiet:
-                sys.stderr.write("gpsfake: log cycle of %s begins.\n"
-                                 % fakegps.testload.name)
+                sys.stderr.write(
+                    "gpsfake: log cycle of %s begins.\n" % fakegps.testload.name
+                )
     time.sleep(cycle)
     if linedump and fakegps.testload.legend:
         ml = fakegps.testload.sentences[
-            linenumber % len(fakegps.testload.sentences)].strip()
+            linenumber % len(fakegps.testload.sentences)
+        ].strip()
         if not fakegps.testload.textual:
             ml = hexdump(ml)
-        announce = fakegps.testload.legend \
-            % (linenumber % len(fakegps.testload.sentences) + 1) + ml
+        announce = (
+            fakegps.testload.legend % (linenumber % len(fakegps.testload.sentences) + 1)
+            + ml
+        )
         if promptme:
             my_input(announce + "? ")
         else:
@@ -111,10 +114,12 @@ def fakehook(linenumber, fakegps):
         baton.twirl()
     return True
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     try:
-        (options, arguments) = getopt.getopt(sys.argv[1:],
-                                             "1bc:D:ghilm:no:pP:qr:s:StTuvx")
+        (options, arguments) = getopt.getopt(
+            sys.argv[1:], "1bc:D:ghilm:no:pP:qr:s:StTuvx"
+        )
     except getopt.GetoptError as msg:
         print("gpsfake: " + str(msg))
         raise SystemExit(1)
@@ -136,58 +141,61 @@ if __name__ == '__main__':
     verbose = 0
     slow = False
     quiet = False
-    for (switch, val) in options:
-        if switch == '-1':
+    for switch, val in options:
+        if switch == "-1":
             singleshot = True
-        elif switch == '-b':
+        elif switch == "-b":
             progress = True
-        elif switch == '-c':
+        elif switch == "-c":
             cycle = float(val)
-        elif switch == '-D':
+        elif switch == "-D":
             doptions += " -D " + val
-        elif switch == '-g':
+        elif switch == "-g":
             monitor = "xterm -e gdb -tui --args "
-        elif switch == '-i':
+        elif switch == "-i":
             linedump = promptme = True
-        elif switch == '-l':
+        elif switch == "-l":
             linedump = True
-        elif switch == '-m':
+        elif switch == "-m":
             monitor = val + " "
-        elif switch == '-n':
+        elif switch == "-n":
             doptions += " -n"
-        elif switch == '-x':
+        elif switch == "-x":
             predump = True
-        elif switch == '-o':
+        elif switch == "-o":
             doptions = val
-        elif switch == '-p':
+        elif switch == "-p":
             pipe = True
-        elif switch == '-P':
+        elif switch == "-P":
             port = int(val)
-        elif switch == '-q':
+        elif switch == "-q":
             quiet = True
-        elif switch == '-r':
+        elif switch == "-r":
             client_init = val
-        elif switch == '-s':
+        elif switch == "-s":
             speed = int(val)
-        elif switch == '-S':
+        elif switch == "-S":
             slow = True
-        elif switch == '-t':
+        elif switch == "-t":
             tcp = True
-        elif switch == '-T':
-            sys.stdout.write("sys %s platform %s: WRITE_PAD = %.5f\n"
-                             % (sys.platform, platform.platform(),
-                                gpsfake.GetDelay(slow)))
+        elif switch == "-T":
+            sys.stdout.write(
+                "sys %s platform %s: WRITE_PAD = %.5f\n"
+                % (sys.platform, platform.platform(), gpsfake.GetDelay(slow))
+            )
             raise SystemExit(0)
-        elif switch == '-u':
+        elif switch == "-u":
             udp = True
-        elif switch == '-v':
+        elif switch == "-v":
             verbose += 1
-        elif switch == '-h':
-            sys.stderr.write("usage: gpsfake"
-                             " [-1] [-h] [-i] [-l] [-g] [-q] [-m monitor]"
-                             " [-D debug] [-n] [-o options] [-p]\n"
-                             "\t[-P port] [-r initcmd] [-t] [-T] [-v] [-x]"
-                             " [-s speed] [-S] [-c cycle] [-b] logfile...\n")
+        elif switch == "-h":
+            sys.stderr.write(
+                "usage: gpsfake"
+                " [-1] [-h] [-i] [-l] [-g] [-q] [-m monitor]"
+                " [-D debug] [-n] [-o options] [-p]\n"
+                "\t[-P port] [-r initcmd] [-t] [-T] [-v] [-x]"
+                " [-s speed] [-S] [-c cycle] [-b] logfile...\n"
+            )
             raise SystemExit(0)
 
     try:
@@ -209,9 +217,16 @@ if __name__ == '__main__':
     if port is None and not pipe:
         port = int(gps.GPSD_PORT)
 
-    test = gpsfake.TestSession(prefix=monitor, port=port, options=doptions,
-                               tcp=tcp, udp=udp, verbose=verbose,
-                               predump=predump, slow=slow)
+    test = gpsfake.TestSession(
+        prefix=monitor,
+        port=port,
+        options=doptions,
+        tcp=tcp,
+        udp=udp,
+        verbose=verbose,
+        predump=predump,
+        slow=slow,
+    )
 
     if pipe:
         test.reporter = bytesout.write
@@ -220,7 +235,9 @@ if __name__ == '__main__':
             test.progress = sys.stderr.write
 
     # Create a special character file that acts like a GPS device, but is really a shitty GSM hat.
-    special_file = test.gsm_gps_add(arguments[0], speed=speed, pred=fakehook, oneshot=singleshot)
+    special_file = test.gsm_gps_add(
+        arguments[0], speed=speed, pred=fakehook, oneshot=singleshot
+    )
 
     print("[+] Set bettercap gps.device value to: {}".format(special_file))
     test.run()

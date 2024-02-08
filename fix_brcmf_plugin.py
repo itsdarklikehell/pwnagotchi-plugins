@@ -543,6 +543,10 @@ class Fix_BRCMF(plugins.Plugin):
             logging.info(f"[{self.__class__.__name__}] unload err %s " % repr(err))
         pass
 
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
+
 
 # run from command line to brute force a reload
 if __name__ == "__main__":

@@ -84,6 +84,7 @@ class fix_region(plugins.Plugin):
     def __init__(self):
         self.ready = False
         self.mode = "MANU"
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         logging.info(f"[{self.__class__.__name__}] Region: " + REGION)
 
     def on_loaded(self):

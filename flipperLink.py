@@ -31,10 +31,10 @@ class FlipperLink(plugins.Plugin):
         self.flipper_connected = False
         self.flipper_connected = self.check_flipper()
         logging.info(self.flipper_connected)
-        logging.info("FlipperLink plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ready(self, agent):
-        logging.info("FlipperLink plugin ready.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         # Add elements to the UI
@@ -52,7 +52,11 @@ class FlipperLink(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("flipperlink")
+            try:
+                ui.remove_element("flipperlink")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         # Update the UI

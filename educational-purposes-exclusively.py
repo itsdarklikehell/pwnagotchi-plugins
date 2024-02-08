@@ -378,3 +378,7 @@ class EducationalPurposesOnly(Plugin):
     def on_unload(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

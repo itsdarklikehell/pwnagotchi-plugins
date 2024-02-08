@@ -77,3 +77,7 @@ class GPSSat(plugins.Plugin):
                 logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as e:
             logging.error("gps_sat.on_unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

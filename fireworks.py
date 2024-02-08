@@ -139,3 +139,7 @@ class Fireworks(plugins.Plugin):
 
         ledshim.clear()
         ledshim.show()
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

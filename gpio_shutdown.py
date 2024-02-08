@@ -19,16 +19,31 @@ class GPIOShutdown(plugins.Plugin):
         "gpio": 21,
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def shutdown(self, channel):
-        logging.warn("[gpioshutdown] Received shutdown command from GPIO")
+        logging.warn(f"[{self.__class__.__name__}] Received shutdown command from GPIO")
         pwnagotchi.shutdown()
 
     def on_loaded(self):
-        logging.info("[gpioshutdown] GPIO Shutdown plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
         shutdown_gpio = self.options["gpio"]
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(shutdown_gpio, GPIO.IN, GPIO.PUD_UP)
         GPIO.add_event_detect(shutdown_gpio, GPIO.FALLING, callback=self.shutdown)
 
-        logging.info("[gpioshutdown] Added shutdown command to GPIO %d", shutdown_gpio)
+        logging.info(
+            f"[{self.__class__.__name__}] Added shutdown command to GPIO %d",
+            shutdown_gpio,
+        )
+
+    def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

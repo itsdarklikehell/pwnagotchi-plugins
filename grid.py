@@ -12,7 +12,7 @@ from threading import Lock
 
 
 def parse_pcap(filename):
-    logging.info("grid: parsing %s ..." % filename)
+    logging.info(f"[{self.__class__.__name__}] parsing %s ..." % filename)
 
     net_id = os.path.basename(filename).replace(".pcap", "")
 
@@ -38,7 +38,7 @@ def parse_pcap(filename):
     try:
         info = extract_from_pcap(filename, [WifiInfo.BSSID, WifiInfo.ESSID])
     except Exception as e:
-        logging.error("grid: %s" % e)
+        logging.error(f"[{self.__class__.__name__}] %s" % e)
 
     return info[WifiInfo.ESSID], info[WifiInfo.BSSID]
 
@@ -51,6 +51,18 @@ class Grid(plugins.Plugin):
         "This plugin signals the unit cryptographic identity and list of pwned networks and list of pwned "
         "networks to api.pwnagotchi.ai "
     )
+    __name__ = "Grid"
+    __help__ = (
+        "This plugin signals the unit cryptographic identity and list of pwned networks and list of pwned "
+        "networks to api.pwnagotchi.ai "
+    )
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.options = dict()
@@ -70,7 +82,7 @@ class Grid(plugins.Plugin):
         return False
 
     def on_loaded(self):
-        logging.info("grid plugin loaded.")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded.")
 
     def set_reported(self, reported, net_id):
         if net_id not in reported:
@@ -105,7 +117,9 @@ class Grid(plugins.Plugin):
 
         if num_new > 0:
             if self.options["report"]:
-                logging.info("grid: %d new networks to report" % num_new)
+                logging.info(
+                    f"[{self.__class__.__name__}] %d new networks to report" % num_new
+                )
                 logging.debug("self.options: %s" % self.options)
                 logging.debug("  exclude: %s" % config["main"]["whitelist"])
 
@@ -136,7 +150,7 @@ class Grid(plugins.Plugin):
                         else:
                             logging.warning("no bssid found?!")
             else:
-                logging.debug("grid: reporting disabled")
+                logging.debug(f"[{self.__class__.__name__}] reporting disabled")
 
     def on_internet_available(self, agent):
         logging.debug("internet available")
@@ -163,3 +177,10 @@ class Grid(plugins.Plugin):
             except Exception as e:
                 logging.error("[grid] error while checking pcaps: %s" % e)
                 logging.debug(e, exc_info=True)
+
+    def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
