@@ -37,8 +37,8 @@ class Partymode(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         try:
-            pwnagotchi.ui.view.BLACK = hex(randint(0, 16))
-            pwnagotchi.ui.view.WHITE = hex(randint(0, 16))
+            pwnagotchi.ui.view.BLACK = hex(randint(0, 255)).upper()
+            pwnagotchi.ui.view.WHITE = hex(randint(0, 255)).upper()
 
             logging.info(f"[{self.__class__.__name__}] plugin loaded")
         except Exception as e:
