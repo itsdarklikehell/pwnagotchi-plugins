@@ -179,7 +179,7 @@ class MemTemp(plugins.Plugin):
                 "memtemp_header",
                 Text(
                     color=BLACK,
-                    value=" ".join([self.pad_text(x) for x in self.fields]),
+                    value="".join([self.pad_text(x) for x in self.fields]),
                     position=(h_pos_x, h_pos_y),
                     font=fonts.Small,
                 ),
@@ -188,7 +188,7 @@ class MemTemp(plugins.Plugin):
                 "memtemp_data",
                 Text(
                     color=BLACK,
-                    value=" ".join([self.pad_text("-") for x in self.fields]),
+                    value="".join([self.pad_text("-") for x in self.fields]),
                     position=(h_pos_x, h_pos_y + line_spacing),
                     font=fonts.Small,
                 ),
@@ -213,7 +213,7 @@ class MemTemp(plugins.Plugin):
                     )
             else:
                 # default to horizontal
-                data = " ".join(
+                data = "".join(
                     [
                         self.pad_text(getattr(self, self.ALLOWED_FIELDS[x])())
                         for x in self.fields
