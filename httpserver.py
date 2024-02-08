@@ -63,6 +63,9 @@ class HttpServerPlugin(plugins.Plugin):
                 f"[{self.__class__.__name__}] Error stopping HTTP server: {e}"
             )
 
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+
 
 # Instantiate the plugin
 http_server_plugin = HttpServerPlugin()

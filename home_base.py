@@ -322,4 +322,3 @@ def _log(message):
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
-        pass

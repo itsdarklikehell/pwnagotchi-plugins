@@ -38,7 +38,6 @@ class Led(plugins.Plugin):
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
-        pass
     def _on_event(self, event):
         if not self._is_busy:
             self._event_name = event

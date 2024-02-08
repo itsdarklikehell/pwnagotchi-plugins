@@ -50,7 +50,6 @@ Press Ctrl+C to exit.
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
-        pass
 
 @buttonshim.on_hold(buttonshim.BUTTON_A, hold_time=2)
 def button_a(button):
