@@ -24,9 +24,6 @@ class DisplaySettings(plugins.Plugin):
     def __init__(self):
         logging.debug(f"[{self.__class__.__name__}] plugin created")
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
         # show sliders and control and shit :)
         pass

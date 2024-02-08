@@ -152,9 +152,6 @@ class PWNAware(plugins.Plugin):
         # get default from options would be better
         self.coordinates = {"Latitude": 45.4568, "Longitude": -122.6486}
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
         # link to skyaware page
         try:

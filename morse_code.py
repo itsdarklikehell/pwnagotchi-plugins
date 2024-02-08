@@ -188,9 +188,7 @@ class MorseCode(plugins.Plugin):
         self._led_file = "/sys/class/leds/led%d/brightness"
         self._delay = 200
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
     def on_webhook(self, path, request):
         self.logger.info("[Morse] Web hook: %s" % repr(request))
         return "<html><body>Woohoo!</body></html>"

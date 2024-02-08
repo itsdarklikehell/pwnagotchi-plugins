@@ -32,10 +32,8 @@ class BLEMon(plugins.Plugin):
         self.stopRecon = False
         self.agent = None
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         pass
 
     # called when the plugin is loaded

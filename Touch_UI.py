@@ -338,9 +338,6 @@ class Touch_Screen(plugins.Plugin):
         except Exception as e:
             logging.info("Handler: %s" % repr(e))
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
     def on_webhook(self, path, request):
         # define which elements are active or not
         # show pwny image. send clicks through

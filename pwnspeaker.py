@@ -100,9 +100,7 @@ class Pwnspeak(plugins.Plugin):
     #     subprocess.run(["pico2wave", "-w", outputfile, body])
     #     subprocess.run(["aplay", outputfile])
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
     def on_webhook(self, path, request):
         title = ("[pwnspeaker]")
         short = ("on_webhook")

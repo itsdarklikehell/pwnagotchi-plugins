@@ -264,3 +264,7 @@ class BluetoothSniffer(plugins.Plugin):
         else:
             return_text = "0|0"
         return return_text
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
