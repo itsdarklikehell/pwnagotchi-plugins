@@ -80,8 +80,11 @@ class PwnClock(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("clock")
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            try:
+                ui.remove_element("clock")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         try:
@@ -91,3 +94,7 @@ class PwnClock(plugins.Plugin):
             ui.set("clock", time_rn)
         except Exception as wtf:
             logging.error(f"[{self.__class__.__name__}] %s" % repr(wtf))
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

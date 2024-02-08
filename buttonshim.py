@@ -657,7 +657,6 @@ class Buttonshim(plugins.Plugin):
     __description__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
     __name__ = "Buttonshim"
     __help__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
-    )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
         "enabled": False,
@@ -714,6 +713,7 @@ class Buttonshim(plugins.Plugin):
     }
 
     def __init__(self):
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.running = False
         self.options = dict()
         global _handlers
@@ -723,3 +723,10 @@ class Buttonshim(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.running = True
+
+    def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

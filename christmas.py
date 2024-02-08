@@ -102,3 +102,7 @@ class Christmas(plugins.Plugin):
                 ui.set("christmas", "christmas\n%dD %dH" % (days, hours))
         except Exception as wtf:
             logging.error(f"[{self.__class__.__name__}] %s" % repr(wtf))
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

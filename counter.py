@@ -70,6 +70,7 @@ class Counter(plugins.Plugin):
         )
 
     def on_ready(self, agent):
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
         self.agent = agent
 
     def on_ui_update(self, ui):
@@ -81,3 +82,7 @@ class Counter(plugins.Plugin):
 
     def on_association(self, agent, access_point):
         self.assoc_counter += 1
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
