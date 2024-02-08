@@ -44,3 +44,7 @@ class PawGPS(plugins.Plugin):
         )
         with open(gps_filename, "w+t") as f:
             f.write(gps.text)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

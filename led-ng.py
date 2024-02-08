@@ -80,7 +80,9 @@ class Led(plugins.Plugin):
     # called when the unit is updating its software
     def on_updating(self):
         self._on_event("updating")
-
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
     # called when there's one or more unread pwnmail messages
     def on_unread_inbox(self, num_unread):
         self._on_event("unread_inbox")

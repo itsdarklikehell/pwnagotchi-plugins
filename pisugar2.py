@@ -104,3 +104,7 @@ class PiSugar2(plugins.Plugin):
             ui.update(force=True, new_data={"status": "Battery exhausted, bye ..."})
             time.sleep(3)
             pwnagotchi.shutdown()
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

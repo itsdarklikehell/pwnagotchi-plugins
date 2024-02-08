@@ -27,6 +27,15 @@ class RSS_Voice(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Use RSS Feeds to replace canned voice messages on various events"
+    __name__ = "RSS_Voice"
+    __help__ = "Use RSS Feeds to replace canned voice messages on various events"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     #     main.plugins.rss_voice.enabled = true
     #     main.plugins.rss_voice.feed.wait.url = "https://www.reddit.com/r/worldnews.rss"
@@ -35,18 +44,18 @@ class RSS_Voice(plugins.Plugin):
 
     def __init__(self):
         self.last_checks = {"wait": 0}
-        logging.debug("RSS_Voice plugin started")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.voice = ""
 
     def _wget(self, url, rssfile, verbose=False):
-        logging.debug("RSS_Voice _wget %s: %s" % (rssfile, url))
+        logging.debug("[{self.__class__.__name__}] _wget %s: %s" % (rssfile, url))
         process = subprocess.run(["/usr/bin/wget", "-q", "-O", rssfile, url])
-        logging.debug("RSS_Voice: %s", repr(process))
+        logging.debug("[{self.__class__.__name__}] %s", repr(process))
 
     def _fetch_rss_message(self, key):
         rssfile = "%s/%s.rss" % (self.options["path"], key)
         if os.path.isfile(rssfile):
-            logging.debug("RSS_Voice pulling from %s" % (rssfile))
+            logging.debug("[{self.__class__.__name__}] pulling from %s" % (rssfile))
             try:
                 feed = feedparser.parse(rssfile)
                 article = random.choice(feed.entries)
@@ -79,20 +88,16 @@ class RSS_Voice(plugins.Plugin):
             except Exception as e:
                 headline = repr(e)
 
-            logging.debug("RSS_Voice %s: %s" % (key, headline))
+            logging.debug("[{self.__class__.__name__}] %s: %s" % (key, headline))
 
             return headline
         else:
             return ""
 
-    def on_webhook(self, path, request):
-        # do something to edit RSS urls
-        pass
-
     # called when the plugin is loaded
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        logging.warn("RSS_Voice options = %s" % self.options)
+        logging.warn("[{self.__class__.__name__}] options = %s" % self.options)
         if "path" not in self.options:
             self.options["path"] = "/root/voice_rss"
 
@@ -111,15 +116,19 @@ class RSS_Voice(plugins.Plugin):
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
         # check rss feeds, unless too recent
-        logging.debug("RSS_Voice internet available")
+        logging.debug("[{self.__class__.__name__}] internet available")
         if "feed" in self.options:
             now = time.time()
             feeds = self.options["feed"]
-            logging.debug("RSS_Voice processing feeds: %s" % feeds)
+            logging.debug("[{self.__class__.__name__}] processing feeds: %s" % feeds)
             for k, v in feeds.items():  # a feed value can be a dictionary
-                logging.debug("RSS_Voice feed: %s = %s" % (repr(k), repr(v)))
+                logging.debug(
+                    "[{self.__class__.__name__}] feed: %s = %s" % (repr(k), repr(v))
+                )
                 timeout = 3600 if "timeout" not in v else v["timeout"]
-                logging.debug("RSS_Voice %s timeout = %s" % (repr(k), timeout))
+                logging.debug(
+                    "[{self.__class__.__name__}] %s timeout = %s" % (repr(k), timeout)
+                )
                 try:
                     if not k in self.last_checks or now > (
                         self.last_checks[k] + timeout
@@ -140,7 +149,7 @@ class RSS_Voice(plugins.Plugin):
                     else:
                         logging.debug("too soon!")
                 except Exception as e:
-                    logging.error("RSS_Voice: %s" % repr(e))
+                    logging.error("[{self.__class__.__name__}] %s" % repr(e))
         pass
 
     # called to setup the ui elements
@@ -200,7 +209,7 @@ class RSS_Voice(plugins.Plugin):
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
         self.voice = "(%ss) %s" % (int(t), self._fetch_rss_message("wait"))
-        logging.debug("RSS_Voice on_wait: %s" % self.voice)
+        logging.debug("[{self.__class__.__name__}] on_wait: %s" % self.voice)
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
@@ -208,4 +217,8 @@ class RSS_Voice(plugins.Plugin):
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
+        pass
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
         pass

@@ -319,3 +319,7 @@ def _restart_monitor_mode(self, agent):
 
 def _log(message):
     logging.info(f"[{self.__class__.__name__}] %s" % message)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

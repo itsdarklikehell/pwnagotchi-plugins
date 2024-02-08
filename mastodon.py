@@ -83,3 +83,7 @@ class MastodonStatus(plugins.Plugin):
                 display.update(force=True)
             except Exception as ex:
                 logging.exception("[mastodon] error while posting: %s", ex)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass

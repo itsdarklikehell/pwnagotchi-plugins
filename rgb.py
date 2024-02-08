@@ -134,6 +134,10 @@ class Display:
             raise ValueError("out of bounds")
         self._block(x, y, x + width - 1, y + height - 1, buffer)
 
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
+
 
 class DisplaySPI(Display):
     def __init__(self, spi, dc, cs=None, rst=None, width=1, height=1):

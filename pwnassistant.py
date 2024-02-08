@@ -217,3 +217,7 @@ while True:
         for phrase in PWN_STRS:
             if prase in text:
                 speak("Whatsup dude?")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        pass
