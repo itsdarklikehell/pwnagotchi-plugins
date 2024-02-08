@@ -25,14 +25,14 @@ class hashbot(plugins.Plugin):
     # 3. Obtain a token and the channel ID
     # 4. Add these to a .env file containted in the same directory
     def __init__(self):
+        self.ready = False
+        logging.info(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         TOKEN = os.getenv("example")
         GUILD = os.getenv("example")
         CHANNEL = os.getenv("example")
         bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
         @bot.command(name="dumphash")
-        self.ready = False
-        logging.info(f"[{self.__class__.__name__}] plugin init")
-        self.title = ""
 
     def on_loaded(self):
         data_path = "/root/hashes.22000"
