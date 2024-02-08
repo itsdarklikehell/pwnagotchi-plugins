@@ -26,6 +26,7 @@ class WanMon(plugins.Plugin):
 
     def __init__(self):
         self.running = False
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
         self.internet_available = False
         self.dns_resolving = False
         self.internet_status = 0
@@ -36,6 +37,7 @@ class WanMon(plugins.Plugin):
             self.running = False
             return
         self.running = True
+        logging.debug(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         # Set the X,Y position of the icon on the Pwnagotchi's display. First check if the user has set the 'pos_x' and 'pos_y' options in the config.toml file.
@@ -63,7 +65,11 @@ class WanMon(plugins.Plugin):
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("iIcon")
+            try:
+                ui.remove_element("iIcon")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
 
     def on_ui_update(self, ui):
         # If the internet_status equals, 2 == 'C', 1 == 'IP', 0 == 'X', then add the internet_status to the Pwnagotchi's display.
@@ -119,6 +125,7 @@ class WanMon(plugins.Plugin):
 
     # Check for Internet connection on startup.
     def on_ready(self, agent):
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
         self.internet_status = self.test_internet_connection()
 
     # Check for Internet connection after each epoch. This was the only function that run periodically but not every second; trying to avoid overloading the system.
