@@ -2,13 +2,10 @@ import logging
 import json
 import os
 
-# import pwnagotchi.plugins as plugins
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
-# For Dev
-from pwnagotchi import pwnagotchi
 import pwnagotchi.plugins as plugins
 
 

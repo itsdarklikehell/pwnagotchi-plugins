@@ -10,7 +10,7 @@ Sends info about your Pwnagotchi to local MQTT broker.
 Tested on 1.5.5 official version.
 
 ## Dependencies
-sudo apt install mosquitto mosquitto-clients && sudo pip3 install paho-mqtt==1.4.0
+sudo apt install python3-psutil python3-paho-mqtt mosquitto mosquitto-clients && sudo pip3 install paho-mqtt==1.4.0
 
 ## Defaults
 MQTT host: localhost
