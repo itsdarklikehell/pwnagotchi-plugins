@@ -102,7 +102,7 @@ class DisplayPassword(plugins.Plugin):
         last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
         ui.set("display-password", "%s" % (os.popen(last_line).read().rstrip()))
 
-    def on_webhook(self, path, request):
+    def on_webhook(self, ui, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
         last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
         ui.set("display-password", "%s" % (os.popen(last_line).read().rstrip()))
