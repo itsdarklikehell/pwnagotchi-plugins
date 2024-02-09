@@ -1,1 +1,6 @@
 main.plugins.better_apfaker.enabled = false
+main.plugins.better_apfaker.ssids = ["5G TEST CELL TOWER", "5G TEST CELL TOWER 2"],
+main.plugins.better_apfaker.max = 50,
+main.plugins.better_apfaker.repeat = true,
+main.plugins.better_apfaker.password_protected = false,
+main.plugins.better_apfaker.path = "/home/pi/apfaker/",

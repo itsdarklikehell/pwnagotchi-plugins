@@ -51,19 +51,23 @@ class XPGrid(plugins.Plugin):
         try:
             grid.call("/mesh/data", {"level": level})
         except Exception as e:
-            logging.error("xp_grid.on_level_update: %s" % e)
+            logging.error(
+                f"[{self.__class__.__name__}] xp_grid.on_level_update: %s" % e
+            )
 
     def on_rank_update(self, rank):
         try:
             grid.call("/mesh/data", {"rank": rank})
         except Exception as e:
-            logging.error("xp_grid.on_rank_update: %s" % e)
+            logging.error(f"[{self.__class__.__name__}] xp_grid.on_rank_update: %s" % e)
 
     def on_peer_detected(self, agent, peer):
         try:
             self.known_peers[peer.identity()] = peer
         except Exception as e:
-            logging.error("xp_grid.on_peer_detected: %s" % e)
+            logging.error(
+                f"[{self.__class__.__name__}] p_grid.on_peer_detected: %s" % e
+            )
 
     def on_ui_setup(self, ui):
         try:
@@ -89,7 +93,7 @@ class XPGrid(plugins.Plugin):
                 ),
             )
         except Exception as e:
-            logging.error("xp_grid.on_ui_setup: %s" % e)
+            logging.error(f"[{self.__class__.__name__}] xp_grid.on_ui_setup: %s" % e)
 
     def on_ui_update(self, ui):
         try:
@@ -116,7 +120,7 @@ class XPGrid(plugins.Plugin):
                     ui.set("friend_level", "[%d]" % level)
                     return True
         except Exception as e:
-            logging.error("xp_grid.on_ui_update: %s" % e)
+            logging.error(f"[{self.__class__.__name__}] xp_grid.on_ui_update: %s" % e)
 
     def on_unload(self, ui):
         with ui._lock:
