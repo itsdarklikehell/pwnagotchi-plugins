@@ -478,6 +478,12 @@ class WofPlugin(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "icon": True,
+        "icon_reverse": False,
+        "position.x": 5,
+        "position.y": 84,
+        "wof_file": "/root/Wall-of-Flippers/Flipper.json",
+        "online_timespan": 30,
     }
 
     DEFAULT_POS = (5, 84)
