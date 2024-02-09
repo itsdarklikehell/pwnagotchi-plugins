@@ -79,6 +79,7 @@ class fix_region(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "region": "NL",
     }
 
     def __init__(self):

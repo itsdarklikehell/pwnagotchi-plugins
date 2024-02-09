@@ -37,12 +37,11 @@ class RSS_Voice(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "feed.wait.url": "https://www.reddit.com/r/worldnews.rss",
+        "feed.bored.url": "https://www.reddit.com/r/showerthoughts.rss",
+        "feed.sad.url": "https://www.reddit.com/r/pwnagotchi.rss",
+        "path": "/home/pi/voice_rss",
     }
-
-    #     main.plugins.rss_voice.enabled = true
-    #     main.plugins.rss_voice.feed.wait.url = "https://www.reddit.com/r/worldnews.rss"
-    #     main.plugins.rss_voice.feed.bored.url = "https://www.reddit.com/r/showerthoughts.rss"
-    #     main.plugins.rss_voice.feed.sad.url = "https://www.reddit.com/r/pwnagotchi.rss"
 
     def __init__(self):
         self.last_checks = {"wait": 0}
