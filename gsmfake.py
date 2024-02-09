@@ -21,7 +21,7 @@ import socket
 import sys
 import time
 
-import gps
+import gps_ng
 import gps.fake as gpsfake  # The "as" pacifies pychecker
 
 try:
@@ -30,7 +30,7 @@ except NameError:
     my_input = input
 
 # Get version of stdout for bytes data (NOP in Python 2)
-bytesout = gps.get_bytes_stream(sys.stdout)
+bytesout = gps_ng.get_bytes_stream(sys.stdout)
 
 
 class Baton(object):
@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
     # Don't allocate a private port when cycling logs for client testing.
     if port is None and not pipe:
-        port = int(gps.GPSD_PORT)
+        port = int(gps_ng.GPSD_PORT)
 
     test = gpsfake.TestSession(
         prefix=monitor,

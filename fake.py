@@ -92,8 +92,8 @@ import datetime
 import re
 
 
-import gps
-from gps import polybytes
+import gps_ng
+from gps_ng import polybytes
 from . import packet as sniffer
 
 # The magic number below has to be derived from observation.  If
@@ -913,7 +913,7 @@ class TestSession(object):
         "Initiate a client session and force connection to a fake GPS."
         self.progress("gpsfake: client_add()\n")
         try:
-            newclient = gps.gps(port=self.port, verbose=self.verbose)
+            newclient = gps_ng.gps(port=self.port, verbose=self.verbose)
         except socket.error:
             if not self.daemon.is_alive():
                 raise TestSessionError("daemon died")
@@ -932,7 +932,7 @@ class TestSession(object):
         "Terminate a client session."
         self.progress("gpsfake: client_remove(%d)\n" % cid)
         for obj in self.runqueue:
-            if isinstance(obj, gps.gps) and obj.id == cid:
+            if isinstance(obj, gps_ng.gps) and obj.id == cid:
                 self.remove(obj)
                 return True
         return False
@@ -986,14 +986,14 @@ class TestSession(object):
                             )
                     else:
                         chosen.feed()
-                elif isinstance(chosen, gps.gps):
+                elif isinstance(chosen, gps_ng.gps):
                     if chosen.enqueued:
                         chosen.send(chosen.enqueued)
                         chosen.enqueued = ""
                     while chosen.waiting():
                         chosen.read()
                         had_output = True
-                        if not chosen.valid & gps.PACKET_SET:
+                        if not chosen.valid & gps_ng.PACKET_SET:
                             continue
                         self.reporter(chosen.bresponse)
                         if (
@@ -1026,7 +1026,7 @@ class TestSession(object):
         self.runqueue.append(obj)
         if isinstance(obj, FakeGPS):
             self.writers += 1
-        elif isinstance(obj, gps.gps):
+        elif isinstance(obj, gps_ng.gps):
             self.readers += 1
         if self.threadlock:
             self.threadlock.release()
@@ -1038,7 +1038,7 @@ class TestSession(object):
         self.runqueue.remove(obj)
         if isinstance(obj, FakeGPS):
             self.writers -= 1
-        elif isinstance(obj, gps.gps):
+        elif isinstance(obj, gps_ng.gps):
             self.readers -= 1
         self.index = min(len(self.runqueue) - 1, self.index)
         if self.threadlock:
