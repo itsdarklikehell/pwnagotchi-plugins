@@ -7,13 +7,23 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class Example(plugins.Plugin):
-    __author__ = 'evilsocket@gmail.com'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'An example plugin for pwnagotchi that implements all the available callbacks.'
-
+    __author__ = "evilsocket@gmail.com"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
+    )
+    __name__ = "Example_ng"
+    __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
     def __init__(self):
-        logging.debug("example plugin created")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     # called when http://<host>:<port>/plugins/<plugin>/ is called
     # must return a html page
@@ -23,28 +33,43 @@ class Example(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.warning("WARNING: this plugin should be disabled! options = " % self.options)
+        logging.warning(
+            f"[{self.__class__.__name__}] WARNING: this plugin should be disabled! options = "
+            % self.options
+        )
+                logging.debug(f"[{self.__class__.__name__}] plugin loaded")
+
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] plugin unloaded")
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] plugin has internet")
+
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
         # add custom UI elements
-        ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%/0V', position=(ui.width() / 2 - 25, 0),
-                                           label_font=fonts.Bold, text_font=fonts.Medium))
+        ui.add_element(
+            "ups",
+            LabeledValue(
+                color=BLACK,
+                label="UPS",
+                value="0%/0V",
+                position=(ui.width() / 2 - 25, 0),
+                label_font=fonts.Bold,
+                text_font=fonts.Medium,
+            ),
+        )
 
     # called when the ui is updated
     def on_ui_update(self, ui):
         # update those elements
         some_voltage = 0.1
         some_capacity = 100.0
-        ui.set('ups', "%4.2fV/%2i%%" % (some_voltage, some_capacity))
+        ui.set("ups", "%4.2fV/%2i%%" % (some_voltage, some_capacity))
 
     # called when the hardware display setup is done, display is an hardware specific object
     def on_display_setup(self, display):
@@ -52,7 +77,7 @@ class Example(plugins.Plugin):
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
-        logging.info("unit is ready")
+        logging.info(f"[{self.__class__.__name__}] plugin ready")
         # you can run custom bettercap commands if you want
         #   agent.run('ble.recon on')
         # or set a custom state

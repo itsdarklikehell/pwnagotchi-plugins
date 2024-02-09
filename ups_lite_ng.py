@@ -26,10 +26,10 @@ import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 
-CW2015_ADDRESS = 0X62
-CW2015_REG_VCELL = 0X02
-CW2015_REG_SOC = 0X04
-CW2015_REG_MODE = 0X0A
+CW2015_ADDRESS = 0x62
+CW2015_REG_VCELL = 0x02
+CW2015_REG_SOC = 0x04
+CW2015_REG_MODE = 0x0A
 
 
 # TODO: add enable switch in config.yml an cleanup all to the best place
@@ -37,6 +37,7 @@ class UPS:
     def __init__(self):
         # only import when the module is loaded and enabled
         import smbus
+
         # 0 = /dev/i2c-0 (port I2C0), 1 = /dev/i2c-1 (port I2C1)
         self._bus = smbus.SMBus(1)
 
@@ -61,16 +62,25 @@ class UPS:
         try:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(4, GPIO.IN)
-            return '+' if GPIO.input(4) == GPIO.HIGH else '-'
+            return "+" if GPIO.input(4) == GPIO.HIGH else "-"
         except:
-            return '-'
+            return "-"
 
 
 class UPSLite(plugins.Plugin):
-    __author__ = 'marbasec'
-    __version__ = '1.3.0'
-    __license__ = 'GPL3'
-    __description__ = 'A plugin that will add a voltage indicator for the UPS Lite v1.3'
+    __author__ = "marbasec"
+    __version__ = "1.3.0"
+    __license__ = "GPL3"
+    __description__ = "A plugin that will add a voltage indicator for the UPS Lite v1.3"
+    __name__ = "UPSLite_ng"
+    __help__ = "A plugin that will add a voltage indicator for the UPS Lite v1.3"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ups = None
@@ -79,14 +89,23 @@ class UPSLite(plugins.Plugin):
         self.ups = UPS()
 
     def on_ui_setup(self, ui):
-        ui.add_element('ups', LabeledValue(color=BLACK, label='UPS', value='0%', position=(ui.width() / 2 + 15, 0),
-                                           label_font=fonts.Bold, text_font=fonts.Medium))
+        ui.add_element(
+            "ups",
+            LabeledValue(
+                color=BLACK,
+                label="UPS",
+                value="0%",
+                position=(ui.width() / 2 + 15, 0),
+                label_font=fonts.Bold,
+                text_font=fonts.Medium,
+            ),
+        )
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element('ups')
+            ui.remove_element("ups")
 
     def on_ui_update(self, ui):
         capacity = self.ups.capacity()
         charging = self.ups.charging()
-        ui.set('ups', "%2i%s" % (capacity, charging))
+        ui.set("ups", "%2i%s" % (capacity, charging))

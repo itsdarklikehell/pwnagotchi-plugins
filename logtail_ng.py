@@ -3,7 +3,7 @@ import logging
 import threading
 from itertools import islice
 from time import sleep
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from pwnagotchi import plugins
 from pwnagotchi.utils import StatusFile
 from flask import render_template_string
@@ -232,12 +232,20 @@ TEMPLATE = """
 """
 
 
-class Logtail(plugins.Plugin):
-    __author__ = '33197631+dadav@users.noreply.github.com'
-    __version__ = '0.1.0'
-    __license__ = 'GPL3'
-    __description__ = 'This plugin tails the logfile.'
-
+class (plugins.Plugin):
+    __author__ = "33197631+dadav@users.noreply.github.com"
+    __version__ = "0.1.0"
+    __license__ = "GPL3"
+    __description__ = "This plugin tails the logfile."
+    __name__ = "Logtail_ng"
+    __help__ = "This plugin tails the logfile."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
     def __init__(self):
         self.lock = threading.Lock()
         self.options = dict()
@@ -251,8 +259,7 @@ class Logtail(plugins.Plugin):
         """
         Gets called when the plugin gets loaded
         """
-        logging.info("Logtail plugin loaded.")
-
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_webhook(self, path, request):
         if not self.ready:
@@ -261,13 +268,14 @@ class Logtail(plugins.Plugin):
         if not path or path == "/":
             return render_template_string(TEMPLATE)
 
-        if path == 'stream':
+        if path == "stream":
+
             def generate():
-                with open(self.config['main']['log']['path']) as f:
-                    yield ''.join(f.readlines()[-self.options.get('max-lines', 4096):])
+                with open(self.config["main"]["log"]["path"]) as f:
+                    yield "".join(f.readlines()[-self.options.get("max-lines", 4096) :])
                     while True:
                         yield f.readline()
 
-            return Response(generate(), mimetype='text/plain')
+            return Response(generate(), mimetype="text/plain")
 
         abort(404)

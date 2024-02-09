@@ -20,10 +20,12 @@ class MorseCode(plugins.Plugin):
     __author__ = "SgtStroopwafel, sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "An example plugin for pwnagotchi that implements all the available callbacks."
+    __description__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
     )
     __name__ = "MorseCode"
-    __help__ = "An example plugin for pwnagotchi that implements all the available callbacks."
+    __help__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
     )
     __dependencies__ = {
         "pip": ["scapy"],
@@ -187,7 +189,6 @@ class MorseCode(plugins.Plugin):
         self._message = None
         self._led_file = "/sys/class/leds/led%d/brightness"
         self._delay = 200
-
 
     def on_webhook(self, path, request):
         self.logger.info("[Morse] Web hook: %s" % repr(request))

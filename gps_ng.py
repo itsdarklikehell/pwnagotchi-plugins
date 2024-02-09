@@ -13,7 +13,15 @@ class GPS(plugins.Plugin):
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "Save GPS coordinates whenever an handshake is captured."
-
+    __name__ = "GPS_ng"
+    __help__ = "Save GPS coordinates whenever an handshake is captured."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
     LINE_SPACING = 10
     LABEL_SPACING = 0
 
@@ -23,26 +31,32 @@ class GPS(plugins.Plugin):
         self.options = dict()
 
     def on_loaded(self):
-        logging.info(f"gps plugin loaded for {self.options['device']}")
+        logging.info(
+            f"[{self.__class__.__name__}] plugin loaded for {self.options['device']}"
+        )
 
     def on_ready(self, agent):
         if os.path.exists(self.options["device"]) or ":" in self.options["device"]:
             logging.info(
-                f"enabling bettercap's gps module for {self.options['device']}"
+                f"[{self.__class__.__name__}] enabling bettercap's gps module for {self.options['device']}"
             )
             try:
                 agent.run("gps off")
             except Exception:
-                logging.info(f"bettercap gps module was already off")
+                logging.info(
+                    f"[{self.__class__.__name__}] bettercap gps module was already off"
+                )
                 pass
 
             agent.run(f"set gps.device {self.options['device']}")
             agent.run(f"set gps.baudrate {self.options['speed']}")
             agent.run("gps on")
-            logging.info(f"bettercap gps module enabled on {self.options['device']}")
+            logging.info(
+                f"[{self.__class__.__name__}] bettercap gps module enabled on {self.options['device']}"
+            )
             self.running = True
         else:
-            logging.warning("no GPS detected")
+            logging.warning(f"[{self.__class__.__name__}] no GPS detected")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         if self.running:
@@ -57,11 +71,15 @@ class GPS(plugins.Plugin):
                     self.coordinates["Longitude"],
                 ]
             ):
-                logging.info(f"saving GPS to {gps_filename} ({self.coordinates})")
+                logging.info(
+                    f"[{self.__class__.__name__}] saving GPS to {gps_filename} ({self.coordinates})"
+                )
                 with open(gps_filename, "w+t") as fp:
                     json.dump(self.coordinates, fp)
             else:
-                logging.info("not saving GPS. Couldn't find location.")
+                logging.info(
+                    f"[{self.__class__.__name__}] not saving GPS. Couldn't find location."
+                )
 
     def on_ui_setup(self, ui):
         try:

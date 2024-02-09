@@ -20,10 +20,12 @@ class MorseCodeNG(plugins.Plugin):
     __author__ = "SgtStroopwafel, sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = "An example plugin for pwnagotchi that implements all the available callbacks."
+    __description__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
     )
     __name__ = "MorseCodeNG"
-    __help__ = "An example plugin for pwnagotchi that implements all the available callbacks."
+    __help__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
     )
     __dependencies__ = {
         "pip": ["scapy"],
@@ -93,7 +95,9 @@ class MorseCodeNG(plugins.Plugin):
     def _blink(self, msg):
         if len(msg) > 0:
             pattern = self._convert_code(msg)
-            self.logger.info("[MORSE] '%s' -> '%s'" % (msg, pattern))
+            self.logger.info(
+                f"[{self.__class__.__name__}] '%s' -> '%s'" % (msg, pattern)
+            )
 
             # Attention signal
             for _ in range(3):
@@ -136,10 +140,11 @@ class MorseCodeNG(plugins.Plugin):
         if not self._is_busy:
             self._message = message
             self._event.set()
-            self.logger.debug("[Morse] message '%s' set", message)
+            self.logger.debug(f"[{self.__class__.__name__}] message '%s' set", message)
         else:
             self.logger.debug(
-                "[Morse] skipping '%s' because the worker is busy", message
+                f"[{self.__class__.__name__}] skipping '%s' because the worker is busy",
+                message,
             )
 
     def _led(self, on):
@@ -171,16 +176,16 @@ class MorseCodeNG(plugins.Plugin):
 
             try:
                 self._blink(self._message)
-                self.logger.debug("[Morse] blinked")
+                self.logger.debug(f"[{self.__class__.__name__}] blinked")
             except Exception as e:
-                self.logger.warn("[Morse] error while blinking")
+                self.logger.warn(f"[{self.__class__.__name__}] error while blinking")
 
             finally:
                 self._is_busy = False
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("[Morse] Code plugin initializing")
+        self.logger.debug(f"[{self.__class__.__name__}] Code plugin initializing")
         self._is_busy = False
         self._keep_going = True
         self._event = Event()
@@ -188,9 +193,8 @@ class MorseCodeNG(plugins.Plugin):
         self._led_file = "/sys/class/leds/led%d/brightness"
         self._delay = 200
 
-
     def on_webhook(self, path, request):
-        self.logger.info("[Morse] Web hook: %s" % repr(request))
+        self.logger.info(f"[{self.__class__.__name__}] Web hook: %s" % repr(request))
         return "<html><body>Woohoo!</body></html>"
 
     # called when the plugin is loaded
@@ -198,7 +202,9 @@ class MorseCodeNG(plugins.Plugin):
         try:
             self._is_busy = False
 
-            self.logger.info("[Morse] loaded %s" % repr(self.options))
+            self.logger.info(
+                f"[{self.__class__.__name__}] loaded %s" % repr(self.options)
+            )
 
             for k, v in {
                 "led": 0,

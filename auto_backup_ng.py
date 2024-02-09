@@ -10,7 +10,7 @@ class AutoBackup(plugins.Plugin):
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "This plugin backups files when internet is available."
-    __name__ = "AutoBackup"
+    __name__ = "AutoBackup_ng"
     __help__ = "This plugin backups files when internet is available."
     __dependencies__ = {
         "apt": ["tar"],
@@ -42,7 +42,7 @@ class AutoBackup(plugins.Plugin):
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None
             ):
-                logging.error(f"[autobackup] Option {opt} is not set.")
+                logging.error(f"[{self.__class__.__name__}] Option {opt} is not set.")
                 return
         self.ready = True
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -66,13 +66,13 @@ class AutoBackup(plugins.Plugin):
         try:
             display = agent.view()
 
-            logging.info("[autobackup] Backing up ...")
+            logging.info(f"[{self.__class__.__name__}] Backing up ...")
             display.set("status", "Backing up ...")
             display.update()
 
             for cmd in self.options["commands"]:
                 logging.info(
-                    f"[autobackup] Running {cmd.format(files=files_to_backup)}"
+                    f"[{self.__class__.__name__}] Running {cmd.format(files=files_to_backup)}"
                 )
                 process = subprocess.Popen(
                     cmd.format(files=files_to_backup),
@@ -86,13 +86,13 @@ class AutoBackup(plugins.Plugin):
                 if process.returncode > 0:
                     raise OSError(f"Command failed (rc: {process.returncode})")
 
-            logging.info("[autobackup] backup done")
+            logging.info(f"[{self.__class__.__name__}] backup done")
             display.set("status", "Backup done!")
             display.update()
             self.status.update()
         except OSError as os_e:
             self.tries += 1
-            logging.info(f"[autobackup] Error: {os_e}")
+            logging.info(f"[{self.__class__.__name__}] Error: {os_e}")
             display.set("status", "Backup failed!")
             display.update()
 
