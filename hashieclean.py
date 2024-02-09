@@ -120,21 +120,22 @@ Todo:
 
     def __init__(self):
         self.ready = False
-        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        logging.debug("[hashieclean] plugin init")
         self.title = ""
         self.lock = Lock()
 
     def on_loaded(self):
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        logging.info("[hashieclean] plugin loaded")
 
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):
-        logging.info(f"[{self.__class__.__name__}] config changed")
+        logging.info("[hashieclean] config changed")
         handshake_dir = config["bettercap"]["handshakes"]
         if "interval" not in self.options or not (
             self.status.newer_then_hours(self.options["interval"])
         ):
-            logging.info(f"[{self.__class__.__name__}] Starting batch conversion of pcap files")
+            logging.info(
+                "[hashieclean] Starting batch conversion of pcap files")
             with self.lock:
                 self._process_stale_pcaps(handshake_dir)
 
@@ -173,7 +174,8 @@ Todo:
 
             if handshake_status:
                 logging.info(
-                    f"[{self.__class__.__name__}] Good news:\n\t" + "\n\t".join(handshake_status)
+                    "[hashieclean] Good news:\n\t" +
+                    "\n\t".join(handshake_status)
                 )
 
     def _writeEAPOL(self, fullpath):
@@ -186,7 +188,8 @@ Todo:
         )
         if os.path.isfile(fullpathNoExt + ".22000"):
             logging.debug(
-                f"[{self.__class__.__name__}] [+] EAPOL Success: {}.22000 created".format(filename)
+                "[hashieclean] [+] EAPOL Success: {}.22000 created".format(
+                    filename)
             )
             return True
         else:
@@ -202,7 +205,8 @@ Todo:
         )
         if os.path.isfile(fullpathNoExt + ".16800"):
             logging.debug(
-                f"[{self.__class__.__name__}] [+] PMKID Success: {}.16800 created".format(filename)
+                "[hashieclean] [+] PMKID Success: {}.16800 created".format(
+                    filename)
             )
             return True
         else:  # make a raw dump
@@ -214,21 +218,21 @@ Todo:
             if os.path.isfile(fullpathNoExt + ".16800"):
                 if self._repairPMKID(fullpath, apJSON) == False:
                     logging.debug(
-                        f"[{self.__class__.__name__}] [-] PMKID Fail: {}.16800 could not be repaired".format(
+                        "[hashieclean] [-] PMKID Fail: {}.16800 could not be repaired".format(
                             filename
                         )
                     )
                     return False
                 else:
                     logging.debug(
-                        f"[{self.__class__.__name__}] [+] PMKID Success: {}.16800 repaired".format(
+                        "[hashieclean] [+] PMKID Success: {}.16800 repaired".format(
                             filename
                         )
                     )
                     return True
             else:
                 logging.debug(
-                    f"[{self.__class__.__name__}] [-] Could not attempt repair of {} as no raw PMKID file was created".format(
+                    "[hashieclean] [-] Could not attempt repair of {} as no raw PMKID file was created".format(
                         filename
                     )
                 )
@@ -239,19 +243,21 @@ Todo:
         clientString = []
         fullpathNoExt = fullpath.split(".")[0]
         filename = fullpath.split("/")[-1:][0].split(".")[0]
-        logging.debug(f"[{self.__class__.__name__}] Repairing {}".format(filename))
+        logging.debug("[hashieclean] Repairing {}".format(filename))
         with open(fullpathNoExt + ".16800", "r") as tempFileA:
             hashString = tempFileA.read()
         if apJSON != "":
             clientString.append(
                 "{}:{}".format(
-                    apJSON["mac"].replace(":", ""), apJSON["hostname"].encode("hex")
+                    apJSON["mac"].replace(
+                        ":", ""), apJSON["hostname"].encode("hex")
                 )
             )
         else:
             # attempt to extract the AP's name via hcxpcapngtool
             result = subprocess.getoutput(
-                "hcxpcapngtool -X /tmp/{} {} >/dev/null 2>&1".format(filename, fullpath)
+                "hcxpcapngtool -X /tmp/{} {} >/dev/null 2>&1".format(
+                    filename, fullpath)
             )
             if os.path.isfile("/tmp/" + filename):
                 with open("/tmp/" + filename, "r") as tempFileB:
@@ -283,13 +289,14 @@ Todo:
                 if (
                     line.split(":")[0] == hashString.split(":")[1]
                 ):  # if the AP MAC pulled from the JSON or tcpdump output matches the AP MAC in the raw 16800 output
-                    hashString = hashString.strip("\n") + ":" + (line.split(":")[1])
+                    hashString = hashString.strip(
+                        "\n") + ":" + (line.split(":")[1])
                     if (len(hashString.split(":")) == 4) and not (
                         hashString.endswith(":")
                     ):
                         with open(fullpath.split(".")[0] + ".16800", "w") as tempFileC:
                             logging.debug(
-                                f"[{self.__class__.__name__}] Repaired: {} ({})".format(
+                                "[hashieclean] Repaired: {} ({})".format(
                                     filename, hashString
                                 )
                             )
@@ -297,7 +304,8 @@ Todo:
                         return True
                     else:
                         logging.debug(
-                            f"[{self.__class__.__name__}] Discarded: {} {}".format(line, hashString)
+                            "[hashieclean] Discarded: {} {}".format(
+                                line, hashString)
                         )
         else:
             os.remove(fullpath.split(".")[0] + ".16800")
@@ -336,7 +344,7 @@ Todo:
             if lonely:  # no 16800 AND no 22000
                 lonely_pcaps.append(handshake)
                 logging.debug(
-                    f"[{self.__class__.__name__}] Batch job: added {} to lonely list".format(
+                    "[hashieclean] Batch job: added {} to lonely list".format(
                         pcapFileName
                     )
                 )
@@ -344,43 +352,43 @@ Todo:
                 num + 1 == len(handshakes_list)
             ):  # report progress every 50, or when done
                 logging.info(
-                    f"[{self.__class__.__name__}] Batch job: {}/{} done ({} fails)".format(
+                    "[hashieclean] Batch job: {}/{} done ({} fails)".format(
                         num + 1, len(handshakes_list), len(lonely_pcaps)
                     )
                 )
         if len(successful_jobs) > 0:
             logging.info(
-                f"[{self.__class__.__name__}] Batch job: {} new handshake files created".format(
+                "[hashieclean] Batch job: {} new handshake files created".format(
                     len(successful_jobs)
                 )
             )
         if len(lonely_pcaps) > 0:
             logging.info(
-                f"[{self.__class__.__name__}] Batch job: {} networks without enough packets to create a hash".format(
+                "[hashieclean] Batch job: {} networks without enough packets to create a hash".format(
                     len(lonely_pcaps)
                 )
             )
             logging.info(
-                ff"[{self.__class__.__name__}] {len(lonely_pcaps)} lonely (failed) handshakes will be deleted."
+                f"[hashieclean] {len(lonely_pcaps)} lonely (failed) handshakes will be deleted."
             )
             self._getLocations(lonely_pcaps)
             for filename in lonely_pcaps:
                 pcapFileName = filename.split("/")[-1:][0]
                 logging.info(
-                    f"[{self.__class__.__name__}] The pcap file is not a valid handshake. Deleting file:"
+                    "[hashieclean] The pcap file is not a valid handshake. Deleting file:"
                     + pcapFileName.split("/")[0]
                 )
                 os.remove(filename)
                 # Confirm the pcap file was deleted.
                 if not os.path.exists(filename):
                     logging.debug(
-                        f"[{self.__class__.__name__}] The pcap file was deleted for being incomplete. FILE: "
+                        "[hashieclean] The pcap file was deleted for being incomplete. FILE: "
                         + pcapFileName
                     )
                 # If the pcap file was not deleted, then send an error to the log.
                 if os.path.exists(filename):
                     logging.error(
-                        f"[{self.__class__.__name__}] Could not delete the pcap file. Please delete it manually. FILE: "
+                        "[hashieclean] Could not delete the pcap file. Please delete it manually. FILE: "
                         + pcapFileName
                     )
 
@@ -400,13 +408,13 @@ Todo:
                     count += 1
             if count != 0:
                 logging.info(
-                    f"[{self.__class__.__name__}] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)".format(
+                    "[hashieclean] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)".format(
                         str(count)
                     )
                 )
             else:
                 logging.info(
-                    f"[{self.__class__.__name__}] Could not find any GPS/GEO/PAW-GPS files for the lonely networks".format(
+                    "[hashieclean] Could not find any GPS/GEO/PAW-GPS files for the lonely networks".format(
                         str(count)
                     )
                 )
@@ -456,14 +464,14 @@ Todo:
                 for loc in locations:
                     tempFileD.write(loc + "\n")
             logging.info(
-                f"[{self.__class__.__name__}] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!".format(
+                "[hashieclean] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!".format(
                     len(locations)
                 )
             )
 
     def on_unload(self, ui):
         with ui._lock:
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            logging.info("[hashieclean] plugin unloaded")
 
     def on_webhook(self, path, request):
-        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        logging.info("[hashieclean] webhook pressed")
