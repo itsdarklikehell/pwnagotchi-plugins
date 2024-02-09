@@ -8,7 +8,6 @@ class Twitter(plugins.Plugin):
     __version__ = "2.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin creates tweets about the recent activity of pwnagotchi."
-    )
     __name__ = "Twitter"
     __help__ = "This plugin creates tweets about the recent activity of pwnagotchi."
     __dependencies__ = {"pip": ["tweepy"]}
@@ -36,7 +35,8 @@ class Twitter(plugins.Plugin):
                 logging.error("[twitter] Couldn't import tweepy (%s)", ie)
                 return
 
-            logging.info("[twitter] detected a new session and internet connectivity!")
+            logging.info(
+                "[twitter] detected a new session and internet connectivity!")
 
             picture = (
                 "/var/tmp/pwnagotchi/pwnagotchi.png"

@@ -30,7 +30,7 @@ class HomeBase(plugins.Plugin):
     __defaults__ = {
         "enabled": False,
         "ssid": "home-networkname",
-        "minimum_signal_strength": = -75,
+        "minimum_signal_strength": -75,
     }
 
     def __init__(self):
