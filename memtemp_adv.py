@@ -49,7 +49,7 @@ class MemTempAdv(plugins.Plugin):
         "pip": ["scapy", "psutil"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "orientation": "horizontal",
     }
 

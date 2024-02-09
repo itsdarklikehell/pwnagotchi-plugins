@@ -25,7 +25,7 @@ class Pwn2Crack(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
     """
     Pwn2Crack aims to streamline a Red Teamer or PenTester process from handshake capture to cracking passwords.

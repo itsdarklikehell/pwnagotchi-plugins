@@ -17,7 +17,7 @@ class Led(plugins.Plugin):
     )
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def __init__(self):

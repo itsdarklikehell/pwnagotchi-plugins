@@ -28,7 +28,7 @@ class DisplayPassword(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "orientation": "horizontal",
         "potfile": "/root/handshakes/wpa-sec.cracked.potfile",
     }

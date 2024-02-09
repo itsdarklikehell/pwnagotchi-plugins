@@ -475,7 +475,7 @@ class WofPlugin(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     DEFAULT_POS = (5, 84)

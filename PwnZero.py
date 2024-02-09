@@ -68,7 +68,7 @@ class PwnZero(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
     PROTOCOL_START = 0x02
     PROTOCOL_END = 0x03

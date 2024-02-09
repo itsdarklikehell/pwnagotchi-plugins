@@ -20,7 +20,7 @@ class HoneyPotPlugin(Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def __init__(self):
@@ -69,7 +69,7 @@ class HoneyPotPlugin(Plugin):
 
     def on_ui_update(self, ui):
         """Update UI elements."""
-        logging.info("Updating UI")
+        # logging.debug(f"[{self.__class__.__name__}] Updating UI")
         ui.set("honey-pots", str(len(self.honey_pot_aps)))
         ui.set("detected-fake-aps", str(self.detected_fake_aps))
         ui.set("active-fake-aps", str(self.active_fake_aps))

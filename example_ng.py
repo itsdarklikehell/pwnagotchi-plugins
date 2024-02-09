@@ -20,7 +20,7 @@ class Example(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
     def __init__(self):
         logging.debug(f"[{self.__class__.__name__}] plugin init")

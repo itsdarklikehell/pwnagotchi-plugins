@@ -21,7 +21,7 @@ class Fireworks(plugins.Plugin):
     __help__ = "Uses Pimoroni shim to put on a light show."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def on_loaded(self):

@@ -53,7 +53,7 @@ class f0xtr0t(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     ALREADY_SENT = list()

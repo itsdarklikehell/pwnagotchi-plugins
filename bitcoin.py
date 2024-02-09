@@ -19,7 +19,7 @@ class Bitcoin(plugins.Plugin):
         "pip": ["requests"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "api_url": "https://coindesk.com",
         "bitcoin_api_url": "https://api.coindesk.com/v1/bpi/currentprice.json/",
     }

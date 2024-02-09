@@ -21,7 +21,7 @@ class Telegram(plugins.Plugin):
         "pip": ["python-telegram-bot"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "bot_token": "6796259138:AAEoYPlv8zUinmoycg0Vx8_VHzZ4LyaBznw",
         "bot_name": "PaimonPiBot",
         "chat_id": "639276511",

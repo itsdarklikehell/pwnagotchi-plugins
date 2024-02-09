@@ -33,7 +33,7 @@ class Achievements(plugins.Plugin):
         "pip": ["none"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def __init__(self):
@@ -99,7 +99,9 @@ class Achievements(plugins.Plugin):
                 text_font=fonts.Medium,
             ),
         )
-        # logging.info(f"[{self.__class__.__name__}] Updating UI - Handshake Count: {self.handshake_count}, Daily Target: {self.daily_target}, Title: {self.get_title_based_on_achievements()}")
+        logging.debug(
+            f"[{self.__class__.__name__}] Updating UI - Handshake Count: {self.handshake_count}, Daily Target: {self.daily_target}, Title: {self.get_title_based_on_achievements()}"
+        )
 
     def on_ui_update(self, ui):
         if self.ready:

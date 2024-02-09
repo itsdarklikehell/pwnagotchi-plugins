@@ -44,7 +44,7 @@ class MemTemp(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
     ALLOWED_FIELDS = {
         "mem": "mem_usage",

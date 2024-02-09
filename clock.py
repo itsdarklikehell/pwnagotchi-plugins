@@ -22,7 +22,7 @@ class PwnClock(plugins.Plugin):
         "pip": ["datetime", "yaml", "toml"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def __init__(self):

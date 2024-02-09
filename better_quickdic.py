@@ -21,7 +21,7 @@ class BetterQuickDic(plugins.Plugin):
         "apt": ["aircrack-ng"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "wordlist_folder": "/etc/pwnagotchi/wordlists/passwords/",
         "face": "(·ω·)",
         "api": None,

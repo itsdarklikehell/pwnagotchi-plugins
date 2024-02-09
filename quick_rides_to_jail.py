@@ -32,7 +32,7 @@ class quick_rides_to_jail(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "wordlist_folder": "/etc/pwnagotchi/wordlists/passwords",
         "net_device_path": "/sys/class/net/",
         "interface": "wlan0",

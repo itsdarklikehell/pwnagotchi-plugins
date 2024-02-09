@@ -26,7 +26,7 @@ class Buttonshim(plugins.Plugin):
     __help__ = "Pimoroni Button Shim GPIO Button control."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
 

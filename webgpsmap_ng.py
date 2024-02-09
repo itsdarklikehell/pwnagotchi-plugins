@@ -36,7 +36,7 @@ class Webgpsmap(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
     ALREADY_SENT = list()
     SKIP = list()

@@ -31,7 +31,7 @@ class MorseCode(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     # Dictionary representing the morse code chart

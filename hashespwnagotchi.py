@@ -31,7 +31,7 @@ class hashespwnagotchi(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     @property

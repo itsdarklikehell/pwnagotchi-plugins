@@ -22,7 +22,7 @@ class MastodonStatus(plugins.Plugin):
         "pip": ["Mastodon.py"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "instance_url": "",
         "visibility": "unlisted",
         "email": "",

@@ -21,7 +21,7 @@ class FlipperLink(plugins.Plugin):
     __help__ = "A plugin that will add functionality for pwnagotchi to connect to the Flipper Zero."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def __init__(self):

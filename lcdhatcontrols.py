@@ -17,7 +17,7 @@ class lcdhatcontrols(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     KEY_PRESS_PIN = 13

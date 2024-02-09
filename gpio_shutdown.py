@@ -15,7 +15,7 @@ class GPIOShutdown(plugins.Plugin):
         "pip": ["RPi.GPIO"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "gpio": 21,
     }
 

@@ -23,7 +23,7 @@ class potfilesorter(plugins.Plugin):
         "pip": ["scapy", "shutil"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "potfile_source": "/root/wpa-sec.cracked.potfile",
         "api_key": "",
         "api_url": "https://wpa-sec.stanev.org",

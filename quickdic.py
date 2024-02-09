@@ -32,7 +32,7 @@ class QuickDic(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "wordlist_folder": "/etc/pwnagotchi/wordlists/passwords/",
         "face": "(·ω·)",
         "api": None,

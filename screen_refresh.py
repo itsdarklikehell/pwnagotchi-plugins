@@ -13,7 +13,7 @@ class ScreenRefresh(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "refresh_interval": 50,
     }
 

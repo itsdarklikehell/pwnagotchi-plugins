@@ -56,7 +56,7 @@ class Apprise(plugins.Plugin):
         "pip": ["apprise"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "face": "(>.<)",
     }
 

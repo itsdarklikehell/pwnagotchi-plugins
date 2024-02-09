@@ -18,7 +18,7 @@ class InternetConnectionPlugin(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     def on_loaded(self):

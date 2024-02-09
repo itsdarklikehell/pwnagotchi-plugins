@@ -16,7 +16,7 @@ class ext_wifi(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "interface": "wlan0mon",
         "mode": "external",
     }

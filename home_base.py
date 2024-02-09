@@ -2,6 +2,13 @@
 # allow for internet connectivity tasks to be carried out. Once out of range, pwning is resumed
 # Inspiration and some methodologies taken from @nagy_craig's "Educational-purposes-only" plugin
 # Install dependencies: apt update; apt install nmap macchanger
+"""
+main.plugins.home_base.enabled = true
+main.plugins.home_base.ssid = "home-networkname"
+main.plugins.home_base.minimum_signal_strength= -75
+"""
+
+
 import pwnagotchi.plugins as plugins
 import pwnagotchi
 import logging
@@ -21,7 +28,9 @@ class HomeBase(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
+        "ssid": "home-networkname",
+        "minimum_signal_strength": = -75,
     }
 
     def __init__(self):

@@ -13,7 +13,7 @@ class Twitter(plugins.Plugin):
     __help__ = "This plugin creates tweets about the recent activity of pwnagotchi."
     __dependencies__ = {"pip": ["tweepy"]}
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
         "consumer_key": None,
         "consumer_secret": None,
         "access_token_key": None,

@@ -34,7 +34,7 @@ class RSS_Voice(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": False,
+        "enabled": false,
     }
 
     #     main.plugins.rss_voice.enabled = true
