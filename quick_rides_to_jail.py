@@ -41,7 +41,7 @@ class quick_rides_to_jail(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        logging.debug("[quick_rides_to_jail] plugin init")
         self.title = ""
         self.epochs = 0
         self.train_epochs = 0
@@ -49,10 +49,10 @@ class quick_rides_to_jail(plugins.Plugin):
     def on_loaded(self, ui):
         global READY
         READY = True
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        logging.info("[quick_rides_to_jail] plugin loaded")
 
     def on_ready(self, agent):
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        logging.info("[quick_rides_to_jail] plugin loaded")
         global REPORT
         if not READY:
             return
@@ -69,7 +69,7 @@ class quick_rides_to_jail(plugins.Plugin):
                 return
             for pcap_file in new_pcap_files:
                 logging.info(
-                    f"[{self.__class__.__name__}] Running uncracked pcap through aircrack: %s"
+                    "[quick_rides_to_jail] Running uncracked pcap through aircrack: %s"
                     % (pcap_file)
                 )
                 try:
@@ -79,7 +79,9 @@ class quick_rides_to_jail(plugins.Plugin):
                 except:
                     continue
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] Encountered exception in on_ready: %s" % (e))
+            logging.error(
+                "[quick_rides_to_jail] Encountered exception in on_ready: %s" % (e)
+            )
 
     def on_handshake(self, agent, filename, access_point, client_station):
         global REPORT
@@ -90,7 +92,9 @@ class quick_rides_to_jail(plugins.Plugin):
                 reported.append(filename)
                 REPORT.update(data={"reported": reported})
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] Encountered exception in on_handshake: %s" % (e))
+            logging.error(
+                "[quick_rides_to_jail] Encountered exception in on_handshake: %s" % (e)
+            )
 
     def set_text(self, text):
         global TEXT_TO_SET
@@ -110,12 +114,12 @@ class quick_rides_to_jail(plugins.Plugin):
         try:
             if config["main"]["plugins"]["quickdic"]["enabled"] == "true":
                 logging.warn(
-                    f"[{self.__class__.__name__}] Plugin quickdic is enabled. Cannot run with quickdic enabled..."
+                    "[quick_rides_to_jail] Plugin quickdic is enabled. Cannot run with quickdic enabled..."
                 )
                 return
         except Exception as e:
             logging.warn(
-                f"[{self.__class__.__name__}] Exception while checking for quickdic plugin in config file: %s",
+                "[quick_rides_to_jail] Exception while checking for quickdic plugin in config file: %s",
                 e,
             )
 
@@ -128,7 +132,8 @@ class quick_rides_to_jail(plugins.Plugin):
             result = aircrack_execution.stdout.decode("utf-8").strip()
         except Exception as e:
             logging.warn(
-                f"[{self.__class__.__name__}] Exception while running initial aircrack-ng check: %s", e
+                "[quick_rides_to_jail] Exception while running initial aircrack-ng check: %s",
+                e,
             )
             return
 
@@ -138,7 +143,7 @@ class quick_rides_to_jail(plugins.Plugin):
             return
 
         logging.info(
-            f"[{self.__class__.__name__}] Confirmed handshakes captured for BSSID: %s",
+            "[quick_rides_to_jail] Confirmed handshakes captured for BSSID: %s",
             crackable_handshake.group("bssid"),
         )
 
@@ -161,7 +166,7 @@ class quick_rides_to_jail(plugins.Plugin):
             crack_result = aircrack_execution_2.stdout.decode("utf-8").strip()
         except Exception as e:
             logging.error(
-                f"[{self.__class__.__name__}] Exception while running aircrack-ng for %s: %s"
+                "[quick_rides_to_jail] Exception while running aircrack-ng for %s: %s"
                 % (crackable_handshake.group("bssid"), e)
             )
             return
@@ -180,20 +185,21 @@ class quick_rides_to_jail(plugins.Plugin):
 
             if result.strip() == "OK":
                 logging.info(
-                    f"[{self.__class__.__name__}] Successfully updated wpa_supplicant for {}.".format(
+                    "[{self.__class__.__name__}] Successfully updated wpa_supplicant for {}.".format(
                         OPTIONS["interface"]
                     )
                 )
                 return
             logging.info(
-                f"[{self.__class__.__name__}] Failed to update wpa_supplicant for {}.".format(
+                "[quick_rides_to_jail] Failed to update wpa_supplicant for {}.".format(
                     OPTIONS["interface"]
                 )
             )
 
         except Exception as e:
             logging.error(
-                f"[{self.__class__.__name__}] Exception while reconfiguring wpa_supplicant: %s", e
+                "[quick_rides_to_jail] Exception while reconfiguring wpa_supplicant: %s",
+                e,
             )
 
     def _get_pwnd_networks(self, handshakes_path):
@@ -217,7 +223,8 @@ class quick_rides_to_jail(plugins.Plugin):
                     )
             except Exception as e:
                 logging.error(
-                    f"[{self.__class__.__name__}] Exception while processing handshake file: %s", e
+                    "[quick_rides_to_jail] Exception while processing handshake file: %s",
+                    e,
                 )
                 continue
 
@@ -231,7 +238,7 @@ class quick_rides_to_jail(plugins.Plugin):
                 wpa_supplicant_text = f.read()
         except Exception as e:
             logging.error(
-                f"[{self.__class__.__name__}] Exception while opening and reading wpa_supplicant config file: %s",
+                "[quick_rides_to_jail] Exception while opening and reading wpa_supplicant config file: %s",
                 e,
             )
             return
@@ -251,18 +258,18 @@ class quick_rides_to_jail(plugins.Plugin):
                     updated_count += 1
             except Exception as e:
                 logging.error(
-                    f"[{self.__class__.__name__}] Exception while opening and writing to wpa_supplicant config file: %s",
+                    "[quick_rides_to_jail] Exception while opening and writing to wpa_supplicant config file: %s",
                     e,
                 )
                 continue
 
         if updated_count > 0:
             logging.info(
-                f"[{self.__class__.__name__}] Congratulations! You added {} new access points to your wpa_supplicant.conf.".format(
+                "[quick_rides_to_jail] Congratulations! You added {} new access points to your wpa_supplicant.conf.".format(
                     updated_count
                 )
             )
-            logging.info(f"[{self.__class__.__name__}] You're goin to jail!")
+            logging.info("[quick_rides_to_jail] You're goin to jail!")
             _reconfigure_wpa_supplicant()
 
     def _get_network_interfaces(
@@ -280,7 +287,8 @@ class quick_rides_to_jail(plugins.Plugin):
         except Exception as e:
             device_type = ""
             logging.error(
-                f"[{self.__class__.__name__}] Exception while opening and reading network device: %s", e
+                "[quick_rides_to_jail] Exception while opening and reading network device: %s",
+                e,
             )
 
         if device_type == "803":
@@ -290,25 +298,25 @@ class quick_rides_to_jail(plugins.Plugin):
     def _do_the_illegal_thing(self, handshakes_path):
         if OPTIONS["interface"] not in _get_network_interfaces():
             logging.info(
-                f"[{self.__class__.__name__}] Could not find desired interface in list of local interfaces."
+                "[quick_rides_to_jail] Could not find desired interface in list of local interfaces."
             )
             return
-        logging.info(f"[{self.__class__.__name__}] Found desired interface in list of local interfaces.")
+        logging.info(
+            "[quick_rides_to_jail] Found desired interface in list of local interfaces."
+        )
 
         if _device_in_monitor_mode(OPTIONS["interface"]):
             logging.info(
-                f"[{self.__class__.__name__}] Desired interface is in monitor mode - cannot use."
+                "[quick_rides_to_jail] Desired interface is in monitor mode - cannot use."
             )
             return
-        logging.info(f"[{self.__class__.__name__}] Desired interface is not in monitor mode.")
+        logging.info("[quick_rides_to_jail] Desired interface is not in monitor mode.")
 
         _add_pwnd_networks_to_wpa_supplicant(handshakes_path)
 
     def on_unload(self, ui):
         with ui._lock:
-            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
-
-
+            logging.info("[quick_rides_to_jail] plugin unloaded")
 
     def on_webhook(self, path, request):
-        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        logging.info("[quick_rides_to_jail] webhook pressed")
