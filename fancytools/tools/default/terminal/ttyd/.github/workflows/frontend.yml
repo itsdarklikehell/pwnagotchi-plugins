@@ -1,0 +1,28 @@
+name: frontend
+
+on:
+  push:
+    paths:
+    - ".github/workflows/frontend.yml"
+    - "html/*"
+  pull_request:
+    paths:
+    - ".github/workflows/frontend.yml"
+    - "html/*"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Run yarn install, check and build
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+          yarn install
+          yarn run check
+          yarn run build
+        working-directory: html

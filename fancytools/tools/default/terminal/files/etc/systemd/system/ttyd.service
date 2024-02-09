@@ -1,0 +1,12 @@
+[Unit]
+Description=Access ttyd
+After=default.target
+
+[Service]
+ExecStart=ttyd --writable bash
+Restart=always
+User=pi
+Group=pi
+
+[Install]
+WantedBy=default.target

@@ -3,7 +3,7 @@ import ustruct
 
 
 def color565(r, g, b):
-    return (r & 0xf8) << 8 | (g & 0xfc) << 3 | b >> 3
+    return (r & 0xF8) << 8 | (g & 0xFC) << 3 | b >> 3
 
 
 class DummyPin:
@@ -58,29 +58,33 @@ class Display:
 
     def init(self):
         """Run the initialization commands."""
+
         for command, data in self._INIT:
             self._write(command, data)
 
     def _block(self, x0, y0, x1, y1, data=None):
         """Read or write a block of data."""
+
         self._write(self._COLUMN_SET, self._encode_pos(x0, x1))
         self._write(self._PAGE_SET, self._encode_pos(y0, y1))
         if data is None:
             size = ustruct.calcsize(self._DECODE_PIXEL)
-            return self._read(self._RAM_READ,
-                              (x1 - x0 + 1) * (y1 - y0 + 1) * size)
+            return self._read(self._RAM_READ, (x1 - x0 + 1) * (y1 - y0 + 1) * size)
         self._write(self._RAM_WRITE, data)
 
     def _encode_pos(self, a, b):
         """Encode a postion into bytes."""
+
         return ustruct.pack(self._ENCODE_POS, a, b)
 
     def _encode_pixel(self, color):
         """Encode a pixel color into bytes."""
+
         return ustruct.pack(self._ENCODE_PIXEL, color)
 
     def _decode_pixel(self, data):
         """Decode bytes into a pixel color."""
+
         return color565(*ustruct.unpack(self._DECODE_PIXEL, data))
 
     def pixel(self, x, y, color=None):
@@ -97,7 +101,7 @@ class Display:
         y = min(self.height - 1, max(0, y))
         w = min(self.width - x, max(1, width))
         h = min(self.height - y, max(1, height))
-        self._block(x, y, x + w - 1, y + h - 1, b'')
+        self._block(x, y, x + w - 1, y + h - 1, b"")
         chunks, rest = divmod(w * h, 512)
         pixel = self._encode_pixel(color)
         if chunks:
@@ -121,12 +125,17 @@ class Display:
 
     def blit_buffer(self, buffer, x, y, width, height):
         """Copy pixels from a buffer."""
-        if (not 0 <= x < self.width or
-            not 0 <= y < self.height or
-            not 0 < x + width <= self.width or
-            not 0 < y + height <= self.height):
-                raise ValueError("out of bounds")
+        if (
+            not 0 <= x < self.width
+            or not 0 <= y < self.height
+            or not 0 < x + width <= self.width
+            or not 0 < y + height <= self.height
+        ):
+            raise ValueError("out of bounds")
         self._block(x, y, x + width - 1, y + height - 1, buffer)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
 
 
 class DisplaySPI(Display):

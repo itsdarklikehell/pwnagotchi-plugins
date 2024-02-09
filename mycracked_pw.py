@@ -2,82 +2,83 @@ import pwnagotchi.plugins as plugins
 import pwnagotchi
 import logging
 import qrcode
-import html
 import csv
 import os
 import io
 
 
 class MyCrackedPasswords(plugins.Plugin):
-    __author__ = '@silentree12th'
-    __version__ = '5.1.1'
-    __license__ = 'GPL3'
-    __description__ = 'A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat.'
-    __name__ = 'MyCrackedPasswords'
-    __help__ = """
-    A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat.
-    """
+    __author__ = "SgtStroopwafel, @silentree12th"
+    __version__ = "5.2.3"
+    __license__ = "GPL3"
+    __description__ = "A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat"
+    __name__ = "MyCrackedPasswords"
+    __help__ = "A plugin to grab all cracked passwords and creates wifi qrcodes and a wordlist which can be used for the quickdic plugin. It stores them in the home directory. Read with cat"
     __dependencies__ = {
-        'pip': ['scapy'],
+        "apt": ["none"],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def on_loaded(self):
-        logging.info("[mycracked_pw] loaded]")
-        if not os.path.exists('/home/pi/wordlists/passwords/'):
-            os.makedirs('/home/pi/wordlists/passwords/')
-
-        if not os.path.exists('/home/pi/qrcodes/'):
-            os.makedirs('/home/pi/qrcodes/')
-
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        if not os.path.exists("/etc/pwnagotchi/wordlists/passwords/"):
+            os.makedirs("/etc/pwnagotchi/wordlists/passwords/")
+        if not os.path.exists("/home/pi/qrcodes/"):
+            os.makedirs("/home/pi/qrcodes/")
         self._update_all()
 
     def on_handshake(self, agent, filename, access_point, client_station):
         self._update_all()
 
-
     def _update_all(self):
-        all_passwd=[]
-        all_bssid=[]
-        all_ssid=[]
-        f=open('/root/handshakes/wpa-sec.cracked.potfile', 'r+', encoding='utf-8')
+        all_passwd = []
+        all_bssid = []
+        all_ssid = []
+
         try:
+            f = open("/root/handshakes/wpa-sec.cracked.potfile", "r+", encoding="utf-8")
             for line_f in f:
-                pwd_f = line_f.split(':')
-                all_passwd.append(str(pwd_f[-1].rstrip('\n')))
+                pwd_f = line_f.split(":")
+                all_passwd.append(str(pwd_f[-1].rstrip("\n")))
                 all_bssid.append(str(pwd_f[0]))
                 all_ssid.append(str(pwd_f[-2]))
-        except:
-            logging.error('[mycracked_pw] encountered a problem in wpa-sec.cracked.potfile')
-        f.close()
+            f.close()
+        except Exception as e:
+            logging.error(
+                f"[{self.__class__.__name__}] encountered a problem in wpa-sec.cracked.potfile:\n{e}"
+            )
 
-        h = open('/root/handshakes/onlinehashcrack.cracked', 'r+', encoding='utf-8')
         try:
+            h = open("/root/handshakes/onlinehashcrack.cracked", "r+", encoding="utf-8")
             for line_h in csv.DictReader(h):
-                pwd_h = str(line_h['password'])
-                bssid_h = str(line_h['BSSID'])
-                ssid_h = str(line_h['ESSID'])
-                if pwd_h and bssid_h and ssid_h:
+                pwd_h = str(line_h["password"])
+                task_h = str(line_h["task"])
+                ssid_h = task_h[0:-20]
+                bssid_h = task_h[-18:-1]
+                if pwd_h and ssid_h and bssid_h:
                     all_passwd.append(pwd_h)
                     all_bssid.append(bssid_h)
                     all_ssid.append(ssid_h)
-        except:
-            logging.error('[mycracked_pw] encountered a problem in onlinehashcrack.cracked')
-        h.close()
+            h.close()
+        except Exception as e:
+            logging.error(
+                f"[{self.__class__.__name__}] encountered a problem in onlinehashcrack.cracked:\n{e}"
+            )
 
-        #save all the wifi-qrcodes
-        security="WPA"
-        for ssid,password in zip(all_ssid, all_passwd):
+        # save all the wifi-qrcodes
+        security = "WPA"
+        for ssid, password in zip(all_ssid, all_passwd):
 
-            filename = ssid+'-'+password+'.txt'
-            filepath = '/home/pi/qrcodes/'+filename
+            filename = ssid + "-" + password + ".txt"
+            filepath = "/home/pi/qrcodes/" + filename
 
             if os.path.exists(filepath):
                 continue
 
-            wifi_config = 'WIFI:S:'+ssid+';T:'+security+';P:'+password+';;'
+            wifi_config = "WIFI:S:" + ssid + ";T:" + security + ";P:" + password + ";;"
 
             # Create the QR code object
             qr_code = qrcode.QRCode(
@@ -90,7 +91,7 @@ class MyCrackedPasswords(plugins.Plugin):
             qr_code.make(fit=True)
 
             try:
-                with open(filepath, 'w+') as file:
+                with open(filepath, "w+") as file:
                     qr_code.print_ascii(out=file)
                     q = io.StringIO()
                     qr_code.print_ascii(out=q)
@@ -98,17 +99,27 @@ class MyCrackedPasswords(plugins.Plugin):
                     logging.info(filename)
                     logging.info(q.read())
             except:
-                logging.error("[mycracked_pw] something went wrong generating qrcode")
-            logging.info("[mycracked_pw] qrcode generated.")
-
+                logging.error(
+                    f"[{self.__class__.__name__}] something went wrong generating qrcode"
+                )
+            logging.info(f"[{self.__class__.__name__}] qrcode generated.")
 
             # start with blank file
-            open('/home/pi/wordlists/passwords/mycracked.txt', 'w+').close()
+            open("/etc/pwnagotchi/wordlists/passwords/mycracked.txt", "w+").close()
 
-            #create pw list
+            # create pw list
             new_lines = sorted(set(all_passwd))
-            with open('/home/pi/wordlists/passwords/mycracked.txt','w+') as g:
+            with open("/etc/pwnagotchi/wordlists/passwords/mycracked.txt", "w+") as g:
                 for i in new_lines:
-                    g.write(i+"\n")
+                    g.write(i + "\n")
 
-            logging.info("[mycracked_pw] pw list updated")
+            logging.info(f"[{self.__class__.__name__}] pw list updated")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        self._update_all()
+        pass

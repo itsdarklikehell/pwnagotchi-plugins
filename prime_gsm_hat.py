@@ -2,7 +2,8 @@
 import serial
 import time
 import RPi.GPIO as GPIO
-'''
+
+"""
 Assuming you're using the Waveshare Raspberry Pi GSM/GPRS/GNSS Bluetooth Hat for SIM868's I keep talking about:
     https://amazon.com/Raspberry-Bluetooth-Expansion-Compatible-DataTransfer/dp/B076CPX4NN
 
@@ -27,10 +28,13 @@ https://www.cooking-hacks.com/media/cooking/images/documentation/tutorial-sim-90
 https://simcom.ee/documents/SIM900/SIM900_GSM%20Location%20AT%20Command%20Manual_V1.00.pdf
 https://github.com/stanleyhuangyc/Freematics/issues/17
 
-'''
+"""
 
 # I'm too lazy to care, so you figure it out. Powers on if not powered on.
-if not raw_input("Is the GSM/GPRS/GNSS hat powered on? [y/n]: ").lower().strip()[:1] == "y":
+if (
+    not raw_input("Is the GSM/GPRS/GNSS hat powered on? [y/n]: ").lower().strip()[:1]
+    == "y"
+):
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(7, GPIO.OUT)
     GPIO.output(7, GPIO.LOW)
@@ -39,23 +43,29 @@ if not raw_input("Is the GSM/GPRS/GNSS hat powered on? [y/n]: ").lower().strip()
     GPIO.cleanup()
 
 # AT commands:
-deactivate_bearer_command = 'AT+SAPBR=0,1'
-setup_commands = [deactivate_bearer_command, 'AT+CGATT=1','AT+SAPBR=3,1,"Contype","GPRS"','AT+SAPBR=3,1,"APN","default,supl,mms"','AT+SAPBR=1,1']
+deactivate_bearer_command = "AT+SAPBR=0,1"
+setup_commands = [
+    deactivate_bearer_command,
+    "AT+CGATT=1",
+    'AT+SAPBR=3,1,"Contype","GPRS"',
+    'AT+SAPBR=3,1,"APN","default,supl,mms"',
+    "AT+SAPBR=1,1",
+]
 
 try:
     # Open location of the GSM hat serial IO.
-    serial_device = serial.Serial("/dev/ttyS0",115200)
+    serial_device = serial.Serial("/dev/ttyS0", 115200)
 
     for setup_command in setup_commands:
-        print ('[!] Running: '+setup_command)
-        serial_device.write(setup_command+'\r\n')
-        time.sleep(.5)
+        print("[!] Running: " + setup_command)
+        serial_device.write(setup_command + "\r\n")
+        time.sleep(0.5)
         serial_device.flushInput()
     time.sleep(1)
-    print('[+] Probably successfully primed GSM/GPRS/GNSS hat.')
+    print("[+] Probably successfully primed GSM/GPRS/GNSS hat.")
 
 except:
-    print('[-] Encountered exception while writing to serial device.')
+    print("[-] Encountered exception while writing to serial device.")
 
 finally:
     # Aight, fine. A little help.

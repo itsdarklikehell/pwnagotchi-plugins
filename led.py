@@ -7,21 +7,17 @@ import pwnagotchi.plugins as plugins
 
 
 class Led(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = (
-        "This plugin blinks the PWR led with different patterns depending on the event."
+    __description__ = "This plugin blinks the PWR led with different patterns depending on the event."
     )
-    __name__ = 'Led'
-    __help__ = """
-    This plugin blinks the PWR led with different patterns depending on the event.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __name__ = "Led"
+    __help__ = "This plugin blinks the PWR led with different patterns depending on the event."
+    )
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -40,6 +36,8 @@ class Led(plugins.Plugin):
         self._on_event("loaded")
         _thread.start_new_thread(self._worker, ())
 
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
     def _on_event(self, event):
         if not self._is_busy:
             self._event_name = event

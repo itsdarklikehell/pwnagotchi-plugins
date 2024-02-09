@@ -6,37 +6,56 @@ import pwnagotchi
 import logging
 
 
-class PwnagotchiVersion(plugins.Plugin):
-    __author__ = 'https://github.com/Teraskull/'
-    __version__ = '1.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'A plugin that will add the Pwnagotchi version to the left of the current mode.'
-    __name__ = 'PwnagotchiVersion'
-    __help__ = """
-    A plugin that will add the Pwnagotchi version to the left of the current mode.
-    """
+class DisplayVersion(plugins.Plugin):
+    __author__ = "SgtStroopwafel, https://github.com/Teraskull/"
+    __version__ = "1.0.0"
+    __license__ = "GPL3"
+    __description__ = (
+        "A plugin that will add the Pwnagotchi version to the left of the current mode."
+    )
+    __name__ = "DisplayVersion"
+    __help__ = (
+        "A plugin that will add the Pwnagotchi version to the left of the current mode."
+    )
     __dependencies__ = {
-        'pip': ['scapy']
+        "apt": ["none"],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def on_loaded(self):
-        logging.info('Pwnagotchi Version Plugin loaded.')
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         ui.add_element(
-            'version',
+            "version",
             LabeledValue(
                 color=BLACK,
-                label='',
-                value='v0.0.0',
+                label="",
+                value="v0.0.0",
                 position=(185, 110),
                 label_font=fonts.Small,
-                text_font=fonts.Small
-            )
+                text_font=fonts.Small,
+            ),
         )
 
     def on_ui_update(self, ui):
-        ui.set('version', f'v{pwnagotchi.__version__}')
+        ui.set("version", f"v{pwnagotchi.__version__}")
+
+    def on_unload(self, ui):
+        with ui._lock:
+            try:
+                ui.remove_element("version")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")

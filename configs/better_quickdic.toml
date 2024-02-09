@@ -1,0 +1,3 @@
+main.plugins.better_quickdic.enabled = false
+main.plugins.better_quickdic.face = "(·ω·)"
+main.plugins.better_quickdic.wordlist_folder = "/etc/pwnagotchi/wordlists/passwords"

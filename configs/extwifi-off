@@ -1,0 +1,7 @@
+sed -i 's/wlan1/wlan1mon/g' /usr/bin/bettercap-launcher
+sed -i 's/wlan1/wlan1mon/g' /usr/local/share/bettercap/caplets/pwnagotchi-auto.cap
+sed -i 's/wlan1/wlan1mon/g' /usr/local/share/bettercap/caplets/pwnagotchi-manual.cap
+sed -i 's/wlan1/wlan1mon/g' /etc/pwnagotchi/config.toml
+sed -i 's/wlan1/wlan1mon/g' /usr/bin/pwnlib
+sudo systemctl restart bettercap
+sudo systemctl restart pwnagotchi

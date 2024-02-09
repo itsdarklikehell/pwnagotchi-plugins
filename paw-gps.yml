@@ -1,3 +1,0 @@
-paw-gps:
-  enabled: true
-  ip: "192.168.44.1:8080"

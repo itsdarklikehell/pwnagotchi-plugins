@@ -5,32 +5,44 @@ import pwnagotchi
 
 
 class GPIOShutdown(plugins.Plugin):
-    __author__ = 'tomelleri.riccardo@gmail.com'
-    __version__ = '2.0.0'
-    __license__ = 'GPL3'
-    __description__ = 'GPIO Shutdown plugin.'
-    __name__ = 'GPIOShutdown'
-    __help__ = """
-    GPIO Shutdown plugin.
-    """
+    __author__ = "SgtStroopwafel, tomelleri.riccardo@gmail.com"
+    __version__ = "2.0.0"
+    __license__ = "GPL3"
+    __description__ = "GPIO Shutdown plugin."
+    __name__ = "GPIOShutdown"
+    __help__ = "GPIO Shutdown plugin."
     __dependencies__ = {
-        'pip': ['RPi.GPIO'],
+        "pip": ["RPi.GPIO"],
     }
     __defaults__ = {
-        'enabled': False,
-        'gpio': 21,
+        "enabled": False,
+        "gpio": 21,
     }
 
+    def __init__(self):
+        self.ready = False
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
+
     def shutdown(self, channel):
-        logging.warning('[gpioshutdown] Received shutdown command from GPIO')
+        logging.warn(f"[{self.__class__.__name__}] Received shutdown command from GPIO")
         pwnagotchi.shutdown()
 
     def on_loaded(self):
-        logging.info('[gpioshutdown] GPIO Shutdown plugin loaded')
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
-        shutdown_gpio = self.options['gpio']
+        shutdown_gpio = self.options["gpio"]
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(shutdown_gpio, GPIO.IN, GPIO.PUD_UP)
         GPIO.add_event_detect(shutdown_gpio, GPIO.FALLING, callback=self.shutdown)
 
-        logging.info('[gpioshutdown] Added shutdown command to GPIO %d', shutdown_gpio)
+        logging.info(
+            f"[{self.__class__.__name__}] Added shutdown command to GPIO %d",
+            shutdown_gpio,
+        )
+
+    def on_unload(self, ui):
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")

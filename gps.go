@@ -12,9 +12,9 @@ import (
 type GPS struct {
 	session.SessionModule
 
-	gpsdHost   string
-	gpsdPort   int
-	gps	   *gpsd.Session
+	gpsdHost string
+	gpsdPort int
+	gps      *gpsd.Session
 }
 
 func NewGPS(s *session.Session) *GPS {

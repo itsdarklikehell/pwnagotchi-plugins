@@ -1,6 +1,8 @@
 import os
 import json
 import logging
+from datetime import datetime
+
 
 import pwnagotchi
 import pwnagotchi.plugins as plugins
@@ -8,32 +10,37 @@ import pwnagotchi.ui.faces as faces
 import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
-    
+
+
 class Age(plugins.Plugin):
-    __author__ = "HannaDiamond"
-    __version__ = "1.0.1"
+    __author__ = "SgtStroopwafel, Kaska"
+    __version__ = "1.1.0"
     __license__ = "MIT"
-    __description__ = (
-        "A plugin that will add age and strength stats based on epochs and trained epochs"
-	)
-    __name__ = 'Age'
-    __help__ = """
-    A plugin that will add age and strength stats based on epochs and trained epochs
-    """
+    __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
+    __name__ = "Age"
+    __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
-        'pip': ['scapy'],
+        "apt": ["none"],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
+        self.ready = False
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
         self.epochs = 0
         self.train_epochs = 0
+        self.access_points_seen = 0
+        self.deauths_sent = 0
+        self.device_start_time = datetime.now()
 
     def on_loaded(self):
         data_path = "/root/brain.json"
         self.load_data(data_path)
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_ui_setup(self, ui):
         ui.add_element(
@@ -64,18 +71,59 @@ class Age(plugins.Plugin):
                 text_font=fonts.Medium,
             ),
         )
+        ui.add_element(
+            "Access Points",
+            LabeledValue(
+                color=BLACK,
+                label="APs",
+                value=0,
+                position=(
+                    int(self.options["ap_x_coord"]),
+                    int(self.options["ap_y_coord"]),
+                ),
+                label_font=fonts.Bold,
+                text_font=fonts.Medium,
+            ),
+        )
+        ui.add_element(
+            "Deauths Sent",
+            LabeledValue(
+                color=BLACK,
+                label="Deauths",
+                value=0,
+                position=(
+                    int(self.options["deauth_x_coord"]),
+                    int(self.options["deauth_y_coord"]),
+                ),
+                label_font=fonts.Bold,
+                text_font=fonts.Medium,
+            ),
+        )
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element("Age")
-            ui.remove_element("Strength")
+            try:
+                ui.remove_element("Age")
+                ui.remove_element("Strength")
+                ui.remove_element("Access Points")
+                ui.remove_element("Deauths Sent")
+                logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+            except Exception as e:
+                logging.error(f"[{self.__class__.__name__}] unload: %s" % e)
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
 
     def on_ui_update(self, ui):
-        ui.set("Age", str(self.abrev_number(self.epochs)))
-        ui.set("Strength", str(self.abrev_number(self.train_epochs)))
+        ui.set("Age", self.calculate_device_age())
+        ui.set("Strength", str(self.train_epochs))
+        ui.set("Access Points", str(self.access_points_seen))
+        ui.set("Deauths Sent", str(self.deauths_sent))
 
     def on_ai_training_step(self, agent, _locals, _globals):
         self.train_epochs += 1
+        self.access_points_seen += len(agent.view().access_points())
+        self.deauths_sent += agent.stats("deauth")
         if self.train_epochs % 100 == 0:
             self.strength_checkpoint(agent)
 
@@ -98,10 +146,7 @@ class Age(plugins.Plugin):
     def age_checkpoint(self, agent):
         view = agent.view()
         view.set("face", faces.HAPPY)
-        view.set(
-            "status",
-            "Wow, I've lived for " + str(self.abrev_number(self.epochs)) + " epochs!",
-        )
+        view.set("status", "Wow, I've lived for " + self.calculate_device_age())
         view.update(force=True)
 
     def strength_checkpoint(self, agent):
@@ -110,7 +155,7 @@ class Age(plugins.Plugin):
         view.set(
             "status",
             "Look at my strength go up! \n"
-            "I've trained for " + str(self.abrev_number(self.train_epochs)) + " epochs",
+            "I've trained for " + str(self.train_epochs) + " epochs",
         )
         view.update(force=True)
 
@@ -120,3 +165,15 @@ class Age(plugins.Plugin):
                 data = json.load(f)
                 self.epochs = data["epochs_lived"]
                 self.train_epochs = data["epochs_trained"]
+
+    def calculate_device_age(self):
+        current_time = datetime.now()
+        age_delta = current_time - self.device_start_time
+
+        years = age_delta.days // 365
+        remaining_days = age_delta.days % 365
+        months = remaining_days // 30
+        days = remaining_days % 30
+
+        age_str = f"{years}y {months}m {days}d"
+        return age_str

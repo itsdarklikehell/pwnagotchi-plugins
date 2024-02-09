@@ -17,25 +17,30 @@ NETWORK = ""
 
 
 class AutoHotSpot(plugins.Plugin):
-    __author__ = "@tjbishop"
+    __author__ = "SgtStroopwafel, @tjbishop"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = 'A plugin to automatically create a wifi hotspot when in manual mode.'
-    __name__ = 'AutoHotSpot'
-    __help__ = """
-    A plugin to automatically create a wifi hotspot when in manual mode.
-    """
+    __description__ = (
+        "A plugin to automatically create a wifi hotspot when in manual mode."
+    )
+    __name__ = "AutoHotSpot"
+    __help__ = "A plugin to automatically create a wifi hotspot when in manual mode."
     __dependencies__ = {
-        'apt': ['aircrack-ng'],
+        "apt": ["aircrack-ng"],
     }
     __defaults__ = {
-        'enabled': False,
-        'face': '(>.<)',
+        "enabled": False,
+        "face": "(>.<)",
     }
+
+    def __init__(self):
+        self.ready = False
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        self.title = ""
 
     def on_loaded(self):
         global READY
-        logging.info("Auto Hotspot loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
         READY = 1
 
     def display_text(self, text):
@@ -76,7 +81,7 @@ class AutoHotSpot(plugins.Plugin):
         global STATUS
         global NETWORK
         NETWORK = network_name
-        logging.info("sending command to Bettercap to stop using mon0...")
+        logging.info("sending command to Bettercap to stop using wlan0mon...")
         STATUS = "switching_mon_off"
         requests.post(
             "http://127.0.0.1:8081/api/session",
@@ -272,7 +277,7 @@ class AutoHotSpot(plugins.Plugin):
         )
         logging.info("starting monitor mode...")
         subprocess.Popen(
-            'iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add mon0 type monitor && ifconfig mon0 up',
+            'iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add wlan0mon type monitor && ifconfig wlan0mon up',
             shell=True,
             stdin=None,
             stdout=open("/dev/null", "w"),
@@ -287,10 +292,10 @@ class AutoHotSpot(plugins.Plugin):
         )
 
     def on_epoch(self, ui):
-        # If not connected to a wireless network and mon0 doesn't exist, run _restart_monitor_mode function
+        # If not connected to a wireless network and wlan0mon doesn't exist, run _restart_monitor_mode function
         if (
             "Not-Associated" in subprocess.Popen("iwconfig wlan0").read()
-            and "Monitor" not in subprocess.Popen("iwconfig mon0").read()
+            and "Monitor" not in subprocess.Popen("iwconfig wlan0mon").read()
         ):
             self._restart_monitor_mode()
 
@@ -317,3 +322,10 @@ class AutoHotSpot(plugins.Plugin):
                             % (signal_strength)
                         )
                         STATUS = "rssi_low"
+
+    def on_unload(self, ui):
+        with ui._lock:
+            logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")

@@ -5,27 +5,29 @@ import pandas as pd
 
 
 class Timer(plugins.Plugin):
-    __author__ = 'idoloninmachina@gmail.com'
-    __version__ = '0.1.0'
-    __license__ = 'GPL3'
-    __description__ = 'Measure the amount of time taken by the pwnagotchi to capture a handshake.'
-    __name__ = 'Timer'
-    __help__ = """
-    Measure the amount of time taken by the pwnagotchi to capture a handshake.
-    """
+    __author__ = "SgtStroopwafel, idoloninmachina@gmail.com"
+    __version__ = "0.1.0"
+    __license__ = "GPL3"
+    __description__ = (
+        "Measure the amount of time taken by the pwnagotchi to capture a handshake."
+    )
+    __name__ = "Timer"
+    __help__ = (
+        "Measure the amount of time taken by the pwnagotchi to capture a handshake."
+    )
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
         self.running = False
         self.data = {
-            'Time to deauth': [],
-            'Time to handshake': [],
-            'Time between deauth and handshake': [],
+            "Time to deauth": [],
+            "Time to handshake": [],
+            "Time between deauth and handshake": [],
         }
         self.reset_times()
 
@@ -33,10 +35,10 @@ class Timer(plugins.Plugin):
         self.reset_times()
 
     def on_loaded(self):
-        logging.info("[Timer] plugin loaded")
+        logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     def on_unload(self, ui):
-        logging.info("[Timer] Plugin unloaded")
+        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
 
     def on_wifi_update(self, agent, access_points):
         time = datetime.datetime.now()
@@ -60,22 +62,33 @@ class Timer(plugins.Plugin):
             # Not relevant to the data we want
             return
 
-        self.data['Time to deauth'].append(
+        self.data["Time to deauth"].append(
             self.calculate_difference_in_seconds(
-                self.wifi_update_time, self.wifi_deauth_time))
-        self.data['Time to handshake'].append(
+                self.wifi_update_time, self.wifi_deauth_time
+            )
+        )
+        self.data["Time to handshake"].append(
             self.calculate_difference_in_seconds(
-                self.wifi_update_time, self.wifi_handshake_time))
-        self.data['Time between deauth and handshake'].append(
+                self.wifi_update_time, self.wifi_handshake_time
+            )
+        )
+        self.data["Time between deauth and handshake"].append(
             self.calculate_difference_in_seconds(
-                self.wifi_deauth_time, self.wifi_handshake_time))
+                self.wifi_deauth_time, self.wifi_handshake_time
+            )
+        )
 
-        df = pd.DataFrame(self.data, columns=['Time to deauth',
-                                              'Time to handshake',
-                                              'Time between deauth and handshake', ])
-        logging.info('[Timer] data saved')
+        df = pd.DataFrame(
+            self.data,
+            columns=[
+                "Time to deauth",
+                "Time to handshake",
+                "Time between deauth and handshake",
+            ],
+        )
+        logging.info("[Timer] data saved")
         logging.info(df)
-        df.to_csv('/home/pi/data/pwnagotchi_times.csv')
+        df.to_csv("/home/pi/data/pwnagotchi_times.csv")
 
     def calculate_difference_in_seconds(self, past, future):
         difference = future - past
@@ -85,3 +98,6 @@ class Timer(plugins.Plugin):
         self.wifi_update_time = None
         self.wifi_deauth_time = None
         self.wifi_handshake_time = None
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")

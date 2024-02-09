@@ -1,0 +1,32 @@
+[info]
+name = 'terminal'
+description = 'a web UI terminal'
+version = '1.0.0'
+online_path = ''
+subprocess = ['ttyd']
+
+[services]
+
+[[services.service1]]
+name = "ttyd"
+permanent = false
+
+[files]
+pwnagotchi = []
+system = ['/etc/systemd/system/ttyd.service']
+
+[commands]
+install = [
+    "'sudo apt update'",
+    "'sudo apt-get install -y build-essential cmake git libjson-c-dev libwebsockets-dev'",
+    "'cd %s/fancytools/tools/default/terminal/ttyd && mkdir build && cd build' % (FANCY_ROOT)",
+    "'cmake -B %s/fancytools/tools/default/terminal/ttyd/build %s/fancytools/tools/default/terminal/ttyd' % (FANCY_ROOT, FANCY_ROOT)",
+    "'cd %s/fancytools/tools/default/terminal/ttyd/build && make' % (FANCY_ROOT)",
+    "'cd %s/fancytools/tools/default/terminal/ttyd/build && make install' % (FANCY_ROOT)",
+]
+uninstall = [
+    "'service ttyd stop'",
+    "'rm /usr/local/bin/ttyd'",
+    "'rm /usr/local/share/man/man1/ttyd.1'",
+    "'rm -R %s/fancytools/tools/default/terminal/ttyd/build' % (FANCY_ROOT)",
+]

@@ -151,7 +151,6 @@ class BTNap:
 
         return None
 
-
     def is_paired(self):
         """
         Check if already connected
@@ -421,18 +420,7 @@ class BTTether(plugins.Plugin):
     __author__ = '33197631+dadav@users.noreply.github.com'
     __version__ = '1.1.0'
     __license__ = 'GPL3'
-    __description__ = 'This makes the display reachable over bluetooth.'
-    __name__ = 'BTTether'
-    __help__ = """
-    This makes the display reachable over bluetooth.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
-    __defaults__ = {
-        'enabled': False,
-    }
-
+    __description__ = 'This makes the display reachable over bluetooth'
 
     def __init__(self):
         self.ready = False
@@ -441,7 +429,6 @@ class BTTether(plugins.Plugin):
         self.lock = Lock()
         self.running = True
         self.status = '-'
-
 
     def on_loaded(self):
         # new config
@@ -486,7 +473,7 @@ class BTTether(plugins.Plugin):
 
             devices_to_try = list()
             connected_priorities = list()
-            any_device_connected = False # if this is true, last status on screen should be C
+            any_device_connected = False  # if this is true, last status on screen should be C
 
             for _, device in self.devices.items():
                 if device.connected():
@@ -527,7 +514,6 @@ class BTTether(plugins.Plugin):
                         continue
                 else:
                     logging.debug('BT-TETHER: Already paired.')
-
 
                 logging.debug('BT-TETHER: Try to create nap connection with %s ...', device.name)
                 device.network, success = BTNap.nap(dev_remote)
@@ -584,18 +570,16 @@ class BTTether(plugins.Plugin):
             if any_device_connected:
                 self.status = 'C'
 
-
     def on_unload(self, ui):
         self.running = False
         with ui._lock:
             ui.remove_element('bluetooth')
 
-
     def on_ui_setup(self, ui):
         with ui._lock:
-            ui.add_element('bluetooth', LabeledValue(color=BLACK, label='BT', value='-', position=(0, 0),
-                           label_font=fonts.Bold, text_font=fonts.Medium))
-
+            ui.add_element('bluetooth', LabeledValue(color=BLACK, label='BT', value='-',
+                                                     position=(ui.width() / 2 - 10, 0),
+                                                     label_font=fonts.Bold, text_font=fonts.Medium))
 
     def on_ui_update(self, ui):
         ui.set('bluetooth', self.status)

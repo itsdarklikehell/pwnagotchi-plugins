@@ -1,0 +1,16 @@
+[info]
+name = 'dev'
+description = ''
+version = ''
+online_path = ''
+subprocess = []
+
+[services]
+
+[files]
+pwnagotchi = []
+system = []
+
+[commands]
+install = []
+uninstall = []

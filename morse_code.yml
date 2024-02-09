@@ -1,6 +1,0 @@
-morse_code:
-  enabled: false
-  led: 0
-  delay: 200
-  invert: true
-  leaveOn: false

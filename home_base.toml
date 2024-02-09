@@ -1,4 +1,0 @@
-main.plugins.home_base.enabled = false
-main.plugins.home_base.minimum_signal_strength = -75
-main.plugins.home_base.password = 'Sp1d3rM@n'
-main.plugins.home_base.ssid = 'B33zh1v3!'

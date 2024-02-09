@@ -1,4 +1,0 @@
-clock:
-  enabled: true
-  date_format: "%d/%m/%y"
-  time_format: "%H:%M"

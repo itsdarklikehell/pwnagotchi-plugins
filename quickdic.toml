@@ -1,3 +1,0 @@
-main.plugins.quickdic.enabled = false
-main.plugins.quickdic.face = "(·ω·)"
-main.plugins.quickdic.wordlist_folder = "/home/pi/wordlists/passwords"

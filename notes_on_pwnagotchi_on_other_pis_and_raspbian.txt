@@ -46,7 +46,7 @@ http.server on
 
 ### Edit /usr/local/share/bettercap/caplets/pwnagotchi-manual.cap :
 """
-# enable interface monitor mode and define wifi interface to be mon0
+# enable interface monitor mode and define wifi interface to be mon1
 set wifi.interface wlan1mon
 
 # api listening on http://0.0.0.0:8081/ and ui to http://0.0.0.0

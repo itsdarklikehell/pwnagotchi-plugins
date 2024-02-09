@@ -1,0 +1,53 @@
+[info]
+name = 'fancygotchi'
+__version__ = '2023.09.1' 
+online_path = 'https://raw.githubusercontent.com/V0r-T3x/pwnagotchi-fancygotchi/master/pwnagotchi/ui/fancygotchi.py'
+subprocess = ''
+
+[files]
+pwnagotchi = [
+'ui/components.py',
+'ui/state.py',
+'ui/view.py',
+'ui/fancygotchi.py',
+'ui/hw/libs/waveshare/lcdhat144/epd.py',
+'ui/web/handler.py',
+'ui/web/templates/base.html',
+'ui/web/templates/fancygotchi.html',
+'identity.py',
+'ui/themes/240x240/config-h.toml',
+'ui/themes/240x240/config-v.toml',
+'ui/themes/250x122/config-h.toml',
+'ui/themes/250x122/config-v.toml',
+'ui/themes/200x96/config-h.toml',
+'ui/themes/200x96/config-v.toml',
+'ui/themes/296x128/config-h.toml',
+'ui/themes/296x128/config-v.toml',
+'ui/themes/config.toml',
+'ui/themes/200x200/config-h.toml',
+'ui/themes/200x200/config-v.toml',
+'ui/themes/img/icons/favicon-w.png',
+'ui/themes/img/icons/favicon-g.png',
+'ui/themes/img/icons/favicon-bg.png',
+'ui/themes/img/icons/favicon.png',
+'ui/themes/264x176/config-h.toml',
+'ui/themes/264x176/config-v.toml',
+'ui/themes/128x128/config-h.toml',
+'ui/themes/128x128/config-v.toml',
+'ui/themes/212x104/config-h.toml',
+'ui/themes/212x104/config-v.toml',
+'ui/themes/480x320/config-h.toml',
+'ui/themes/480x320/config-v.toml',
+'ui/themes/style.css',
+'ui/themes/128x64/config-h.toml',
+'ui/themes/128x64/config-v.toml',
+'ui/themes/320x240/config-h.toml',
+'ui/themes/320x240/config-v.toml',
+]
+system = [
+'/usr/share/fonts/truetype/font-awesome-solid.otf',
+]
+
+[commands]
+install = []
+uninstall = []

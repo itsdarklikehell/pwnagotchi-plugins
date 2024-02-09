@@ -17,21 +17,19 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class MorseCode(plugins.Plugin):
-    __author__ = "sniffleupagus"
+    __author__ = "SgtStroopwafel, sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = (
-        "An example plugin for pwnagotchi that implements all the available callbacks."
+    __description__ = "An example plugin for pwnagotchi that implements all the available callbacks."
     )
-    __name__ = 'MorseCode'
-    __help__ = """
-    An example plugin for pwnagotchi that implements all the available callbacks.
-    """
+    __name__ = "MorseCode"
+    __help__ = "An example plugin for pwnagotchi that implements all the available callbacks."
+    )
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     # Dictionary representing the morse code chart
@@ -190,9 +188,7 @@ class MorseCode(plugins.Plugin):
         self._led_file = "/sys/class/leds/led%d/brightness"
         self._delay = 200
 
-    # called when http://<host>:<port>/plugins/<plugin>/ is called
-    # must return a html page
-    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
     def on_webhook(self, path, request):
         self.logger.info("[Morse] Web hook: %s" % repr(request))
         return "<html><body>Woohoo!</body></html>"

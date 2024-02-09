@@ -15,9 +15,7 @@ class PiVoyager(plugins.Plugin):
     __license__ = 'GPL3'
     __description__ = 'PiVoyager UPS plugin.'
     __name__ = 'PiVoyager'
-    __help__ = """
-    PiVoyager UPS plugin.
-    """
+    __help__ = "PiVoyager UPS plugin."
     __dependencies__ = {
         'pip': ['scapy'],
     }
@@ -70,9 +68,9 @@ class PiVoyager(plugins.Plugin):
             run(["date", "-s", date], stdout=DEVNULL)
             logging.info("pivoyager - updated local time from RTC")
         else:
-            logging.warning("RTC not set could not sync local time")
-
-      # enable pivoyager power wakeup function
+            logging.warn("RTC not set could not sync local time")
+        
+        # enable pivoyager power wakeup function
         run([self.path, "enable", "power-wakeup"])
         logging.info("pivoyager - enable power-wakeup")
 
@@ -80,10 +78,7 @@ class PiVoyager(plugins.Plugin):
 
 
     def on_ui_setup(self, ui):
-        ui.add_element('pivoyager', LabeledValue(color=BLACK, label=' ', value=' ',
-                                                 position=(int(self.options["bat_x_coord"]),
-                                                           int(self.options["bat_y_coord"])),
-                                                 label_font=fonts.Small, text_font=fonts.Small))
+        ui.add_element('pivoyager', LabeledValue(color=BLACK, label=' ', value=' ', position=(int(self.options["bat_x_coord"]), int(self.options["bat_y_coord"])), label_font=fonts.Small, text_font=fonts.Small))
 
     def on_ui_update(self, ui):
         status = self.get_status()
@@ -100,3 +95,6 @@ class PiVoyager(plugins.Plugin):
             # Update RTC if local time is ntp-synced and RTC is not initialised
             run([self.path, "date", "sync"])
             logging.info("pivoyager - update RTC from NTP")
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")

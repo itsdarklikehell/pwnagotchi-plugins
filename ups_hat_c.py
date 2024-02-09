@@ -32,6 +32,7 @@ class UPS:
     def __init__(self):
         # only import when the module is loaded and enabled
         import smbus
+
         self._bus = smbus.SMBus(1)
         self._addr = 0x43
 
@@ -43,7 +44,7 @@ class UPS:
 
     def read(self, address):
         data = self._bus.read_i2c_block_data(self._addr, address, 2)
-        return ((data[0] * 256) + data[1])
+        return (data[0] * 256) + data[1]
 
     def write(self, address, data):
         temp = [0, 0]
@@ -53,14 +54,14 @@ class UPS:
 
     def set_calibration_32V_2A(self):
         """Configures to INA219 to be able to measure up to 32V and 2A of current. Counter
-           overflow occurs at 3.2A.
-           ..note :: These calculations assume a 0.1 shunt ohm resistor is present
+        overflow occurs at 3.2A.
+        ..note :: These calculations assume a 0.1 shunt ohm resistor is present
         """
 
         self._cal_value = 0
         self._current_lsb = 1  # Current LSB = 100uA per bit
         self._cal_value = 4096
-        self._power_lsb = .002  # Power LSB = 2mW per bit
+        self._power_lsb = 0.002  # Power LSB = 2mW per bit
 
         # Set Calibration register to 'Cal' calculated above
         self.write(_REG_CALIBRATION, self._cal_value)
@@ -71,11 +72,13 @@ class UPS:
         self.bus_adc_resolution = 0x0D
         self.shunt_adc_resolution = 0x0D
         self.mode = 0x07
-        self.config = self.bus_voltage_range << 13 | \
-                      self.gain << 11 | \
-                      self.bus_adc_resolution << 7 | \
-                      self.shunt_adc_resolution << 3 | \
-                      self.mode
+        self.config = (
+            self.bus_voltage_range << 13
+            | self.gain << 11
+            | self.bus_adc_resolution << 7
+            | self.shunt_adc_resolution << 3
+            | self.mode
+        )
         self.write(_REG_CONFIG, self.config)
 
     def getBusVoltage_V(self):
@@ -94,19 +97,17 @@ class UPS:
 
 
 class UPSC(plugins.Plugin):
-    __author__ = 'HannaDiamond'
-    __version__ = '1.0.1'
-    __license__ = 'MIT'
-    __description__ = 'A plugin that will add a battery capacity and charging indicator for the UPS HAT C.'
-    __name__ = 'UPSC'
-    __help__ = """
-    A plugin that will add a battery capacity and charging indicator for the UPS HAT C.
-    """
+    __author__ = "SgtStroopwafel, HannaDiamond"
+    __version__ = "1.0.1"
+    __license__ = "MIT"
+    __description__ = "A plugin that will add a battery capacity and charging indicator for the UPS HAT C."
+    __name__ = "UPSC"
+    __help__ = "A plugin that will add a battery capacity and charging indicator for the UPS HAT C."
     __dependencies__ = {
-        'pip': ['scapy'],
+        "pip": ["scapy"],
     }
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -117,31 +118,59 @@ class UPSC(plugins.Plugin):
 
     def on_ui_setup(self, ui):
         if self.options["label_on"]:
-            ui.add_element('ups', LabeledValue(color=BLACK, label='BAT', value="--%",
-                                               position=(int(self.options["bat_x_coord"]),
-                                                         int(self.options["bat_y_coord"])),
-                                               label_font=fonts.Bold, text_font=fonts.Medium))
+            ui.add_element(
+                "ups",
+                LabeledValue(
+                    color=BLACK,
+                    label="BAT",
+                    value="--%",
+                    position=(
+                        int(self.options["bat_x_coord"]),
+                        int(self.options["bat_y_coord"]),
+                    ),
+                    label_font=fonts.Bold,
+                    text_font=fonts.Medium,
+                ),
+            )
         else:
-            ui.add_element('ups', LabeledValue(color=BLACK, label='', value="--%",
-                                               position=(int(self.options["bat_x_coord"]),
-                                                         int(self.options["bat_y_coord"])),
-                                               label_font=fonts.Bold, text_font=fonts.Medium))
+            ui.add_element(
+                "ups",
+                LabeledValue(
+                    color=BLACK,
+                    label="",
+                    value="--%",
+                    position=(
+                        int(self.options["bat_x_coord"]),
+                        int(self.options["bat_y_coord"]),
+                    ),
+                    label_font=fonts.Bold,
+                    text_font=fonts.Medium,
+                ),
+            )
 
     def on_unload(self, ui):
         with ui._lock:
-            ui.remove_element('ups')
+            ui.remove_element("ups")
 
     def on_ui_update(self, ui):
         bus_voltage = self.ups.getBusVoltage_V()
         capacity = int((bus_voltage - 3) / 1.2 * 100)
-        if (capacity > 100): capacity = 100
-        if (capacity < 0): capacity = 0
+        if capacity > 100:
+            capacity = 100
+        if capacity < 0:
+            capacity = 0
 
         charging = self.ups.getCurrent_mA()
-        ui.set('ups', str(capacity) + "%" + charging)
+        ui.set("ups", str(capacity) + "%" + charging)
 
-        if capacity <= self.options['shutdown']:
-            logging.info('[ups_hat_c] Empty battery (<= %s%%): shutting down' % self.options['shutdown'])
-            ui.update(force=True, new_data={'status': 'Battery exhausted, bye ...'})
+        if capacity <= self.options["shutdown"]:
+            logging.info(
+                "[ups_hat_c] Empty battery (<= %s%%): shutting down"
+                % self.options["shutdown"]
+            )
+            ui.update(force=True, new_data={"status": "Battery exhausted, bye ..."})
             time.sleep(3)
             pwnagotchi.shutdown()
+
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")

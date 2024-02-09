@@ -1,0 +1,72 @@
+{
+  "private": true,
+  "name": "ttyd",
+  "version": "1.0.0",
+  "description": "Share your terminal over the web",
+  "repository": {
+    "url": "git@github.com:tsl0922/ttyd.git",
+    "type": "git"
+  },
+  "author": "Shuanglei Tao <tsl0922@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prestart": "gulp clean",
+    "start": "NODE_ENV=development && webpack serve",
+    "build": "NODE_ENV=production webpack && gulp",
+    "inline": "NODE_ENV=production webpack && gulp inline",
+    "check": "gts check",
+    "fix": "gts fix"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "eslint": "^8.52.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-webpack-plugin": "^4.0.1",
+    "gts": "^5.2.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-gzip": "^1.4.2",
+    "gulp-inline-source": "^4.0.0",
+    "gulp-rename": "^2.0.0",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "sass": "^1.69.5",
+    "sass-loader": "^13.3.2",
+    "scssfmt": "^1.0.7",
+    "style-loader": "^3.3.3",
+    "terser-webpack-plugin": "^5.3.9",
+    "through2": "^4.0.2",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "util": "^0.12.5",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.10.0"
+  },
+  "dependencies": {
+    "decko": "^1.2.0",
+    "file-saver": "^2.0.5",
+    "preact": "^10.18.1",
+    "trzsz": "^1.1.4",
+    "whatwg-fetch": "^3.6.19",
+    "xterm": "^5.3.0",
+    "xterm-addon-canvas": "^0.5.0",
+    "xterm-addon-fit": "^0.8.0",
+    "xterm-addon-image": "^0.5.0",
+    "xterm-addon-web-links": "^0.9.0",
+    "xterm-addon-webgl": "^0.16.0",
+    "zmodem.js": "^0.1.10"
+  },
+  "resolutions": {
+    "zmodem.js@^0.1.10": "patch:zmodem.js@npm%3A0.1.10#./.yarn/patches/zmodem.js-npm-0.1.10-e5537fa2ed.patch"
+  },
+  "packageManager": "yarn@3.6.3"
+}

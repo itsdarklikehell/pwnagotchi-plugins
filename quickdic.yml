@@ -1,4 +1,0 @@
-quickdic:
-  enabled: false
-  wordlist_folder: /home/pi/wordlists/passwords
-  face: "(·ω·)"

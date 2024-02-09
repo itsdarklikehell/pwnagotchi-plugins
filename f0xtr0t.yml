@@ -1,6 +1,0 @@
-f0xtr0t:
-  enabled: false
-  gpsprovider: "gpsd"
-  gpsdhost: "127.0.0.1"
-  gpsdport: 2947
-  pawgpshost: "http://192.168.44.1:8080/gps.xhtml"

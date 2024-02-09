@@ -1,4 +1,0 @@
-auto-update:
-  enabled: true
-  install: true
-  interval: 1

@@ -7,21 +7,17 @@ import pwnagotchi.plugins as plugins
 
 
 class Led(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
-    __description__ = (
-        "This plugin blinks the PWR led with different patterns depending on the event."
+    __description__ = "This plugin blinks the PWR led with different patterns depending on the event."
     )
-    __name__ = 'Led'
-    __help__ = """
-    This plugin blinks the PWR led with different patterns depending on the event.
-    """
-    __dependencies__ = {
-        'pip': ['scapy']
-    }
+    __name__ = "Led"
+    __help__ = "This plugin blinks the PWR led with different patterns depending on the event."
+    )
+    __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        'enabled': False,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -84,7 +80,8 @@ class Led(plugins.Plugin):
     # called when the unit is updating its software
     def on_updating(self):
         self._on_event("updating")
-
+    def on_webhook(self, path, request):
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
     # called when there's one or more unread pwnmail messages
     def on_unread_inbox(self, num_unread):
         self._on_event("unread_inbox")
