@@ -232,7 +232,7 @@ TEMPLATE = """
 """
 
 
-class (plugins.Plugin):
+class Logtail (plugins.Plugin):
     __author__ = "33197631+dadav@users.noreply.github.com"
     __version__ = "0.1.0"
     __license__ = "GPL3"
@@ -246,6 +246,7 @@ class (plugins.Plugin):
     __defaults__ = {
         "enabled": False,
     }
+
     def __init__(self):
         self.lock = threading.Lock()
         self.options = dict()
@@ -272,7 +273,7 @@ class (plugins.Plugin):
 
             def generate():
                 with open(self.config["main"]["log"]["path"]) as f:
-                    yield "".join(f.readlines()[-self.options.get("max-lines", 4096) :])
+                    yield "".join(f.readlines()[-self.options.get("max-lines", 4096):])
                     while True:
                         yield f.readline()
 
