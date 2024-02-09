@@ -41,7 +41,7 @@ class Pwnspeak(plugins.Plugin):
         "An Pwnspeak plugin for pwnagotchi that implements all the available callbacks."
     )
     __name__ = "Pwnspeak"
-    __help__ = """ this plugin needs a installed and working audio DAC HAT, USB-Soundcard or a connected bt-headset/headphone for audio output, like https://www.raspiaudio.com/"
+    __help__ = """this plugin needs a installed and working audio DAC HAT, USB-Soundcard or a connected bt-headset/headphone for audio output, like https://www.raspiaudio.com/"
                 "for enable text2speech on raspberry-pi-zero with debian buster to speak the SSID on handshake and others, you need to install 'pico2wave' as root:"
                 "wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb"
                 "wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico0_1.0+git20130326-3+rpi1_armhf.deb"
