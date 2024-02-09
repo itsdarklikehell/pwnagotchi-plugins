@@ -15,14 +15,14 @@ class Telegram(plugins.Plugin):
     __version__ = '2.0.1'
     __license__ = 'GPL3'
     __description__ = 'Periodically sent messages to Telegram about the recent activity of pwnagotchi'
-    __name__ = "Telegram"
+    __name__ = 'Telegram'
     __help__ = 'Periodically sent messages to Telegram about the recent activity of pwnagotchi'
     __dependencies__ = {
         'pip': ['python-telegram-bot==13.15'],
     }
     __defaults__ = {
         'enabled': False,
-        'bot_token': None,  # Quote me
+        'bot_token': 'None',  # Quote me
         'bot_name': 'pwnagotchi',
         'chat_id': None,  # Don't quote me
         'send_picture': True,

@@ -21,12 +21,12 @@ class Telegram(plugins.Plugin):
         "pip": ["python-telegram-bot"],
     }
     __defaults__ = {
-        "enabled": False,
-        "bot_token": "6796259138:AAEoYPlv8zUinmoycg0Vx8_VHzZ4LyaBznw",
-        "bot_name": "PaimonPiBot",
-        "chat_id": "639276511",
-        "send_picture": True,
-        "send_message": True,
+        'enabled': False,
+        'bot_token': 'None',  # Quote me
+        'bot_name': 'pwnagotchi',
+        'chat_id': None,  # Don't quote me
+        'send_picture': True,
+        'send_message': True,
     }
 
     def on_loaded(self):
