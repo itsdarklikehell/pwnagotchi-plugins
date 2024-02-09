@@ -141,6 +141,9 @@ class Wigle(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "api_key": None,
+        "whitelist": ["EXAMPLE_NETWORK"],
+        "donate": False,
     }
 
     def __init__(self):
