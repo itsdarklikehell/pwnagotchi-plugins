@@ -22,18 +22,10 @@ edit_interfaces() {
     sudo nano /etc/network/interfaces.d/*
 }
 
-install_sounds() {
-    echo "installing sounds/picotts..."
-    wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb
-    wget http://archive.raspberrypi.org/debian/pool/main/s/svox/libttspico0_1.0+git20130326-3+rpi1_armhf.deb
-    sudo apt install -y ./libttspico0_1.0+git20130326-3+rpi1_armhf.deb ./libttspico-utils_1.0+git20130326-3+rpi1_armhf.deb
-    pico2wave -w lookdave.wav 'Look Dave, I can see youre really upset about this.' && aplay lookdave.wav
-}
-
 install_tools() {
     echo "Installing Tools..."
     #sudo apt update && sudo apt upgrade -y
-    sudo apt install -y byobu aircrack-ng nmap macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd python3-buttonshim python3-nmea2 python3-qrcode python3-psutil python3-feedparser python3-netifaces python3-paramiko python3-plotly python3-serial python3-geopy python3-discord python3-dotenv
+    sudo apt install -y byobu aircrack-ng nmap libttspico0 libttspico-utils macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd python3-buttonshim python3-nmea2 python3-qrcode python3-psutil python3-feedparser python3-netifaces python3-paramiko python3-plotly python3-serial python3-geopy python3-discord python3-dotenv
     wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     chmod +x pishrink.sh
     sudo mv pishrink.sh /usr/local/bin
@@ -65,6 +57,20 @@ disable_all_plugins() {
         echo "[DISABLE]: ${i%%.*}"
         sudo pwnagotchi plugins disable ${i%%.*}
     done
+}
+
+showerthoughts() {
+    sudo curl --silent https://www.reddit.com/r/showerthoughts/.rss --user-agent 'Mozilla' --output /root/showerthoughts.rss
+    sudo wget -P /usr/local/bin https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/remove_long_titles.py
+    sudo python /usr/local/bin/remove_long_titles.py
+    sudo wget -P /usr/local/bin https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/remove_long_titles.py
+    sudo mv /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py.old
+    sudo mv /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py.1 /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py
+    (
+        echo "0 */4 * * * curl --silent https://www.reddit.com/r/showerthoughts.rss --user-agent 'Mozilla' --output showerthoughts.rss"
+        echo "0 */4 * * * curl --silent https://www.reddit.com/r/worldnews.rss --user-agent 'Mozilla' --output worldnews.rss"
+        echo "0 */4 * * * /usr/bin/python3 /usr/local/bin/remove_long_titles.py >/dev/null 2>&1"
+    ) | sudo crontab -
 }
 
 enable_all_plugins() {
