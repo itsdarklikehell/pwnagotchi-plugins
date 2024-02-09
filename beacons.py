@@ -115,7 +115,8 @@ class Beacons(plugins.Plugin):
             )
             self.broadcast_info(packedInfo, self._packet_type["report"])
         except Exception as e:
-            logging.warn(f"[{self.__class__.__name__}] -> exec_update exception: ")
+            logging.warn(
+                f"[{self.__class__.__name__}] -> exec_update exception: ")
             logging.warn(f"[{self.__class__.__name__}] -> " + str(type(e)))
             logging.warn(f"[{self.__class__.__name__}] -> " + str(e))
         Beacons._busy = False
@@ -140,14 +141,14 @@ class Beacons(plugins.Plugin):
         try:
             i = aps.index(" ")
             ac = int(aps[0:i])
-            at = int(aps[i + 2 : -1])
+            at = int(aps[i + 2: -1])
         except:
             ac = int(aps)
 
         try:
             i = shakes.index(" ")
             pr = int(shakes[0:i])
-            pt = int(shakes[i + 2 : -1])
+            pt = int(shakes[i + 2: -1])
         except:
             pass
 
