@@ -214,7 +214,8 @@ def update(online):
     if not online:  # <-- Define the update local path
         path_upd = "%s/fancygotchi/update" % (FANCY_ROOT)
 
-    logging.warn("%s/fancygotchi.py ====> %s/fancygotchi.py" % (path_upd, FANCY_ROOT))
+    logging.warn("%s/fancygotchi.py ====> %s/fancygotchi.py" %
+                 (path_upd, FANCY_ROOT))
     # replace_file(['/fancygotchi.py'], [path_upd, FANCY_ROOT], False, False, False)
     shutil.copyfile(
         "%s/fancygotchi.py" % (path_upd), "%s/fancygotchi.py" % (FANCY_ROOT)
@@ -238,7 +239,8 @@ def update(online):
             if not name in ["README.md", "readme.md"]:
                 src_file = os.path.join(root, name)
                 logging.warn(src_file)
-                dst_path = "%s/%s" % (FANCY_ROOT, root.split("fancygotchi-main/")[-1])
+                dst_path = "%s/%s" % (FANCY_ROOT,
+                                      root.split("fancygotchi-main/")[-1])
                 dst_file = "%s/%s" % (dst_path, name)
                 logging.warn(dst_file)
                 logging.warn("%s ~~~~>%s" % (src_file, dst_file))
@@ -254,7 +256,8 @@ def update(online):
             # Copy the file to the destination path
             shutil.copyfile(src_file, dst_file)
     if online:
-        logging.warn("removing the update temporary folder: %s" % (path_upd_src))
+        logging.warn("removing the update temporary folder: %s" %
+                     (path_upd_src))
         os.system("rm -R %s" % (path_upd_src))
 
 
@@ -342,13 +345,16 @@ class Fancygotchi(plugins.Plugin):
         check_update(self.__version__)
         update(True)
         replace_file(
-            ["target.txt", "test.txt"], ["/home/pi/", "/home/pi/"], True, False, False
+            ["target.txt", "test.txt"], [
+                "/home/pi/", "/home/pi/"], True, False, False
         )
         check_update(self.__version__)
 
-        dev_backup(FILES_TO_MODIFY, "/home/pi/plugins/fancygotchi/mod/2022-07-10/")
+        dev_backup(FILES_TO_MODIFY,
+                   "/home/pi/plugins/fancygotchi/mod/2022-07-10/")
 
-        subst = ["main.ui = false", "    hell", "    hell", "HELL YEAH", "HELL YEAH!!!"]
+        subst = ["main.ui = false", "    hell",
+                 "    hell", "HELL YEAH", "HELL YEAH!!!"]
         replace("/home/pi/test.txt", "main.ui", subst)
         # Verification to the enabled display
         compatible = 0
@@ -369,7 +375,8 @@ class Fancygotchi(plugins.Plugin):
             logging.info('[FANCYGOTCHI] waveshare 1.44" LCD screen')
         elif ui == "displayhatmini":
             compatible = 1
-            logging.info('[FANCYGOTCHI] pimoroni 2" LCD Display Hat Mini screen')
+            logging.info(
+                '[FANCYGOTCHI] pimoroni 2" LCD Display Hat Mini screen')
         elif ui == "waveshare35lcd":
             compatible = 1
             logging.info('[FANCYGOTCHI] waveshare 3,5" LCD screen')
@@ -378,7 +385,8 @@ class Fancygotchi(plugins.Plugin):
             compatible = 1
             logging.info("[FANCYGOTCHI] Pwnagotchi headless mode")
         else:
-            logging.warn("[FANCYGOTCHI] The screen is not compatible with the plugin")
+            logging.warn(
+                "[FANCYGOTCHI] The screen is not compatible with the plugin")
 
         # If the initial screen isn't compatible the mod will not install
         # logging.info('[FANCYGOTCHI] compatible: %s' % (compatible))

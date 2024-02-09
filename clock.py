@@ -41,7 +41,8 @@ class PwnClock(plugins.Plugin):
             memenable = False
             logging.info(f"[{self.__class__.__name__}] Plugin setup started.")
             config_is_toml = (
-                True if os.path.exists("/etc/pwnagotchi/config.toml") else False
+                True if os.path.exists(
+                    "/etc/pwnagotchi/config.toml") else False
             )
             config_path = (
                 "/etc/pwnagotchi/config.toml"

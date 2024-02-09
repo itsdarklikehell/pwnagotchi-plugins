@@ -57,7 +57,8 @@ class GPS_More(plugins.Plugin):
                 device = d
                 break
             else:
-                logging.debug(f"[{self.__class__.__name__}] unable to find device {d}")
+                logging.debug(
+                    f"[{self.__class__.__name__}] unable to find device {d}")
 
         if device:
             logging.info(
@@ -155,7 +156,8 @@ class GPS_More(plugins.Plugin):
                         f"[{self.__class__.__name__}] not saving GPS. Couldn't find location."
                     )
             except Exception as err:
-                logging.warn(f"[{self.__class__.__name__}] [handshake] %s" % repr(err))
+                logging.warn(
+                    f"[{self.__class__.__name__}] [handshake] %s" % repr(err))
 
     def on_epoch(self, agent, epoch, epoch_data):
         # update during epochs until there is a good lock
@@ -168,7 +170,8 @@ class GPS_More(plugins.Plugin):
             ]
         ):
             info = self._update_coordinates(agent)
-            logging.info(f"[{self.__class__.__name__}] epoch %s" % repr(info["gps"]))
+            logging.info(f"[{self.__class__.__name__}] epoch %s" %
+                         repr(info["gps"]))
 
     def on_bcap_gps_new(self, agent, event):
         try:
@@ -276,7 +279,8 @@ class GPS_More(plugins.Plugin):
                 ui.remove_element("altitude")
                 logging.info(f"[{self.__class__.__name__}] plugin unloaded")
             except Exception:
-                logging.info(f"[{self.__class__.__name__}] plugin ui was not unloaded")
+                logging.info(
+                    f"[{self.__class__.__name__}] plugin ui was not unloaded")
 
             try:
                 if not self.options["keepGPSOn"]:
@@ -314,7 +318,8 @@ if __name__ == "__main__":
 
     from pwnagotchi.bettercap import Client
 
-    agent = Client("localhost", port=8081, username="pwnagotchi", password="pwnagotchi")
+    agent = Client("localhost", port=8081,
+                   username="pwnagotchi", password="pwnagotchi")
 
     sess = agent.session()
 

@@ -146,7 +146,8 @@ class Age(plugins.Plugin):
     def age_checkpoint(self, agent):
         view = agent.view()
         view.set("face", faces.HAPPY)
-        view.set("status", "Wow, I've lived for " + self.calculate_device_age())
+        view.set("status", "Wow, I've lived for " +
+                 self.calculate_device_age())
         view.update(force=True)
 
     def strength_checkpoint(self, agent):

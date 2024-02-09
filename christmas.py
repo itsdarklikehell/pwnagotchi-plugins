@@ -36,7 +36,8 @@ class Christmas(plugins.Plugin):
         try:
             memenable = False
             config_is_toml = (
-                True if os.path.exists("/etc/pwnagotchi/config.toml") else False
+                True if os.path.exists(
+                    "/etc/pwnagotchi/config.toml") else False
             )
             config_path = (
                 "/etc/pwnagotchi/config.toml"

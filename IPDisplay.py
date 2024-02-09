@@ -76,7 +76,8 @@ class IPDisplay(plugins.Plugin):
                 ipaddress.ip_address(netip)
                 ui.set("ip1", f"{current_device}:{netip}")
             except ValueError:
-                logging.debug(f"Invalid IP address found for {current_device}: {netip}")
+                logging.debug(
+                    f"Invalid IP address found for {current_device}: {netip}")
         self.device_index = (self.device_index + 1) % len(self.device_list)
 
     def on_unload(self, ui):

@@ -47,10 +47,12 @@ class Banthex(plugins.Plugin):
         self.ready = False
         self.lock = Lock()
         try:
-            self.report = StatusFile("/root/.banthex_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.banthex_uploads", data_format="json")
         except JSONDecodeError:
             os.remove("/root/.wpa_sec_uploads")
-            self.report = StatusFile("/root/.banthex_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.banthex_uploads", data_format="json")
         self.options = dict()
         self.skip = list()
         logging.debug(f"[{self.__class__.__name__}] plugin init")
@@ -92,7 +94,8 @@ class Banthex(plugins.Plugin):
         if "api_key" not in self.options or (
             "api_key" in self.options and not self.options["api_key"]
         ):
-            logging.error("BANTHEX: API-KEY isn't set. Can't upload to banthex.de")
+            logging.error(
+                "BANTHEX: API-KEY isn't set. Can't upload to banthex.de")
             return
         if "api_url" not in self.options or (
             "api_url" in self.options and not self.options["api_url"]
@@ -131,20 +134,23 @@ class Banthex(plugins.Plugin):
             handshake_paths = remove_whitelisted(
                 handshake_paths, self.options["whitelist"]
             )
-            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - \
+                set(reported) - set(self.skip)
 
             if handshake_new:
                 logging.info(
                     "BANTHEX: Internet connectivity detected. Uploading new handshakes to banthex.de"
                 )
                 for idx, handshake in enumerate(handshake_new):
-                    display.on_uploading(f"banthex.de ({idx + 1}/{len(handshake_new)})")
+                    display.on_uploading(
+                        f"banthex.de ({idx + 1}/{len(handshake_new)})")
 
                     try:
                         self._upload_to_wpasec(handshake)
                         reported.append(handshake)
                         self.report.update(data={"reported": reported})
-                        logging.debug("BANTHEX: Successfully uploaded %s", handshake)
+                        logging.debug(
+                            "BANTHEX: Successfully uploaded %s", handshake)
                     except requests.exceptions.RequestException as req_e:
                         self.skip.append(handshake)
                         logging.debug("BANTHEX: %s", req_e)
@@ -156,9 +162,11 @@ class Banthex(plugins.Plugin):
                 display.on_normal()
 
             if "download_results" in self.options and self.options["download_results"]:
-                cracked_file = os.path.join(handshake_dir, "banthex.cracked.potfile")
+                cracked_file = os.path.join(
+                    handshake_dir, "banthex.cracked.potfile")
                 if os.path.exists(cracked_file):
-                    last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                    last_check = datetime.fromtimestamp(
+                        os.path.getmtime(cracked_file))
                     if (
                         last_check is not None
                         and ((datetime.now() - last_check).seconds / (60 * 60)) < 1

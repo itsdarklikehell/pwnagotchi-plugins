@@ -38,7 +38,8 @@ class Watchdog(plugins.Plugin):
             return
 
         data_keys = ["num_deauths", "num_associations", "num_handshakes"]
-        has_interactions = any([epoch_data[x] for x in data_keys if x in epoch_data])
+        has_interactions = any([epoch_data[x]
+                               for x in data_keys if x in epoch_data])
 
         if has_interactions:
             return

@@ -64,7 +64,8 @@ class HoneyPotPlugin(Plugin):
             LabeledValue(label="Detected Fake APs", position=(125, 85)),
         )
         ui.add_element(
-            "active-fake-aps", LabeledValue(label="Active Fake APs", position=(125, 95))
+            "active-fake-aps", LabeledValue(label="Active Fake APs",
+                                            position=(125, 95))
         )
 
     def on_ui_update(self, ui):

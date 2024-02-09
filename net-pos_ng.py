@@ -50,7 +50,8 @@ class NetPos(plugins.Plugin):
             self.API_URL = self.options["api_url"]
         self.ready = True
         logging.info("net-pos plugin loaded.")
-        logging.debug(f"[{self.__class__.__name__}] use api_url: {self.API_URL}")
+        logging.debug(
+            f"[{self.__class__.__name__}] use api_url: {self.API_URL}")
 
     def _append_saved(self, path):
         to_save = list()
@@ -72,7 +73,8 @@ class NetPos(plugins.Plugin):
             if self.ready:
                 config = agent.config()
                 display = agent.view()
-                reported = self.report.data_field_or("reported", default=list())
+                reported = self.report.data_field_or(
+                    "reported", default=list())
                 handshake_dir = config["bettercap"]["handshakes"]
 
                 all_files = os.listdir(handshake_dir)
@@ -81,7 +83,8 @@ class NetPos(plugins.Plugin):
                     for filename in all_files
                     if filename.endswith(".net-pos.json")
                 ]
-                new_np_files = set(all_np_files) - set(reported) - set(self.skip)
+                new_np_files = set(all_np_files) - \
+                    set(reported) - set(self.skip)
 
                 if new_np_files:
                     logging.debug(
@@ -95,7 +98,8 @@ class NetPos(plugins.Plugin):
                     display.update(force=True)
                     for idx, np_file in enumerate(new_np_files):
 
-                        geo_file = np_file.replace(".net-pos.json", ".geo.json")
+                        geo_file = np_file.replace(
+                            ".net-pos.json", ".geo.json")
                         if os.path.exists(geo_file):
                             # got already the position
                             reported.append(np_file)
@@ -103,7 +107,8 @@ class NetPos(plugins.Plugin):
                             continue
 
                         try:
-                            geo_data = self._get_geo_data(np_file)  # returns json obj
+                            geo_data = self._get_geo_data(
+                                np_file)  # returns json obj
                         except requests.exceptions.RequestException as req_e:
                             logging.error(
                                 f"[{self.__class__.__name__}] %s - RequestException: %s",

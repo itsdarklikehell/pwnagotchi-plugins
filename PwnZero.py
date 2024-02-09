@@ -167,7 +167,8 @@ class PwnZero(plugins.Plugin):
         return self._send_data(PwnZeroParam.MODE.value, [mode.value])
 
     def set_handshakes(self, handshakesCurrent: int, handshakesTotal: int) -> bool:
-        data = self._str_to_bytes("{} ({})".format(handshakesCurrent, handshakesTotal))
+        data = self._str_to_bytes("{} ({})".format(
+            handshakesCurrent, handshakesTotal))
         return self._send_data(PwnZeroParam.HANDSHAKES.value, data)
 
     def set_message(self, message: str) -> bool:
@@ -203,7 +204,8 @@ class PwnZero(plugins.Plugin):
         # Uptime
         uptime = ui.get("uptime")
         uptimeSplit = uptime.split(":")
-        self.set_uptime(int(uptimeSplit[0]), int(uptimeSplit[1]), int(uptimeSplit[2]))
+        self.set_uptime(int(uptimeSplit[0]), int(
+            uptimeSplit[1]), int(uptimeSplit[2]))
 
         # APS
         aps = ui.get("aps")
@@ -272,7 +274,8 @@ class PwnZero(plugins.Plugin):
         handshakes = ui.get("shakes")
 
         shakesCurr = handshakes.split(" ")[0]
-        shakesTotal = handshakes.split(" ")[1].replace(")", "").replace("(", "")
+        shakesTotal = handshakes.split(
+            " ")[1].replace(")", "").replace("(", "")
 
     def on_unload(self, ui):
         with ui._lock:

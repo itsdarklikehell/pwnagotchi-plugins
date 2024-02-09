@@ -53,7 +53,8 @@ class OnlineHashCrack(plugins.Plugin):
             return
 
         self.ready = True
-        logging.info(f"[{self.__class__.__name__}] OnlineHashCrack plugin loaded.")
+        logging.info(
+            f"[{self.__class__.__name__}] OnlineHashCrack plugin loaded.")
 
     def _upload_to_ohc(self, path, timeout=30):
         """
@@ -133,7 +134,8 @@ class OnlineHashCrack(plugins.Plugin):
             handshake_paths = remove_whitelisted(
                 handshake_paths, config["main"]["whitelist"]
             )
-            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - \
+                set(reported) - set(self.skip)
             if handshake_new:
                 logging.info(
                     f"[{self.__class__.__name__}] Internet connectivity detected. Uploading new handshakes to onlinehashcrack.com"
@@ -163,9 +165,11 @@ class OnlineHashCrack(plugins.Plugin):
                 display.on_normal()
 
             if "dashboard" in self.options and self.options["dashboard"]:
-                cracked_file = os.path.join(handshake_dir, "onlinehashcrack.cracked")
+                cracked_file = os.path.join(
+                    handshake_dir, "onlinehashcrack.cracked")
                 if os.path.exists(cracked_file):
-                    last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                    last_check = datetime.fromtimestamp(
+                        os.path.getmtime(cracked_file))
                     if (
                         last_check is not None
                         and ((datetime.now() - last_check).seconds / (60 * 60)) < 1
@@ -190,7 +194,8 @@ class OnlineHashCrack(plugins.Plugin):
                                     + row["BSSID"].replace(":", "")
                                 )
                                 if os.path.exists(
-                                    os.path.join(handshake_dir, filename + ".pcap")
+                                    os.path.join(
+                                        handshake_dir, filename + ".pcap")
                                 ):
                                     with open(
                                         os.path.join(

@@ -66,7 +66,8 @@ class fancyserver(plugins.Plugin):
                             pwnagotchi.reboot("manual")
 
                         elif msg == "plugin":
-                            logging.warn("plugin command " + name + " " + state)
+                            logging.warn("plugin command " +
+                                         name + " " + state)
                             if state == "True":
                                 is_change = toggle_plugin(name, enable=True)
                                 # logging.warn('enable: '+is_change)

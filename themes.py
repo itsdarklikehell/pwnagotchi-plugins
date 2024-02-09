@@ -116,7 +116,8 @@ class Themes(plugins.Plugin):
                 r.headers["Content-Disposition"] = response_header_contentdisposition
             return r
         except Exception as error:
-            logging.error(f"[Themes] on_webhook CREATING_RESPONSE error: {error}")
+            logging.error(
+                f"[Themes] on_webhook CREATING_RESPONSE error: {error}")
             return
 
     def get_html(self):
@@ -125,7 +126,8 @@ class Themes(plugins.Plugin):
         """
         try:
             template_file = (
-                os.path.dirname(os.path.realpath(__file__)) + "/" + "themes.html"
+                os.path.dirname(os.path.realpath(__file__)) +
+                "/" + "themes.html"
             )
             html_data = open(template_file, "r").read()
         except Exception as error:

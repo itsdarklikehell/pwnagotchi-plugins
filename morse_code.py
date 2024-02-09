@@ -218,7 +218,8 @@ class MorseCode(plugins.Plugin):
             self._keep_going = True
             _thread.start_new_thread(self._worker, ())
             self._queue_message("loaded")
-            self.logger.info("[Morse Code] plugin loaded for %s" % self._led_file)
+            self.logger.info(
+                "[Morse Code] plugin loaded for %s" % self._led_file)
         except Exception as err:
             self.logger.warn("[Morse Code] loading: %s" % repr(err))
 

@@ -134,7 +134,8 @@ class Beaconify(plugins.Plugin):
         )
         if peer.identity() == self.identity:
             self.found_self = True
-            logging.info(f"[{self.__class__.__name__}] Hey! I can hear my own echoes!.")
+            logging.info(
+                f"[{self.__class__.__name__}] Hey! I can hear my own echoes!.")
 
     def on_wait(self, agent, t):
         # Start sending beacons for t seconds
@@ -196,7 +197,8 @@ class Beaconify(plugins.Plugin):
 
         if self.signature is not None:
             layers.append(
-                self.info_element(Beaconify.ID_WHISPER_SIGNATURE, self.signature)
+                self.info_element(
+                    Beaconify.ID_WHISPER_SIGNATURE, self.signature)
             )
 
         if self.stream_id > 0:
@@ -204,7 +206,8 @@ class Beaconify(plugins.Plugin):
                 "<QQQ", self.stream_id, self.seq_num, self.seq_tot
             )
             layers.append(
-                self.info_element(Beaconify.ID_WHISPER_STREAM_HEADER, stream_header)
+                self.info_element(
+                    Beaconify.ID_WHISPER_STREAM_HEADER, stream_header)
             )
 
         # Compress if needed
@@ -216,8 +219,9 @@ class Beaconify(plugins.Plugin):
         # Add payload in chunks
         chunk_size = 0xFF
         for i in range(0, len(payload), chunk_size):
-            chunk = payload[i : i + chunk_size]
-            layers.append(self.info_element(Beaconify.ID_WHISPER_PAYLOAD, chunk))
+            chunk = payload[i: i + chunk_size]
+            layers.append(self.info_element(
+                Beaconify.ID_WHISPER_PAYLOAD, chunk))
 
         # Combine all layers into a single packet
         packet = layers[0]

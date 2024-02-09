@@ -49,7 +49,8 @@ class WeatherForecast(plugins.Plugin):
         )
         with open(config_path) as f:
             data = (
-                toml.load(f) if config_is_toml else yaml.load(f, Loader=yaml.FullLoader)
+                toml.load(f) if config_is_toml else yaml.load(
+                    f, Loader=yaml.FullLoader)
             )
 
         # add a LabeledValue element to the UI with the given label and value

@@ -196,4 +196,5 @@ class Switcher(plugins.Plugin):
         for m in methods:
             setattr(Switcher, "on_%s" % m, partial(self.trigger, m))
 
-        logging.debug(f"[{self.__class__.__name__}] triggers are ready to fire...")
+        logging.debug(
+            f"[{self.__class__.__name__}] triggers are ready to fire...")

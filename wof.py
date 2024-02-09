@@ -417,10 +417,12 @@ class WofBridge:
     def get_update(self):
         update = {"online": [], "offline": [], "running": False}
 
-        update["running"] = os.system("systemctl is-active --quiet wof.service") == 0
+        update["running"] = os.system(
+            "systemctl is-active --quiet wof.service") == 0
 
         flippers = self.__load_data()
-        flippers.sort(key=lambda flipper: flipper["unixLastSeen"], reverse=True)
+        flippers.sort(
+            key=lambda flipper: flipper["unixLastSeen"], reverse=True)
         for flipper in flippers:
             # new discovered flippers
             if (
@@ -539,9 +541,11 @@ class WofPlugin(plugins.Plugin):
 
         if len(new_flippers) > 0:
             if len(new_flippers) == 1:
-                ui.set("status", f'Ooh, just met flipper {new_flippers[0]["Name"]}')
+                ui.set(
+                    "status", f'Ooh, just met flipper {new_flippers[0]["Name"]}')
             else:
-                ui.set("status", f"Yooh, just met {len(new_flippers)} flippers")
+                ui.set(
+                    "status", f"Yooh, just met {len(new_flippers)} flippers")
 
         if len(flippers["online"]) == 0:
             ui.set(

@@ -55,7 +55,8 @@ class BetterQuickDic(plugins.Plugin):
         if check != "aircrack-ng <none>":
             logging.info(f"[{self.__class__.__name__}] Found %s" % check)
         else:
-            logging.warn(f"[{self.__class__.__name__}] aircrack-ng is not installed!")
+            logging.warn(
+                f"[{self.__class__.__name__}] aircrack-ng is not installed!")
 
         # if self.options['id'] != None and self.options['api'] != None:
         # self._send_message(filename='Android AP', pwd='12345678')

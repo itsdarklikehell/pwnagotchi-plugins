@@ -68,7 +68,8 @@ def _transform_wigle_entry(gps_data, pcap_data, plugin_version):
         "MAC,SSID,AuthMode,FirstSeen,Channel,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,Type\n"
     )
 
-    writer = csv.writer(dummy, delimiter=",", quoting=csv.QUOTE_NONE, escapechar="\\")
+    writer = csv.writer(dummy, delimiter=",",
+                        quoting=csv.QUOTE_NONE, escapechar="\\")
     writer.writerow(
         [
             pcap_data[WifiInfo.BSSID],
@@ -101,7 +102,8 @@ def _send_to_wigle(lines, api_key, donate=True, timeout=30):
 
     dummy.seek(0)
 
-    headers = {"Authorization": f"Basic {api_key}", "Accept": "application/json"}
+    headers = {"Authorization": f"Basic {api_key}",
+               "Accept": "application/json"}
     data = {"donate": "on" if donate else "false"}
     payload = {
         "file": (
@@ -183,7 +185,8 @@ class Wigle(plugins.Plugin):
             if filename.endswith(".gps.json") or filename.endswith(".geo.json")
         ]
 
-        all_gps_files = remove_whitelisted(all_gps_files, config["main"]["whitelist"])
+        all_gps_files = remove_whitelisted(
+            all_gps_files, config["main"]["whitelist"])
         new_gps_files = set(all_gps_files) - set(reported) - set(self.skip)
         if new_gps_files:
             logging.info(

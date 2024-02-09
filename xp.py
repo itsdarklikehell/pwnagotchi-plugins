@@ -272,7 +272,8 @@ class XP(plugins.Plugin):
     def _update_xp(self, event, multiplier=1):
         if event in EVENTS_XP:
             if not self.ready:
-                logging.warn(f"[{self.__class__.__name__}] Plugin not ready yet!")
+                logging.warn(
+                    f"[{self.__class__.__name__}] Plugin not ready yet!")
                 return False
 
             xp = EVENTS_XP[event] * multiplier
@@ -347,7 +348,8 @@ class XP(plugins.Plugin):
                     int(i) for i in opts["level_position"].split(",")
                 ]
             if opts["rank_position"] and len(opts["rank_position"].split(",")) == 2:
-                self.rank_position = [int(i) for i in opts["rank_position"].split(",")]
+                self.rank_position = [int(i)
+                                      for i in opts["rank_position"].split(",")]
             if (
                 opts["progressbar_position"]
                 and len(opts["progressbar_position"].split(",")) == 4
@@ -435,7 +437,8 @@ class XP(plugins.Plugin):
                         color=BLACK,
                         label="lvl",
                         value=str(self.level),
-                        position=(self.level_position[0], self.level_position[1]),
+                        position=(
+                            self.level_position[0], self.level_position[1]),
                         label_font=fonts.BoldSmall,
                         text_font=fonts.Small,
                     ),
@@ -446,7 +449,8 @@ class XP(plugins.Plugin):
                     Text(
                         color=BLACK,
                         value=str(self.rank),
-                        position=(self.rank_position[0], self.rank_position[1]),
+                        position=(
+                            self.rank_position[0], self.rank_position[1]),
                         font=fonts.Small,
                     ),
                 )
@@ -470,7 +474,8 @@ class XP(plugins.Plugin):
                 ui.add_element(
                     "progress",
                     FilledRect(
-                        color=BLACK, xy=self._progress(self.progressbar_position)
+                        color=BLACK, xy=self._progress(
+                            self.progressbar_position)
                     ),
                 )
         except Exception as e:

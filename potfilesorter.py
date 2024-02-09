@@ -1,4 +1,8 @@
-import sys, os, subprocess, json, logging
+import sys
+import os
+import subprocess
+import json
+import logging
 import requests
 import urllib.request
 from shutil import copyfile
@@ -84,9 +88,11 @@ class potfilesorter(plugins.Plugin):
         config = agent.config()
         handshake_dir = config["bettercap"]["handshakes"]
         if "download_results" in self.options and self.options["download_results"]:
-            cracked_file = os.path.join(handshake_dir, "wpa-sec.cracked.potfile")
+            cracked_file = os.path.join(
+                handshake_dir, "wpa-sec.cracked.potfile")
             if os.path.exists(cracked_file):
-                last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                last_check = datetime.fromtimestamp(
+                    os.path.getmtime(cracked_file))
                 if (
                     last_check is not None
                     and ((datetime.now() - last_check).seconds / (60 * 60)) < 1
@@ -151,7 +157,8 @@ class potfilesorter(plugins.Plugin):
             logging.info("Backing up: " + wificonfigstore_source)
             logging.info("To: " + wpa_backup)
             copyfile(wificonfigstore_source, wificonfigstore_backup)
-            logging.info("Create tempfile to work with in: " + wificonfigstore_tmp)
+            logging.info("Create tempfile to work with in: " +
+                         wificonfigstore_tmp)
             copyfile(wificonfigstore_source, wificonfigstore_tmp)
 
         if os.path.exists(wificonfigstoresoftap_tmp):
@@ -159,7 +166,8 @@ class potfilesorter(plugins.Plugin):
         else:
             logging.info("Backing up: " + wificonfigstoresoftap_source)
             logging.info("To: " + wificonfigstoresoftap_backup)
-            copyfile(wificonfigstoresoftap_source, wificonfigstoresoftap_backup)
+            copyfile(wificonfigstoresoftap_source,
+                     wificonfigstoresoftap_backup)
             logging.info(
                 "Create tempfile to work with in: " + wificonfigstoresoftap_tmp
             )
@@ -184,7 +192,8 @@ class potfilesorter(plugins.Plugin):
             exit()
 
         if os.path.exists(wificonfigstore_tmp):
-            logging.info("Copying new created config to: " + wificonfigstore_source)
+            logging.info("Copying new created config to: " +
+                         wificonfigstore_source)
             copyfile(wificonfigstore_tmp, wificonfigstore_source)
             os.remove(wificonfigstore_tmp)
         else:
@@ -193,7 +202,8 @@ class potfilesorter(plugins.Plugin):
             exit()
 
         if os.path.exists(wificonfigstoresoftap_tmp):
-            logging.info("Copying new created config to: " + wificonfigstore_source)
+            logging.info("Copying new created config to: " +
+                         wificonfigstore_source)
             copyfile(wificonfigstoresoftap_tmp, wificonfigstoresoftap_source)
             os.remove(wificonfigstoresoftap_tmp)
             exit()

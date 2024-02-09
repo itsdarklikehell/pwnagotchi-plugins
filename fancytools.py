@@ -94,7 +94,8 @@ def serializer(obj):
 def copy_with_backup(src_path, dest_path):
     # Check if the source file exists
     if not os.path.exists(src_path):
-        raise FileNotFoundError(f"The source file '{src_path}' does not exist.")
+        raise FileNotFoundError(
+            f"The source file '{src_path}' does not exist.")
 
     # Check if the destination directory exists, create it if not
     dest_dir = os.path.dirname(dest_path)
@@ -120,7 +121,8 @@ def copy_with_backup(src_path, dest_path):
 def delete_restore(dest_path):
     # Check if the destination file exists
     if not os.path.exists(dest_path):
-        raise FileNotFoundError(f"The destination file '{dest_path}' does not exist.")
+        raise FileNotFoundError(
+            f"The destination file '{dest_path}' does not exist.")
 
     # Check if a backup file with .original extension exists
     backup_path = dest_path + ".original"
@@ -172,7 +174,8 @@ def install(config):
     name = config["info"]["name"]
 
     logging.info(
-        f"[{self.__class__.__name__}] starting " + config["info"]["name"] + " install"
+        f"[{self.__class__.__name__}] starting " +
+        config["info"]["name"] + " install"
     )
     if not config["files"].get("pwnagotchi") and not config["files"].get("system"):
         logging.debug("No install files")
@@ -221,11 +224,13 @@ def uninstall(config):
     if name == "fancygotchi":
         logging.debug("rm %s/%s" % (ROOT_PATH, "ui/web/static/img"))
         os.system("rm %s/%s" % (ROOT_PATH, "ui/web/static/img"))
-        logging.debug("load config: %s/%s" % (ROOT_PATH, "ui/theme/config.toml"))
+        logging.debug("load config: %s/%s" %
+                      (ROOT_PATH, "ui/theme/config.toml"))
         config = load_config("%s/%s" % (ROOT_PATH, "ui/themes/config.toml"))
 
     logging.info(
-        f"[{self.__class__.__name__}] starting " + config["info"]["name"] + " install"
+        f"[{self.__class__.__name__}] starting " +
+        config["info"]["name"] + " install"
     )
 
     logging.info("uninstall function start")
@@ -299,7 +304,8 @@ def check_update(vers, path, online):
 
 
 def update(online):
-    logging.info("[FANCYGOTCHI] The updater is starting, is online: %s" % (online))
+    logging.info(
+        "[FANCYGOTCHI] The updater is starting, is online: %s" % (online))
     path_upd = "%s/fancygotchi/update" % (FANCY_ROOT)
     if online:  # <-- Download from the Git & define the update path
         URL = "https://github.com/V0r-T3x/fancygotchi/archive/refs/heads/main.zip"
@@ -335,9 +341,11 @@ def update(online):
         for name in files:
             if not name in ["README.md", "readme.md"]:
                 src_file = os.path.join(root, name)
-                dst_path = "%s/%s" % (FANCY_ROOT, root.split("fancygotchi-main/")[-1])
+                dst_path = "%s/%s" % (FANCY_ROOT,
+                                      root.split("fancygotchi-main/")[-1])
                 dst_file = "%s/%s" % (dst_path, name)
-                logging.info("[FANCYGOTCHI] %s ~~~~> %s" % (src_file, dst_file))
+                logging.info("[FANCYGOTCHI] %s ~~~~> %s" %
+                             (src_file, dst_file))
 
                 if not os.path.exists(dst_path):
                     os.makedirs(dst_path)
@@ -352,7 +360,8 @@ def update(online):
     if online:
         path_upd = "%s/fancytools/update" % (FANCY_ROOT)
         logging.info(
-            "[FANCYGOTCHI] removing the update temporary folder: %s" % (path_upd)
+            "[FANCYGOTCHI] removing the update temporary folder: %s" % (
+                path_upd)
         )
         os.system("rm -R %s" % (path_upd))
 
@@ -489,8 +498,10 @@ def srv_stop(services):
 
 def verify_fancygotchi_status(config):
     logging.debug(config["fancygotchi"]["info"]["__version__"])
-    missing_files, total_files = verify_config_files(config["fancygotchi"]["files"])
-    logging.debug("missing files: " + str(len(missing_files)) + "/" + str(total_files))
+    missing_files, total_files = verify_config_files(
+        config["fancygotchi"]["files"])
+    logging.debug("missing files: " + str(len(missing_files)) +
+                  "/" + str(total_files))
     missing_backup, total_files = verify_config_files(
         config["fancygotchi"]["files"],
         ".original",
@@ -502,7 +513,8 @@ def verify_fancygotchi_status(config):
     fancy_status = 0
 
     if len(missing_files) == total_files:
-        logging.info(f"[{self.__class__.__name__}] Fancygotchi is not installed")
+        logging.info(
+            f"[{self.__class__.__name__}] Fancygotchi is not installed")
         fancy_status = 0
     elif len(missing_files) == 0 and len(missing_backup) == total_files:
         logging.info(
@@ -510,7 +522,8 @@ def verify_fancygotchi_status(config):
         )
         fancy_status = 1
     elif len(missing_files) == 0 and len(missing_backup) != total_files:
-        logging.info(f"[{self.__class__.__name__}] Fancygotchi is installed manually")
+        logging.info(
+            f"[{self.__class__.__name__}] Fancygotchi is installed manually")
         fancy_status = 2
     # logging.debug(str(fancy_status))
     return fancy_status
@@ -528,7 +541,8 @@ def verify_tool_status(config):
 
     missing_files, total = verify_config_files(files)
     logging.debug(
-        "[FANCYTOOLS] missing files: " + str(len(missing_files)) + "/" + str(total)
+        "[FANCYTOOLS] missing files: " +
+        str(len(missing_files)) + "/" + str(total)
     )
 
     if subp:
@@ -666,14 +680,16 @@ class Fancytools(plugins.Plugin):
                 else:
                     is_installed = 0
             else:
-                is_installed, is_embed = verify_tool_status(self.deftools[tool])
+                is_installed, is_embed = verify_tool_status(
+                    self.deftools[tool])
                 self.deftools[tool]["info"]["is_embedded"] = is_embed
 
             # adding the is_installed to the deftools[tool]['info']['installed']
             if is_installed == 0:
                 logging.info(f"[{self.__class__.__name__}] tool need install")
             else:
-                logging.info(f"[{self.__class__.__name__}] tool don't need install")
+                logging.info(
+                    f"[{self.__class__.__name__}] tool don't need install")
             self.deftools[tool]["info"]["is_installed"] = is_installed
             logging.debug(tool + " : " + str(self.deftools[tool]["services"]))
             logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
@@ -682,7 +698,8 @@ class Fancytools(plugins.Plugin):
         logging.info(f"[{self.__class__.__name__}]" + "=" * 20)
         for tool in self.custools:
             with open(
-                "%s/fancytools/tools/default/%s/frontend.html" % (FANCY_ROOT, tool), "r"
+                "%s/fancytools/tools/default/%s/frontend.html" % (
+                    FANCY_ROOT, tool), "r"
             ) as file:
                 html_contents = file.read()
             self.deftools[tool]["info"]["html"] = html_contents
@@ -695,7 +712,8 @@ class Fancytools(plugins.Plugin):
             if is_installed == 0:
                 logging.info(f"[{self.__class__.__name__}] tool need install")
             else:
-                logging.info(f"[{self.__class__.__name__}] tool don't need install")
+                logging.info(
+                    f"[{self.__class__.__name__}] tool don't need install")
             self.deftools[tool]["info"]["is_installed"] = is_installed
             logging.debug(
                 tool + " : " + str(self.custools[tool]["info"]["is_installed"])
@@ -847,7 +865,8 @@ class Fancytools(plugins.Plugin):
                         return
                     else:
                         logging.debug(ckpath)
-                    is_update = check_update(installed_version, ckpath, data["online"])
+                    is_update = check_update(
+                        installed_version, ckpath, data["online"])
                     upd = "%s,%s" % (is_update[0], is_update[1])
                     return upd
                 except Exception as ex:

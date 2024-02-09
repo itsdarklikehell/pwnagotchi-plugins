@@ -15,7 +15,8 @@ from pwnagotchi.utils import StatusFile, parse_version as version_to_tuple
 
 
 def check(version, repo, native=True):
-    logging.debug("checking remote version for %s, local is %s" % (repo, version))
+    logging.debug("checking remote version for %s, local is %s" %
+                  (repo, version))
     info = {
         "repo": repo,
         "current": version,
@@ -25,7 +26,8 @@ def check(version, repo, native=True):
         "arch": platform.machine(),
     }
 
-    resp = requests.get("https://api.github.com/repos/%s/releases/latest" % repo)
+    resp = requests.get(
+        "https://api.github.com/repos/%s/releases/latest" % repo)
     latest = resp.json()
     info["available"] = latest_ver = latest["tag_name"].replace("v", "")
     is_arm64 = info["arch"].startswith("aarch")
@@ -72,17 +74,20 @@ def download_and_unzip(name, path, display, update):
     )
     display.update(
         force=True,
-        new_data={"status": "Downloading %s %s ..." % (name, update["available"])},
+        new_data={"status": "Downloading %s %s ..." %
+                  (name, update["available"])},
     )
 
     os.system('wget -q "%s" -O "%s"' % (update["url"], target_path))
 
     logging.info(
-        f"[{self.__class__.__name__}] extracting %s to %s ..." % (target_path, path)
+        f"[{self.__class__.__name__}] extracting %s to %s ..." % (
+            target_path, path)
     )
     display.update(
         force=True,
-        new_data={"status": "Extracting %s %s ..." % (name, update["available"])},
+        new_data={"status": "Extracting %s %s ..." %
+                  (name, update["available"])},
     )
 
     os.system('unzip "%s" -d "%s"' % (target_path, path))
@@ -91,7 +96,8 @@ def download_and_unzip(name, path, display, update):
 def verify(name, path, source_path, display, update):
     display.update(
         force=True,
-        new_data={"status": "Verifying %s %s ..." % (name, update["available"])},
+        new_data={"status": "Verifying %s %s ..." %
+                  (name, update["available"])},
     )
 
     checksums = glob.glob("%s/*.sha256" % path)
@@ -145,7 +151,8 @@ def install(display, update):
     logging.info(f"[{self.__class__.__name__}] installing %s ..." % name)
     display.update(
         force=True,
-        new_data={"status": "Installing %s %s ..." % (name, update["available"])},
+        new_data={"status": "Installing %s %s ..." %
+                  (name, update["available"])},
     )
 
     if update["native"]:
@@ -156,7 +163,8 @@ def install(display, update):
             )
             return False
 
-        logging.info(f"[{self.__class__.__name__}] stopping %s ..." % update["service"])
+        logging.info(
+            f"[{self.__class__.__name__}] stopping %s ..." % update["service"])
         os.system("service %s stop" % update["service"])
         shutil.move(source_path, dest_path)
         os.chmod("/usr/local/bin/%s" % name, 0o755)
@@ -169,7 +177,8 @@ def install(display, update):
             source_path = "%s-%s" % (source_path, update["available"])
 
         # setup.py is going to install data files for us
-        os.system("cd %s && pip3 install . --break-system-packages" % source_path)
+        os.system("cd %s && pip3 install . --break-system-packages" %
+                  source_path)
     return True
 
 
@@ -179,7 +188,8 @@ def parse_version(cmd):
         part = part.replace("v", "").strip()
         if re.search(r"^\d+\.\d+\.\d+.*$", part):
             return part
-    raise Exception('could not parse version from "%s": output=\n%s' % (cmd, out))
+    raise Exception(
+        'could not parse version from "%s": output=\n%s' % (cmd, out))
 
 
 class AutoUpdate(plugins.Plugin):
@@ -234,7 +244,8 @@ class AutoUpdate(plugins.Plugin):
                 )
                 return
 
-            logging.info(f"[{self.__class__.__name__}] checking for updates ...")
+            logging.info(
+                f"[{self.__class__.__name__}] checking for updates ...")
 
             display = agent.view()
             prev_status = display.get("status")
@@ -297,7 +308,8 @@ class AutoUpdate(plugins.Plugin):
                 self.status.update()
 
                 if num_installed > 0:
-                    display.update(force=True, new_data={"status": "Rebooting ..."})
+                    display.update(force=True, new_data={
+                                   "status": "Rebooting ..."})
                     time.sleep(3)
                     os.system("service pwnagotchi restart")
 
@@ -306,5 +318,6 @@ class AutoUpdate(plugins.Plugin):
 
             display.update(
                 force=True,
-                new_data={"status": prev_status if prev_status is not None else ""},
+                new_data={
+                    "status": prev_status if prev_status is not None else ""},
             )

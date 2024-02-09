@@ -65,14 +65,16 @@ class lcdhatcontrols(plugins.Plugin):
                     last_press_times[0] = current_time
                     if button_states[1]:
                         logging.info("Rebooting (auto)")
-                        subprocess.run(["sudo", "touch", "/root/.pwnagotchi-auto"])
+                        subprocess.run(
+                            ["sudo", "touch", "/root/.pwnagotchi-auto"])
                         subprocess.run(["sudo", "reboot"])
                     elif button_states[2]:
                         logging.info("Shutting down")
                         subprocess.run(["sudo", "shutdown", "-h", "now"])
                     elif button_states[3]:
                         logging.info("Resetting service (auto)")
-                        subprocess.run(["sudo", "touch", "/root/.pwnagotchi-auto"])
+                        subprocess.run(
+                            ["sudo", "touch", "/root/.pwnagotchi-auto"])
                         subprocess.run(
                             ["sudo", "systemctl", "restart", "pwnagotchi.service"]
                         )

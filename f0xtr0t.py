@@ -128,17 +128,20 @@ class f0xtr0t(plugins.Plugin):
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[f0xtr0t] on_webhook all error: {error}")
+                        logging.error(
+                            f"[f0xtr0t] on_webhook all error: {error}")
                         return
                 elif path.startswith("pawgps"):
                     try:
-                        response = requests.get("http://192.168.44.1:8080/gps.xhtml")
+                        response = requests.get(
+                            "http://192.168.44.1:8080/gps.xhtml")
                         response_data = json.dumps(response.json())
                         response_status = 200
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[f0xtr0t] Error checking for update: {error}")
+                        logging.error(
+                            f"[f0xtr0t] Error checking for update: {error}")
                         return
                 elif path.startswith("hostname"):
                     logging.info(f"[f0xtr0t] Hostname: {socket.gethostname()}")
@@ -161,7 +164,8 @@ class f0xtr0t(plugins.Plugin):
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[f0xtr0t] Error getting version: {error}")
+                        logging.error(
+                            f"[f0xtr0t] Error getting version: {error}")
                         return
                 elif path.startswith("checkupdate"):
                     logging.info(f"[f0xtr0t] Checking for new version...")
@@ -177,7 +181,8 @@ class f0xtr0t(plugins.Plugin):
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[f0xtr0t] Error checking for update: {error}")
+                        logging.error(
+                            f"[f0xtr0t] Error checking for update: {error}")
                         return
                 elif path.startswith("executeupdate"):
                     logging.info("[f0xtr0t] Executing update...")
@@ -201,7 +206,8 @@ class f0xtr0t(plugins.Plugin):
                                     # copy file (taken from zipfile's extract)
                                     source = zip_file.open(member)
                                     target = open(
-                                        os.path.join(plugin_dir, filename), "wb"
+                                        os.path.join(
+                                            plugin_dir, filename), "wb"
                                     )
                                     with source, target:
                                         shutil.copyfileobj(source, target)
@@ -211,7 +217,8 @@ class f0xtr0t(plugins.Plugin):
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[f0xtr0t] Error executing update: {error}")
+                        logging.error(
+                            f"[f0xtr0t] Error executing update: {error}")
                         return
                 elif path.startswith("all"):
                     # returns all positions
@@ -229,7 +236,8 @@ class f0xtr0t(plugins.Plugin):
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[f0xtr0t] on_webhook all error: {error}")
+                        logging.error(
+                            f"[f0xtr0t] on_webhook all error: {error}")
                         return
                 elif path.startswith("offlinemap"):
                     # for download an all-in-one html file with positions.json inside
@@ -303,7 +311,8 @@ class f0xtr0t(plugins.Plugin):
                 r.headers["Content-Disposition"] = response_header_contentdisposition
             return r
         except Exception as error:
-            logging.error(f"[f0xtr0t] on_webhook CREATING_RESPONSE error: {error}")
+            logging.error(
+                f"[f0xtr0t] on_webhook CREATING_RESPONSE error: {error}")
             return
 
     # cache 2048 items
@@ -359,7 +368,8 @@ class f0xtr0t(plugins.Plugin):
         #    all_geo_or_gps_files = set(all_geo_or_gps_files) - set(SKIP)   # remove skipped networks? No!
 
         if newest_only:
-            all_geo_or_gps_files = set(all_geo_or_gps_files) - set(self.ALREADY_SENT)
+            all_geo_or_gps_files = set(
+                all_geo_or_gps_files) - set(self.ALREADY_SENT)
 
         logging.info(
             f"[f0xtr0t] Found {len(all_geo_or_gps_files)} position-data files from {len(all_pcap_files)} handshakes. Fetching positions ..."
@@ -399,7 +409,8 @@ class f0xtr0t(plugins.Plugin):
                 }
 
                 # get ap password if exist
-                check_for = os.path.basename(pos_file).split(".")[0] + ".pcap.cracked"
+                check_for = os.path.basename(pos_file).split(".")[
+                    0] + ".pcap.cracked"
                 if check_for in all_files:
                     gps_data[ssid + "_" + mac]["pass"] = pos.password()
 
@@ -412,11 +423,13 @@ class f0xtr0t(plugins.Plugin):
                 continue
             except ValueError as error:
                 self.SKIP += pos_file
-                logging.error(f"[f0xtr0t] ValueError: {pos_file} - error: {error}")
+                logging.error(
+                    f"[f0xtr0t] ValueError: {pos_file} - error: {error}")
                 continue
             except OSError as error:
                 self.SKIP += pos_file
-                logging.error(f"[f0xtr0t] OSError: {pos_file} - error: {error}")
+                logging.error(
+                    f"[f0xtr0t] OSError: {pos_file} - error: {error}")
                 continue
         logging.info(f"[f0xtr0t] loaded {len(gps_data)} positions")
         return gps_data
@@ -427,7 +440,8 @@ class f0xtr0t(plugins.Plugin):
         """
         try:
             template_file = (
-                os.path.dirname(os.path.realpath(__file__)) + "/" + "f0xtr0t.html"
+                os.path.dirname(os.path.realpath(__file__)) +
+                "/" + "f0xtr0t.html"
             )
             html_data = open(template_file, "r").read()
         except Exception as error:

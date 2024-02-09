@@ -57,7 +57,8 @@ class RTCGrid(plugins.Plugin):
         librt = ctypes.CDLL(ctypes.util.find_library("rt"))
 
         ts = timespec()
-        ts.tv_sec = int(time.mktime(datetime.datetime(*time_tuple[:6]).timetuple()))
+        ts.tv_sec = int(time.mktime(
+            datetime.datetime(*time_tuple[:6]).timetuple()))
         ts.tv_nsec = time_tuple[6] * 1000000
 
         # http://linux.die.net/man/3/clock_settime

@@ -168,7 +168,8 @@ class UPSC(plugins.Plugin):
                 "[ups_hat_c] Empty battery (<= %s%%): shutting down"
                 % self.options["shutdown"]
             )
-            ui.update(force=True, new_data={"status": "Battery exhausted, bye ..."})
+            ui.update(force=True, new_data={
+                      "status": "Battery exhausted, bye ..."})
             time.sleep(3)
             pwnagotchi.shutdown()
 

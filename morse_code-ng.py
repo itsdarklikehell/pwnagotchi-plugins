@@ -140,7 +140,8 @@ class MorseCodeNG(plugins.Plugin):
         if not self._is_busy:
             self._message = message
             self._event.set()
-            self.logger.debug(f"[{self.__class__.__name__}] message '%s' set", message)
+            self.logger.debug(
+                f"[{self.__class__.__name__}] message '%s' set", message)
         else:
             self.logger.debug(
                 f"[{self.__class__.__name__}] skipping '%s' because the worker is busy",
@@ -178,14 +179,16 @@ class MorseCodeNG(plugins.Plugin):
                 self._blink(self._message)
                 self.logger.debug(f"[{self.__class__.__name__}] blinked")
             except Exception as e:
-                self.logger.warn(f"[{self.__class__.__name__}] error while blinking")
+                self.logger.warn(
+                    f"[{self.__class__.__name__}] error while blinking")
 
             finally:
                 self._is_busy = False
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.logger.debug(f"[{self.__class__.__name__}] Code plugin initializing")
+        self.logger.debug(
+            f"[{self.__class__.__name__}] Code plugin initializing")
         self._is_busy = False
         self._keep_going = True
         self._event = Event()
@@ -194,7 +197,8 @@ class MorseCodeNG(plugins.Plugin):
         self._delay = 200
 
     def on_webhook(self, path, request):
-        self.logger.info(f"[{self.__class__.__name__}] Web hook: %s" % repr(request))
+        self.logger.info(
+            f"[{self.__class__.__name__}] Web hook: %s" % repr(request))
         return "<html><body>Woohoo!</body></html>"
 
     # called when the plugin is loaded
@@ -223,7 +227,8 @@ class MorseCodeNG(plugins.Plugin):
             self._keep_going = True
             _thread.start_new_thread(self._worker, ())
             self._queue_message("loaded")
-            self.logger.info("[Morse Code] plugin loaded for %s" % self._led_file)
+            self.logger.info(
+                "[Morse Code] plugin loaded for %s" % self._led_file)
         except Exception as err:
             self.logger.warn("[Morse Code] loading: %s" % repr(err))
 

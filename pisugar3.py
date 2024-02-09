@@ -110,7 +110,8 @@ class PiSugar3(plugins.Plugin):
                 "[pisugar3] Empty battery (<= %s%%): shuting down"
                 % self.options["shutdown"]
             )
-            ui.update(force=True, new_data={"status": "Battery exhausted, bye ..."})
+            ui.update(force=True, new_data={
+                      "status": "Battery exhausted, bye ..."})
             pwnagotchi.shutdown()
 
     def on_webhook(self, path, request):

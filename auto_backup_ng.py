@@ -42,7 +42,8 @@ class AutoBackup(plugins.Plugin):
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None
             ):
-                logging.error(f"[{self.__class__.__name__}] Option {opt} is not set.")
+                logging.error(
+                    f"[{self.__class__.__name__}] Option {opt} is not set.")
                 return
         self.ready = True
         logging.info(f"[{self.__class__.__name__}] plugin loaded")

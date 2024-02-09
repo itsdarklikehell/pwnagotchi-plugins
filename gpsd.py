@@ -71,7 +71,8 @@ class gpsd_coord(plugins.Plugin):
                 logging.info(f"bettercap gps was already off")
                 pass
 
-            agent.run("set gps.device 127.0.0.1:2947; set gps.baudrate 9600; gps on")
+            agent.run(
+                "set gps.device 127.0.0.1:2947; set gps.baudrate 9600; gps on")
             logging.info("bettercap set and on")
             self.running = True
         else:

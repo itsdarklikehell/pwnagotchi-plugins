@@ -8,7 +8,14 @@
 # (disabled for now)hmain.plugins.weather.gpson = true or false
 # (disabled for now)but if you want gps for weather you'll need gps.py or gps_more.py
 
-import logging, pwnagotchi, json, requests, urllib.request, os, shutil, time
+import logging
+import pwnagotchi
+import json
+import requests
+import urllib.request
+import os
+import shutil
+import time
 from pwnagotchi import plugins, config
 import pwnagotchi.ui.components as components
 import pwnagotchi.ui.view as view
@@ -86,7 +93,8 @@ class WeatherForecast(plugins.Plugin):
         self.readyweathertimer = 0
         self.plugin_dir = os.path.dirname(os.path.realpath(__file__))
         self.icon_path = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "weather", "display.png"
+            os.path.dirname(os.path.realpath(__file__)
+                            ), "weather", "display.png"
         )
         logging.debug(f"weathericon: {self.icon_path}")
         self.api_key = config["main"]["plugins"]["weather"]["api_key"]
@@ -197,7 +205,8 @@ class WeatherForecast(plugins.Plugin):
                             shutil.copy(
                                 source_path,
                                 os.path.join(
-                                    os.path.dirname(os.path.realpath(__file__)),
+                                    os.path.dirname(
+                                        os.path.realpath(__file__)),
                                     "weather",
                                     "display.png",
                                 ),
@@ -213,7 +222,8 @@ class WeatherForecast(plugins.Plugin):
             except Exception as e:
                 ui.set("weather", "WTHR: Error")
                 ui.set("weatherfeels", f"Temp: {e}")
-                logging.exception(f"[{self.__class__.__name__}] Weather ERROR: {e}")
+                logging.exception(
+                    f"[{self.__class__.__name__}] Weather ERROR: {e}")
 
     def on_unload(self, ui):
         with ui._lock:
@@ -228,7 +238,8 @@ class WeatherForecast(plugins.Plugin):
             try:
                 ui.remove_element("weathericon")
                 self.icon_path = os.path.join(
-                    os.path.dirname(os.path.realpath(__file__)), "weather", "circle.png"
+                    os.path.dirname(os.path.realpath(__file__)
+                                    ), "weather", "circle.png"
                 )
                 shutil.copy(
                     self.icon_path,

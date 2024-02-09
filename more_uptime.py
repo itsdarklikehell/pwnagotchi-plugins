@@ -1,5 +1,6 @@
 import logging
-import os, time
+import os
+import time
 
 import pwnagotchi.plugins as plugins
 from pwnagotchi.ui.components import LabeledValue, Text
@@ -76,7 +77,8 @@ class More_Uptime(plugins.Plugin):
                         ),
                     )
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ui setup: %s" % repr(err))
+            logging.warn(
+                f"[{self.__class__.__name__}] ui setup: %s" % repr(err))
 
     HZ = os.sysconf(os.sysconf_names["SC_CLK_TCK"])
 
@@ -111,7 +113,8 @@ class More_Uptime(plugins.Plugin):
                     uiItems["uptime"].label = label
                 except Exception as err:
                     logging.warn(
-                        f"[{self.__class__.__name__}] label hijack err: %s", (repr(err))
+                        f"[{self.__class__.__name__}] label hijack err: %s", (repr(
+                            err))
                     )
                 ui.set("uptime", res)
             else:

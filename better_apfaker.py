@@ -45,7 +45,8 @@ class APFaker(plugins.Plugin):
             addr3=str(RandMAC()),
         )
 
-        beacon = Dot11Beacon(cap="ESS+privacy" if password_protected else "ESS")
+        beacon = Dot11Beacon(
+            cap="ESS+privacy" if password_protected else "ESS")
         essid = Dot11Elt(ID="SSID", info=name, len=len(name))
 
         if not password_protected:

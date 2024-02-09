@@ -1,6 +1,6 @@
 # wifi_adventures.py
 
-## Disclaimer
+# Disclaimer
 # **Note:** This plugin is created for educational purposes
 # The author does not take responsibility for any misuse or unauthorized activities conducted with this plugin.
 # Be aware of and comply with legal and ethical standards when using this software.
@@ -68,7 +68,8 @@ class FunAchievements(plugins.Plugin):
         self.daily_quest_target = 3
         self.current_adventure = self.choose_random_adventure()
         self.data_path = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "fun_achievements.json"
+            os.path.dirname(os.path.realpath(__file__)
+                            ), "fun_achievements.json"
         )
 
     def get_label_based_on_adventure(self):
@@ -91,20 +92,24 @@ class FunAchievements(plugins.Plugin):
             with open(self.data_path, "r") as file:
                 data = json.load(file)
                 self.handshake_count = data.get("handshake_count", 0)
-                self.fun_achievement_count = data.get("fun_achievement_count", 0)
+                self.fun_achievement_count = data.get(
+                    "fun_achievement_count", 0)
                 self.new_networks_count = data.get("new_networks_count", 0)
                 self.packet_party_count = data.get("packet_party_count", 0)
                 self.pixel_parade_count = data.get("pixel_parade_count", 0)
                 self.data_dazzle_count = data.get("data_dazzle_count", 0)
-                self.treasure_chests_count = data.get("treasure_chests_count", 0)
+                self.treasure_chests_count = data.get(
+                    "treasure_chests_count", 0)
                 self.daily_quest_target = data.get("daily_quest_target", 5)
                 self.last_claimed = (
-                    datetime.datetime.strptime(data["last_claimed"], "%Y-%m-%d").date()
+                    datetime.datetime.strptime(
+                        data["last_claimed"], "%Y-%m-%d").date()
                     if "last_claimed" in data
                     else None
                 )
                 self.current_adventure = FunAchievements.choose_random_adventure()
-        logging.info(f"[{self.__class__.__name__}] Loaded data from JSON: {data}")
+        logging.info(
+            f"[{self.__class__.__name__}] Loaded data from JSON: {data}")
 
     @staticmethod
     def choose_random_adventure():
@@ -189,7 +194,8 @@ class FunAchievements(plugins.Plugin):
         # Actualizar el atributo 'title'
         if current_title is not None and current_title != self.title:
             self.title = current_title
-            logging.info(f"[{self.__class__.__name__}] Updated title: {self.title}")
+            logging.info(
+                f"[{self.__class__.__name__}] Updated title: {self.title}")
 
     def get_title_based_on_achievements(self):
         # Llamar a update_title para asegurarse de que el atributo 'title' esté actualizado
@@ -207,7 +213,8 @@ class FunAchievements(plugins.Plugin):
             "data_dazzle_count": self.data_dazzle_count,
             "treasure_chests_count": self.treasure_chests_count,
             "last_claimed": (
-                self.last_claimed.strftime("%Y-%m-%d") if self.last_claimed else None
+                self.last_claimed.strftime(
+                    "%Y-%m-%d") if self.last_claimed else None
             ),
             "daily_quest_target": self.daily_quest_target,
             "current_adventure": self.current_adventure,
@@ -232,7 +239,8 @@ class FunAchievements(plugins.Plugin):
             "data_dazzle_count": self.data_dazzle_count,
             "treasure_chests_count": self.treasure_chests_count,
             "last_claimed": (
-                self.last_claimed.strftime("%Y-%m-%d") if self.last_claimed else None
+                self.last_claimed.strftime(
+                    "%Y-%m-%d") if self.last_claimed else None
             ),
             "daily_quest_target": self.daily_quest_target,
             "current_adventure": self.current_adventure,
@@ -242,9 +250,11 @@ class FunAchievements(plugins.Plugin):
         try:
             response = requests.post(server_url, json=payload)
             response.raise_for_status()
-            logging.info(f"Estado de la aventura enviado al servidor: {response.text}")
+            logging.info(
+                f"Estado de la aventura enviado al servidor: {response.text}")
         except requests.exceptions.RequestException as e:
-            logging.error(f"Error al enviar estado de la aventura al servidor: {e}")
+            logging.error(
+                f"Error al enviar estado de la aventura al servidor: {e}")
 
     def on_handshake(self, agent, filename, access_point, client_station):
         logging.info(
@@ -260,7 +270,8 @@ class FunAchievements(plugins.Plugin):
             AdventureType.SPEEDY_SCAN: 1,
         }
 
-        self.handshake_count += difficulty_multiplier.get(self.current_adventure, 1)
+        self.handshake_count += difficulty_multiplier.get(
+            self.current_adventure, 1)
         self.check_and_update_daily_quest_target()
         self.check_treasure_chest()
 
@@ -269,7 +280,8 @@ class FunAchievements(plugins.Plugin):
             self.update_title()
 
             # Enviar estado de la aventura al servidor
-            self.send_adventure_states_to_server(self.current_adventure, "Completed")
+            self.send_adventure_states_to_server(
+                self.current_adventure, "Completed")
 
         self.save_to_json()
 
@@ -336,7 +348,8 @@ class FunAchievements(plugins.Plugin):
 
     def end_speed_boost(self):
         # Logic for ending the temporary speed boost
-        logging.info(f"[{self.__class__.__name__}] Temporary speed boost has ended.")
+        logging.info(
+            f"[{self.__class__.__name__}] Temporary speed boost has ended.")
 
         # Reset the boosted speed attribute to its original value
         self.speed -= 5  # adjust as needed
@@ -357,7 +370,8 @@ class FunAchievements(plugins.Plugin):
         )
 
         if user_response.lower() == "network_management":
-            logging.info(f"[{self.__class__.__name__}] Puzzle solved! Gain a reward.")
+            logging.info(
+                f"[{self.__class__.__name__}] Puzzle solved! Gain a reward.")
             self.gain_reward()
         else:
             logging.info(
@@ -387,7 +401,8 @@ class FunAchievements(plugins.Plugin):
     def on_speedy_scan(self, agent):
         # Lógica para la aventura Speedy Scan
         scan_duration = 30  # segundos
-        packets_captured = random.randint(10, 50)  # ejemplo de paquetes capturados
+        # ejemplo de paquetes capturados
+        packets_captured = random.randint(10, 50)
         self.packet_party_count += packets_captured
 
         self.check_and_update_daily_quest_target()
@@ -416,7 +431,8 @@ class FunAchievements(plugins.Plugin):
 
     def trigger_special_pixel_event(self):
         # Logic for the special Pixel Parade event
-        logging.info(f"[{self.__class__.__name__}] Special Pixel Parade event reached!")
+        logging.info(
+            f"[{self.__class__.__name__}] Special Pixel Parade event reached!")
 
         # Determine the type of special event based on random chance
         special_event_type = random.choice(
@@ -445,7 +461,8 @@ class FunAchievements(plugins.Plugin):
 
     def start_treasure_hunt(self):
         # Logic for starting a treasure hunt
-        logging.info(f"[{self.__class__.__name__}] Welcome to the Treasure Hunt!")
+        logging.info(
+            f"[{self.__class__.__name__}] Welcome to the Treasure Hunt!")
 
         # Generate a random number of hidden treasures (adjust as needed)
         num_hidden_treasures = random.randint(3, 8)
@@ -496,11 +513,13 @@ class FunAchievements(plugins.Plugin):
         self.luck += boost_amount
 
         # Schedule the end of the boost after the specified duration
-        Timer(boost_duration, self.end_stat_boost, args=(boost_amount,)).start()
+        Timer(boost_duration, self.end_stat_boost,
+              args=(boost_amount,)).start()
 
     def end_stat_boost(self, boost_amount):
         # Logic for ending the temporary stat boost
-        logging.info(f"[{self.__class__.__name__}] Temporary stat boost has ended.")
+        logging.info(
+            f"[{self.__class__.__name__}] Temporary stat boost has ended.")
 
         # Reset boosted attributes to their original values
         self.speed -= boost_amount
@@ -552,10 +571,12 @@ class FunAchievements(plugins.Plugin):
 
     def trigger_special_data_dazzle_event(self):
         # Logic for the special Data Dazzle event
-        logging.info(f"[{self.__class__.__name__}] Special Data Dazzle event reached!")
+        logging.info(
+            f"[{self.__class__.__name__}] Special Data Dazzle event reached!")
 
         # Offer the player options for data to dazzle
-        data_options = ["Email", "Password", "Credit Card Number", "Secret Message"]
+        data_options = ["Email", "Password",
+                        "Credit Card Number", "Secret Message"]
 
         # Randomly choose a data type to dazzle
         chosen_data = random.choice(data_options)
@@ -647,7 +668,8 @@ class FunAchievements(plugins.Plugin):
 
         # Increase the difficulty multiplier for the current adventure
         multiplier = difficulty_multiplier.get(self.current_adventure, 1.0)
-        self.daily_quest_target = max(int(self.daily_quest_target * multiplier), 1)
+        self.daily_quest_target = max(
+            int(self.daily_quest_target * multiplier), 1)
 
         # Log the updated difficulty
         logging.info(
@@ -773,7 +795,8 @@ class FunAchievements(plugins.Plugin):
                     ["wpa_cli", "-i", best_interface, "reassociate"], check=True
                 )
             else:
-                logging.info(f"No suitable Wi-Fi interface found for network: {ssid}")
+                logging.info(
+                    f"No suitable Wi-Fi interface found for network: {ssid}")
 
         except subprocess.CalledProcessError as e:
             logging.error(f"Error connecting to WiFi: {e}")
@@ -789,7 +812,8 @@ class FunAchievements(plugins.Plugin):
             result = subprocess.run(
                 ["iw", "dev", interface, "link"], capture_output=True, text=True
             )
-            signal_strength_match = re.search(r"signal: (-\d+) dBm", result.stdout)
+            signal_strength_match = re.search(
+                r"signal: (-\d+) dBm", result.stdout)
 
             if signal_strength_match:
                 signal_strength = int(signal_strength_match.group(1))
@@ -804,7 +828,8 @@ class FunAchievements(plugins.Plugin):
     def check_treasure_chest(self):
         if random.random() < 0.1:  # 10% chance to find a treasure chest
             self.treasure_chests_count += 1
-            logging.info(f"[{self.__class__.__name__}] You found a treasure chest!")
+            logging.info(
+                f"[{self.__class__.__name__}] You found a treasure chest!")
 
     def on_unload(self, ui):
         with ui._lock:

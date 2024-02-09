@@ -135,7 +135,8 @@ class EXPV2(plugins.Plugin):
         }
 
         with open(file, "w") as f:
-            f.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+            f.write(json.dumps(data, sort_keys=True,
+                    indent=4, separators=(",", ": ")))
 
     def loadFromJsonFile(self, file):
         # Tot exp is introduced with json, no check needed
@@ -268,7 +269,8 @@ class EXPV2(plugins.Plugin):
             self.LogInfo("Parsing " + filename + "...")
             if filename.endswith(".json") & filename.startswith("stats"):
                 try:
-                    sum += self.parseSessionStatsFile(os.path.join(dir, filename))
+                    sum += self.parseSessionStatsFile(
+                        os.path.join(dir, filename))
                 except:
                     self.LogInfo("ERROR parsing File: " + filename)
 

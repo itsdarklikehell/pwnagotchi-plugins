@@ -32,7 +32,8 @@ class DisplaySettings(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.info(f"[{self.__class__.__name__}] options = %s" % self.options)
+        logging.info(f"[{self.__class__.__name__}] options = %s" %
+                     self.options)
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
@@ -54,7 +55,8 @@ class DisplaySettings(plugins.Plugin):
                 logging.info("UI backgrounds ready")
             # add custom UI elements
         except Exception as err:
-            logging.warn("Display: %s, err: %s" % (repr(self._display), repr(err)))
+            logging.warn("Display: %s, err: %s" %
+                         (repr(self._display), repr(err)))
 
     # called when the ui is updated
     def on_ui_update(self, ui):

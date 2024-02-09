@@ -556,7 +556,8 @@ class WebConfig(plugins.Plugin):
                     pwnagotchi.config = merge_config(
                         request.get_json(), pwnagotchi.config
                     )
-                    logging.debug("PWNAGOTCHI CONFIG:\n%s" % repr(pwnagotchi.config))
+                    logging.debug("PWNAGOTCHI CONFIG:\n%s" %
+                                  repr(pwnagotchi.config))
                     if self._agent:
                         self._agent._config = merge_config(
                             request.get_json(), self._agent._config
@@ -564,7 +565,8 @@ class WebConfig(plugins.Plugin):
                         logging.debug(
                             "    Agent CONFIG:\n%s" % repr(self._agent._config)
                         )
-                    logging.debug("   Updated CONFIG:\n%s" % request.get_json())
+                    logging.debug("   Updated CONFIG:\n%s" %
+                                  request.get_json())
                     save_config(
                         request.get_json(), "/etc/pwnagotchi/config.toml"
                     )  # test

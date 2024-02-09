@@ -395,12 +395,14 @@ def _run():
 
                 if callable(handler.press):
                     handler.t_repeat = time.time()
-                    Thread(target=handler.press, args=(x, True, handler.plugin)).start()
+                    Thread(target=handler.press, args=(
+                        x, True, handler.plugin)).start()
 
                 continue
 
             if last < curr and callable(handler.release):
-                Thread(target=handler.release, args=(x, False, handler.plugin)).start()
+                Thread(target=handler.release, args=(
+                    x, False, handler.plugin)).start()
                 continue
 
             if curr == 0:
@@ -419,7 +421,8 @@ def _run():
                 ):
                     _handlers[x].t_repeat = time.time()
                     Thread(
-                        target=_handlers[x].press, args=(x, True, handler.plugin)
+                        target=_handlers[x].press, args=(
+                            x, True, handler.plugin)
                     ).start()
 
         _last_states = _states
@@ -488,7 +491,7 @@ def _enqueue():
 
 def _chunk(l, n):  # noqa
     for i in range(0, len(l) + 1, n):
-        yield l[i : i + n]
+        yield l[i: i + n]
 
 
 def _write_byte(byte):
@@ -628,7 +631,8 @@ def runCommand(button, pressed, plugin):
             f"[buttonshim] red {red} green {green} blue {blue} on_time {on_time} off_time {off_time} blink_times {blink_times}"
         )
         thread = Thread(
-            target=blink, args=(red, green, blue, on_time, off_time, blink_times)
+            target=blink, args=(red, green, blue, on_time,
+                                off_time, blink_times)
         )
         thread.start()
         logging.debug("[buttonshim] Blink thread started")
@@ -718,7 +722,8 @@ class Buttonshim(plugins.Plugin):
         self.options = dict()
         global _handlers
         _handlers = [Handler(self) for x in range(NUM_BUTTONS)]
-        on_press([BUTTON_A, BUTTON_B, BUTTON_C, BUTTON_D, BUTTON_E], runCommand)
+        on_press([BUTTON_A, BUTTON_B, BUTTON_C,
+                 BUTTON_D, BUTTON_E], runCommand)
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")

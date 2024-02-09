@@ -54,7 +54,8 @@ class Cuffs(plugins.Plugin):
                 access_points.remove(ap)
                 count += 1
         self.filtered_ap_list = access_points
-        logging.info(f"[{self.__class__.__name__}] Removed {count} unrestricted ap's")
+        logging.info(
+            f"[{self.__class__.__name__}] Removed {count} unrestricted ap's")
 
     def on_wifi_update(self, agent, access_points):
         for ap in access_points:
@@ -63,7 +64,8 @@ class Cuffs(plugins.Plugin):
                 logging.error(
                     f"[{self.__class__.__name__}] Cuffs is enabled, yet an unrestricted ap ({ap['hostname']} from {ap['vendor']}) made it past our filter."
                 )
-                logging.debug(f"[{self.__class__.__name__}] Unrestricted AP: {ap}")
+                logging.debug(
+                    f"[{self.__class__.__name__}] Unrestricted AP: {ap}")
 
     def on_deauthentication(self, agent, access_point, client_station):
         # If the ap is not being whitelisted by cuffs, it should not be here

@@ -84,8 +84,10 @@ class WaveshareV3Touch(plugins.Plugin):
         GPIO.setup(24, GPIO.IN)
         GPIO.setup(22, GPIO.OUT)
         GPIO.setup(27, GPIO.IN)
-        GPIO.add_event_detect(27, GPIO.RISING, callback=self.callback, bouncetime=200)
-        GPIO.add_event_detect(24, GPIO.RISING, callback=self.callback, bouncetime=200)
+        GPIO.add_event_detect(
+            27, GPIO.RISING, callback=self.callback, bouncetime=200)
+        GPIO.add_event_detect(
+            24, GPIO.RISING, callback=self.callback, bouncetime=200)
         logging.info("Waveshare V3 Touch plugin loaded.")
 
     def on_unload(self, ui):

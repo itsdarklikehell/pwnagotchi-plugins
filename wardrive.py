@@ -52,7 +52,8 @@ class Wardrive(plugins.Plugin):
         )
         with open(config_path) as f:
             data = (
-                toml.load(f) if config_is_toml else yaml.load(f, Loader=yaml.FullLoader)
+                toml.load(f) if config_is_toml else yaml.load(
+                    f, Loader=yaml.FullLoader)
             )
 
             if "memtemp" in data["main"]["plugins"]:
@@ -115,7 +116,8 @@ class Wardrive(plugins.Plugin):
                     self.last_seen_ap = (
                         ap_data["hostname"] or ap_data["vendor"] or ap_data["mac"]
                     )
-                geo_json = {"type": "FeatureCollection", "features": geo_json_array}
+                geo_json = {"type": "FeatureCollection",
+                            "features": geo_json_array}
                 with open("/root/custom_plugins/wardrive.json", "w+t") as fp:
                     json.dump(geo_json, fp)
 

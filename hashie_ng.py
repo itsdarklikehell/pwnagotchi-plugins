@@ -124,14 +124,16 @@ class Hashie(plugins.Plugin):
             name = filename.split("/")[-1:][0].split(".")[0]
 
             if os.path.isfile(fullpathNoExt + ".22000"):
-                handshake_status.append("Already have {}.22000 (EAPOL)".format(name))
+                handshake_status.append(
+                    "Already have {}.22000 (EAPOL)".format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append(
                     "Created {}.22000 (EAPOL) from pcap".format(name)
                 )
 
             if os.path.isfile(fullpathNoExt + ".16800"):
-                handshake_status.append("Already have {}.16800 (PMKID)".format(name))
+                handshake_status.append(
+                    "Already have {}.16800 (PMKID)".format(name))
             elif self._writePMKID(filename):
                 handshake_status.append(
                     "Created {}.16800 (PMKID) from pcap".format(name)

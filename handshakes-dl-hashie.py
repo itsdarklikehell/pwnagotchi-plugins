@@ -121,7 +121,8 @@ class HandshakesDL(plugins.Plugin):
         else:
             dir = self.config["bettercap"]["handshakes"]
             try:
-                logging.info(f"[{self.__class__.__name__}] serving {dir}/{path}")
+                logging.info(
+                    f"[{self.__class__.__name__}] serving {dir}/{path}")
                 return send_from_directory(
                     directory=dir, filename=path, as_attachment=True
                 )

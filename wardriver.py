@@ -64,7 +64,8 @@ class Wardriver(plugins.Plugin):
 
         if not os.path.exists(self.__csv_path):
             os.makedirs(self.__csv_path)
-            logging.warning(f"[{self.__class__.__name__}] Created CSV directory")
+            logging.warning(
+                f"[{self.__class__.__name__}] Created CSV directory")
 
         if "wigle" in self.options:
             self.__wigle_enabled = (
@@ -322,7 +323,8 @@ class Wardriver(plugins.Plugin):
 
                         data = {"donate": "on" if self.__wigle_donate else "off"}
 
-                        file_form = {"file": (os.path.basename(file), session_data)}
+                        file_form = {
+                            "file": (os.path.basename(file), session_data)}
 
                         try:
                             response = requests.post(
@@ -334,7 +336,8 @@ class Wardriver(plugins.Plugin):
                             )
                             response.raise_for_status()
                             try:
-                                os.rename(file, file.replace(".csv", "_uploaded.csv"))
+                                os.rename(file, file.replace(
+                                    ".csv", "_uploaded.csv"))
                                 logging.info(
                                     f"[{self.__class__.__name__}] Uploaded successfully {file} on WiGLE"
                                 )

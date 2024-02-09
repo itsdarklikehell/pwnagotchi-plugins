@@ -108,7 +108,8 @@ class crack_house(plugins.Plugin):
         READY = 1
         logging.info(f"[{self.__class__.__name__}] Successfully loaded")
         logging.info(
-            f"[{self.__class__.__name__}] all paths: " + str(self.options["files"])
+            f"[{self.__class__.__name__}] all paths: " +
+            str(self.options["files"])
         )
 
     def on_ui_setup(self, ui):
@@ -235,7 +236,8 @@ class crack_house(plugins.Plugin):
         if BEST_RSSI != -1000:
             if self.options["orientation"] == "vertical":
                 msg_ch = str(
-                    BEST_CRACK[0] + "(" + near_rssi + ")" + "\n" + BEST_CRACK[1]
+                    BEST_CRACK[0] + "(" + near_rssi + ")" +
+                    "\n" + BEST_CRACK[1]
                 )
             else:
                 msg_ch = str(BEST_CRACK[0] + ":" + BEST_CRACK[1])

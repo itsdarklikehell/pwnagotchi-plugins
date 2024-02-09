@@ -30,10 +30,12 @@ class dropbox(plugins.Plugin):
         self.title = ""
         self.lock = threading.Lock()
         try:
-            self.report = StatusFile("/root/.dropbox_ul_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.dropbox_ul_uploads", data_format="json")
         except JSONDecodeError as json_err:
             os.remove("/root/.dropbox_ul_uploads")
-            self.report = StatusFile("/root/.dropbox_ul_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.dropbox_ul_uploads", data_format="json")
 
         self.options = dict()
         self.skip = list()
@@ -64,7 +66,8 @@ class dropbox(plugins.Plugin):
             )
             logging.error(response)
         except requests.exceptions.RequestException as e:
-            logging.error(f"OHC: Got an exception while uploading {path} -> {e}")
+            logging.error(
+                f"OHC: Got an exception while uploading {path} -> {e}")
             raise e
 
     def on_loaded(self):
@@ -81,7 +84,8 @@ class dropbox(plugins.Plugin):
             if self.ready:
                 config = agent.config()
                 display = agent.view()
-                reported = self.report.data_field_or("reported", default=list())
+                reported = self.report.data_field_or(
+                    "reported", default=list())
 
                 handshake_dir = config["bettercap"]["handshakes"]
                 handshake_filenames = os.listdir(handshake_dir)
@@ -90,7 +94,8 @@ class dropbox(plugins.Plugin):
                     for filename in handshake_filenames
                     if filename.endswith(".pcap")
                 ]
-                handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+                handshake_new = set(handshake_paths) - \
+                    set(reported) - set(self.skip)
 
                 if handshake_new:
                     logging.info(

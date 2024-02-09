@@ -275,7 +275,8 @@ class SessionStats(plugins.Plugin):
             data = self.stats
             if session_param and session_param != "Current":
                 file_stats = StatusFile(
-                    os.path.join(self.options["save_directory"], session_param),
+                    os.path.join(
+                        self.options["save_directory"], session_param),
                     data_format="json",
                 )
                 data = file_stats.data_field_or("data", default=dict())

@@ -14,7 +14,8 @@ REPORT = StatusFile("/root/.aircracked_pcaps", data_format="json")
 TEXT_TO_SET = ""
 
 PwndNetwork = namedtuple("PwndNetwork", "ssid bssid password")
-handshake_file_re = re.compile("^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cracked$")
+handshake_file_re = re.compile(
+    "^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cracked$")
 crackable_handshake_re = re.compile(
     "\s+\d+\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\s+(?P<ssid>.+?)\s+((\([1-9][0-9]* handshake(, with PMKID)?\))|(\(\d+ handshake, with PMKID\)))"
 )
@@ -80,7 +81,8 @@ class quick_rides_to_jail(plugins.Plugin):
                     continue
         except Exception as e:
             logging.error(
-                "[quick_rides_to_jail] Encountered exception in on_ready: %s" % (e)
+                "[quick_rides_to_jail] Encountered exception in on_ready: %s" % (
+                    e)
             )
 
     def on_handshake(self, agent, filename, access_point, client_station):
@@ -93,7 +95,8 @@ class quick_rides_to_jail(plugins.Plugin):
                 REPORT.update(data={"reported": reported})
         except Exception as e:
             logging.error(
-                "[quick_rides_to_jail] Encountered exception in on_handshake: %s" % (e)
+                "[quick_rides_to_jail] Encountered exception in on_handshake: %s" % (
+                    e)
             )
 
     def set_text(self, text):
@@ -217,7 +220,8 @@ class quick_rides_to_jail(plugins.Plugin):
                     pwnd_networks.append(
                         PwndNetwork(
                             file_match.group("ssid"),
-                            re.sub(r"(.{2})(?!$)", r"\1:", file_match.group("bssid")),
+                            re.sub(r"(.{2})(?!$)", r"\1:",
+                                   file_match.group("bssid")),
                             f.read(),
                         )
                     )
@@ -310,7 +314,8 @@ class quick_rides_to_jail(plugins.Plugin):
                 "[quick_rides_to_jail] Desired interface is in monitor mode - cannot use."
             )
             return
-        logging.info("[quick_rides_to_jail] Desired interface is not in monitor mode.")
+        logging.info(
+            "[quick_rides_to_jail] Desired interface is not in monitor mode.")
 
         _add_pwnd_networks_to_wpa_supplicant(handshakes_path)
 

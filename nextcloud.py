@@ -34,10 +34,12 @@ class nextcloud(plugins.Plugin):
         self.title = ""
         self.lock = threading.Lock()
         try:
-            self.report = StatusFile("/root/.nextcloud_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.nextcloud_uploads", data_format="json")
         except JSONDecodeError as json_err:
             os.remove("/root/.nextcloud_uploads")
-            self.report = StatusFile("/root/.nextcloud_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.nextcloud_uploads", data_format="json")
 
         self.options = dict()
         self.skip = list()
@@ -93,7 +95,8 @@ class nextcloud(plugins.Plugin):
             else:
                 return True
         except requests.exceptions.RequestException as e:
-            logging.error("nextcloud: Got an exception while checking if a dir exists.")
+            logging.error(
+                "nextcloud: Got an exception while checking if a dir exists.")
             raise e
 
     def _upload_to_nextcloud(self, path, timeout=30):
@@ -126,7 +129,8 @@ class nextcloud(plugins.Plugin):
                 config = agent.config()
                 display = agent.view()
 
-                reported = self.report.data_field_or("reported", default=dict())
+                reported = self.report.data_field_or(
+                    "reported", default=dict())
 
                 handshake_dir = config["bettercap"]["handshakes"]
                 handshake_filenames = os.listdir(handshake_dir)
@@ -136,7 +140,8 @@ class nextcloud(plugins.Plugin):
                     if filename.endswith(".pcap")
                 ]
 
-                handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+                handshake_new = set(handshake_paths) - \
+                    set(reported) - set(self.skip)
 
                 # filter for new files
                 handshake_new = []
@@ -147,7 +152,8 @@ class nextcloud(plugins.Plugin):
                         if os.path.getmtime(hs) > reported[hs]:
                             handshake_new.append(hs)
 
-                logging.info(f"[nx]: found {len(handshake_new)} new handshakes")
+                logging.info(
+                    f"[nx]: found {len(handshake_new)} new handshakes")
 
                 if handshake_new:
                     logging.info(

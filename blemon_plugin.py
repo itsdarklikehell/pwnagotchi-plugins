@@ -55,7 +55,8 @@ class BLEMon(plugins.Plugin):
                 self.agent = None
                 ui.remove_element("blemon_count")
             except Exception as err:
-                logging.warn(f"[{self.__class__.__name__}] unload err: %s" % repr(err))
+                logging.warn(
+                    f"[{self.__class__.__name__}] unload err: %s" % repr(err))
         pass
 
     # called hen there's internet connectivity
@@ -224,7 +225,8 @@ class BLEMon(plugins.Plugin):
 
             display = agent.view()
             display.set("face", self.options["face"])
-            display.set("blemon_count", "%d/%d" % (self.blecount, self.blemaxcount))
+            display.set("blemon_count", "%d/%d" %
+                        (self.blecount, self.blemaxcount))
             if name is "":
                 display.set("status", "Something blue!!!")
                 if mac:
@@ -232,12 +234,14 @@ class BLEMon(plugins.Plugin):
                     # if error, then repeat next time, maybe?
                     res = self.agent.run("ble.enum %s" % mac)
                     logging.info(
-                        f"[{self.__class__.__name__}] enum %s: %s" % (mac, repr(res))
+                        f"[{self.__class__.__name__}] enum %s: %s" % (
+                            mac, repr(res))
                     )
             else:
                 display.set("status", "Blue buddy %s" % name)
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ble new Error: %s" % err)
+            logging.warn(
+                f"[{self.__class__.__name__}] ble new Error: %s" % err)
 
     def on_bcap_ble_device_connected(self, agent, event):
         try:
@@ -245,7 +249,8 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device CON: %s" % repr(event)
             )
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ble CON Error: %s" % err)
+            logging.warn(
+                f"[{self.__class__.__name__}] ble CON Error: %s" % err)
 
     def on_bcap_ble_device_service_discovered(self, agent, event):
         try:
@@ -253,7 +258,8 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device SVC: %s" % repr(event)
             )
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ble SVC Error: %s" % err)
+            logging.warn(
+                f"[{self.__class__.__name__}] ble SVC Error: %s" % err)
 
     def on_bcap_ble_device_characteristic_discovered(self, agent, event):
         try:
@@ -261,20 +267,24 @@ class BLEMon(plugins.Plugin):
                 f"[{self.__class__.__name__}] BLE device CHR: %s" % repr(event)
             )
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ble CHR Error: %s" % err)
+            logging.warn(
+                f"[{self.__class__.__name__}] ble CHR Error: %s" % err)
 
     def on_bcap_ble_device_disconnected(self, agent, event):
         try:
             logging.info(
-                f"[{self.__class__.__name__}] BLE device DISCON: %s" % repr(event)
+                f"[{self.__class__.__name__}] BLE device DISCON: %s" % repr(
+                    event)
             )
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ble disconn Error: %s" % err)
+            logging.warn(
+                f"[{self.__class__.__name__}] ble disconn Error: %s" % err)
 
     def on_bcap_ble_device_lost(self, agent, event):
         try:
             logging.debug(
-                f"[{self.__class__.__name__}] BLE device LOST: %s" % repr(event)
+                f"[{self.__class__.__name__}] BLE device LOST: %s" % repr(
+                    event)
             )
             name = event["data"]["name"]
             self.blecount = self.blecount - 1
@@ -286,4 +296,5 @@ class BLEMon(plugins.Plugin):
             else:
                 ui.set("status", "Bye %s" % name)
         except Exception as err:
-            logging.warn(f"[{self.__class__.__name__}] ble lost Error: %s" % err)
+            logging.warn(
+                f"[{self.__class__.__name__}] ble lost Error: %s" % err)

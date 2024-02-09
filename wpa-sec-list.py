@@ -187,7 +187,8 @@ class WpaSecList(plugins.Plugin):
             try:
                 passwords = []
                 with open(
-                    self.config["bettercap"]["handshakes"] + "/wpa-sec.cracked.potfile"
+                    self.config["bettercap"]["handshakes"] +
+                        "/wpa-sec.cracked.potfile"
                 ) as file_in:
                     for line in file_in:
                         fields = line.split(":")

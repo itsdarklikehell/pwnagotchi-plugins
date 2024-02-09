@@ -219,7 +219,8 @@ class Webgpsmap(plugins.Plugin):
         all_geo_or_gps_files = []
         for filename_pcap in all_pcap_files:
             filename_base = filename_pcap[:-5]  # remove ".pcap"
-            logging.debug(f"[{self.__class__.__name__}] found: {filename_base}")
+            logging.debug(
+                f"[{self.__class__.__name__}] found: {filename_base}")
             filename_position = None
 
             logging.debug(f"[{self.__class__.__name__}] search for .gps.json")
@@ -232,7 +233,8 @@ class Webgpsmap(plugins.Plugin):
             if check_for in all_files:
                 filename_position = str(os.path.join(handshake_dir, check_for))
 
-            logging.debug(f"[{self.__class__.__name__}] search for .paw-gps.json")
+            logging.debug(
+                f"[{self.__class__.__name__}] search for .paw-gps.json")
             check_for = os.path.basename(filename_base) + ".paw-gps.json"
             if check_for in all_files:
                 filename_position = str(os.path.join(handshake_dir, check_for))
@@ -247,7 +249,8 @@ class Webgpsmap(plugins.Plugin):
         #    all_geo_or_gps_files = set(all_geo_or_gps_files) - set(SKIP)   # remove skipped networks? No!
 
         if newest_only:
-            all_geo_or_gps_files = set(all_geo_or_gps_files) - set(self.ALREADY_SENT)
+            all_geo_or_gps_files = set(
+                all_geo_or_gps_files) - set(self.ALREADY_SENT)
 
         logging.info(
             f"[{self.__class__.__name__}] Found {len(all_geo_or_gps_files)} position-data files from {len(all_pcap_files)} handshakes. Fetching positions ..."
@@ -287,7 +290,8 @@ class Webgpsmap(plugins.Plugin):
                 }
 
                 # get ap password if exist
-                check_for = os.path.basename(pos_file).split(".")[0] + ".pcap.cracked"
+                check_for = os.path.basename(pos_file).split(".")[
+                    0] + ".pcap.cracked"
                 if check_for in all_files:
                     gps_data[ssid + "_" + mac]["pass"] = pos.password()
 
@@ -310,7 +314,8 @@ class Webgpsmap(plugins.Plugin):
                     f"[{self.__class__.__name__}] OSError: {pos_file} - error: {error}"
                 )
                 continue
-        logging.info(f"[{self.__class__.__name__}] loaded {len(gps_data)} positions")
+        logging.info(
+            f"[{self.__class__.__name__}] loaded {len(gps_data)} positions")
         return gps_data
 
     def get_html(self):
@@ -319,7 +324,8 @@ class Webgpsmap(plugins.Plugin):
         """
         try:
             template_file = (
-                os.path.dirname(os.path.realpath(__file__)) + "/" + "webgpsmap.html"
+                os.path.dirname(os.path.realpath(__file__)) +
+                "/" + "webgpsmap.html"
             )
             html_data = open(template_file, "r").read()
         except Exception as error:

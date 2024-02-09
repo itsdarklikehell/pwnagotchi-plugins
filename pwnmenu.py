@@ -70,9 +70,11 @@ class PwnMenu(plugins.Plugin):
         self.poscursor = (62, 64)
         self.posmenuicon = (199, 98)
         self.showuparrow = False
-        self.uparrowvisible = False  # Use these because remove_element() locks up.
+        # Use these because remove_element() locks up.
+        self.uparrowvisible = False
         self.showdownarrow = False
-        self.downarrowvisible = False  # Use these because remove_elements() locks up.
+        # Use these because remove_elements() locks up.
+        self.downarrowvisible = False
         logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def forcedisplayupdate(self):
@@ -103,7 +105,8 @@ class PwnMenu(plugins.Plugin):
                 #    self.timeouthandler.cancel()
                 #    self.timeouthandler = False
                 if not self.timeouthandler:
-                    self.timeouthandler = threading.Timer(0.1, self.forcedisplayupdate)
+                    self.timeouthandler = threading.Timer(
+                        0.1, self.forcedisplayupdate)
                     self.timeouthandler.start()
 
             if runcommand:
@@ -136,7 +139,8 @@ class PwnMenu(plugins.Plugin):
                         self.menuitem > self.labelcount
                         and (self.menuitem % self.labelcount) == 1
                     ):
-                        self.menuitemoffset = (self.menuitem // self.labelcount) * 5
+                        self.menuitemoffset = (
+                            self.menuitem // self.labelcount) * 5
                         self.updatelabels = True
 
             elif msg == "up":
@@ -164,7 +168,8 @@ class PwnMenu(plugins.Plugin):
                             (self.menuitem // self.labelcount) - 1
                         ) * 5
                     else:
-                        self.menuitemoffset = (self.menuitem // self.labelcount) * 5
+                        self.menuitemoffset = (
+                            self.menuitem // self.labelcount) * 5
 
             elif msg == "ok":
                 if self.menuitem == 0:
@@ -216,7 +221,8 @@ class PwnMenu(plugins.Plugin):
             if self.addelements and not self.removeelements:
                 self.addelements = False
                 self.menuvisible = True
-                self.movecursor = False  # Moved here anyway, no need to do it again.
+                # Moved here anyway, no need to do it again.
+                self.movecursor = False
                 self.updatelabels = True
                 if self.uihardware == "displayhatmini":
                     if view.ROOT:
@@ -230,7 +236,8 @@ class PwnMenu(plugins.Plugin):
                             "menutitle", Rect(self.rectfillx, color=BLACK)
                         )
                         view.ROOT.add_element(
-                            "menutitlebg", FilledRect(self.rectfillx, color=BLACK)
+                            "menutitlebg", FilledRect(
+                                self.rectfillx, color=BLACK)
                         )
                         view.ROOT.add_element(
                             "menutitletext",
@@ -389,7 +396,8 @@ class PwnMenu(plugins.Plugin):
             self.labelcount = 5
         ui.add_element(
             "menuicon",
-            Text(color=BLACK, value="≡", position=self.posmenuicon, font=fonts.Medium),
+            Text(color=BLACK, value="≡",
+                 position=self.posmenuicon, font=fonts.Medium),
         )
         self.menuiconvisible = True
         self.updatelabels = True

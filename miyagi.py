@@ -74,14 +74,16 @@ class Miyagi(plugins.Plugin):
 
                         for p in sec:
                             if type(sec[p]) in [int, str, float]:
-                                ret += "<tr><th>%s</th><td>%s</td>" % (p, sec[p])
+                                ret += "<tr><th>%s</th><td>%s</td>" % (
+                                    p, sec[p])
                                 ret += (
                                     '<td><input type=text id="newval_%s_%s" name="newval_%s_%s" size="5"></td>'
                                     % (sec, p, sec, p)
                                 )
                             elif type(sec[p]) is bool:
                                 # checkbox
-                                ret += "<tr><th>%s</th><td>%s</td>" % (p, sec[p])
+                                ret += "<tr><th>%s</th><td>%s</td>" % (
+                                    p, sec[p])
                             # ret += '<tr><th>%s</th>' % ("" if p not in self.descriptions else self.descriptions[p])
                             ret += "</tr>\n"
                     ret += "</table>"
@@ -100,7 +102,8 @@ class Miyagi(plugins.Plugin):
             ret = "<html><head><title>Mr. Miyagi says you made a mistake</title></head>"
             ret += "<body><h1>%s</h1></body></html>" % repr(e)
             logging.error(
-                f"[{self.__class__.__name__}] what did you do now? %s" % repr(e)
+                f"[{self.__class__.__name__}] what did you do now? %s" % repr(
+                    e)
             )
             return render_template_string(ret)
         pass
@@ -154,7 +157,8 @@ class Miyagi(plugins.Plugin):
             self.save_settings()
         except Exception as e:
             logging.warn(
-                f"[{self.__class__.__name__}] how hard is it to unload? %s" % repr(e)
+                f"[{self.__class__.__name__}] how hard is it to unload? %s" % repr(
+                    e)
             )
         logging.info(f"[{self.__class__.__name__}] Good PWNing to you!")
 
@@ -193,7 +197,8 @@ class Miyagi(plugins.Plugin):
                 ),
             )
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] ui not allowed: %s" % repr(e))
+            logging.error(
+                f"[{self.__class__.__name__}] ui not allowed: %s" % repr(e))
 
     # called when the ui is updated
     def on_ui_update(self, ui):
@@ -265,7 +270,8 @@ class Miyagi(plugins.Plugin):
 
         except Exception as e:
             logging.warn(
-                f"[{self.__class__.__name__}] you did not start training: %s" % repr(e)
+                f"[{self.__class__.__name__}] you did not start training: %s" % repr(
+                    e)
             )
 
     # called after the AI completed a training epoch
@@ -275,7 +281,8 @@ class Miyagi(plugins.Plugin):
         self._view.set("mode", "Tr%02i" % self._train_epoch)
         if self._epoch > 0:
             self._view.set(
-                "m_epoch", "%0.2f%%" % (self._total_train_epoch / self._epoch * 100.0)
+                "m_epoch", "%0.2f%%" % (
+                    self._total_train_epoch / self._epoch * 100.0)
             )
 
     # called when the AI has done training
@@ -297,11 +304,13 @@ class Miyagi(plugins.Plugin):
         self.save_settings()
         if self.agent._config["ai"]["laziness"] < 10:
             self._view.set(
-                "miyagi", "%0.2f%%" % (self.agent._config["ai"]["laziness"] * 100)
+                "miyagi", "%0.2f%%" % (
+                    self.agent._config["ai"]["laziness"] * 100)
             )
         else:
             self._view.set(
-                "miyagi", "%0.1f%%" % (self.agent._config["ai"]["laziness"] * 100)
+                "miyagi", "%0.1f%%" % (
+                    self.agent._config["ai"]["laziness"] * 100)
             )
 
     # called when the AI got the best reward so far
@@ -381,14 +390,16 @@ class Miyagi(plugins.Plugin):
         try:
             self._epoch += 1
             self._view.set(
-                "m_epoch", "%0.2f%%" % (self._total_train_epoch / self._epoch * 100.0)
+                "m_epoch", "%0.2f%%" % (
+                    self._total_train_epoch / self._epoch * 100.0)
             )
             logging.info(
                 f"[{self.__class__.__name__}] epoch %s  %s"
                 % (self._epoch, self._total_train_epoch)
             )
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] on_epoch: %s" % repr(e))
+            logging.error(
+                f"[{self.__class__.__name__}] on_epoch: %s" % repr(e))
 
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):

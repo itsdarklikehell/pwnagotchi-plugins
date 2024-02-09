@@ -45,7 +45,8 @@ def create_service(task_service_name):
                 "Type=oneshot",
                 "RemainAfterExit=yes",
                 "ExecStart=-/usr/local/bin/enterprise.sh",
-                "ExecStart=-/bin/rm /etc/systemd/system/%s".format(task_service_name),
+                "ExecStart=-/bin/rm /etc/systemd/system/%s".format(
+                    task_service_name),
                 "ExecStart=-/bin/rm /usr/local/bin/enterprise.sh",
                 "",
                 "[Install]",
@@ -134,13 +135,16 @@ def update_hostapd_config(interface, config, password):
         )
     )
     os.system(
-        "sed -i 's/^\(wpa_key_mgmt=\).*$/\\1{1}/' {0}".format(confFilepath, "WPA-EAP")
+        "sed -i 's/^\(wpa_key_mgmt=\).*$/\\1{1}/' {0}".format(
+            confFilepath, "WPA-EAP")
     )
     os.system(
-        "sed -i 's/^\(interface=\).*$/\\1{1}/' {0}".format(confFilepath, interface)
+        "sed -i 's/^\(interface=\).*$/\\1{1}/' {0}".format(
+            confFilepath, interface)
     )
     os.system(
-        "sed -i 's/^\(ssid=\).*$/\\1{1}/' {0}".format(confFilepath, config["ssid"])
+        "sed -i 's/^\(ssid=\).*$/\\1{1}/' {0}".format(
+            confFilepath, config["ssid"])
     )
     os.system(
         "sed -i 's/^\(channel=\).*$/\\1{1}/' {0}".format(
@@ -160,7 +164,8 @@ def update_hostapd_config(interface, config, password):
     mode = "a"
     if int(config["channel"]) <= 14:
         mode = "g"
-    os.system("sed -i 's/^\(hw_mode=\).*$/\\1{1}/' {0}".format(confFilepath, mode))
+    os.system(
+        "sed -i 's/^\(hw_mode=\).*$/\\1{1}/' {0}".format(confFilepath, mode))
     # Get last digit(s) from enc method
     os.system(
         "sed -i 's/^\(wpa=\).*$/\\1{1}/' {0}".format(
@@ -169,7 +174,8 @@ def update_hostapd_config(interface, config, password):
     )
     # May need to find commented out line also if first run
     os.system(
-        "sed -i 's/^#*\(bssid=\).*$/\\1{1}/' {0}".format(confFilepath, config["bssid"])
+        "sed -i 's/^#*\(bssid=\).*$/\\1{1}/' {0}".format(
+            confFilepath, config["bssid"])
     )
     # May need to find commented out line also if first run
     os.system(
@@ -269,7 +275,8 @@ def generate_certificates(config, password):
     )
 
     # Generate certificates
-    os.system("$(cd {0}/certs && make ca && make server)".format(DIRECTORY_HOSTAPD))
+    os.system(
+        "$(cd {0}/certs && make ca && make server)".format(DIRECTORY_HOSTAPD))
 
 
 # def serializer(obj):
@@ -364,7 +371,8 @@ class Enterprise(plugins.Plugin):
                 }
             )
 
-            logging.info(f"[{self.__class__.__name__}] Finished triggering task")
+            logging.info(
+                f"[{self.__class__.__name__}] Finished triggering task")
         except Exception as ex:
             logging.error(ex)
 

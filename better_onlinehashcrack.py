@@ -79,7 +79,8 @@ class BetterOnlineHashCrack(plugins.Plugin):
         try:
             s = requests.Session()
             dashboard = s.get(self.options["dashboard"], timeout=timeout)
-            result = s.get("https://www.onlinehashcrack.com/exportcsv", timeout=timeout)
+            result = s.get(
+                "https://www.onlinehashcrack.com/exportcsv", timeout=timeout)
             result.raise_for_status()
             with open(save_file, "wb") as output_file:
                 output_file.write(result.content)
@@ -119,7 +120,8 @@ class BetterOnlineHashCrack(plugins.Plugin):
             handshake_paths = remove_whitelisted(
                 handshake_paths, self.options["whitelist"]
             )
-            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - \
+                set(reported) - set(self.skip)
             if handshake_new:
                 logging.info(
                     f"[{self.__class__.__name__}] Internet connectivity detected. Uploading new handshakes to onlinehashcrack.com"
@@ -149,9 +151,11 @@ class BetterOnlineHashCrack(plugins.Plugin):
                 display.on_normal()
 
             if "dashboard" in self.options and self.options["dashboard"]:
-                cracked_file = os.path.join(handshake_dir, "onlinehashcrack.cracked")
+                cracked_file = os.path.join(
+                    handshake_dir, "onlinehashcrack.cracked")
                 if os.path.exists(cracked_file):
-                    last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                    last_check = datetime.fromtimestamp(
+                        os.path.getmtime(cracked_file))
                     if (
                         last_check is not None
                         and ((datetime.now() - last_check).seconds / (60 * 60)) < 1
@@ -176,7 +180,8 @@ class BetterOnlineHashCrack(plugins.Plugin):
                                     + row["BSSID"].replace(":", "")
                                 )
                                 if os.path.exists(
-                                    os.path.join(handshake_dir, filename + ".pcap")
+                                    os.path.join(
+                                        handshake_dir, filename + ".pcap")
                                 ):
                                     with open(
                                         os.path.join(

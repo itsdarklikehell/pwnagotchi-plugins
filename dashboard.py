@@ -32,7 +32,8 @@ class Dashboard(plugins.Plugin):
 
     # Get the current status of the pivoyager
     def get_status(self):
-        status = run([self.path, "status"], stdout=PIPE).stdout.decode().split("\n")
+        status = run([self.path, "status"],
+                     stdout=PIPE).stdout.decode().split("\n")
         stat_dict = {
             "stat": status[0].split(" ")[1:],
             "bat": status[1].split(" ")[1],
@@ -82,7 +83,8 @@ class Dashboard(plugins.Plugin):
             self.options["refresh_time"] if "refresh_time" in self.options else 3
         )
 
-        self.status_thread = Thread(target=self.check_status, name="StatusThread")
+        self.status_thread = Thread(
+            target=self.check_status, name="StatusThread")
         self.status_thread.start()
 
         status = self.get_status()
@@ -248,7 +250,8 @@ class Dashboard(plugins.Plugin):
         if not "inits" in self.get_status()["stat"]:
             # Update RTC if local time is ntp-synced and RTC is not initialised
             run([self.path, "date", "sync"])
-            logging.debug(f"[{self.__class__.__name__}] Pivoyager update RTC from NTP")
+            logging.debug(
+                f"[{self.__class__.__name__}] Pivoyager update RTC from NTP")
 
     def on_unload(self, ui):
         with ui._lock:

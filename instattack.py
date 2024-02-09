@@ -82,6 +82,7 @@ class instattack(plugins.Plugin):
                         event["data"]["Client"]["vendor"],
                     )
                 )
-                agent.deauth(event["data"]["AP"], event["data"]["Client"], 0.75)
+                agent.deauth(event["data"]["AP"],
+                             event["data"]["Client"], 0.75)
         except Exception as e:
             logging.error(repr(e))

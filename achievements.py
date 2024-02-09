@@ -59,7 +59,8 @@ class Achievements(plugins.Plugin):
 
     def load_from_json(self):
         logging.info(f"[{self.__class__.__name__}] Loading data from JSON...")
-        logging.info(f"[{self.__class__.__name__}] load_from_json method started.")
+        logging.info(
+            f"[{self.__class__.__name__}] load_from_json method started.")
         if os.path.exists(self.data_path):
             with open(self.data_path, "r") as file:
                 data = json.load(file)
@@ -68,14 +69,16 @@ class Achievements(plugins.Plugin):
                 self.new_networks_count = data.get("new_networks_count", 0)
                 self.daily_target = data.get("daily_target", 5)
                 self.last_claimed = (
-                    datetime.datetime.strptime(data["last_claimed"], "%Y-%m-%d").date()
+                    datetime.datetime.strptime(
+                        data["last_claimed"], "%Y-%m-%d").date()
                     if "last_claimed" in data
                     else None
                 )
                 self.current_challenge = data.get(
                     "current_challenge", choose_random_challenge()
                 )
-        logging.info(f"[{self.__class__.__name__}] Loaded data from JSON: {data}")
+        logging.info(
+            f"[{self.__class__.__name__}] Loaded data from JSON: {data}")
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -153,7 +156,8 @@ class Achievements(plugins.Plugin):
             "handshake_count": self.handshake_count,
             "new_networks_count": self.new_networks_count,  # Save the count for new networks
             "last_claimed": (
-                self.last_claimed.strftime("%Y-%m-%d") if self.last_claimed else None
+                self.last_claimed.strftime(
+                    "%Y-%m-%d") if self.last_claimed else None
             ),
             "daily_target": self.daily_target,
             "current_challenge": self.current_challenge,  # Save the current challenge

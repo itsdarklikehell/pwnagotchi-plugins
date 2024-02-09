@@ -104,10 +104,12 @@ class PrivacyNightmare(plugins.Plugin):
         logging.info(f"[{self.__class__.__name__}]: Event %s" % (jmsg["tag"]))
         if jmsg["tag"] == "wifi.client.probe":
             self.pn_status = "Probe from %s" % jmsg["data"]["essid"]
-            logging.info(f"[{self.__class__.__name__}]: !!! Probe !!! %s" % (jmsg))
+            logging.info(
+                f"[{self.__class__.__name__}]: !!! Probe !!! %s" % (jmsg))
         if jmsg["tag"] == "wifi.ap.new":
             self.pn_status = "New AP %s" % jmsg["data"]["essid"]
-            logging.info(f"[{self.__class__.__name__}]: !!! NEW AP !!! %s" % (jmsg))
+            logging.info(
+                f"[{self.__class__.__name__}]: !!! NEW AP !!! %s" % (jmsg))
             self.aps_update("NE", None, jmsg["data"])
 
     def hook_ws_events(self, agent):
@@ -116,7 +118,8 @@ class PrivacyNightmare(plugins.Plugin):
         self.agent = agent
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        _thread.start_new_thread(self._event_poller, (asyncio.get_event_loop(),))
+        _thread.start_new_thread(
+            self._event_poller, (asyncio.get_event_loop(),))
 
     def _event_poller(self, loop):
 
@@ -167,7 +170,8 @@ class PrivacyNightmare(plugins.Plugin):
                 logging.info(f"[{self.__class__.__name__}]: Unknown location")
                 self.gps_hot = False
         else:
-            logging.info(f"[{self.__class__.__name__}]: Unknown location (gps not up).")
+            logging.info(
+                f"[{self.__class__.__name__}]: Unknown location (gps not up).")
             self.gps_hot = False
 
     def aps_update(self, update_type, agent, access_points):
@@ -216,7 +220,8 @@ class PrivacyNightmare(plugins.Plugin):
                             % (update_type, hostname, latlong)
                         )
                         self.ap_list[APUID] = str(ap)
-                        self.pn_status = "AP (%s): %s" % (update_type, hostname)
+                        self.pn_status = "AP (%s): %s" % (
+                            update_type, hostname)
                         self.pn_count += 1
                         pn_filename = "%s/pn_ap_%s.json" % (
                             self.options["pn_output_path"],

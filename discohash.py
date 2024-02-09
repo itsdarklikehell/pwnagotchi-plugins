@@ -101,7 +101,8 @@ class discohash(plugins.Plugin):
         )
         if os.path.isfile(fullpathNoExt + ".22000"):
             logging.info(
-                "[+] DiscoHash EAPOL/PMKID Success: {}.22000 created".format(filename)
+                "[+] DiscoHash EAPOL/PMKID Success: {}.22000 created".format(
+                    filename)
             )
             self.get_coord(fullpathNoExt)
             self.post_hash(fullpathNoExt)
@@ -151,7 +152,8 @@ class discohash(plugins.Plugin):
             )
         except Exception as e:
             logging.warn(
-                "[!] DiscoHash: An error occured while analysing the hash: {}".format(e)
+                "[!] DiscoHash: An error occured while analysing the hash: {}".format(
+                    e)
             )
         try:
             data = {
@@ -200,7 +202,8 @@ class discohash(plugins.Plugin):
             )
             logging.debug("[*] DiscoHash: Webhook sent!")
         except Exception as e:
-            logging.warn("[!] DiscoHash: An error occured with the plugin!{}".format(e))
+            logging.warn(
+                "[!] DiscoHash: An error occured with the plugin!{}".format(e))
 
     def on_unload(self, ui):
         with ui._lock:

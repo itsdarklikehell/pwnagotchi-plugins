@@ -2,7 +2,8 @@ import os
 import json
 import time
 import logging
-import math, numpy as np
+import math
+import numpy as np
 import pwnagotchi.plugins as plugins
 from pwnagotchi.ui.components import Text, LabeledValue
 from pwnagotchi.ui.view import BLACK
@@ -99,7 +100,8 @@ class PWNAware(plugins.Plugin):
                 )
                 flight = p["flight"].strip()
                 logging.debug(
-                    f"[{self.__class__.__name__}] %s %s" % (i, len(self.ap_text))
+                    f"[{self.__class__.__name__}] %s %s" % (
+                        i, len(self.ap_text))
                 )
                 if flight in self.watch_planes:
                     watch = self.watch_planes[flight]
@@ -115,14 +117,16 @@ class PWNAware(plugins.Plugin):
                     watch,
                 )
                 logging.debug(
-                    f"[{self.__class__.__name__}] %s %s" % (i, len(self.ap_text))
+                    f"[{self.__class__.__name__}] %s %s" % (
+                        i, len(self.ap_text))
                 )
                 nb += self.ap_text[i]
 
             self.scoreboard = nb
         except Exception as e:
             logging.error(
-                f"[{self.__class__.__name__}] update scoreboard: %s" % repr(err)
+                f"[{self.__class__.__name__}] update scoreboard: %s" % repr(
+                    err)
             )
 
         self._updated = True
@@ -172,7 +176,8 @@ class PWNAware(plugins.Plugin):
                         ret += "<tr><td>%s</td>" % p["hex"]
                         ret += "<td><b>%s</b></td>" % p["flight"]
                         ret += "<td>%5.1fmi</td>" % p["calc_dist"].miles
-                        ret += "<td>%3s\N{DEGREE SIGN}</td>" % int(p["calc_bearing"])
+                        ret += "<td>%3s\N{DEGREE SIGN}</td>" % int(
+                            p["calc_bearing"])
                         ret += "<td>%s</td>" % (
                             p["alt_baro"] if not "alt_geom" in p else p["alt_geom"]
                         )
@@ -204,7 +209,8 @@ class PWNAware(plugins.Plugin):
                 if path == "update":
                     ret += "<h1>PWNAware Update</h1>"
                     ret += '<img src="/ui?%s">' % int(time.time())
-                    ret += "<h2>Path</h2><code>%s</code><p>" % repr(request.values)
+                    ret += "<h2>Path</h2><code>%s</code><p>" % repr(
+                        request.values)
                     updated = False
                     for k, val in request.form.items():
                         if k.startswith("note_"):
@@ -244,11 +250,13 @@ class PWNAware(plugins.Plugin):
         try:
             for i in range(self.options["numPlanes"]):
                 ui.remove_element("airplane%i" % i)
-                logging.info(f"[{self.__class__.__name__}] Removed airplane%i" % i)
+                logging.info(
+                    f"[{self.__class__.__name__}] Removed airplane%i" % i)
             ui.remove_element("airplane_header")
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
         except Exception as err:
-            logging.info(f"[{self.__class__.__name__}] unload err %s " % repr(err))
+            logging.info(
+                f"[{self.__class__.__name__}] unload err %s " % repr(err))
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
@@ -274,7 +282,8 @@ class PWNAware(plugins.Plugin):
                         font=self.SmallFont,
                     ),
                 )
-                logging.info("Added airplane%i" % (self.options["numPlanes"] - i - 1))
+                logging.info("Added airplane%i" %
+                             (self.options["numPlanes"] - i - 1))
 
             height += 11
             ui.add_element(
@@ -287,7 +296,8 @@ class PWNAware(plugins.Plugin):
                 ),
             )
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] UI setup: %s" % repr(e))
+            logging.error(
+                f"[{self.__class__.__name__}] UI setup: %s" % repr(e))
 
     # called when the ui is updated
     def on_ui_update(self, ui):
@@ -299,7 +309,8 @@ class PWNAware(plugins.Plugin):
                 else:
                     ui.set(
                         "airplane%i" % i,
-                        "%8s%4s %4s %6s" % ("   --   ", " -- ", " -- ", "  --  "),
+                        "%8s%4s %4s %6s" % (
+                            "   --   ", " -- ", " -- ", "  --  "),
                     )
             except Exception as e:
                 logging.warn(

@@ -89,7 +89,8 @@ class PiSugar2(plugins.Plugin):
             ):
                 ui.set("chg", "⚡")
                 if not self.is_charging:
-                    ui.update(force=True, new_data={"status": "Power!! I can feel it!"})
+                    ui.update(force=True, new_data={
+                              "status": "Power!! I can feel it!"})
                 self.is_charging = True
             else:
                 ui.set("chg", "")
@@ -101,7 +102,8 @@ class PiSugar2(plugins.Plugin):
             logging.info(
                 f"[pisugar2] Empty battery (<= {self.options['shutdown']}): shuting down"
             )
-            ui.update(force=True, new_data={"status": "Battery exhausted, bye ..."})
+            ui.update(force=True, new_data={
+                      "status": "Battery exhausted, bye ..."})
             time.sleep(3)
             pwnagotchi.shutdown()
 

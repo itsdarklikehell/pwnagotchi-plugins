@@ -43,7 +43,8 @@ class Telegram(plugins.Plugin):
             try:
                 import telegram
             except ImportError:
-                logging.error(f"[{self.__class__.__name__}] Couldn't import telegram")
+                logging.error(
+                    f"[{self.__class__.__name__}] Couldn't import telegram")
                 return
 
             logging.info(
@@ -60,7 +61,8 @@ class Telegram(plugins.Plugin):
             display.update(force=True)
 
             try:
-                logging.info(f"[{self.__class__.__name__}] Connecting to Telegram...")
+                logging.info(
+                    f"[{self.__class__.__name__}] Connecting to Telegram...")
 
                 message = Voice(lang=config["main"]["lang"]).on_last_session_tweet(
                     last_session
@@ -69,7 +71,8 @@ class Telegram(plugins.Plugin):
                 bot = telegram.Bot(self.options["bot_token"])
                 if self.options["send_picture"] is True:
                     bot.sendPhoto(
-                        chat_id=self.options["chat_id"], photo=open(picture, "rb")
+                        chat_id=self.options["chat_id"], photo=open(
+                            picture, "rb")
                     )
                     logging.info(f"[{self.__class__.__name__}] picture sent")
                 if self.options["send_message"] is True:
@@ -93,7 +96,8 @@ class Telegram(plugins.Plugin):
         try:
             import telegram
         except ImportError:
-            logging.error(f"[{self.__class__.__name__}] Couldn't import telegram")
+            logging.error(
+                f"[{self.__class__.__name__}] Couldn't import telegram")
             return
         bot = telegram.Bot(self.options["bot_token"])
         updates = bot.get_updates()
@@ -105,7 +109,8 @@ class Telegram(plugins.Plugin):
         try:
             message = updates[update_id].message.text
             msg_id = updates[update_id].message.message_id
-            logging.info(f"[{self.__class__.__name__}] Received message ID: %d", msg_id)
+            logging.info(
+                f"[{self.__class__.__name__}] Received message ID: %d", msg_id)
             try:
                 with open("/root/.tmid", "r") as f:
                     last_msg_id = int(f.read().replace("\n", ""))
@@ -129,7 +134,8 @@ class Telegram(plugins.Plugin):
                         f.write("%d\n" % update_id)
 
         else:
-            logging.info(f"[{self.__class__.__name__}] Recevied message: %s", message)
+            logging.info(
+                f"[{self.__class__.__name__}] Recevied message: %s", message)
             update_id += 1
             with open("/root/.tuid", "w") as f:
                 f.write("%d\n" % update_id)
@@ -158,7 +164,8 @@ class Telegram(plugins.Plugin):
                 )
             elif message == "/handshakes":
                 os.chdir("/root/handshakes")
-                cur_handshakes = sorted(glob.glob("*.pcap"), key=os.path.getmtime)
+                cur_handshakes = sorted(
+                    glob.glob("*.pcap"), key=os.path.getmtime)
                 s_cur_handshakes = """
 (⌐■_■) Handshakes
 {}
@@ -184,7 +191,8 @@ class Telegram(plugins.Plugin):
                     if file_path.lower().endswith(".potfile"):
                         with open(file_path) as f:
                             for line in f:
-                                tmp_line = str(line.rstrip().split(":", 2)[-1:])[2:-2]
+                                tmp_line = str(
+                                    line.rstrip().split(":", 2)[-1:])[2:-2]
                                 tmp_list.append(tmp_line)
                     elif file_path.lower().endswith(".cracked"):
                         with open(file_path) as f:
@@ -193,7 +201,8 @@ class Telegram(plugins.Plugin):
                                 tmp_first = str(line.rstrip().split(",")[:3][1:-1])[
                                     3:-3
                                 ]
-                                tmp_last = str(line.rstrip().split(",")[3:][1:-1])[3:-3]
+                                tmp_last = str(line.rstrip().split(",")[
+                                               3:][1:-1])[3:-3]
                                 tmp_line = "%s:%s" % (tmp_first, tmp_last)
                                 tmp_list.append(tmp_line)
                     else:
@@ -280,10 +289,12 @@ class Telegram(plugins.Plugin):
                 word_count = len(message.split())
                 if word_count > 1:
                     word = message.split()[1]
-                    logging.info(f"[{self.__class__.__name__}] /pwnmenu cmd: %s", word)
+                    logging.info(
+                        f"[{self.__class__.__name__}] /pwnmenu cmd: %s", word)
                     if word in ("up", "down", "ok", "back", "close", "stop"):
                         Popen("/root/pwnmenucmd.py " + word, shell=True)
-                        repmessage = "(⌐■_■) Pwnmenu command " + word + " sent..."
+                        repmessage = "(⌐■_■) Pwnmenu command " + \
+                            word + " sent..."
                     else:
                         repmessage = "(☓‿‿☓) Pwnmenu command error"
                 else:

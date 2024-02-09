@@ -40,14 +40,16 @@ class CombinedPlugin(Plugin):
         # Verifica la existencia de la interfaz wlan0mon
         if "wlan0mon" in subprocess.getoutput("iwconfig"):
             # Initialize honey pot plugin
-            threading.Timer(self.update_interval, self.render_honey_pots).start()
+            threading.Timer(self.update_interval,
+                            self.render_honey_pots).start()
             self.create_fake_aps()
 
             # Initialize educational purposes only plugin
             self.ready = 1
             self.status = ""
             self.network = ""
-            threading.Timer(self.update_interval, self.render_network_status).start()
+            threading.Timer(self.update_interval,
+                            self.render_network_status).start()
         else:
             logging.warn(
                 f"[{self.__class__.__name__}] The interface wlan0mon is not present. All functions stopped."
@@ -153,7 +155,8 @@ class CombinedPlugin(Plugin):
         elif STATUS == "home_detected":
             ui.set("face", "(◕‿‿◕)")
             ui.set("face", "(ᵔ◡◡ᵔ)")
-            ui.set("status", "Found home network at %s ..." % self.home_network)
+            ui.set("status", "Found home network at %s ..." %
+                   self.home_network)
         elif STATUS == "switching_mon_off":
             ui.set("face", "(◕‿‿◕)")
             ui.set("face", "(ᵔ◡◡ᵔ)")
@@ -260,7 +263,8 @@ class CombinedPlugin(Plugin):
 
     def render_network_status(self):
         self.ui.set("network-status", self.status)
-        threading.Timer(self.update_interval, self.render_network_status).start()
+        threading.Timer(self.update_interval,
+                        self.render_network_status).start()
 
     def log(self, message):
         logging.info(message)

@@ -93,7 +93,8 @@ class Grid(plugins.Plugin):
         logging.debug(f"[{self.__class__.__name__}] checking mailbox ...")
         messages = grid.inbox()
         self.total_messages = len(messages)
-        self.unread_messages = len([m for m in messages if m["seen_at"] is None])
+        self.unread_messages = len(
+            [m for m in messages if m["seen_at"] is None])
 
         if self.unread_messages:
             plugins.on("unread_inbox", self.unread_messages)
@@ -155,7 +156,8 @@ class Grid(plugins.Plugin):
                         else:
                             logging.warning("no bssid found?!")
             else:
-                logging.debug(f"[{self.__class__.__name__}]  reporting disabled")
+                logging.debug(
+                    f"[{self.__class__.__name__}]  reporting disabled")
 
     def on_internet_available(self, agent):
         logging.debug(f"[{self.__class__.__name__}] internet available")
@@ -167,7 +169,8 @@ class Grid(plugins.Plugin):
             try:
                 grid.update_data(agent.last_session)
             except Exception as e:
-                logging.error("error connecting to the pwngrid-peer service: %s" % e)
+                logging.error(
+                    "error connecting to the pwngrid-peer service: %s" % e)
                 logging.debug(e, exc_info=True)
                 return
 

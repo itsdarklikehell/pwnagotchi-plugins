@@ -70,15 +70,18 @@ class EducationalPurposesOnly(Plugin):
                 "Scrambling MAC address before connecting to %s ..." % NETWORK
             )
         elif STATUS == "associating":
-            status_messages.append("Greeting the AP and asking for an IP via DHCP ...")
+            status_messages.append(
+                "Greeting the AP and asking for an IP via DHCP ...")
             ui.set("face", "(¬◡¬ )")
             ui.set("face", "( ¬◡¬)")
         elif STATUS == "associated":
             ui.set("face", "(¬‿¬)")
             status_messages.append("Home at last!")
-            status_messages.append(f"Connected to {NETWORK} on channel {CHANNEL}.")
+            status_messages.append(
+                f"Connected to {NETWORK} on channel {CHANNEL}.")
             current_mac = (
-                os.popen("ifconfig wlan0mon | grep -o -E '([0-9a-fA-F]:?){2,6}'")
+                os.popen(
+                    "ifconfig wlan0mon | grep -o -E '([0-9a-fA-F]:?){2,6}'")
                 .read()
                 .strip()
             )
@@ -134,7 +137,8 @@ class EducationalPurposesOnly(Plugin):
             executable="/bin/bash",
         )
         time.sleep(10)
-        logging.info(f"randomizing {interface} MAC address prior to connecting...")
+        logging.info(
+            f"randomizing {interface} MAC address prior to connecting...")
         STATUS = "scrambling_mac"
         subprocess.Popen(
             f"macchanger -A {interface}",
@@ -202,7 +206,8 @@ class EducationalPurposesOnly(Plugin):
                 f'ctrl_interface=DIR=/var/run/wpa_supplicant\nupdate_config=1\ncountry=GB\n\nnetwork={{\n\tssid="%s"\n\tpsk="%s"\n}}\n'
                 % (network_name, self.options["home-password"])
             )
-        logging.info(f"starting wpa_supplicant background process on {interface}...")
+        logging.info(
+            f"starting wpa_supplicant background process on {interface}...")
         subprocess.Popen(
             f"ifconfig {interface} up",
             shell=True,
@@ -320,7 +325,8 @@ class EducationalPurposesOnly(Plugin):
 
         # If there are blinds, perform reconnection
         if blinds > 0:
-            logging.info(f"Detected {blinds} blinds. Reconnecting to wlan0monmon...")
+            logging.info(
+                f"Detected {blinds} blinds. Reconnecting to wlan0monmon...")
             self._restart_monitor_mode()
 
     def on_wifi_update(self, agent, access_points):
@@ -337,7 +343,8 @@ class EducationalPurposesOnly(Plugin):
                 )
                 if signal_strength >= self.options["minimum-signal-strength"]:
                     logging.info("Starting association...")
-                    self._connect_to_target_network(network["hostname"], channel)
+                    self._connect_to_target_network(
+                        network["hostname"], channel)
                 else:
                     logging.info(
                         "The signal strength is too low (%d) to connect."

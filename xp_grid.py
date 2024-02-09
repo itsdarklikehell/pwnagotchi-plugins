@@ -59,7 +59,8 @@ class XPGrid(plugins.Plugin):
         try:
             grid.call("/mesh/data", {"rank": rank})
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] xp_grid.on_rank_update: %s" % e)
+            logging.error(
+                f"[{self.__class__.__name__}] xp_grid.on_rank_update: %s" % e)
 
     def on_peer_detected(self, agent, peer):
         try:
@@ -93,7 +94,8 @@ class XPGrid(plugins.Plugin):
                 ),
             )
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] xp_grid.on_ui_setup: %s" % e)
+            logging.error(
+                f"[{self.__class__.__name__}] xp_grid.on_ui_setup: %s" % e)
 
     def on_ui_update(self, ui):
         try:
@@ -120,7 +122,8 @@ class XPGrid(plugins.Plugin):
                     ui.set("friend_level", "[%d]" % level)
                     return True
         except Exception as e:
-            logging.error(f"[{self.__class__.__name__}] xp_grid.on_ui_update: %s" % e)
+            logging.error(
+                f"[{self.__class__.__name__}] xp_grid.on_ui_update: %s" % e)
 
     def on_unload(self, ui):
         with ui._lock:

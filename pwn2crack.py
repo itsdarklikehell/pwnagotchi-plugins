@@ -17,7 +17,8 @@ class Pwn2Crack(plugins.Plugin):
     __version__ = "1.0.2"
     __license__ = "GPL3"
     __description__ = "This Pwnagotchi plugin will evaluate captured handshakes from pcap files, clean and convert complete handshakes to Hashcat-compatible 22000 hashes, and then create a new hashlist within Hashtopolis."
-    hcxtools_version_supported = "6.3.2-51-g0377777"  # 6.2.7 is Working as 11/2023, later version will not work on Pwnagotchi 1.5.5 because the OS is too old to support OpenSSL 3.0 EVP API.
+    # 6.2.7 is Working as 11/2023, later version will not work on Pwnagotchi 1.5.5 because the OS is too old to support OpenSSL 3.0 EVP API.
+    hcxtools_version_supported = "6.3.2-51-g0377777"
     __name__ = "Pwn2Crack"
     __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
@@ -69,37 +70,43 @@ class Pwn2Crack(plugins.Plugin):
             logging.debug(
                 f"[{self.__class__.__name__}] The hashisSecret option is not set. Setting it to True."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["hashisSecret"] = bool(True)
+            self.config["main"]["plugins"]["pwn2crack"]["hashisSecret"] = bool(
+                True)
         # If useBrain not set, then set it to False.
         if "useBrain" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The useBrain option is not set. Setting it to False."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["useBrain"] = bool(False)
+            self.config["main"]["plugins"]["pwn2crack"]["useBrain"] = bool(
+                False)
         # if brainFeatures is not set, then set it to 0.
         if "brainFeatures" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The brainFeatures option is not set. Setting it to 0."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["brainFeatures"] = int(0)
+            self.config["main"]["plugins"]["pwn2crack"]["brainFeatures"] = int(
+                0)
         # if numhashtoupload is not set, then set it to 0.
         if "numhashtoupload" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The numhashtoupload option is not set. Setting it to 0."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["numhashtoupload"] = int(0)
+            self.config["main"]["plugins"]["pwn2crack"]["numhashtoupload"] = int(
+                0)
         # If uploadwordlist is not set, then set it to False.
         if "uploadwordlist" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The uploadwordlist option is not set. Setting it to False."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["uploadwordlist"] = bool(False)
+            self.config["main"]["plugins"]["pwn2crack"]["uploadwordlist"] = bool(
+                False)
         # If genwordlist is not set, then set it to False.
         if "genwordlist" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The genwordlist option is not set. Setting it to False."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["genwordlist"] = bool(False)
+            self.config["main"]["plugins"]["pwn2crack"]["genwordlist"] = bool(
+                False)
 
     # This function is called when the plugin is loaded. We will preform some checks to make sure the plugin can run without errors.
     def on_loaded(self):
@@ -417,7 +424,8 @@ class HTAccess:
                 f"[{self.__class__.__name__}] The hashlist was not uploaded to Hashtopolis."
             )
             logging.error(
-                f"[{self.__class__.__name__}] Status Code: " + str(request.status_code)
+                f"[{self.__class__.__name__}] Status Code: " +
+                str(request.status_code)
             )
             logging.error(
                 f"[{self.__class__.__name__}] Request Data: "
@@ -498,7 +506,8 @@ class HTAccess:
                 f"[{self.__class__.__name__}] The wordlist was not uploaded to Hashtopolis."
             )
             logging.error(
-                f"[{self.__class__.__name__}] Status Code: " + str(request.status_code)
+                f"[{self.__class__.__name__}] Status Code: " +
+                str(request.status_code)
             )
             logging.error(
                 f"[{self.__class__.__name__}] Request Data: "

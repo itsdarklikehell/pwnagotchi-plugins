@@ -44,7 +44,8 @@ class DisplayPassword(plugins.Plugin):
         all_ssid = []
 
         try:
-            f = open("/root/handshakes/wpa-sec.cracked.potfile", "r+", encoding="utf-8")
+            f = open("/root/handshakes/wpa-sec.cracked.potfile",
+                     "r+", encoding="utf-8")
             for line_f in f:
                 pwd_f = line_f.split(":")
                 all_passwd.append(str(pwd_f[-1].rstrip("\n")))
@@ -57,7 +58,8 @@ class DisplayPassword(plugins.Plugin):
             )
 
         try:
-            h = open("/root/handshakes/onlinehashcrack.cracked", "r+", encoding="utf-8")
+            h = open("/root/handshakes/onlinehashcrack.cracked",
+                     "r+", encoding="utf-8")
             for line_h in csv.DictReader(h):
                 pwd_h = str(line_h["password"])
                 task_h = str(line_h["task"])
@@ -187,9 +189,11 @@ class DisplayPassword(plugins.Plugin):
 
     def on_ui_update(self, ui):
         last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
-        ui.set("display-password", "%s" % (os.popen(last_line).read().rstrip()))
+        ui.set("display-password", "%s" %
+               (os.popen(last_line).read().rstrip()))
 
     def on_webhook(self, ui, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
         last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
-        ui.set("display-password", "%s" % (os.popen(last_line).read().rstrip()))
+        ui.set("display-password", "%s" %
+               (os.popen(last_line).read().rstrip()))

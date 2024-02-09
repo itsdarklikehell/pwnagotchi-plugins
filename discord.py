@@ -78,9 +78,11 @@ class Discord(plugins.Plugin):
                 url = self.options["webhook_url"]
                 username = self.options["username"]
 
-                webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
+                webhook = Webhook.from_url(
+                    url, adapter=RequestsWebhookAdapter())
                 webhook.send(message, username=username, file=File(picture))
-                logging.info(f"[{self.__class__.__name__}] message sent: %s", message)
+                logging.info(
+                    f"[{self.__class__.__name__}] message sent: %s", message)
 
                 last_session.save_session_id()
                 display.set("status", "Discord notification sent!")

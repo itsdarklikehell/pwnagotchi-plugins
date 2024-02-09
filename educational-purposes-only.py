@@ -316,7 +316,8 @@ class EducationalPurposesOnly(plugins.Plugin):
                     if signal_strength >= self.options["minimum-signal-strength"]:
                         logging.info("Starting association...")
                         READY = 0
-                        self._connect_to_target_network(network["hostname"], channel)
+                        self._connect_to_target_network(
+                            network["hostname"], channel)
                     else:
                         logging.info(
                             "The signal strength is too low (%d) to connect."

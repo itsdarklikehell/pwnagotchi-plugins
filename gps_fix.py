@@ -42,7 +42,8 @@ class GPSFix(plugins.Plugin):
         try:
             self.gps = plugins.loaded["gps"]
             if not self.gps:
-                logging.error(f"[{self.__class__.__name__}] gps plugin not loaded!")
+                logging.error(
+                    f"[{self.__class__.__name__}] gps plugin not loaded!")
         except Exception as e:
             logging.error("gps_fix.on_ready: %s" % e)
 

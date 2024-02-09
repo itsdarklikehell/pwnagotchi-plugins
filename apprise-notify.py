@@ -1,5 +1,6 @@
 import logging
-import os, time
+import os
+import time
 import apprise
 import pwnagotchi.plugins as plugins
 from pwnagotchi.ui.components import LabeledValue
@@ -12,7 +13,8 @@ apobj = apprise.Apprise()
 config = apprise.AppriseConfig()
 
 # Add a configuration source:
-config.add("/home/pi/pwnagotchi-control-center/pwnagotchi-plugins/apprise-config.yml")
+config.add(
+    "/home/pi/pwnagotchi-control-center/pwnagotchi-plugins/apprise-config.yml")
 
 # Add another...
 # config.add('https://myserver:8080/path/to/config')
@@ -296,7 +298,8 @@ class Apprise(plugins.Plugin):
         s = "s" if count > 1 else ""
         title = "[apprise]"
         short = "on_unread_messages"
-        body = ("You have {count} new message{plural}!").format(count=count, plural=s)
+        body = ("You have {count} new message{plural}!").format(
+            count=count, plural=s)
         logging.debug(title + " " + short + " " + body)
         outputfile = "/tmp/" + short + ".wav"
 

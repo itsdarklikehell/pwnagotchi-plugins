@@ -1,5 +1,10 @@
 import logging
-import os, sys, time, types, subprocess, signal
+import os
+import sys
+import time
+import types
+import subprocess
+import signal
 import subprocess
 from threading import Lock
 
@@ -77,12 +82,15 @@ class FlipperLink(plugins.Plugin):
             for bdaddr in nearby_devices:
                 if bdaddr == self.options["mac"]:
                     flipper_connected = True
-                    logging.info("Flipper device found with MAC address: %s", bdaddr)
+                    logging.info(
+                        "Flipper device found with MAC address: %s", bdaddr)
                     break
         except bluetooth.BluetoothError as e:
-            logging.error("Bluetooth error while searching for Flipper device: %s", e)
+            logging.error(
+                "Bluetooth error while searching for Flipper device: %s", e)
         except Exception as e:
-            logging.error("Unexpected error while searching for Flipper device: %s", e)
+            logging.error(
+                "Unexpected error while searching for Flipper device: %s", e)
 
         return flipper_connected
 

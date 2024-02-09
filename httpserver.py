@@ -60,7 +60,8 @@ class HttpServerPlugin(plugins.Plugin):
     def stop_http_server(self):
         try:
             if hasattr(self, "httpd"):
-                logging.error(f"[{self.__class__.__name__}] Shutting Down HTTP Server.")
+                logging.error(
+                    f"[{self.__class__.__name__}] Shutting Down HTTP Server.")
                 self.httpd.shutdown()
 
         except Exception as e:

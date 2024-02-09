@@ -42,7 +42,8 @@ class GPSSat(plugins.Plugin):
         try:
             self.gps = plugins.loaded["gps"]
             if not self.gps:
-                logging.error(f"[{self.__class__.__name__}] gps plugin not loaded!")
+                logging.error(
+                    f"[{self.__class__.__name__}] gps plugin not loaded!")
         except Exception as e:
             logging.error("gps_sat.on_ready: %s" % e)
 
@@ -66,7 +67,8 @@ class GPSSat(plugins.Plugin):
     def on_ui_update(self, ui):
         try:
             if self.gps and self.gps.coordinates:
-                ui.set("sattelites", str(self.gps.coordinates["NumSatellites"]))
+                ui.set("sattelites", str(
+                    self.gps.coordinates["NumSatellites"]))
         except Exception as e:
             logging.error("gps_sat.on_ui_update: %s" % e)
 

@@ -94,7 +94,8 @@ class BluetoothSniffer(plugins.Plugin):
 
     # Method for scanning the nearby bluetooth devices
     def scan(self, display):
-        logging.info(f"[{self.__class__.__name__}] Scanning for bluetooth devices...")
+        logging.info(
+            f"[{self.__class__.__name__}] Scanning for bluetooth devices...")
         current_time = time.time()
         changed = False
         device_class = None
@@ -126,7 +127,8 @@ class BluetoothSniffer(plugins.Plugin):
                         changed = True
 
                     if "Unknown" == self.data[mac_address]["manufacturer"]:
-                        manufacturer = self.get_device_manufacturer(mac_address)
+                        manufacturer = self.get_device_manufacturer(
+                            mac_address)
                         self.data[mac_address]["manufacturer"] = manufacturer
                         self.data[mac_address]["new_info"] = 2
                         logging.info(
@@ -183,7 +185,8 @@ class BluetoothSniffer(plugins.Plugin):
                     changed = True
 
         except subprocess.CalledProcessError as e:
-            logging.error(f"[{self.__class__.__name__}] Error running command: %s", e)
+            logging.error(
+                f"[{self.__class__.__name__}] Error running command: %s", e)
 
         # Save the updated devices to the JSON file
         if changed:
@@ -192,7 +195,8 @@ class BluetoothSniffer(plugins.Plugin):
                     f"[{self.__class__.__name__}] Saving bluetooths %s into json.", name
                 )
                 json.dump(self.data, f)
-            display.set("status", "Bluetooth sniffed and stored!").update(force=True)
+            display.set("status", "Bluetooth sniffed and stored!").update(
+                force=True)
 
     # Method to get the device name
     def get_device_name(self, mac_address):

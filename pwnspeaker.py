@@ -1,5 +1,7 @@
 import logging
-import os, subprocess, time
+import os
+import subprocess
+import time
 import pyttsx3
 from pwnagotchi import plugins
 from pwnagotchi.ui.components import LabeledValue
@@ -255,7 +257,8 @@ class Pwnspeak(plugins.Plugin):
         s = "s" if count > 1 else ""
         title = "[pwnspeaker]"
         short = "on_unread_messages"
-        body = ("You have {count} new message{plural}!").format(count=count, plural=s)
+        body = ("You have {count} new message{plural}!").format(
+            count=count, plural=s)
         outputfile = "/tmp/" + short + ".wav"
 
         logging.debug(title + " " + short + " " + body)

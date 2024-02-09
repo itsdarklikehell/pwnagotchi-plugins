@@ -89,21 +89,24 @@ class hashie(plugins.Plugin):
             name = filename.split("/")[-1:][0].split(".")[0]
 
             if os.path.isfile(fullpathNoExt + ".22000"):
-                handshake_status.append("Already have {}.22000 (EAPOL)".format(name))
+                handshake_status.append(
+                    "Already have {}.22000 (EAPOL)".format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append(
                     "Created {}.22000 (EAPOL) from pcap".format(name)
                 )
 
             if os.path.isfile(fullpathNoExt + ".16800"):
-                handshake_status.append("Already have {}.16800 (PMKID)".format(name))
+                handshake_status.append(
+                    "Already have {}.16800 (PMKID)".format(name))
             elif self._writePMKID(filename, access_point):
                 handshake_status.append(
                     "Created {}.16800 (PMKID) from pcap".format(name)
                 )
 
             if handshake_status:
-                logging.info("[hashie] Good news:\n\t" + "\n\t".join(handshake_status))
+                logging.info("[hashie] Good news:\n\t" +
+                             "\n\t".join(handshake_status))
 
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split(".")[0]
@@ -150,7 +153,8 @@ class hashie(plugins.Plugin):
                     return False
                 else:
                     logging.debug(
-                        "[hashie] [+] PMKID Success: {}.16800 repaired".format(filename)
+                        "[hashie] [+] PMKID Success: {}.16800 repaired".format(
+                            filename)
                     )
                     return True
             else:
@@ -172,13 +176,15 @@ class hashie(plugins.Plugin):
         if apJSON != "":
             clientString.append(
                 "{}:{}".format(
-                    apJSON["mac"].replace(":", ""), apJSON["hostname"].encode("hex")
+                    apJSON["mac"].replace(
+                        ":", ""), apJSON["hostname"].encode("hex")
                 )
             )
         else:
             # attempt to extract the AP's name via hcxpcapngtool
             result = subprocess.getoutput(
-                "hcxpcapngtool -X /tmp/{} {} >/dev/null 2>&1".format(filename, fullpath)
+                "hcxpcapngtool -X /tmp/{} {} >/dev/null 2>&1".format(
+                    filename, fullpath)
             )
             if os.path.isfile("/tmp/" + filename):
                 with open("/tmp/" + filename, "r") as tempFileB:
@@ -210,7 +216,8 @@ class hashie(plugins.Plugin):
                 if (
                     line.split(":")[0] == hashString.split(":")[1]
                 ):  # if the AP MAC pulled from the JSON or tcpdump output matches the AP MAC in the raw 16800 output
-                    hashString = hashString.strip("\n") + ":" + (line.split(":")[1])
+                    hashString = hashString.strip(
+                        "\n") + ":" + (line.split(":")[1])
                     if (len(hashString.split(":")) == 4) and not (
                         hashString.endswith(":")
                     ):
@@ -224,7 +231,8 @@ class hashie(plugins.Plugin):
                         return True
                     else:
                         logging.debug(
-                            "[hashie] Discarded: {} {}".format(line, hashString)
+                            "[hashie] Discarded: {} {}".format(
+                                line, hashString)
                         )
         else:
             os.remove(fullpath.split(".")[0] + ".16800")

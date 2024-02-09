@@ -43,7 +43,8 @@ class InternetConnectionPlugin(plugins.Plugin):
     def on_internet_available(self, agent):
         display = agent.view()
         display.set("connection_status", "C")
-        logging.debug(f"[{self.__class__.__name__}] connected to the World Wide Web!")
+        logging.debug(
+            f"[{self.__class__.__name__}] connected to the World Wide Web!")
 
     def on_unload(self, ui):
         with ui._lock:
