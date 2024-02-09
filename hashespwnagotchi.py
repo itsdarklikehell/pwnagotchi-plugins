@@ -1,5 +1,7 @@
 import logging
-import requests, uuid, linecache
+import requests
+import uuid
+import linecache
 import subprocess
 import os
 import json
@@ -43,15 +45,17 @@ class hashespwnagotchi(plugins.Plugin):
 
     def __init__(self):
         self.ready = False
-        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        logging.debug("[hashespwnagotchi] plugin init")
         self.title = ""
         self.ready = False
         self.lock = Lock()
         try:
-            self.report = StatusFile("/root/.hashespw_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.hashespw_uploads", data_format="json")
         except JSONDecodeError:
             os.remove("/root/.hashespw_uploads")
-            self.report = StatusFile("/root/.hashespw_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.hashespw_uploads", data_format="json")
         self.options = dict()
         self.skip = list()
         self.token = None
@@ -73,24 +77,27 @@ class hashespwnagotchi(plugins.Plugin):
             )
             return
         self.ready = True
-        logging.info(f"[{self.__class__.__name__}] plugin loaded")
+        logging.info("[hashespwnagotchi] plugin loaded")
 
     # called when everything is ready and the main loop is about to start
     def on_config_changed(self, config):
         handshake_dir = config["bettercap"]["handshakes"]
         self.uuid = str(uuid.uuid5(uuid.NAMESPACE_OID, config["main"]["name"]))
         try:
-            self.report = StatusFile("/root/.hashespw_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.hashespw_uploads", data_format="json")
         except JSONDecodeError:
             os.remove("/root/.hashespw_uploads")
-            self.report = StatusFile("/root/.hashespw_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.hashespw_uploads", data_format="json")
         if "interval" not in self.options or not (
             self.status.newer_then_hours(self.options["interval"])
         ):
-            logging.info(f"[{self.__class__.__name__}] Starting batch conversion of pcap files")
+            logging.info(
+                "[hashespwnagotchi] Starting batch conversion of pcap files")
             with self.lock:
                 self._process_stale_pcaps(handshake_dir)
-        logging.info(f"[{self.__class__.__name__}] config changed")
+        logging.info("[hashespwnagotchi] config changed")
 
     def on_bored(self, agent):
         self._report_handshakes(agent)
@@ -105,7 +112,8 @@ class hashespwnagotchi(plugins.Plugin):
             name = filename.split("/")[-1:][0].split(".")[0]
 
             if os.path.isfile(fullpathNoExt + ".22000"):
-                handshake_status.append("Already have {}.22000 (EAPOL)".format(name))
+                handshake_status.append(
+                    "Already have {}.22000 (EAPOL)".format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append(
                     "Created {}.22000 (EAPOL) from pcap".format(name)
@@ -113,14 +121,16 @@ class hashespwnagotchi(plugins.Plugin):
                 self._report_handshakes(agent)
 
             if os.path.isfile(fullpathNoExt + ".16800"):
-                handshake_status.append("Already have {}.16800 (PMKID)".format(name))
+                handshake_status.append(
+                    "Already have {}.16800 (PMKID)".format(name))
             elif self._writePMKID(filename, access_point):
                 handshake_status.append(
                     "Created {}.16800 (PMKID) from pcap".format(name)
                 )
 
             if handshake_status:
-                logging.info(f"[{self.__class__.__name__}] Good news:\n\t" + "\n\t".join(handshake_status))
+                logging.info("[hashespwnagotchi] Good news:\n\t" +
+                             "\n\t".join(handshake_status))
 
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split(".")[0]
@@ -131,8 +141,8 @@ class hashespwnagotchi(plugins.Plugin):
             )
         )
         if os.path.isfile(fullpathNoExt + ".22000"):
-            logging.debug(f"[{self.__class__.__name__}] [+] EAPOL Success: {}.22000 created".format(filename)
-            )
+            logging.debug("[hashespwnagotchi] [+] EAPOL Success: {}.22000 created".format(filename)
+                          )
             return True
         else:
             return False
@@ -147,7 +157,8 @@ class hashespwnagotchi(plugins.Plugin):
         )
         if os.path.isfile(fullpathNoExt + ".16800"):
             logging.debug(
-                f"[{self.__class__.__name__}] [+] PMKID Success: {}.16800 created".format(filename)
+                "[hashespwnagotchi] [+] PMKID Success: {}.16800 created".format(
+                    filename)
             )
             return True
         else:  # make a raw dump
@@ -159,19 +170,20 @@ class hashespwnagotchi(plugins.Plugin):
             if os.path.isfile(fullpathNoExt + ".16800"):
                 if self._repairPMKID(fullpath, apJSON) == False:
                     logging.debug(
-                        f"[{self.__class__.__name__}] [-] PMKID Fail: {}.16800 could not be repaired".format(
+                        "[hashespwnagotchi] [-] PMKID Fail: {}.16800 could not be repaired".format(
                             filename
                         )
                     )
                     return False
                 else:
                     logging.debug(
-                        f"[{self.__class__.__name__}] [+] PMKID Success: {}.16800 repaired".format(filename)
+                        "[hashespwnagotchi] [+] PMKID Success: {}.16800 repaired".format(
+                            filename)
                     )
                     return True
             else:
                 logging.debug(
-                    f"[{self.__class__.__name__}] [-] Could not attempt repair of {} as no raw PMKID file was created".format(
+                    "[hashespwnagotchi] [-] Could not attempt repair of {} as no raw PMKID file was created".format(
                         filename
                     )
                 )
@@ -182,19 +194,21 @@ class hashespwnagotchi(plugins.Plugin):
         clientString = []
         fullpathNoExt = fullpath.split(".")[0]
         filename = fullpath.split("/")[-1:][0].split(".")[0]
-        logging.debug(f"[{self.__class__.__name__}] Repairing {}".format(filename))
+        logging.debug("[hashespwnagotchi] Repairing {}".format(filename))
         with open(fullpathNoExt + ".16800", "r") as tempFileA:
             hashString = tempFileA.read()
         if apJSON != "":
             clientString.append(
                 "{}:{}".format(
-                    apJSON["mac"].replace(":", ""), apJSON["hostname"].encode("hex")
+                    apJSON["mac"].replace(
+                        ":", ""), apJSON["hostname"].encode("hex")
                 )
             )
         else:
             # attempt to extract the AP's name via hcxpcapngtool
             result = subprocess.getoutput(
-                "hcxpcapngtool -X /tmp/{} {} >/dev/null 2>&1".format(filename, fullpath)
+                "hcxpcapngtool -X /tmp/{} {} >/dev/null 2>&1".format(
+                    filename, fullpath)
             )
             if os.path.isfile("/tmp/" + filename):
                 with open("/tmp/" + filename, "r") as tempFileB:
@@ -226,13 +240,14 @@ class hashespwnagotchi(plugins.Plugin):
                 if (
                     line.split(":")[0] == hashString.split(":")[1]
                 ):  # if the AP MAC pulled from the JSON or tcpdump output matches the AP MAC in the raw 16800 output
-                    hashString = hashString.strip("\n") + ":" + (line.split(":")[1])
+                    hashString = hashString.strip(
+                        "\n") + ":" + (line.split(":")[1])
                     if (len(hashString.split(":")) == 4) and not (
                         hashString.endswith(":")
                     ):
                         with open(fullpath.split(".")[0] + ".16800", "w") as tempFileC:
                             logging.debug(
-                                f"[{self.__class__.__name__}] Repaired: {} ({})".format(
+                                "[hashespwnagotchi] Repaired: {} ({})".format(
                                     filename, hashString
                                 )
                             )
@@ -240,7 +255,8 @@ class hashespwnagotchi(plugins.Plugin):
                         return True
                     else:
                         logging.debug(
-                            f"[{self.__class__.__name__}] Discarded: {} {}".format(line, hashString)
+                            "[hashespwnagotchi] Discarded: {} {}".format(
+                                line, hashString)
                         )
         else:
             os.remove(fullpath.split(".")[0] + ".16800")
@@ -273,7 +289,7 @@ class hashespwnagotchi(plugins.Plugin):
                     ):  # if no 16800 AND no 22000
                         lonely_pcaps.append(handshake)
                         logging.debug(
-                            f"[{self.__class__.__name__}] Batch job: added {} to lonely list".format(
+                            "[hashespwnagotchi] Batch job: added {} to lonely list".format(
                                 pcapFileName
                             )
                         )
@@ -281,19 +297,19 @@ class hashespwnagotchi(plugins.Plugin):
                 num + 1 == len(handshakes_list)
             ):  # report progress every 50, or when done
                 logging.info(
-                    f"[{self.__class__.__name__}] Batch job: {}/{} done ({} fails)".format(
+                    "[hashespwnagotchi] Batch job: {}/{} done ({} fails)".format(
                         num + 1, len(handshakes_list), len(lonely_pcaps)
                     )
                 )
         if successful_jobs:
             logging.info(
-                f"[{self.__class__.__name__}] Batch job: {} new handshake files created".format(
+                "[hashespwnagotchi] Batch job: {} new handshake files created".format(
                     len(successful_jobs)
                 )
             )
         if lonely_pcaps:
             logging.info(
-                f"[{self.__class__.__name__}] Batch job: {} networks without enough packets to create a hash".format(
+                "[hashespwnagotchi] Batch job: {} networks without enough packets to create a hash".format(
                     len(lonely_pcaps)
                 )
             )
@@ -315,13 +331,13 @@ class hashespwnagotchi(plugins.Plugin):
                     count += 1
             if count != 0:
                 logging.info(
-                    f"[{self.__class__.__name__}] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)".format(
+                    "[hashespwnagotchi] Used {} GPS/GEO/PAW-GPS files to find lonely networks, go check webgpsmap! ;)".format(
                         str(count)
                     )
                 )
             else:
                 logging.info(
-                    f"[{self.__class__.__name__}] Could not find any GPS/GEO/PAW-GPS files for the lonely networks".format(
+                    "[hashespwnagotchi] Could not find any GPS/GEO/PAW-GPS files for the lonely networks".format(
                         str(count)
                     )
                 )
@@ -371,7 +387,7 @@ class hashespwnagotchi(plugins.Plugin):
                 for loc in locations:
                     tempFileD.write(loc + "\n")
             logging.info(
-                f"[{self.__class__.__name__}] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!".format(
+                "[hashespwnagotchi] Used {} GPS/GEO files to find lonely networks, load /root/locations.csv into a mapping app and go say hi!".format(
                     len(locations)
                 )
             )
@@ -417,15 +433,18 @@ class hashespwnagotchi(plugins.Plugin):
                 if filename.endswith(".22000")
             ]
             # handshake_paths = remove_whitelisted(handshake_paths, self.options['whitelist'])
-            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - \
+                set(reported) - set(self.skip)
 
             if handshake_new:
                 logging.info("hashespwnagotchi: have pwns to upload")
                 for idx, handshake in enumerate(handshake_new):
-                    display.on_uploading(f"hashes.pw ({idx + 1}/{len(handshake_new)})")
+                    display.on_uploading(
+                        f"hashes.pw ({idx + 1}/{len(handshake_new)})")
 
                     try:
-                        logging.info("sending contents of %s to hashes.pw" % handshake)
+                        logging.info(
+                            "sending contents of %s to hashes.pw" % handshake)
                         self._upload_EAPOL(handshake, config["main"]["name"])
                         reported.append(handshake)
                         self.report.update(data={"reported": reported})
@@ -450,13 +469,15 @@ class hashespwnagotchi(plugins.Plugin):
 
     def _validate_or_fetch_token(self) -> None:
         if self.token == None:
-            full_path = self._uri_format(self.options["api_url"], "agent/pwnagotchi")
+            full_path = self._uri_format(
+                self.options["api_url"], "agent/pwnagotchi")
 
             # let it raise
             r = requests.post(
                 full_path,
                 json={"uuid": self.uuid, "auth_only": True},
-                headers={"Authorization": "Token token=%s" % (self.options["api_key"])},
+                headers={"Authorization": "Token token=%s" %
+                         (self.options["api_key"])},
             )
 
             response = json.loads(r.content)
@@ -511,4 +532,4 @@ class hashespwnagotchi(plugins.Plugin):
             return False
 
     def on_webhook(self, path, request):
-        logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        logging.info("[hashespwnagotchi] webhook pressed")
