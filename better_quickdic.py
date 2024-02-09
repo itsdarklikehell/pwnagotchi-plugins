@@ -10,6 +10,7 @@ import os
 
 
 class BetterQuickDic(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), silentree12th"
     __version__ = "1.4.5"
     __license__ = "GPL3"

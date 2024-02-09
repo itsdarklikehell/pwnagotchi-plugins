@@ -4,6 +4,7 @@ import pwnagotchi.plugins as plugins
 
 
 class instattack(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 129890632+Sniffleupagus@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"

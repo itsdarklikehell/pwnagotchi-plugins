@@ -655,6 +655,7 @@ def runCommand(button, pressed, plugin):
 
 
 class Buttonshim(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), gon@o2online.de"
     __version__ = "1.0.0"
     __license__ = "GPL3"

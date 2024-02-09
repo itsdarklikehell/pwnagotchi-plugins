@@ -11,6 +11,7 @@ from pwnagotchi.plugins import Plugin
 
 
 class CombinedPlugin(Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Andryu Schittone, @nagy_craig"
     __version__ = "1.0.27"
     __license__ = "GPL3"

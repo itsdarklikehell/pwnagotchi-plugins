@@ -8,6 +8,7 @@ import requests
 
 
 class Bitcoin(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/jfrader"
     __version__ = "0.0.1"
     __license__ = "GPL3"

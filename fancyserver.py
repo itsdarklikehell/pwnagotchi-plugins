@@ -9,6 +9,7 @@ import time
 
 
 class fancyserver(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x https://github.com/V0r-T3x"
     __version__ = "1.0.0"
     __license__ = "MIT"

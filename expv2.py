@@ -27,6 +27,7 @@ JSON_KEY_STRENGTH = "strength"
 
 
 class EXPV2(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), GaelicThunder, Kaska89, Rai, JayofElony, & Terminator"
     __version__ = "2.0.1"
     __license__ = "GPL3"

@@ -26,6 +26,7 @@ JSON_KEY_EXP_TOT = "exp_tot"
 
 
 class EXP(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), GaelicThunder"
     __version__ = "1.0.5"
     __license__ = "GPL3"

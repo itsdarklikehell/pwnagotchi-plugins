@@ -6,6 +6,7 @@ import pwnagotchi.plugins as plugins
 
 
 class handshaker(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Allordacia"
     __version__ = "1.0.1"
     __license__ = "MIT"

@@ -286,6 +286,7 @@ def generate_certificates(config, password):
 
 
 class Enterprise(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 5461464+BradlySharpe@users.noreply.github.com"
     __version__ = "0.0.5"
     __license__ = "GPL3"

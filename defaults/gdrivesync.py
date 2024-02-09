@@ -13,6 +13,7 @@ import zipfile
 
 
 class GdriveSync(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @jayofelony"
     __version__ = "1.2"
     __license__ = "GPL3"

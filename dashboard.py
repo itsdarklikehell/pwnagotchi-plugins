@@ -13,6 +13,7 @@ from time import sleep
 
 
 class Dashboard(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), doki"
     __version__ = "1.0.0"
     __license__ = "GPL3"

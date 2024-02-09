@@ -12,6 +12,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Birthday(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), nullm0ose"
     __version__ = "1.0."
     __license__ = "MIT"

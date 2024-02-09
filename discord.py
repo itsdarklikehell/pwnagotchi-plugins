@@ -5,6 +5,7 @@ import os
 
 
 class Discord(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), isabelladonnamoore@outlook.com"
     __version__ = "2.0.0"
     __license__ = "GPL3"

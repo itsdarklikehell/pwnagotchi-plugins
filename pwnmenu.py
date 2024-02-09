@@ -26,6 +26,7 @@ with open("/home/pi/scripts/pwnmenu.txt", "r") as pwnmenutxt:
 
 
 class PwnMenu(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://gitlab.com/sn0wflake"
     __version__ = "1.0.0"
     __license__ = "MIT"

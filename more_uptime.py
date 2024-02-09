@@ -10,6 +10,7 @@ import pwnagotchi.utils as utils
 
 
 class More_Uptime(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"

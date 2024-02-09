@@ -86,6 +86,7 @@ def adjust_image(image_path, zoom, mask=False):
 
 class fancygotchi(object):
     __name__ = "Fancygotchi"
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x https://github.com/V0r-T3x"
     __version__ = "2023.09.1"
     __license__ = "GPL3"

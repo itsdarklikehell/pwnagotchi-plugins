@@ -233,6 +233,7 @@ TEMPLATE = """
 
 
 class Logtail(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "0.1.0"
     __license__ = "GPL3"

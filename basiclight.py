@@ -27,6 +27,7 @@ def Blink(LED, times=1):
 
 
 class BasicLight(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), github.com/shir0tetsuo"
     __version__ = "1.0.0"
     __license__ = "GPL3"

@@ -8,6 +8,7 @@ import io
 
 
 class MyCrackedPasswords(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @silentree12th"
     __version__ = "5.2.3"
     __license__ = "GPL3"

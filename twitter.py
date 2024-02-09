@@ -4,6 +4,7 @@ from pwnagotchi import plugins
 
 
 class Twitter(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "2.0.1"
     __license__ = "GPL3"

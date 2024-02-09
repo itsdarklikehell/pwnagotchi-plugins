@@ -67,6 +67,7 @@ TEMPLATE = """
 
 
 class HandshakesDL(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), me@sayakb.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"

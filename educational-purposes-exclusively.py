@@ -16,6 +16,7 @@ CHANNEL = 0
 
 
 class EducationalPurposesOnly(Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @nagy_craig , MaliosDark"
     __version__ = "1.0.15.2"
     __license__ = "GPL3"

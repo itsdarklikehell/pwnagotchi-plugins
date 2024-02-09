@@ -13,6 +13,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Age(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
     __version__ = "1.1.0"
     __license__ = "MIT"

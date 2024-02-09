@@ -57,6 +57,7 @@ class PwnFace(Enum):
 
 
 class PwnZero(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), github.com/Matt-London"
     __version__ = "1.0.0"
     __license__ = "MIT"

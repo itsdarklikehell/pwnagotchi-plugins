@@ -7,6 +7,7 @@ import os
 
 
 class ShowPwd(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @jayofelony"
     __version__ = "1.0.1"
     __name__ = "Show Pwd"

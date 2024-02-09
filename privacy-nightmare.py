@@ -15,6 +15,7 @@ from pwnagotchi.bettercap import Client
 
 
 class PrivacyNightmare(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), glenn@pegden.com.com"
     __version__ = "0.0.1"
     __license__ = "Private (for now)"

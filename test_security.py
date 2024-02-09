@@ -14,6 +14,7 @@ import scapy
 
 
 class SecurityMonitor(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), MaliosDark"
     __version__ = "1.0.4"
     __license__ = "GPL3"

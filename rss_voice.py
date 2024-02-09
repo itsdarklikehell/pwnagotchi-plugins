@@ -25,6 +25,7 @@ except Exception as e:
 
 
 class RSS_Voice(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"

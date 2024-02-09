@@ -12,6 +12,7 @@ Aircrack-ng needed, to install:
 
 
 class AircrackOnly_ng(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), pwnagotchi [at] rossmarks [dot] uk"
     __version__ = "1.0.1"
     __license__ = "GPL3"

@@ -38,6 +38,7 @@ import psutil
 
 
 class MemTempAdv(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/mavotronik/pwnagotchi-plugins"
     __version__ = "1.2.0"
     __license__ = "MIT"

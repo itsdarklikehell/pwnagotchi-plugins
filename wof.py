@@ -466,6 +466,7 @@ class WofBridge:
 
 
 class WofPlugin(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), CyberArtemio"
     __version__ = "1.1"
     __license__ = "GPL3"

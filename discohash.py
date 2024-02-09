@@ -8,6 +8,7 @@ import pwnagotchi.plugins as plugins
 
 
 class discohash(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), v0yager"
     __version__ = "1.1.0"
     __license__ = "GPL3"

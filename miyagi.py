@@ -13,6 +13,7 @@ from flask import render_template_string
 
 
 class Miyagi(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Sniffleupagus & MaliosDark"
     __version__ = "1.0.2"
     __license__ = "GPL3"

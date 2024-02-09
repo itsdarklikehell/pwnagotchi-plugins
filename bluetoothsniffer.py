@@ -12,6 +12,7 @@ from datetime import datetime
 
 
 class BluetoothSniffer(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), diytechtinker, fixed by Jayofelony"
     __version__ = "0.1.4"
     __license__ = "GPL3"

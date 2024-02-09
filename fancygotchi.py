@@ -295,6 +295,7 @@ def uninstall(soft=False):
 
 
 class Fancygotchi(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x https://github.com/V0r-T3x"
     __version__ = "2023.03.2"
     __license__ = "GPL3"

@@ -12,6 +12,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Counter(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com (made the plugin this is based on) + Terminator"
     __version__ = "1.0.0"
     __license__ = "GPL3"

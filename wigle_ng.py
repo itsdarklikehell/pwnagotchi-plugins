@@ -129,7 +129,8 @@ def _send_to_wigle(lines, api_key, donate=True, timeout=30):
 
 
 class Wigle(plugins.Plugin):
-    __author__ = "Dadav and updated by Jayofelony"
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Dadav and updated by Jayofelony"
     __version__ = "3.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin automatically uploads collected WiFi to wigle.net"

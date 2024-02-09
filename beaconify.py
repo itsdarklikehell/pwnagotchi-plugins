@@ -17,6 +17,7 @@ from pwnagotchi.grid import call, get_advertisement_data
 
 
 class Beaconify(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Artur Oliveira"
     __version__ = "1.0.6"
     __license__ = "GPL3"

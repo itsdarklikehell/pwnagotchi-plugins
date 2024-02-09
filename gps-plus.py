@@ -14,6 +14,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class GPSPlus(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.1-1"
     __license__ = "GPL3"

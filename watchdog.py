@@ -8,6 +8,7 @@ from pwnagotchi.utils import StatusFile
 
 
 class Watchdog(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"

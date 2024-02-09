@@ -24,6 +24,7 @@ from json.decoder import JSONDecodeError
 
 
 class Banthex(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), adi1708"
     __version__ = "1.5.0"
     __license__ = "GPL3"

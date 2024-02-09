@@ -14,6 +14,7 @@ import time
 
 
 class PiSugar2(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 10230718+tisboyo@users.noreply.github.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"

@@ -7,6 +7,7 @@ import pwnagotchi
 
 
 class displaytext(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), adi1708 made by chatGPT"
     __version__ = "1.0.0"
     __license__ = "GPL3"

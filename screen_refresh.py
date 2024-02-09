@@ -3,6 +3,7 @@ import logging
 
 
 class ScreenRefresh(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), pwnagotchi [at] rossmarks [dot] uk"
     __version__ = "2.0.0"
     __license__ = "GPL3"

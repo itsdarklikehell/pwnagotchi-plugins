@@ -51,6 +51,7 @@ class UPS:
 
 
 class PiSugar3(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), taiyonemo@protonmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"

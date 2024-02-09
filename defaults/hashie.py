@@ -16,6 +16,7 @@ hcxpcapngtool needed, to install:
 
 
 class Hashie(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Jayofelony"
     __version__ = "1.0.4"
     __license__ = "GPL3"

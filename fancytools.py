@@ -585,6 +585,7 @@ def verify_tool_status(config):
 
 class Fancytools(plugins.Plugin):
     __name__ = "FancyTools"
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x https://github.com/V0r-T3x"
     __version__ = "2023.12.2"
     __license__ = "GPL3"

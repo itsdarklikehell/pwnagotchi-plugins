@@ -21,6 +21,7 @@ def choose_random_challenge():
 
 
 class Achievements(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), luca.paulmann1@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"

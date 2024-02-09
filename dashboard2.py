@@ -10,6 +10,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class Dashboard2(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), doki"
     __version__ = "1.0.0"
     __license__ = "GPL3"

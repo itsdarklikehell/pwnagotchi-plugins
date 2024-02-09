@@ -20,6 +20,7 @@ from struct import *
 
 
 class Beacons(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @kripthor"
     __version__ = "0.0.2"
     __license__ = "GPL3"

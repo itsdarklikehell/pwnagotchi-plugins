@@ -9,6 +9,7 @@ from pwnagotchi.utils import StatusFile
 
 
 class NetPos(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), zenzen san"
     __version__ = "2.0.3"
     __license__ = "GPL3"

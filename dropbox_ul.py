@@ -10,6 +10,7 @@ from json.decoder import JSONDecodeError
 
 
 class dropbox(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), menglish99@gmail.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"

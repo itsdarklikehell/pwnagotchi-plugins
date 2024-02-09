@@ -8,6 +8,7 @@ import os
 
 
 class DisplayAircrack(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @7h30th3r0n3"
     __version__ = "1.0.0"
     __license__ = "GPL3"

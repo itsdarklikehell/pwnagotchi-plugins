@@ -180,6 +180,7 @@ def parse_version(cmd):
 
 
 class AutoUpdate(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.1.1"
     __name__ = "auto-update"

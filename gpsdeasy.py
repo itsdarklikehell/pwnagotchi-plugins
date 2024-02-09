@@ -121,6 +121,7 @@ class GPSD:
 
 
 class Gpsdeasy(plugins.Plugin):
+    __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), discord@rai68"
     __version__ = "1.3.0"
     __license__ = "LGPL"

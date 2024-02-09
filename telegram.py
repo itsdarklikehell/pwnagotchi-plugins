@@ -11,6 +11,7 @@ from subprocess import Popen
 
 
 class Telegram(plugins.Plugin):
+    __GitHub__ = ''
     __author__ = '(edited by: itsdarklikehell bauke.molenaar@gmail.com), djerfy@gmail.com'
     __version__ = '2.0.1'
     __license__ = 'GPL3'
