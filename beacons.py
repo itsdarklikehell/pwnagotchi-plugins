@@ -32,7 +32,7 @@ class Beacons(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     _iface = "wlan0"

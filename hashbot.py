@@ -17,7 +17,7 @@ class hashbot(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     # 1. Create a bot in the Discord developer portal

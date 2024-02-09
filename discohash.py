@@ -19,7 +19,7 @@ class discohash(plugins.Plugin):
         "pip": ["requests"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def __init__(self):

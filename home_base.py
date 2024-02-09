@@ -28,7 +28,7 @@ class HomeBase(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "ssid": "home-networkname",
         "minimum_signal_strength": = -75,
     }

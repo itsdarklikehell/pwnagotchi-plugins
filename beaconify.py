@@ -28,7 +28,7 @@ class Beaconify(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
     # Define the custom Information Element IDs
     # Taken from:

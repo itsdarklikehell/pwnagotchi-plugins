@@ -20,7 +20,7 @@ class GPS(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
     LINE_SPACING = 10
     LABEL_SPACING = 0

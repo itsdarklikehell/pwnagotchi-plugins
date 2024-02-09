@@ -659,12 +659,12 @@ class Buttonshim(plugins.Plugin):
     __help__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "buttons": {
             "A": {
                 "command": "",
                 "blink": {
-                    "enabled": false,
+                    "enabled": False,
                     "red": 0,
                     "green": 0,
                     "blue": 0,
@@ -676,7 +676,7 @@ class Buttonshim(plugins.Plugin):
             "B": {
                 "command": "",
                 "blink": {
-                    "enabled": false,
+                    "enabled": False,
                     "red": 0,
                     "green": 0,
                     "blue": 0,
@@ -688,7 +688,7 @@ class Buttonshim(plugins.Plugin):
             "C": {
                 "command": "",
                 "blink": {
-                    "enabled": false,
+                    "enabled": False,
                     "red": 0,
                     "green": 0,
                     "blue": 0,
@@ -700,7 +700,7 @@ class Buttonshim(plugins.Plugin):
             "D": {
                 "command": "",
                 "blink": {
-                    "enabled": false,
+                    "enabled": False,
                     "red": 0,
                     "green": 0,
                     "blue": 0,

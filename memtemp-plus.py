@@ -23,7 +23,7 @@ class MemTempPlus(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "orientation": "horizontal",
     }
 

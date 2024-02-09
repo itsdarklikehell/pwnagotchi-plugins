@@ -16,7 +16,7 @@ class AutoBackup(plugins.Plugin):
         "apt": ["tar"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "interval": 1,
         "max_tries": 0,
         "files": [

@@ -22,7 +22,7 @@ class CombinedPlugin(Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def __init__(self, home_network="test-net", home_password="TestNet1"):

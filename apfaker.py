@@ -22,7 +22,7 @@ class APFaker(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "ssids": ["5G TEST CELL TOWER"],
         "max": 50,
         "repeat": True,

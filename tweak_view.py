@@ -24,7 +24,7 @@ class Tweak_View(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     myFonts = {

@@ -15,7 +15,7 @@ class displaytext(plugins.Plugin):
     __help__ = "A plugin that displays text on the waveshare144lcd screen."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def on_loaded(self):

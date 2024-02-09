@@ -59,7 +59,7 @@ class WeatherForecast(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def _is_internet_available(self):

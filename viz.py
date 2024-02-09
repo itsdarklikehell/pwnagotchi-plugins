@@ -105,7 +105,7 @@ class Viz(plugins.Plugin):
     __help__ = "This plugin visualizes the surrounding APs."
     __dependencies__ = {"pip": ["plotly", "pandas", "flask"]}
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     COLORS = [

@@ -290,7 +290,7 @@ class Enterprise(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def __init__(self):
@@ -308,7 +308,7 @@ class Enterprise(plugins.Plugin):
                 "email": "",
                 "commonName": "",
             },
-            "enabled": false,
+            "enabled": False,
             "access_points": [],
         }
         self.rebooting = False

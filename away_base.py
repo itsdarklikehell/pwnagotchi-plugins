@@ -22,7 +22,7 @@ class AwayBase(plugins.Plugin):
         "pip": ["none"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def __init__(self):

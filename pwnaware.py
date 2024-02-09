@@ -29,7 +29,7 @@ class PWNAware(plugins.Plugin):
         "pip": ["scapy", "geopy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def get_bearing(self, lat1, lon1, lat2, lon2):

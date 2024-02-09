@@ -39,7 +39,7 @@ class Wardriver(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     DEFAULT_PATH = "/root/wardriver"

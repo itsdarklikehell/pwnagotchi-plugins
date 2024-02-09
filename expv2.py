@@ -38,7 +38,7 @@ class EXPV2(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     # Attention number masking

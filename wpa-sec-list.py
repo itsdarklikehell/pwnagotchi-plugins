@@ -164,7 +164,7 @@ class WpaSecList(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     def __init__(self):

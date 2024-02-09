@@ -21,7 +21,7 @@ class Dashboard(plugins.Plugin):
     __help__ = "Dashboard plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status."
     __dependencies__ = {"pip": ["scapy"]}
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     # Initiate deauthcounter plugin

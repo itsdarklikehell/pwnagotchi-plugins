@@ -25,7 +25,7 @@ class GPSPlus(plugins.Plugin):
         "pip": ["scapy"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
     }
 
     LINE_SPACING = 12

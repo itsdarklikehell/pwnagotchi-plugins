@@ -36,7 +36,7 @@ class Banthex(plugins.Plugin):
         "pip": ["requests"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "api_key": "",
         "api_url": "https://banthex.de/wpa/",
         "download_results": False,

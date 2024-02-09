@@ -16,7 +16,7 @@ class Discord(plugins.Plugin):
         "pip": ["discord"],
     }
     __defaults__ = {
-        "enabled": false,
+        "enabled": False,
         "webhook_url": "",
         "username": "pwnagotchi",
     }
