@@ -30,6 +30,7 @@ class DisplayPassword(plugins.Plugin):
     __defaults__ = {
         "enabled": False,
         "orientation": "horizontal",
+        "potfile": "/root/handshakes/wpa-sec.cracked.potfile",
     }
 
     def __init__(self):
@@ -56,6 +57,9 @@ class DisplayPassword(plugins.Plugin):
         elif ui.is_waveshare27inch():
             h_pos = (0, 153)
             v_pos = (216, 122)
+        elif ui.is_waveshare35lcd():
+            h_pos = (0, 150)
+            v_pos = (200, 152)
         else:
             h_pos = (0, 91)
             v_pos = (180, 61)
@@ -100,3 +104,5 @@ class DisplayPassword(plugins.Plugin):
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
+        last_line = "tail -n 1 /root/handshakes/wpa-sec.cracked.potfile | awk -F: '{print $3 \" - \" $4}'"
+        ui.set("display-password", "%s" % (os.popen(last_line).read().rstrip()))

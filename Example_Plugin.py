@@ -28,6 +28,10 @@ class Example_Plugin(plugins.Plugin):
     def __init__(self):
         logging.debug(f"[{self.__class__.__name__}] plugin init")
 
+    # called when http://<host>:<port>/plugins/<plugin>/ is called
+    # must return a html page
+    # IMPORTANT: If you use "POST"s, add a csrf-token (via csrf_token() and render_template_string)
+
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
 
@@ -40,11 +44,13 @@ class Example_Plugin(plugins.Plugin):
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] plugin unloaded")
 
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
-        pass
+        logging.debug(
+            f"[{self.__class__.__name__}] there is an internet connection available"
+        )
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
@@ -74,7 +80,7 @@ class Example_Plugin(plugins.Plugin):
 
     # called when everything is ready and the main loop is about to start
     def on_ready(self, agent):
-        logging.info("unit is ready")
+        logging.debug(f"[{self.__class__.__name__}] unit is ready")
         # you can run custom bettercap commands if you want
         #   agent.run('ble.recon on')
         # or set a custom state
@@ -82,31 +88,31 @@ class Example_Plugin(plugins.Plugin):
 
     # called when the AI finished loading
     def on_ai_ready(self, agent):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] unit is ready")
 
     # called when the AI finds a new set of parameters
     def on_ai_policy(self, agent, policy):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] ai is ready")
 
     # called when the AI starts training for a given number of epochs
     def on_ai_training_start(self, agent, epochs):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] ai training started")
 
     # called after the AI completed a training epoch
     def on_ai_training_step(self, agent, _locals, _globals):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] ai training step")
 
     # called when the AI has done training
     def on_ai_training_end(self, agent):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] ai training ended")
 
     # called when the AI got the best reward so far
     def on_ai_best_reward(self, agent, reward):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] ai best reward")
 
     # called when the AI got the worst reward so far
     def on_ai_worst_reward(self, agent, reward):
-        pass
+        logging.debug(f"[{self.__class__.__name__}] ai worst reward")
 
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
