@@ -6,24 +6,36 @@ from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
 
-class Example(plugins.Plugin):
+class Example_Plugin(plugins.Plugin):
     __author__ = "SgtStroopwafel, evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (
         "An example plugin for pwnagotchi that implements all the available callbacks."
     )
+    __name__ = "Example_Plugin"
+    __help__ = (
+        "An example plugin for pwnagotchi that implements all the available callbacks."
+    )
+    __dependencies__ = {
+        "pip": ["requests"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
+    # called when the plugin is initated
     def __init__(self):
-        logging.debug("example plugin created")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def on_webhook(self, path, request):
-        pass
+        logging.info(f"[{self.__class__.__name__}] webhook pressed")
 
     # called when the plugin is loaded
     def on_loaded(self):
         logging.warning(
-            "WARNING: this plugin should be disabled! options = " % self.options
+            f"[{self.__class__.__name__}] WARNING: this plugin should be disabled! options = "
+            % self.options
         )
 
     # called before the plugin is unloaded
