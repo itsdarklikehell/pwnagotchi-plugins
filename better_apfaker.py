@@ -11,7 +11,7 @@ from scapy.all import Dot11, Dot11Beacon, Dot11Elt, RadioTap, sendp, RandMAC
 
 
 class APFaker(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "2.0.4"
     __license__ = "GPL3"
     __description__ = "Creates fake aps."

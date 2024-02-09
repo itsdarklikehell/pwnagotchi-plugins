@@ -57,7 +57,7 @@ TIME_WIFI_UPDATE = "00:00"
 
 
 class crack_house(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @V0rT3x"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display closest cracked network & it password."

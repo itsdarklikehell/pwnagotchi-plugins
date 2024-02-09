@@ -13,7 +13,7 @@ import zipfile
 
 
 class GdriveSync(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @jayofelony"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @jayofelony"
     __version__ = "1.2"
     __license__ = "GPL3"
     __description__ = "A plugin to backup various pwnagotchi files and folders to Google Drive. Once every hour from loading plugin."
@@ -91,7 +91,8 @@ class GdriveSync(plugins.Plugin):
                         for root, dirs, files in os.walk("/home/pi/backup"):
                             for file in files:
                                 file_path = os.path.join(root, file)
-                                arcname = os.path.relpath(file_path, "/home/pi/backup")
+                                arcname = os.path.relpath(
+                                    file_path, "/home/pi/backup")
                                 zip_ref.write(file_path, arcname=arcname)
 
                     # Upload the zip archive to Google Drive
@@ -117,7 +118,8 @@ class GdriveSync(plugins.Plugin):
                         os.path.join(local_backup_path, "backup.zip")
                     )
 
-                    logging.info("[gDriveSync] Downloaded backup.zip from Google Drive")
+                    logging.info(
+                        "[gDriveSync] Downloaded backup.zip from Google Drive")
 
                     # Extract the zip archive to the root directory
                     with zipfile.ZipFile(
@@ -141,7 +143,8 @@ class GdriveSync(plugins.Plugin):
             self.ready = False
 
     def get_latest_backup_file_id(self, backup_folder_id):
-        backup_folder_id = self.get_folder_id_by_name(self.drive, backup_folder_id)
+        backup_folder_id = self.get_folder_id_by_name(
+            self.drive, backup_folder_id)
         # Retrieve the latest backup file in the Google Drive folder
         file_list = self.drive.ListFile(
             {"q": f"'{backup_folder_id}' in parents and trashed=false"}
@@ -149,7 +152,8 @@ class GdriveSync(plugins.Plugin):
 
         if file_list:
             # Sort the files by creation date in descending order
-            latest_backup = max(file_list, key=lambda file: file["createdDate"])
+            latest_backup = max(
+                file_list, key=lambda file: file["createdDate"])
             return latest_backup["id"]
         else:
             return None
@@ -167,7 +171,8 @@ class GdriveSync(plugins.Plugin):
 
     def create_folder_if_not_exists(self, backup_folder_name):
         # First, try to retrieve the existing *BACKUP_FOLDER* folder
-        backup_folder_id = self.get_folder_id_by_name(self.drive, backup_folder_name)
+        backup_folder_id = self.get_folder_id_by_name(
+            self.drive, backup_folder_name)
 
         if backup_folder_id is None:
             # If not found, create *BACKUP_FOLDER*
@@ -211,9 +216,11 @@ class GdriveSync(plugins.Plugin):
                 )
                 return
 
-            logging.info("[gdrivesync] new handshake captured, backing up to gdrive")
+            logging.info(
+                "[gdrivesync] new handshake captured, backing up to gdrive")
             if self.options["backupfiles"] is not None:
-                self.backupfiles = self.backupfiles + self.options["backupfiles"]
+                self.backupfiles = self.backupfiles + \
+                    self.options["backupfiles"]
             self.backup_files(self.backupfiles, "/home/pi/backup")
 
             # Create a zip archive of the /backup folder
@@ -228,7 +235,8 @@ class GdriveSync(plugins.Plugin):
             # Upload the zip archive to Google Drive
             self.upload_to_gdrive(
                 zip_file_path,
-                self.get_folder_id_by_name(self.drive, self.options["backup_folder"]),
+                self.get_folder_id_by_name(
+                    self.drive, self.options["backup_folder"]),
             )
             display.on_uploading("Google Drive")
 
@@ -284,7 +292,8 @@ class GdriveSync(plugins.Plugin):
                 "[gDriveSync] Rate limit exceeded. Waiting for some time before retrying..."
             )
             # We set to 100 seconds, because there is a limit 20k requests per 100s per user
-            time.sleep(100)  # You can adjust the sleep duration based on your needs
+            # You can adjust the sleep duration based on your needs
+            time.sleep(100)
             self.upload_to_gdrive(backup_path, gdrive_folder)
         else:
             logging.error(f"[gDriveSync] API Request Error: {api_error}")

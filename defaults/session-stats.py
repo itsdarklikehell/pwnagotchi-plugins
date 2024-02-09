@@ -177,7 +177,7 @@ class GhettoClock:
 
 
 class SessionStats(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "0.1.0"
     __license__ = "GPL3"
     __description__ = "This plugin displays stats of the current session."
@@ -266,7 +266,8 @@ class SessionStats(plugins.Plugin):
             data = self.stats
             if session_param and session_param != "Current":
                 file_stats = StatusFile(
-                    os.path.join(self.options["save_directory"], session_param),
+                    os.path.join(
+                        self.options["save_directory"], session_param),
                     data_format="json",
                 )
                 data = file_stats.data_field_or("data", default=dict())

@@ -5,7 +5,7 @@ import os
 
 
 class Discord(plugins.Plugin):
-    __author__ = "SgtStroopwafel, isabelladonnamoore@outlook.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), isabelladonnamoore@outlook.com"
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Post recent activity to a Discord channel using webhooks. Requires discord.py module."

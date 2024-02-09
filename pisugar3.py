@@ -51,7 +51,7 @@ class UPS:
 
 
 class PiSugar3(plugins.Plugin):
-    __author__ = "SgtStroopwafel, taiyonemo@protonmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), taiyonemo@protonmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin that will add a percentage indicator for the PiSugar 3."

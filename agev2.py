@@ -12,7 +12,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class AgeV2(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Kaska"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
     __version__ = "1.1.0"
     __license__ = "MIT"
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"

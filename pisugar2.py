@@ -14,7 +14,7 @@ import time
 
 
 class PiSugar2(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 10230718+tisboyo@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 10230718+tisboyo@users.noreply.github.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = "A plugin that will add a voltage indicator for the PiSugar 2."

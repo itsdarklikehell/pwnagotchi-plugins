@@ -10,7 +10,7 @@ except ImportError as ie:
 
 
 class MastodonStatus(plugins.Plugin):
-    __author__ = "SgtStroopwafel, siina@siina.dev"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), siina@siina.dev"
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Periodically post status updates. Based on twitter plugin by evilsocket."

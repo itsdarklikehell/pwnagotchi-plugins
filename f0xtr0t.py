@@ -41,7 +41,7 @@ class GPSD:
 
 
 class f0xtr0t(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/sixt0o"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/sixt0o"
     __version__ = "1.4.2-alpha"
     __name__ = "f0xtr0t"
     __license__ = "GPL3"

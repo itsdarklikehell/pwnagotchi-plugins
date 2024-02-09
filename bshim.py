@@ -18,7 +18,7 @@ import pwnagotchi.plugins as plugins
 
 
 class Buttonshim(plugins.Plugin):
-    __author__ = "SgtStroopwafel, chris@holycityhosting.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), chris@holycityhosting.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = "Pimoroni Button Shim GPIO Button control."

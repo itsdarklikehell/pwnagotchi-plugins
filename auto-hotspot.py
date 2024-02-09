@@ -17,7 +17,7 @@ NETWORK = ""
 
 
 class AutoHotSpot(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @tjbishop"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @tjbishop"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

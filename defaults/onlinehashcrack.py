@@ -11,7 +11,7 @@ from json.decoder import JSONDecodeError
 
 
 class OnlineHashCrack(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "2.1.0"
     __license__ = "GPL3"
     __description__ = (
@@ -36,7 +36,8 @@ class OnlineHashCrack(plugins.Plugin):
         if "email" not in self.options or (
             "email" in self.options and not self.options["email"]
         ):
-            logging.error("OHC: Email isn't set. Can't upload to onlinehashcrack.com")
+            logging.error(
+                "OHC: Email isn't set. Can't upload to onlinehashcrack.com")
             return
 
         self.ready = True
@@ -60,7 +61,8 @@ class OnlineHashCrack(plugins.Plugin):
                 if "already been sent" in result.text:
                     logging.debug(f"{path} was already uploaded.")
             except requests.exceptions.RequestException as e:
-                logging.debug(f"OHC: Got an exception while uploading {path} -> {e}")
+                logging.debug(
+                    f"OHC: Got an exception while uploading {path} -> {e}")
                 raise e
 
     def _download_cracked(self, save_file, timeout=120):
@@ -118,7 +120,8 @@ class OnlineHashCrack(plugins.Plugin):
             handshake_paths = remove_whitelisted(
                 handshake_paths, config["main"]["whitelist"]
             )
-            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - \
+                set(reported) - set(self.skip)
             if handshake_new:
                 logging.info(
                     "OHC: Internet connectivity detected. Uploading new handshakes to onlinehashcrack.com"
@@ -133,7 +136,8 @@ class OnlineHashCrack(plugins.Plugin):
                         if handshake not in reported:
                             reported.append(handshake)
                             self.report.update(data={"reported": reported})
-                            logging.debug(f"OHC: Successfully uploaded {handshake}")
+                            logging.debug(
+                                f"OHC: Successfully uploaded {handshake}")
                     except requests.exceptions.RequestException as req_e:
                         self.skip.append(handshake)
                         logging.debug("OHC: %s", req_e)
@@ -146,9 +150,11 @@ class OnlineHashCrack(plugins.Plugin):
                 display.on_normal()
 
             if "dashboard" in self.options and self.options["dashboard"]:
-                cracked_file = os.path.join(handshake_dir, "onlinehashcrack.cracked")
+                cracked_file = os.path.join(
+                    handshake_dir, "onlinehashcrack.cracked")
                 if os.path.exists(cracked_file):
-                    last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                    last_check = datetime.fromtimestamp(
+                        os.path.getmtime(cracked_file))
                     if (
                         last_check is not None
                         and ((datetime.now() - last_check).seconds / (60 * 60)) < 1
@@ -171,7 +177,8 @@ class OnlineHashCrack(plugins.Plugin):
                                     + row["BSSID"].replace(":", "")
                                 )
                                 if os.path.exists(
-                                    os.path.join(handshake_dir, filename + ".pcap")
+                                    os.path.join(
+                                        handshake_dir, filename + ".pcap")
                                 ):
                                     with open(
                                         os.path.join(

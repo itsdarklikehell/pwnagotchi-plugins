@@ -7,7 +7,7 @@ import pwnagotchi.plugins as plugins
 
 
 class Led(plugins.Plugin):
-    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "This plugin blinks the PWR led with different patterns depending on the event."

@@ -27,7 +27,7 @@ JSON_KEY_STRENGTH = "strength"
 
 
 class EXPV2(plugins.Plugin):
-    __author__ = "SgtStroopwafel, GaelicThunder, Kaska89, Rai, JayofElony, & Terminator"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), GaelicThunder, Kaska89, Rai, JayofElony, & Terminator"
     __version__ = "2.0.1"
     __license__ = "GPL3"
     __description__ = "Get exp every time a handshake get captured."

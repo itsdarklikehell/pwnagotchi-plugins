@@ -7,7 +7,7 @@ import logging
 
 
 class DisplayVersion(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/Teraskull/"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/Teraskull/"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

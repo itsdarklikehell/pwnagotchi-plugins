@@ -1,6 +1,7 @@
 import pwnagotchi.plugins as plugins
 import logging
-import os, sys
+import os
+import sys
 from subprocess import call
 from shlex import quote
 import json
@@ -8,7 +9,7 @@ import re
 
 
 class Sound(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/xenDE/pwnagotchi-plugin-sound"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/xenDE/pwnagotchi-plugin-sound"
     __version__ = "1.2.0"
     __name__ = "sound"
     __license__ = "GPL3"

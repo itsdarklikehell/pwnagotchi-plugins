@@ -9,7 +9,7 @@ from pwnagotchi.utils import StatusFile
 
 
 class NetPos(plugins.Plugin):
-    __author__ = "SgtStroopwafel, zenzen san"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), zenzen san"
     __version__ = "2.0.3"
     __license__ = "GPL3"
     __description__ = """Saves a json file with the access points with more signal
@@ -30,7 +30,8 @@ class NetPos(plugins.Plugin):
         if "api_key" not in self.options or (
             "api_key" in self.options and not self.options["api_key"]
         ):
-            logging.error("NET-POS: api_key isn't set. Can't use mozilla's api.")
+            logging.error(
+                "NET-POS: api_key isn't set. Can't use mozilla's api.")
             return
         if "api_url" in self.options:
             self.API_URL = self.options["api_url"]
@@ -58,7 +59,8 @@ class NetPos(plugins.Plugin):
             if self.ready:
                 config = agent.config()
                 display = agent.view()
-                reported = self.report.data_field_or("reported", default=list())
+                reported = self.report.data_field_or(
+                    "reported", default=list())
                 handshake_dir = config["bettercap"]["handshakes"]
 
                 all_files = os.listdir(handshake_dir)
@@ -67,7 +69,8 @@ class NetPos(plugins.Plugin):
                     for filename in all_files
                     if filename.endswith(".net-pos.json")
                 ]
-                new_np_files = set(all_np_files) - set(reported) - set(self.skip)
+                new_np_files = set(all_np_files) - \
+                    set(reported) - set(self.skip)
 
                 if new_np_files:
                     logging.debug(
@@ -81,7 +84,8 @@ class NetPos(plugins.Plugin):
                     display.update(force=True)
                     for idx, np_file in enumerate(new_np_files):
 
-                        geo_file = np_file.replace(".net-pos.json", ".geo.json")
+                        geo_file = np_file.replace(
+                            ".net-pos.json", ".geo.json")
                         if os.path.exists(geo_file):
                             # got already the position
                             reported.append(np_file)
@@ -89,7 +93,8 @@ class NetPos(plugins.Plugin):
                             continue
 
                         try:
-                            geo_data = self._get_geo_data(np_file)  # returns json obj
+                            geo_data = self._get_geo_data(
+                                np_file)  # returns json obj
                         except requests.exceptions.RequestException as req_e:
                             logging.error(
                                 "NET-POS: %s - RequestException: %s", np_file, req_e
@@ -105,7 +110,8 @@ class NetPos(plugins.Plugin):
                             os.remove(np_file)
                             continue
                         except OSError as os_e:
-                            logging.error("NET-POS: %s - OSError: %s", np_file, os_e)
+                            logging.error(
+                                "NET-POS: %s - OSError: %s", np_file, os_e)
                             self.skip += np_file
                             continue
 

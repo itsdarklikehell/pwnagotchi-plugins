@@ -117,7 +117,7 @@ def run_task(name, options):
 
 
 class Switcher(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "0.0.1"
     __name__ = "switcher"
     __license__ = "GPL3"

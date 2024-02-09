@@ -10,7 +10,7 @@ import os
 
 
 class BetterQuickDic(plugins.Plugin):
-    __author__ = "SgtStroopwafel, silentree12th"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), silentree12th"
     __version__ = "1.4.5"
     __license__ = "GPL3"
     __description__ = "Run a quick dictionary scan against captured handshakes. Optionally send found passwords as qrcode and plain text over to telegram bot."

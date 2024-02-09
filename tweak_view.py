@@ -15,7 +15,7 @@ from flask import render_template_string
 
 
 class Tweak_View(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Sniffleupagus"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Edit the UI layout. Ugly interface, no guardrails. Be careful!!!"

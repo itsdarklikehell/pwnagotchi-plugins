@@ -9,7 +9,7 @@ from pwnagotchi.ui.view import BLACK
 
 
 class GPS(plugins.Plugin):
-    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "Save GPS coordinates whenever an handshake is captured."
@@ -39,7 +39,8 @@ class GPS(plugins.Plugin):
             agent.run(f"set gps.device {self.options['device']}")
             agent.run(f"set gps.baudrate {self.options['speed']}")
             agent.run("gps on")
-            logging.info(f"bettercap gps module enabled on {self.options['device']}")
+            logging.info(
+                f"bettercap gps module enabled on {self.options['device']}")
             self.running = True
         else:
             logging.warning("no GPS detected")
@@ -57,7 +58,8 @@ class GPS(plugins.Plugin):
                     self.coordinates["Longitude"],
                 ]
             ):
-                logging.info(f"saving GPS to {gps_filename} ({self.coordinates})")
+                logging.info(
+                    f"saving GPS to {gps_filename} ({self.coordinates})")
                 with open(gps_filename, "w+t") as fp:
                     json.dump(self.coordinates, fp)
             else:

@@ -7,7 +7,7 @@ import os
 
 
 class PhwnHwm(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @necrosato"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @necrosato"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Define hwms for your pwnagotchi"
@@ -22,7 +22,8 @@ class PhwnHwm(plugins.Plugin):
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None
             ):
-                logging.error(f"[{self.__class__.__name__}] Option {opt} is not set.")
+                logging.error(
+                    f"[{self.__class__.__name__}] Option {opt} is not set.")
                 return
         self.networks = {
             self.options["networks"][i]: self.options["networks"][i + 1]
@@ -164,7 +165,8 @@ class PhwnHwm(plugins.Plugin):
         )
         time.sleep(3)
         self.status = "phwned_hwm"
-        self.log("finished connecting to home wifi, ip address %s" % self.wlan_ip())
+        self.log("finished connecting to home wifi, ip address %s" %
+                 self.wlan_ip())
 
     def reboot_if_disconnected(self):
         if self.status == "phwned_hwm":

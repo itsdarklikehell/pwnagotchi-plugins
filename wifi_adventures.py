@@ -37,7 +37,7 @@ class AdventureType:
 
 
 class FunAchievements(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/MaliosDark/"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/MaliosDark/"
     __version__ = "1.3.9"
     __license__ = "GPL3"
     __description__ = (

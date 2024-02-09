@@ -6,7 +6,7 @@ import time
 
 
 class ext_wifi(plugins.Plugin):
-    __author__ = "SgtStroopwafel, chris@holycityhosting.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), chris@holycityhosting.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Activates external wifi adapter."

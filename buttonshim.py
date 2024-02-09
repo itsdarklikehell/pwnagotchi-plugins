@@ -655,7 +655,7 @@ def runCommand(button, pressed, plugin):
 
 
 class Buttonshim(plugins.Plugin):
-    __author__ = "SgtStroopwafel, gon@o2online.de"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), gon@o2online.de"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Pimoroni Button Shim GPIO Button and RGB LED support plugin based on the pimoroni-buttonshim-lib and the pwnagotchi-gpio-buttons-plugin."

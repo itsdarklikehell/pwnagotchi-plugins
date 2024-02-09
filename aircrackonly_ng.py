@@ -12,7 +12,7 @@ Aircrack-ng needed, to install:
 
 
 class AircrackOnly_ng(plugins.Plugin):
-    __author__ = "SgtStroopwafel, pwnagotchi [at] rossmarks [dot] uk"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), pwnagotchi [at] rossmarks [dot] uk"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = "confirm pcap contains handshake/PMKID or delete it"

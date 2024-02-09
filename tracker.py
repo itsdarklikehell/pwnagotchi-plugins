@@ -5,7 +5,7 @@ import pwnagotchi.plugins as plugins
 
 
 class Tracker(plugins.Plugin):
-    __author__ = "SgtStroopwafel, sliim@mailoo.org"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), sliim@mailoo.org"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Track seen access points & clients. If gps plugin is enabled, position will be saved."
@@ -77,7 +77,8 @@ class Tracker(plugins.Plugin):
 
     def _save_ap(self, ap):
         self._save_device(
-            "%s_%s.json" % (ap["hostname"], ap["mac"].replace(":", "").lower()), ap
+            "%s_%s.json" % (
+                ap["hostname"], ap["mac"].replace(":", "").lower()), ap
         )
 
     def _save_client(self, ap, client):

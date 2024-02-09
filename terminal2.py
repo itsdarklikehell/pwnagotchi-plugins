@@ -49,7 +49,7 @@ TEMPLATE = """
 
 
 class WebSSH2Plugin(plugins.Plugin):
-    __author__ = "SgtStroopwafel, NeonLightning"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), NeonLightning"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "WebSSH2 Access"
@@ -60,7 +60,8 @@ class WebSSH2Plugin(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if not os.path.exists(SERV_PATH):
-            logging.info(f"[{self.__class__.__name__}] creating systemd unit file")
+            logging.info(
+                f"[{self.__class__.__name__}] creating systemd unit file")
             file = open(SERV_PATH, "w")
             file.write(WEBSSH2_SERV)
             file.close()
@@ -82,7 +83,8 @@ class WebSSH2Plugin(plugins.Plugin):
                         return
                 time.sleep(5)
 
-            logging.error(f"[{self.__class__.__name__}] failed to start service")
+            logging.error(
+                f"[{self.__class__.__name__}] failed to start service")
         else:
             logging.info(
                 f"[{self.__class__.__name__}] systemd unit file already exists, skipping creation"

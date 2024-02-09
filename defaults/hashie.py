@@ -16,7 +16,7 @@ hcxpcapngtool needed, to install:
 
 
 class Hashie(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Jayofelony"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Jayofelony"
     __version__ = "1.0.4"
     __license__ = "GPL3"
     __description__ = """
@@ -80,21 +80,24 @@ class Hashie(plugins.Plugin):
             name = filename.split("/")[-1:][0].split(".")[0]
 
             if os.path.isfile(fullpathNoExt + ".22000"):
-                handshake_status.append("Already have {}.22000 (EAPOL)".format(name))
+                handshake_status.append(
+                    "Already have {}.22000 (EAPOL)".format(name))
             elif self._writeEAPOL(filename):
                 handshake_status.append(
                     "Created {}.22000 (EAPOL) from pcap".format(name)
                 )
 
             if os.path.isfile(fullpathNoExt + ".16800"):
-                handshake_status.append("Already have {}.16800 (PMKID)".format(name))
+                handshake_status.append(
+                    "Already have {}.16800 (PMKID)".format(name))
             elif self._writePMKID(filename):
                 handshake_status.append(
                     "Created {}.16800 (PMKID) from pcap".format(name)
                 )
 
             if handshake_status:
-                logging.info("[Hashie] Good news:\n\t" + "\n\t".join(handshake_status))
+                logging.info("[Hashie] Good news:\n\t" +
+                             "\n\t".join(handshake_status))
 
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split(".")[0]

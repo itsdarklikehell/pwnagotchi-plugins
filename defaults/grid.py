@@ -44,7 +44,7 @@ def parse_pcap(filename):
 
 
 class Grid(plugins.Plugin):
-    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = (
@@ -81,7 +81,8 @@ class Grid(plugins.Plugin):
         logging.debug("checking mailbox ...")
         messages = grid.inbox()
         self.total_messages = len(messages)
-        self.unread_messages = len([m for m in messages if m["seen_at"] is None])
+        self.unread_messages = len(
+            [m for m in messages if m["seen_at"] is None])
 
         if self.unread_messages:
             plugins.on("unread_inbox", self.unread_messages)
@@ -148,7 +149,8 @@ class Grid(plugins.Plugin):
             try:
                 grid.update_data(agent.last_session)
             except Exception as e:
-                logging.error("error connecting to the pwngrid-peer service: %s" % e)
+                logging.error(
+                    "error connecting to the pwngrid-peer service: %s" % e)
                 logging.debug(e, exc_info=True)
                 return
 

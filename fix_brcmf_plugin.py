@@ -16,7 +16,7 @@ import pwnagotchi.ui.fonts as fonts
 
 
 class Fix_BRCMF(plugins.Plugin):
-    __author__ = "SgtStroopwafel, xxx@xxx.xxx"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), xxx@xxx.xxx"
     __version__ = "0.1.0"
     __license__ = "GPL3"
     __description__ = "Reload brcmfmac module when blindbug is detected, instead of rebooting. Adapted from WATCHDOG."

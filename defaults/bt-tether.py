@@ -123,7 +123,8 @@ class BTNap:
             if not isinstance(adapter_pattern, str):
                 adapter = adapter_pattern
             else:
-                adapter = BTNap.find_adapter_in_objects(objects, adapter_pattern)
+                adapter = BTNap.find_adapter_in_objects(
+                    objects, adapter_pattern)
             path_prefix = adapter.object_path
         for path, ifaces in objects.items():
             device = ifaces.get(BTNap.IFACE_DEV)
@@ -152,7 +153,8 @@ class BTNap:
         for dev_addr, dev in devs.items():
             BTNap.prop_set(dev, "Powered", on)
             logging.debug(
-                "Set power of %s (addr %s) to %s", dev.object_path, dev_addr, str(on)
+                "Set power of %s (addr %s) to %s", dev.object_path, dev_addr, str(
+                    on)
             )
 
         if devs:
@@ -467,7 +469,7 @@ class Device:
 
 
 class BTTether(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "1.1.0"
     __license__ = "GPL3"
     __description__ = "This makes the display reachable over bluetooth"
@@ -506,7 +508,8 @@ class BTTether(plugins.Plugin):
                             break
                     else:
                         if options["enabled"]:
-                            self.devices[device] = Device(name=device, **options)
+                            self.devices[device] = Device(
+                                name=device, **options)
 
         # legacy
         if "mac" in self.options:
@@ -553,7 +556,8 @@ class BTTether(plugins.Plugin):
                         device.status.update()
                         device.tries += 1
 
-            sorted_devices = sorted(devices_to_try, key=lambda x: x.search_order)
+            sorted_devices = sorted(
+                devices_to_try, key=lambda x: x.search_order)
 
             for device in sorted_devices:
                 bt = BTNap(device.mac)
@@ -581,7 +585,8 @@ class BTTether(plugins.Plugin):
                 paired = bt.is_paired()
                 if not paired:
                     if BTNap.pair(dev_remote):
-                        logging.debug("BT-TETHER: Paired with %s.", device.name)
+                        logging.debug(
+                            "BT-TETHER: Paired with %s.", device.name)
                     else:
                         logging.debug(
                             "BT-TETHER: Pairing with %s failed ...", device.name
@@ -615,7 +620,8 @@ class BTTether(plugins.Plugin):
                         )
                         continue
 
-                    logging.debug("BT-TETHER: Created interface (%s)", interface)
+                    logging.debug(
+                        "BT-TETHER: Created interface (%s)", interface)
                     self.status = "C"
                     any_device_connected = True
                     device.tries = 0  # reset tries
@@ -637,7 +643,8 @@ class BTTether(plugins.Plugin):
                 logging.debug("BT-TETHER: Add ip to %s", interface)
                 if not wrapped_interface.set_addr(addr):
                     self.status = "AE"
-                    logging.debug("BT-TETHER: Could not add ip to %s", interface)
+                    logging.debug(
+                        "BT-TETHER: Could not add ip to %s", interface)
                     continue
 
                 if device.share_internet:
@@ -652,13 +659,15 @@ class BTTether(plugins.Plugin):
                         IfaceWrapper.set_route(gateway, interface)
                         connected_priorities.append(device.priority)
 
-                        logging.debug("BT-TETHER: Change resolv.conf if necessary ...")
+                        logging.debug(
+                            "BT-TETHER: Change resolv.conf if necessary ...")
                         with open("/etc/resolv.conf", "r+") as resolv:
                             nameserver = resolv.read()
                             if "nameserver 9.9.9.9" not in nameserver:
                                 logging.debug("BT-TETHER: Added nameserver")
                                 resolv.seek(0)
-                                resolv.write(nameserver + "nameserver 9.9.9.9\n")
+                                resolv.write(
+                                    nameserver + "nameserver 9.9.9.9\n")
 
             if any_device_connected:
                 self.status = "C"

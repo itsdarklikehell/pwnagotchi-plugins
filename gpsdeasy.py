@@ -70,7 +70,8 @@ class GPSD:
         :param port: port for the GPSD server
         """
 
-        logging.info("[gpsdeasy] Connecting to gpsd socket at {}:{}".format(host, port))
+        logging.info(
+            "[gpsdeasy] Connecting to gpsd socket at {}:{}".format(host, port))
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((host, port))
@@ -120,7 +121,7 @@ class GPSD:
 
 
 class Gpsdeasy(plugins.Plugin):
-    __author__ = "SgtStroopwafel, discord@rai68"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), discord@rai68"
     __version__ = "1.3.0"
     __license__ = "LGPL"
     __description__ = "uses gpsd to report lat/long on the screen and setup bettercap pcap gps logging"
@@ -168,7 +169,8 @@ class Gpsdeasy(plugins.Plugin):
                 "[gpsdeasy] GPSd not installed, trying now. This may take up to 5minutes just let me run"
             )
             if is_connected():
-                subprocess.run(["apt", "install", "-y", "gpsd", "gpsd-clients"])
+                subprocess.run(
+                    ["apt", "install", "-y", "gpsd", "gpsd-clients"])
             else:
                 logging.error(
                     "[gpsdeasy] GPSd not installed, no internet. Please connect and reload pwnagotchi"
@@ -219,7 +221,8 @@ class Gpsdeasy(plugins.Plugin):
                     gpsdService.write(line)
 
         changed = changedConf or changedService
-        logging.info(f"[gpsdeasy] finished updating configs, Updated: {changed}")
+        logging.info(
+            f"[gpsdeasy] finished updating configs, Updated: {changed}")
 
         if changed:
             subprocess.run(["systemctl", "stop", "gpsd.service"])
@@ -325,7 +328,8 @@ class Gpsdeasy(plugins.Plugin):
             gps_filename = filename.replace(".pcap", ".gps.json")
             logging.info(f"[gpsdeasy] saving GPS to {gps_filename} ({coords})")
             with open(gps_filename, "w+t") as fp:
-                struct = {"Longitude": coords["lon"], "Latitude": coords["lat"]}
+                struct = {"Longitude": coords["lon"],
+                          "Latitude": coords["lat"]}
                 json.dump(struct, fp)
         else:
             logging.info("[gpsdeasy] not saving GPS: no fix")
@@ -372,7 +376,8 @@ class Gpsdeasy(plugins.Plugin):
                 try:
                     ui.remove_element(element)
                 except:
-                    logging.warn("[gpsdeasy] Element would not be removed skipping")
+                    logging.warn(
+                        "[gpsdeasy] Element would not be removed skipping")
                     pass
 
         logging.info("[gpsdeasy] plugin disabled")
@@ -446,7 +451,8 @@ class Gpsdeasy(plugins.Plugin):
                         elif coords["mode"] == 2:
                             ui.set("alt", f"{0:.2f}{self.distanceUnit}")
                         elif coords["mode"] == 3:
-                            ui.set("alt", f"{coords['altMSL']:.1f}{self.distanceUnit}")
+                            ui.set(
+                                "alt", f"{coords['altMSL']:.1f}{self.distanceUnit}")
                         else:
                             ui.set("alt", f"err")
                     else:
@@ -519,7 +525,8 @@ class Gpsdeasy(plugins.Plugin):
             # make a square figure
             fig = figure(figsize=(size, size))
 
-            ax = fig.add_axes([0.1, 0.1, 0.8, 0.8], polar=True, facecolor="#d5de9c")
+            ax = fig.add_axes([0.1, 0.1, 0.8, 0.8],
+                              polar=True, facecolor="#d5de9c")
             ax.set_theta_zero_location("N")
             ax.set_theta_direction(-1)
 
@@ -530,7 +537,8 @@ class Gpsdeasy(plugins.Plugin):
                         fc = "blue"
                     ax.annotate(
                         str(sat["PRN"]),
-                        xy=(radians(sat["az"]), 90 - sat["el"]),  # theta, radius
+                        xy=(radians(sat["az"]), 90 -
+                            sat["el"]),  # theta, radius
                         bbox=dict(boxstyle="round", fc=fc, alpha=0.5),
                         horizontalalignment="center",
                         verticalalignment="center",
@@ -561,7 +569,8 @@ class Gpsdeasy(plugins.Plugin):
                             % "Plugin not loaded try again soon"
                         )
                     # root get
-                    polarImage = self.generatePolarPlot(self.gpsd.get_current("sky"))
+                    polarImage = self.generatePolarPlot(
+                        self.gpsd.get_current("sky"))
                     logging.debug(polarImage)
                     if polarImage is None:
                         return (

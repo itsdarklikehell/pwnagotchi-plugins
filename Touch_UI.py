@@ -46,7 +46,8 @@ class Touch_Button(Widget):
         self.xy = position
         self.color = color
         self.state = state  # False=off, True=on
-        self.momentary = momentary  # False = toggle on/off, True  = on while pressed, off on release (single action)
+        # False = toggle on/off, True  = on while pressed, off on release (single action)
+        self.momentary = momentary
         self.reverse = (
             reverse  # if True, then default state is True, and alt state is False
         )
@@ -148,7 +149,7 @@ def singleton(cls, *args, **kw):
 
 @singleton
 class Touch_Screen(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Sniffleupagus"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Use touchscreen input to toggle settings."
@@ -172,20 +173,20 @@ class Touch_Screen(plugins.Plugin):
     #
     # plugins that want to receive touch events can implement these callback functions:
     #
-    ## on_touch_ready(self, touchscreen)
+    # on_touch_ready(self, touchscreen)
     #
     # - called when the touchscreen has been started. Your plugin can use it to know the touchscreen
     #   is available.
     #
-    ## on_touch_press(self, ts, ui, ui_element, touch_data)
-    ## on_touch_release(self, ts, ui, ui_element, touch_data)
+    # on_touch_press(self, ts, ui, ui_element, touch_data)
+    # on_touch_release(self, ts, ui, ui_element, touch_data)
     #
     # # simplified button-like interface. on_touch_press is the initial touch,
     # # then supress all the wiggling, and on_touchs_release is the "0" when
     # # your finger comes off the screen. Much more efficient, if you are just pressing
     # # something to do an action
     #
-    ## on_touch_move(self, ts, ui, ui_element, touch_data)
+    # on_touch_move(self, ts, ui, ui_element, touch_data)
     #
     # # This will get every position update between the press and release (every finger wiggle).
     # # alsmost raw touchscreen access. This does not get called for the press or release, just
@@ -276,7 +277,8 @@ class Touch_Screen(plugins.Plugin):
                         if "touchscreen" in output.lower():
                             (ts_device, rest) = output.split(":", 2)
                             ts_device = str(ts_device)
-                            logging.info("Found touchscreen device %s" % ts_device)
+                            logging.info(
+                                "Found touchscreen device %s" % ts_device)
                             break
                     except Exception as e:
                         logging.error(repr(e))
@@ -347,8 +349,8 @@ class Touch_Screen(plugins.Plugin):
         logging.info("loaded with options = " % self.options)
 
         # to test pimoroni displayhatmini buttons, uncomment below, or define in your config.toml
-        ##if 'gpios' not in self.options:
-        ##    self.options['gpios'] = {'ok': 6, 'back' : 5, 'next': 24, 'prev': 16}   # Pimoroni display hat mini
+        # if 'gpios' not in self.options:
+        # self.options['gpios'] = {'ok': 6, 'back' : 5, 'next': 24, 'prev': 16}   # Pimoroni display hat mini
         try:
             self.init_gpio()
         except Exception as e:
@@ -403,7 +405,8 @@ class Touch_Screen(plugins.Plugin):
     # called when there's internet connectivity - probably dont need this
     def on_internet_available(self, agent):
         if self.needsAptPackages:
-            check_output(["apt", "install", "-y"].extend(self.needsAptPackages))
+            check_output(
+                ["apt", "install", "-y"].extend(self.needsAptPackages))
             self.needsAptPackages = None
 
     # is this point(x,y) in box (x1, y1, x2, y2), x2>x1, y2>y1
@@ -438,7 +441,8 @@ class Touch_Screen(plugins.Plugin):
         ui_elements = self._view._state._state
         touch_element = None
         touch_elements = list(
-            filter(lambda x: hasattr(ui_elements[x], "state"), ui_elements.keys())
+            filter(lambda x: hasattr(
+                ui_elements[x], "state"), ui_elements.keys())
         )
         logging.info("Touchable: %s" % repr(touch_elements))
         try:
@@ -452,10 +456,12 @@ class Touch_Screen(plugins.Plugin):
                 command = None
 
             for te in touch_elements:
-                logging.info("Touching %s, %s" % (te, repr(ui_elements[te].xy)))
+                logging.info("Touching %s, %s" %
+                             (te, repr(ui_elements[te].xy)))
                 if self.pointInBox(tpoint, ui_elements[te].xy):
                     logging.debug(
-                        "Touch element %s: %s @ %s" % (repr(te), depth, repr(tpoint))
+                        "Touch element %s: %s @ %s" % (repr(te),
+                                                       depth, repr(tpoint))
                     )
                     touch_element = te
                     break  # stop at first match
@@ -504,13 +510,15 @@ class Touch_Screen(plugins.Plugin):
                             repr(touch_data),
                         )
                     )
-                    plugins.on(command, self, self._view, touch_element, touch_data)
+                    plugins.on(command, self, self._view,
+                               touch_element, touch_data)
 
             else:
                 logging.debug(
                     "Touch Command: %s, data: %s" % (command, repr(touch_data))
                 )
-                plugins.on(command, self, self._view, touch_element, touch_data)
+                plugins.on(command, self, self._view,
+                           touch_element, touch_data)
 
     # button handlers to cycle through touch areas and click
     # just detect clicks for now, NOT IMPLEMENTED YET
@@ -585,7 +593,8 @@ class Touch_Screen(plugins.Plugin):
             GPIO.setmode(GPIO.BCM)
             if "ok" in self.options["gpios"]:
                 try:
-                    GPIO.setup(int(self.options["gpios"]["ok"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(
+                        int(self.options["gpios"]["ok"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["ok"]),
                         GPIO.FALLING,
@@ -602,7 +611,8 @@ class Touch_Screen(plugins.Plugin):
                     logging.warn("OK button: %s" % repr(err))
             if "next" in self.options["gpios"]:
                 try:
-                    GPIO.setup(int(self.options["gpios"]["next"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(
+                        int(self.options["gpios"]["next"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["next"]),
                         GPIO.FALLING,
@@ -619,7 +629,8 @@ class Touch_Screen(plugins.Plugin):
                     logging.warn("Next button: %s" % repr(err))
             if "back" in self.options["gpios"]:
                 try:
-                    GPIO.setup(int(self.options["gpios"]["back"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(
+                        int(self.options["gpios"]["back"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["back"]),
                         GPIO.FALLING,
@@ -636,7 +647,8 @@ class Touch_Screen(plugins.Plugin):
                     logging.warn("Back button: %s" % repr(err))
             if "prev" in self.options["gpios"]:
                 try:
-                    GPIO.setup(int(self.options["gpios"]["prev"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(
+                        int(self.options["gpios"]["prev"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["prev"]),
                         GPIO.FALLING,

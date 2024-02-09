@@ -25,7 +25,7 @@ except Exception as e:
 
 
 class RSS_Voice(plugins.Plugin):
-    __author__ = "SgtStroopwafel, Sniffleupagus"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Sniffleupagus"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Use RSS Feeds to replace canned voice messages on various events"

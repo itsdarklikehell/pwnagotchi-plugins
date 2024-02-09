@@ -10,7 +10,7 @@ import yaml
 
 
 class Christmas(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/LoganMD"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/LoganMD"
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Christmas Countdown timer for pwnagotchi."

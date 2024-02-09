@@ -25,7 +25,7 @@ from dateutil.parser import parse
 
 
 class Webgpsmap(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/xenDE and https://github.com/dadav"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/xenDE and https://github.com/dadav"
     __version__ = "1.4.0"
     __name__ = "webgpsmap"
     __license__ = "GPL3"
@@ -71,7 +71,8 @@ class Webgpsmap(plugins.Plugin):
                 response_mimetype = "application/xhtml+xml"
                 response_header_contenttype = "text/html"
             except Exception as error:
-                logging.error(f"[webgpsmap] on_webhook NOT_READY error: {error}")
+                logging.error(
+                    f"[webgpsmap] on_webhook NOT_READY error: {error}")
                 return
         else:
             if request.method == "GET":
@@ -81,7 +82,8 @@ class Webgpsmap(plugins.Plugin):
                     try:
                         response_data = bytes(self.get_html(), "utf-8")
                     except Exception as error:
-                        logging.error(f"[webgpsmap] on_webhook / error: {error}")
+                        logging.error(
+                            f"[webgpsmap] on_webhook / error: {error}")
                         return
                     response_status = 200
                     response_mimetype = "application/xhtml+xml"
@@ -102,7 +104,8 @@ class Webgpsmap(plugins.Plugin):
                         response_mimetype = "application/json"
                         response_header_contenttype = "application/json"
                     except Exception as error:
-                        logging.error(f"[webgpsmap] on_webhook all error: {error}")
+                        logging.error(
+                            f"[webgpsmap] on_webhook all error: {error}")
                         return
                 elif path.startswith("offlinemap"):
                     # for download an all-in-one html file with positions.json inside
@@ -176,7 +179,8 @@ class Webgpsmap(plugins.Plugin):
                 r.headers["Content-Disposition"] = response_header_contentdisposition
             return r
         except Exception as error:
-            logging.error(f"[webgpsmap] on_webhook CREATING_RESPONSE error: {error}")
+            logging.error(
+                f"[webgpsmap] on_webhook CREATING_RESPONSE error: {error}")
             return
 
     # cache 2048 items
@@ -232,7 +236,8 @@ class Webgpsmap(plugins.Plugin):
         #    all_geo_or_gps_files = set(all_geo_or_gps_files) - set(SKIP)   # remove skipped networks? No!
 
         if newest_only:
-            all_geo_or_gps_files = set(all_geo_or_gps_files) - set(self.ALREADY_SENT)
+            all_geo_or_gps_files = set(
+                all_geo_or_gps_files) - set(self.ALREADY_SENT)
 
         logging.info(
             f"[webgpsmap] Found {len(all_geo_or_gps_files)} position-data files from {len(all_pcap_files)} handshakes. Fetching positions ..."
@@ -272,7 +277,8 @@ class Webgpsmap(plugins.Plugin):
                 }
 
                 # get ap password if exist
-                check_for = os.path.basename(pos_file).split(".")[0] + ".pcap.cracked"
+                check_for = os.path.basename(pos_file).split(".")[
+                    0] + ".pcap.cracked"
                 if check_for in all_files:
                     gps_data[ssid + "_" + mac]["pass"] = pos.password()
 
@@ -285,11 +291,13 @@ class Webgpsmap(plugins.Plugin):
                 continue
             except ValueError as error:
                 self.SKIP += pos_file
-                logging.error(f"[webgpsmap] ValueError: {pos_file} - error: {error}")
+                logging.error(
+                    f"[webgpsmap] ValueError: {pos_file} - error: {error}")
                 continue
             except OSError as error:
                 self.SKIP += pos_file
-                logging.error(f"[webgpsmap] OSError: {pos_file} - error: {error}")
+                logging.error(
+                    f"[webgpsmap] OSError: {pos_file} - error: {error}")
                 continue
         logging.info(f"[webgpsmap] loaded {len(gps_data)} positions")
         return gps_data
@@ -300,7 +308,8 @@ class Webgpsmap(plugins.Plugin):
         """
         try:
             template_file = (
-                os.path.dirname(os.path.realpath(__file__)) + "/" + "webgpsmap.html"
+                os.path.dirname(os.path.realpath(__file__)) +
+                "/" + "webgpsmap.html"
             )
             html_data = open(template_file, "r").read()
         except Exception as error:

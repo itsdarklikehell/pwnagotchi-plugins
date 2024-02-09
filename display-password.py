@@ -17,7 +17,7 @@ import os
 
 
 class DisplayPassword(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @nagy_craig"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @nagy_craig"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display recently cracked passwords"

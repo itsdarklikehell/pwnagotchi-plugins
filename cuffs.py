@@ -3,7 +3,7 @@ import pwnagotchi.plugins as plugins
 
 
 class Cuffs(plugins.Plugin):
-    __author__ = "SgtStroopwafel, idoloninmachina@gmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), idoloninmachina@gmail.com"
     __version__ = "0.1.4"
     __license__ = "GPL3"
     __description__ = "Restricts the pwnagotchi to only attack specified ap's."

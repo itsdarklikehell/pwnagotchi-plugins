@@ -33,7 +33,7 @@ import logging
 
 
 class MemTemp(plugins.Plugin):
-    __author__ = "SgtStroopwafel, https://github.com/xenDE"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/xenDE"
     __version__ = "1.0.2"
     __license__ = "GPL3"
     __description__ = "A plugin that will display memory/cpu usage and temperature"
@@ -158,7 +158,8 @@ class MemTemp(plugins.Plugin):
             # Dynamically create the required LabeledValue objects
             for idx, field in enumerate(self.fields):
                 v_pos_x = v_pos[0]
-                v_pos_y = v_pos[1] + ((len(self.fields) - 3) * -1 * line_spacing)
+                v_pos_y = v_pos[1] + \
+                    ((len(self.fields) - 3) * -1 * line_spacing)
                 ui.add_element(
                     f"memtemp_{field}",
                     LabeledValue(
@@ -209,7 +210,8 @@ class MemTemp(plugins.Plugin):
             if self.options["orientation"] == "vertical":
                 for idx, field in enumerate(self.fields):
                     ui.set(
-                        f"memtemp_{field}", getattr(self, self.ALLOWED_FIELDS[field])()
+                        f"memtemp_{field}", getattr(
+                            self, self.ALLOWED_FIELDS[field])()
                     )
             else:
                 # default to horizontal

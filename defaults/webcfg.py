@@ -487,7 +487,7 @@ def serializer(obj):
 
 
 class WebConfig(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "This plugin allows the user to make runtime changes."
@@ -547,7 +547,8 @@ class WebConfig(plugins.Plugin):
                     pwnagotchi.config = merge_config(
                         request.get_json(), pwnagotchi.config
                     )
-                    logging.debug("PWNAGOTCHI CONFIG:\n%s" % repr(pwnagotchi.config))
+                    logging.debug("PWNAGOTCHI CONFIG:\n%s" %
+                                  repr(pwnagotchi.config))
                     if self._agent:
                         self._agent._config = merge_config(
                             request.get_json(), self._agent._config
@@ -555,7 +556,8 @@ class WebConfig(plugins.Plugin):
                         logging.debug(
                             "    Agent CONFIG:\n%s" % repr(self._agent._config)
                         )
-                    logging.debug("   Updated CONFIG:\n%s" % request.get_json())
+                    logging.debug("   Updated CONFIG:\n%s" %
+                                  request.get_json())
                     save_config(
                         request.get_json(), "/etc/pwnagotchi/config.toml"
                     )  # test

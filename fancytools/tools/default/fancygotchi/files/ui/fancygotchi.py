@@ -38,7 +38,8 @@ def text_to_rgb(text, tfont, color, width, height):
         dt.text((0, 0), text, font=tfont, fill=0x00)
         if color == 0:
             color = "black"
-        imgtext = ImageOps.colorize(imgtext.convert("L"), black=color, white="white")
+        imgtext = ImageOps.colorize(
+            imgtext.convert("L"), black=color, white="white")
         imgtext = imgtext.convert("RGB")
         return imgtext
     except Exception as e:
@@ -85,7 +86,7 @@ def adjust_image(image_path, zoom, mask=False):
 
 class fancygotchi(object):
     __name__ = "Fancygotchi"
-    __author__ = "SgtStroopwafel, @V0rT3x https://github.com/V0r-T3x"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x https://github.com/V0r-T3x"
     __version__ = "2023.09.1"
     __license__ = "GPL3"
     __description__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
@@ -166,7 +167,8 @@ class fancygotchi(object):
 
         # changing the symlink for the img folder of the slected theme
         src_img = "%simg" % (th_path)
-        dst_img = "%s/web/static" % (os.path.dirname(os.path.realpath(__file__)))
+        dst_img = "%s/web/static" % (
+            os.path.dirname(os.path.realpath(__file__)))
         # logging.info('[FANCYGOTCHI] linking theme image folder: '+src_img +' ~~mod~~> '+ dst_img)
         # removing old link
         os.system("rm %s/img" % (dst_img))
@@ -198,8 +200,10 @@ class fancygotchi(object):
                 self.theme_selector(self.size, f_toml)
 
             else:
-                logging.info("[FANCYGOTCHI] partial theme refresh: %s" % (fancy_dict))
-            bga_path = "%simg/%s" % (pwnagotchi._fancy_theme, th_opt["bg_anim_image"])
+                logging.info(
+                    "[FANCYGOTCHI] partial theme refresh: %s" % (fancy_dict))
+            bga_path = "%simg/%s" % (pwnagotchi._fancy_theme,
+                                     th_opt["bg_anim_image"])
 
             if th_opt["bg_anim_image"] != "" and os.path.exists(bga_path):
                 # logging.warn('%simg/%s' % (pwnagotchi._fancy_theme, th_opt['bg_anim_image']))
@@ -207,11 +211,13 @@ class fancygotchi(object):
                 self._frames = []
                 for frame in ImageSequence.Iterator(gif):
                     self._frames.append(frame.convert("RGBA"))
-            bg_path = "%simg/%s" % (pwnagotchi._fancy_theme, th_opt["bg_image"])
+            bg_path = "%simg/%s" % (pwnagotchi._fancy_theme,
+                                    th_opt["bg_image"])
             if th_opt["bg_image"] != "" and os.path.exists(bg_path):
                 self._bg = Image.open(bg_path)
                 self._bg = self._bg.convert("RGBA")
-            fg_path = "%simg/%s" % (pwnagotchi._fancy_theme, th_opt["fg_image"])
+            fg_path = "%simg/%s" % (pwnagotchi._fancy_theme,
+                                    th_opt["fg_image"])
             if th_opt["fg_image"] != "" and os.path.exists(fg_path):
                 self._fg = Image.open(fg_path)
                 self._fg = self._fg.convert("RGBA")
@@ -250,21 +256,24 @@ class fancygotchi(object):
                     elif key == "font":
                         if value == "Small":
                             if not s:
-                                self._view._state.set_font(element, fonts.Small)
+                                self._view._state.set_font(
+                                    element, fonts.Small)
                             else:
                                 self._view._state.set_font(
                                     element, fonts.status_font(fonts.Small)
                                 )
                         elif value == "Medium":
                             if not s:
-                                self._view._state.set_font(element, fonts.Medium)
+                                self._view._state.set_font(
+                                    element, fonts.Medium)
                             else:
                                 self._view._state.set_font(
                                     element, fonts.status_font(fonts.Medium)
                                 )
                         elif value == "BoldSmall":
                             if not s:
-                                self._view._state.set_font(element, fonts.BoldSmall)
+                                self._view._state.set_font(
+                                    element, fonts.BoldSmall)
                             else:
                                 self._view._state.set_font(
                                     element, fonts.status_font(fonts.BoldSmall)
@@ -278,7 +287,8 @@ class fancygotchi(object):
                                 )
                         elif value == "BoldBig":
                             if not s:
-                                self._view._state.set_font(element, fonts.BoldBig)
+                                self._view._state.set_font(
+                                    element, fonts.BoldBig)
                             else:
                                 self._view._state.set_font(
                                     element, fonts.status_font(fonts.BoldBig)
@@ -292,30 +302,40 @@ class fancygotchi(object):
                                 )
                     elif key == "text_font":
                         if value == "Small":
-                            self._view._state.set_textfont(element, fonts.Small)
+                            self._view._state.set_textfont(
+                                element, fonts.Small)
                         elif value == "Medium":
-                            self._view._state.set_textfont(element, fonts.Medium)
+                            self._view._state.set_textfont(
+                                element, fonts.Medium)
                         elif value == "BoldSmall":
-                            self._view._state.set_textfont(element, fonts.BoldSmall)
+                            self._view._state.set_textfont(
+                                element, fonts.BoldSmall)
                         elif value == "Bold":
                             self._view._state.set_textfont(element, fonts.Bold)
                         elif value == "BoldBig":
-                            self._view._state.set_textfont(element, fonts.BoldBig)
+                            self._view._state.set_textfont(
+                                element, fonts.BoldBig)
                         elif value == "Huge":
                             self._view._state.set_textfont(element, fonts.Huge)
                     elif key == "label_font":
                         if value == "Small":
-                            self._view._state.set_labelfont(element, fonts.Small)
+                            self._view._state.set_labelfont(
+                                element, fonts.Small)
                         elif value == "Medium":
-                            self._view._state.set_labelfont(element, fonts.Medium)
+                            self._view._state.set_labelfont(
+                                element, fonts.Medium)
                         elif value == "BoldSmall":
-                            self._view._state.set_labelfont(element, fonts.BoldSmall)
+                            self._view._state.set_labelfont(
+                                element, fonts.BoldSmall)
                         elif value == "Bold":
-                            self._view._state.set_labelfont(element, fonts.Bold)
+                            self._view._state.set_labelfont(
+                                element, fonts.Bold)
                         elif value == "BoldBig":
-                            self._view._state.set_labelfont(element, fonts.BoldBig)
+                            self._view._state.set_labelfont(
+                                element, fonts.BoldBig)
                         elif value == "Huge":
-                            self._view._state.set_labelfont(element, fonts.Huge)
+                            self._view._state.set_labelfont(
+                                element, fonts.Huge)
                     elif key == "color":
                         self._view._state.set_attr(element, key, value)
                         self._view._state.set_attr(element, "%ss" % key, [])
@@ -323,10 +343,12 @@ class fancygotchi(object):
                         self._view._state.set_attr(element, key, [])
                         if len(value) != 0:
                             # logging.warn('more than one color')
-                            color_list = [self._view._state.get_attr(element, "color")]
+                            color_list = [
+                                self._view._state.get_attr(element, "color")]
                             color_list.extend(value)
                             # logging.warn(color_list)
-                            self._view._state.set_attr(element, key, color_list)
+                            self._view._state.set_attr(
+                                element, key, color_list)
                         else:
                             self._view._state.set_attr(element, key, [])
 
@@ -361,7 +383,7 @@ class fancygotchi(object):
                                             pwnagotchi.fancy_theme,
                                             type,
                                         )
-                                        ##self._view._state.image = Image.open(icon_path)
+                                        # self._view._state.image = Image.open(icon_path)
                                         zoom = 1
                                         for ckey, cvalue in components[element].items():
                                             if ckey == "zoom":
@@ -373,7 +395,8 @@ class fancygotchi(object):
                                         self._view._state.set_attr(
                                             element,
                                             "image",
-                                            adjust_image(icon_path, zoom, mask),
+                                            adjust_image(
+                                                icon_path, zoom, mask),
                                         )  # Image.open(icon_path))
                                         if th_opt["main_text_color"] != "":
                                             self.image.convert("1")
@@ -383,14 +406,16 @@ class fancygotchi(object):
                                             "font-awesome-solid.otf",
                                             components[element]["f_awesome_size"],
                                         )
-                                        code_point = int(components[element][t], 16)
+                                        code_point = int(
+                                            components[element][t], 16)
                                         icon = chr(code_point)
                                         w, h = fa.getsize(icon)
                                         icon_img = Image.new(
                                             "1", (int(w), int(h)), 0xFF
                                         )
                                         dt = ImageDraw.Draw(icon_img)
-                                        dt.text((0, 0), icon, font=fa, fill=0x00)
+                                        dt.text((0, 0), icon,
+                                                font=fa, fill=0x00)
                                         icon_img = icon_img.convert("RGBA")
                                         self._view._state.set_attr(
                                             element, "image", icon_img
@@ -428,13 +453,16 @@ class fancygotchi(object):
                                         else:
                                             mask = False
                                 if os.path.isfile(icon_path):
-                                    face_image = adjust_image(icon_path, zoom, mask)
+                                    face_image = adjust_image(
+                                        icon_path, zoom, mask)
                                 else:
                                     # logging.warn('[FANCYGOTCHI] missing the %s image' % (face_name))
-                                    face_image = adjust_image(icon_broken, zoom, mask)
+                                    face_image = adjust_image(
+                                        icon_broken, zoom, mask)
                                 # self.mapping = {face_value: face_image}
                                 mapping[face_value] = face_image
-                            self._view._state.set_attr(element, "face_map", mapping)
+                            self._view._state.set_attr(
+                                element, "face_map", mapping)
             i += 1
             if i == 2:
                 out = True

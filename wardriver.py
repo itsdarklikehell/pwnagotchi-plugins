@@ -28,7 +28,7 @@ import requests
 
 
 class Wardriver(plugins.Plugin):
-    __author__ = "CyberArtemio, SgtStroopwafel"
+    __author__ = "CyberArtemio, (edited by: itsdarklikehell bauke.molenaar@gmail.com)"
     __version__ = "1.0"
     __license__ = "GPL3"
     __description__ = "A wardriving plugin for pwnagotchi. Saves all networks seen and uploads data to WiGLE once internet is available"

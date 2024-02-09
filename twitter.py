@@ -4,7 +4,7 @@ from pwnagotchi import plugins
 
 
 class Twitter(plugins.Plugin):
-    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "2.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin creates tweets about the recent activity of pwnagotchi."

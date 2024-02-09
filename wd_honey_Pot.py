@@ -9,7 +9,7 @@ from pwnagotchi.plugins import Plugin
 
 
 class HoneyPotPlugin(Plugin):
-    __author__ = "SgtStroopwafel, Andryu Schittone"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Andryu Schittone"
     __version__ = "1.4.5"
     __license__ = "GPL3"
     __description__ = "A Pwnagotchi plugin for setting up a honey pot to detect other Pwnagotchis making deauths."

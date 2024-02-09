@@ -13,7 +13,7 @@ from time import sleep
 
 
 class Dashboard(plugins.Plugin):
-    __author__ = "SgtStroopwafel, doki"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), doki"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Dashboard plugin is a consolidation of the clock, deauth counter, memtemp, pivoyager and added few features such as cracked handshake counter and internet status."

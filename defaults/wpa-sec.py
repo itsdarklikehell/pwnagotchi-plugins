@@ -9,7 +9,7 @@ from json.decoder import JSONDecodeError
 
 
 class WpaSec(plugins.Plugin):
-    __author__ = "SgtStroopwafel, 33197631+dadav@users.noreply.github.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "2.1.0"
     __license__ = "GPL3"
     __description__ = (
@@ -20,10 +20,12 @@ class WpaSec(plugins.Plugin):
         self.ready = False
         self.lock = Lock()
         try:
-            self.report = StatusFile("/root/.wpa_sec_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.wpa_sec_uploads", data_format="json")
         except JSONDecodeError:
             os.remove("/root/.wpa_sec_uploads")
-            self.report = StatusFile("/root/.wpa_sec_uploads", data_format="json")
+            self.report = StatusFile(
+                "/root/.wpa_sec_uploads", data_format="json")
         self.options = dict()
         self.skip = list()
 
@@ -119,7 +121,8 @@ class WpaSec(plugins.Plugin):
             handshake_paths = remove_whitelisted(
                 handshake_paths, config["main"]["whitelist"]
             )
-            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - \
+                set(reported) - set(self.skip)
 
             if handshake_new:
                 logging.info(
@@ -134,7 +137,8 @@ class WpaSec(plugins.Plugin):
                         self._upload_to_wpasec(handshake)
                         reported.append(handshake)
                         self.report.update(data={"reported": reported})
-                        logging.debug("WPA_SEC: Successfully uploaded %s", handshake)
+                        logging.debug(
+                            "WPA_SEC: Successfully uploaded %s", handshake)
                     except requests.exceptions.RequestException as req_e:
                         self.skip.append(handshake)
                         logging.debug("WPA_SEC: %s", req_e)
@@ -146,9 +150,11 @@ class WpaSec(plugins.Plugin):
                 display.on_normal()
 
             if "download_results" in self.options and self.options["download_results"]:
-                cracked_file = os.path.join(handshake_dir, "wpa-sec.cracked.potfile")
+                cracked_file = os.path.join(
+                    handshake_dir, "wpa-sec.cracked.potfile")
                 if os.path.exists(cracked_file):
-                    last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
+                    last_check = datetime.fromtimestamp(
+                        os.path.getmtime(cracked_file))
                     if (
                         last_check is not None
                         and ((datetime.now() - last_check).seconds / (60 * 60)) < 1

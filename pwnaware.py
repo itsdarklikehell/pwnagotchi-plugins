@@ -19,7 +19,7 @@ from PIL import ImageFont
 
 
 class PWNAware(plugins.Plugin):
-    __author__ = "SgtStroopwafel, evilsocket@gmail.com"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "display information from dump1090 about nearby airplanes"

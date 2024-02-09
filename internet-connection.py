@@ -7,7 +7,7 @@ import subprocess
 
 
 class InternetConnectionPlugin(plugins.Plugin):
-    __author__ = "SgtStroopwafel, @jayofelony"
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @jayofelony"
     __version__ = "1.2.1"
     __license__ = "GPL3"
     __description__ = "A plugin that displays the Internet connection status on the pwnagotchi display."
