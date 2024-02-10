@@ -40,7 +40,7 @@ class RSS_Voice(plugins.Plugin):
         "feed.wait.url": "https://www.reddit.com/r/worldnews.rss",
         "feed.bored.url": "https://www.reddit.com/r/showerthoughts.rss",
         "feed.sad.url": "https://www.reddit.com/r/pwnagotchi.rss",
-        "path": "/home/pi/voice_rss",
+        "path": "/root/voice_rss",
     }
 
     def __init__(self):
@@ -56,7 +56,7 @@ class RSS_Voice(plugins.Plugin):
     def _fetch_rss_message(self, key):
         rssfile = "%s/%s.rss" % (self.options["path"], key)
         if os.path.isfile(rssfile):
-            logging.debug("[{self.__class__.__name__}] pulling from %s" % (rssfile))
+            logging.debug(f"[{self.__class__.__name__}] pulling from %s" % (rssfile))
             try:
                 feed = feedparser.parse(rssfile)
                 article = random.choice(feed.entries)
@@ -89,7 +89,7 @@ class RSS_Voice(plugins.Plugin):
             except Exception as e:
                 headline = repr(e)
 
-            logging.debug("[{self.__class__.__name__}] %s: %s" % (key, headline))
+            logging.debug(f"[{self.__class__.__name__}] %s: %s" % (key, headline))
 
             return headline
         else:
@@ -98,7 +98,7 @@ class RSS_Voice(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        logging.warn("[{self.__class__.__name__}] options = %s" % self.options)
+        logging.warn(f"[{self.__class__.__name__}] options = %s" % self.options)
         if "path" not in self.options:
             self.options["path"] = "/root/voice_rss"
 
