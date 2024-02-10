@@ -76,7 +76,7 @@ showerthoughts() {
 enable_all_plugins() {
     echo "Enable all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
-    for i in *.py; do
+    for i in *_ng.py; do
         echo "[ENABLING]: ${i%%.*}"
         sudo pwnagotchi plugins enable ${i%%.*}
     done
@@ -135,7 +135,7 @@ create_backup() {
 
     sudo dd if=/dev/sdc of=Paimon.img bs=4M conv=fsync status=progress
     sync
-    md5sum Paimon.img >md5sum.txt
+    md5sum Paimon.img >Paimon.img.md5
 
     echo "Shrinking Backup..."
     echo "Cecking md5 sum..."
@@ -145,6 +145,7 @@ create_backup() {
         echo "Backup done!"
         sudo chown $USER Paimon.img
         sudo chown $USER Paimon.img.xz
+        md5sum Paimon.img.xz >Paimon.img.xz.md5
     else
         echo "MD5 sum does not match!"
         exit

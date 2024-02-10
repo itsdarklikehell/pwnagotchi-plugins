@@ -9,6 +9,16 @@ class CustomVoicePlugin(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "Plugin to download and replace voice.py with a custom version"
+    __name__ = "CustomVoicePlugin"
+    __help__ = "Plugin to download and replace voice.py with a custom version"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+        "custom_voice_url": "/usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py",
+    }
 
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
@@ -24,12 +34,12 @@ class CustomVoicePlugin(plugins.Plugin):
             response.raise_for_status()
             custom_voice_content = response.text
 
-            # Guardar el contenido en un archivo temporal
+            # Keep a temporary copy of voice.py
             temp_file_path = "/tmp/custom_voice.py"
             with open(temp_file_path, "w") as temp_file:
                 temp_file.write(custom_voice_content)
 
-            # Reemplazar voice.py con el archivo personalizado
+            # Replace voice.py with the temporary copy
             os.system(
                 f"sudo cp {temp_file_path} /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py"
             )

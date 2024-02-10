@@ -26,7 +26,7 @@ class WpaSec_ng(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
-        "api_key": "",
+        "api_key": "test",
         "api_url": "https://wpa-sec.stanev.org",
         "download_results": False,
         "whitelist": ["EXAMPLE_NETWORK"],
