@@ -26,18 +26,20 @@ class WpaSec_ng(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "api_key": "",
+        "api_url": "https://wpa-sec.stanev.org",
+        "download_results": False,
+        "whitelist": ["EXAMPLE_NETWORK"],
     }
 
     def __init__(self):
         self.ready = False
         self.lock = Lock()
         try:
-            self.report = StatusFile(
-                "/root/.wpa_sec_uploads", data_format="json")
+            self.report = StatusFile("/root/.wpa_sec_uploads", data_format="json")
         except JSONDecodeError:
             os.remove("/root/.wpa_sec_uploads")
-            self.report = StatusFile(
-                "/root/.wpa_sec_uploads", data_format="json")
+            self.report = StatusFile("/root/.wpa_sec_uploads", data_format="json")
         self.options = dict()
         self.skip = list()
 
@@ -133,8 +135,7 @@ class WpaSec_ng(plugins.Plugin):
             handshake_paths = remove_whitelisted(
                 handshake_paths, config["main"]["whitelist"]
             )
-            handshake_new = set(handshake_paths) - \
-                set(reported) - set(self.skip)
+            handshake_new = set(handshake_paths) - set(reported) - set(self.skip)
 
             if handshake_new:
                 logging.info(
@@ -164,11 +165,9 @@ class WpaSec_ng(plugins.Plugin):
                 display.on_normal()
 
             if "download_results" in self.options and self.options["download_results"]:
-                cracked_file = os.path.join(
-                    handshake_dir, "wpa-sec.cracked.potfile")
+                cracked_file = os.path.join(handshake_dir, "wpa-sec.cracked.potfile")
                 if os.path.exists(cracked_file):
-                    last_check = datetime.fromtimestamp(
-                        os.path.getmtime(cracked_file))
+                    last_check = datetime.fromtimestamp(os.path.getmtime(cracked_file))
                     if (
                         last_check is not None
                         and ((datetime.now() - last_check).seconds / (60 * 60)) < 1

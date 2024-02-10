@@ -10,6 +10,49 @@ from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
+"""
+#########################################
+### Hashtopolis Submit hash settings. ###
+#########################################
+
+# !!NOTE!!: You cannot have all these lines with "#" in the Pwnagotchi config file.
+#           So make sure you are only copying over the settings lines(main.plugins.pwn2crack.X)
+#           to your config.
+
+# Enabled the Pwn2Crack plugin
+main.plugins.pwn2crack.enabled = true
+
+# Required: The web URL(IP or Domian name) to the Hashtopolis server.
+main.plugins.pwn2crack.htserver = "http://10.100.200.250"
+
+# Required: The API key you get from the Hashtopolis server
+# To get a Hashtopolis API key, log into your Hashtopolis server and go to "Users" --> "API Management" --> "Create New API Key".
+main.plugins.pwn2crack.accesskey = "MyKey"
+
+# Optional: Is the Hash secret? If not set Pwn2Crack defaults to "true"
+main.plugins.pwn2crack.hashisSecret = true
+
+# Optional: Are you using a Hashcat Brain Server?
+# If you enable this, you must have it enabled in the Hashtopolis server, else the hash uploads will fail.
+main.plugins.pwn2crack.useBrain = false
+main.plugins.pwn2crack.brainFeatures = 0
+
+# Optional: Creat a wordlist from the ESSID data? Good for target specific wordlist. If not specified, then false.
+main.plugins.pwn2crack.genwordlist = false
+# Uplaod the list to the Hashtopolist sever as a wordlist file?
+main.plugins.pwn2crack.uploadwordlist = false
+
+# Optional: Limit the number of hashes per AP uploaded to Hashtopolis. One AP can have many clients.
+#            The same AP, same password, will have a unqiue hash per client. If you upload five unqiue
+#            hashes for one AP, Hashcat will have to do the hash calculations five times, for the same
+#            one password guess. This is inefficient, and will slowdown cracking times. However, hashes
+#            can be corrupt, for many different reasons. So you may want two to three hashes per AP
+#            encase one is bad.
+#            If not set, the default is to upload all hashes. Setting this to '0' will also upload all hashes.
+main.plugins.pwn2crack.numhashtoupload = 0
+
+"""
+
 
 # This is the main plugin class.
 class Pwn2Crack(plugins.Plugin):
@@ -27,6 +70,14 @@ class Pwn2Crack(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "htserver": "http://10.100.200.250",
+        "accesskey": "MyKey",
+        "hashisSecret": True,
+        "useBrain": False,
+        "brainFeatures": 0,
+        "genwordlist": False,
+        "uploadwordlist": False,
+        "numhashtoupload": 0,
     }
     """
     Pwn2Crack aims to streamline a Red Teamer or PenTester process from handshake capture to cracking passwords.
@@ -70,43 +121,37 @@ class Pwn2Crack(plugins.Plugin):
             logging.debug(
                 f"[{self.__class__.__name__}] The hashisSecret option is not set. Setting it to True."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["hashisSecret"] = bool(
-                True)
+            self.config["main"]["plugins"]["pwn2crack"]["hashisSecret"] = bool(True)
         # If useBrain not set, then set it to False.
         if "useBrain" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The useBrain option is not set. Setting it to False."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["useBrain"] = bool(
-                False)
+            self.config["main"]["plugins"]["pwn2crack"]["useBrain"] = bool(False)
         # if brainFeatures is not set, then set it to 0.
         if "brainFeatures" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The brainFeatures option is not set. Setting it to 0."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["brainFeatures"] = int(
-                0)
+            self.config["main"]["plugins"]["pwn2crack"]["brainFeatures"] = int(0)
         # if numhashtoupload is not set, then set it to 0.
         if "numhashtoupload" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The numhashtoupload option is not set. Setting it to 0."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["numhashtoupload"] = int(
-                0)
+            self.config["main"]["plugins"]["pwn2crack"]["numhashtoupload"] = int(0)
         # If uploadwordlist is not set, then set it to False.
         if "uploadwordlist" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The uploadwordlist option is not set. Setting it to False."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["uploadwordlist"] = bool(
-                False)
+            self.config["main"]["plugins"]["pwn2crack"]["uploadwordlist"] = bool(False)
         # If genwordlist is not set, then set it to False.
         if "genwordlist" not in self.config["main"]["plugins"]["pwn2crack"]:
             logging.debug(
                 f"[{self.__class__.__name__}] The genwordlist option is not set. Setting it to False."
             )
-            self.config["main"]["plugins"]["pwn2crack"]["genwordlist"] = bool(
-                False)
+            self.config["main"]["plugins"]["pwn2crack"]["genwordlist"] = bool(False)
 
     # This function is called when the plugin is loaded. We will preform some checks to make sure the plugin can run without errors.
     def on_loaded(self):
@@ -424,8 +469,7 @@ class HTAccess:
                 f"[{self.__class__.__name__}] The hashlist was not uploaded to Hashtopolis."
             )
             logging.error(
-                f"[{self.__class__.__name__}] Status Code: " +
-                str(request.status_code)
+                f"[{self.__class__.__name__}] Status Code: " + str(request.status_code)
             )
             logging.error(
                 f"[{self.__class__.__name__}] Request Data: "
@@ -506,8 +550,7 @@ class HTAccess:
                 f"[{self.__class__.__name__}] The wordlist was not uploaded to Hashtopolis."
             )
             logging.error(
-                f"[{self.__class__.__name__}] Status Code: " +
-                str(request.status_code)
+                f"[{self.__class__.__name__}] Status Code: " + str(request.status_code)
             )
             logging.error(
                 f"[{self.__class__.__name__}] Request Data: "

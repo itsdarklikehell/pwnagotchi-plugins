@@ -24,6 +24,7 @@ class AwayBase(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "disconnect_after_cycles": 10,
     }
 
     def __init__(self):
@@ -40,8 +41,7 @@ class AwayBase(plugins.Plugin):
             if opt not in self.options or (
                 opt in self.options and self.options[opt] is None
             ):
-                logging.error(
-                    f"[{self.__class__.__name__}] Option {opt} is not set.")
+                logging.error(f"[{self.__class__.__name__}] Option {opt} is not set.")
                 return
         _log("plugin loaded")
         self.ready = 1
@@ -116,8 +116,7 @@ class AwayBase(plugins.Plugin):
         wireless_status = _run("iwconfig wlan0")
         l = wireless_status.splitlines()[0]
         current_network = l[
-            slice(l.find('"') + 1, [m.start()
-                  for m in re.finditer(r'"', l)][1])
+            slice(l.find('"') + 1, [m.start() for m in re.finditer(r'"', l)][1])
         ]
         if (
             current_network in self.used_networks
