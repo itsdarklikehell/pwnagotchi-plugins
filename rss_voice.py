@@ -45,18 +45,18 @@ class RSS_Voice(plugins.Plugin):
 
     def __init__(self):
         self.last_checks = {"wait": 0}
-        logging.debug(f"[{self.__class__.__name__}] plugin init")
+        logging.info(f"[{self.__class__.__name__}] plugin init")
         self.voice = ""
 
     def _wget(self, url, rssfile, verbose=False):
-        logging.debug(f"[{self.__class__.__name__}] _wget %s: %s" % (rssfile, url))
+        logging.info(f"[{self.__class__.__name__}] _wget %s: %s" % (rssfile, url))
         process = subprocess.run(["/usr/bin/wget", "-q", "-O", rssfile, url])
-        logging.debug(f"[{self.__class__.__name__}] %s", repr(process))
+        logging.info(f"[{self.__class__.__name__}] %s", repr(process))
 
     def _fetch_rss_message(self, key):
         rssfile = "%s/%s.rss" % (self.options["path"], key)
         if os.path.isfile(rssfile):
-            logging.debug(f"[{self.__class__.__name__}] pulling from %s" % (rssfile))
+            logging.info(f"[{self.__class__.__name__}] pulling from %s" % (rssfile))
             try:
                 feed = feedparser.parse(rssfile)
                 article = random.choice(feed.entries)
@@ -89,7 +89,7 @@ class RSS_Voice(plugins.Plugin):
             except Exception as e:
                 headline = repr(e)
 
-            logging.debug(f"[{self.__class__.__name__}] %s: %s" % (key, headline))
+            logging.info(f"[{self.__class__.__name__}] %s: %s" % (key, headline))
 
             return headline
         else:
@@ -120,17 +120,17 @@ class RSS_Voice(plugins.Plugin):
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
         # check rss feeds, unless too recent
-        logging.debug(f"[{self.__class__.__name__}] internet available")
+        logging.info(f"[{self.__class__.__name__}] internet available")
         if "feed" in self.options:
             now = time.time()
             feeds = self.options["feed"]
-            logging.debug(f"[{self.__class__.__name__}] processing feeds: %s" % feeds)
+            logging.info(f"[{self.__class__.__name__}] processing feeds: %s" % feeds)
             for k, v in feeds.items():  # a feed value can be a dictionary
-                logging.debug(
+                logging.info(
                     f"[{self.__class__.__name__}] feed: %s = %s" % (repr(k), repr(v))
                 )
                 timeout = 3600 if "timeout" not in v else v["timeout"]
-                logging.debug(
+                logging.info(
                     f"[{self.__class__.__name__}] %s timeout = %s" % (repr(k), timeout)
                 )
                 try:
@@ -151,9 +151,12 @@ class RSS_Voice(plugins.Plugin):
                                 self._wget(v["url"], rss_file)
                                 self.last_checks[k] = time.time()
                             else:
-                                logging.warn("No url in  %s" % repr(v))
+                                logging.warn(
+                                    f"[{self.__class__.__name__}] No url in  %s"
+                                    % repr(v)
+                                )
                     else:
-                        logging.debug("too soon!")
+                        logging.info("too soon!")
                 except Exception as e:
                     logging.error(f"[{self.__class__.__name__}] %s" % repr(e))
         pass
@@ -215,7 +218,7 @@ class RSS_Voice(plugins.Plugin):
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
         self.voice = "(%ss) %s" % (int(t), self._fetch_rss_message("wait"))
-        logging.debug(
+        logging.info(
             f"[{self.__class__.__name__}] [{self.__class__.__name__}] on_wait: %s"
             % self.voice
         )
