@@ -18,8 +18,7 @@ try:
     import feedparser
 except Exception as e:
     logging.error("%s. Installing feedparser..." % repr(e))
-    subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", "feedparser"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "feedparser"])
     logging.info("Trying to import 'feedparser' again")
     import feedparser
 
@@ -50,16 +49,14 @@ class RSS_Voice(plugins.Plugin):
         self.voice = ""
 
     def _wget(self, url, rssfile, verbose=False):
-        logging.debug("[{self.__class__.__name__}] _wget %s: %s" %
-                      (rssfile, url))
+        logging.debug(f"[{self.__class__.__name__}] _wget %s: %s" % (rssfile, url))
         process = subprocess.run(["/usr/bin/wget", "-q", "-O", rssfile, url])
-        logging.debug("[{self.__class__.__name__}] %s", repr(process))
+        logging.debug(f"[{self.__class__.__name__}] %s", repr(process))
 
     def _fetch_rss_message(self, key):
         rssfile = "%s/%s.rss" % (self.options["path"], key)
         if os.path.isfile(rssfile):
-            logging.debug(
-                "[{self.__class__.__name__}] pulling from %s" % (rssfile))
+            logging.debug("[{self.__class__.__name__}] pulling from %s" % (rssfile))
             try:
                 feed = feedparser.parse(rssfile)
                 article = random.choice(feed.entries)
@@ -71,8 +68,7 @@ class RSS_Voice(plugins.Plugin):
                     else:
                         try:
                             return html.unescape(
-                                re.sub("<[^>]+>", "",
-                                       eval("article[%s]" % ele))
+                                re.sub("<[^>]+>", "", eval("article[%s]" % ele))
                             )
 
                         except Exception as e:
@@ -93,8 +89,7 @@ class RSS_Voice(plugins.Plugin):
             except Exception as e:
                 headline = repr(e)
 
-            logging.debug("[{self.__class__.__name__}] %s: %s" %
-                          (key, headline))
+            logging.debug("[{self.__class__.__name__}] %s: %s" % (key, headline))
 
             return headline
         else:
@@ -109,7 +104,10 @@ class RSS_Voice(plugins.Plugin):
 
         rssdir = self.options["path"]
         if not os.path.isdir(rssdir):
-            logging.info("Creating directory for rss feeds: %s" % (rssdir))
+            logging.info(
+                f"[{self.__class__.__name__}] Creating directory for rss feeds: %s"
+                % (rssdir)
+            )
             try:
                 os.mkdir(rssdir)
             except Exception as e:
@@ -122,21 +120,18 @@ class RSS_Voice(plugins.Plugin):
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
         # check rss feeds, unless too recent
-        logging.debug("[{self.__class__.__name__}] internet available")
+        logging.debug(f"[{self.__class__.__name__}] internet available")
         if "feed" in self.options:
             now = time.time()
             feeds = self.options["feed"]
-            logging.debug(
-                "[{self.__class__.__name__}] processing feeds: %s" % feeds)
+            logging.debug(f"[{self.__class__.__name__}] processing feeds: %s" % feeds)
             for k, v in feeds.items():  # a feed value can be a dictionary
                 logging.debug(
-                    "[{self.__class__.__name__}] feed: %s = %s" % (
-                        repr(k), repr(v))
+                    f"[{self.__class__.__name__}] feed: %s = %s" % (repr(k), repr(v))
                 )
                 timeout = 3600 if "timeout" not in v else v["timeout"]
                 logging.debug(
-                    "[{self.__class__.__name__}] %s timeout = %s" % (
-                        repr(k), timeout)
+                    f"[{self.__class__.__name__}] %s timeout = %s" % (repr(k), timeout)
                 )
                 try:
                     if not k in self.last_checks or now > (
@@ -148,7 +143,9 @@ class RSS_Voice(plugins.Plugin):
                             os.path.isfile(rss_file)
                             and now < os.path.getmtime(rss_file) + timeout
                         ):
-                            logging.debug("too soon by file age!")
+                            logging.info(
+                                f"[{self.__class__.__name__}] too soon by file age!"
+                            )
                         else:
                             if "url" in v:
                                 self._wget(v["url"], rss_file)
@@ -158,7 +155,7 @@ class RSS_Voice(plugins.Plugin):
                     else:
                         logging.debug("too soon!")
                 except Exception as e:
-                    logging.error("[{self.__class__.__name__}] %s" % repr(e))
+                    logging.error(f"[{self.__class__.__name__}] %s" % repr(e))
         pass
 
     # called to setup the ui elements
@@ -175,7 +172,7 @@ class RSS_Voice(plugins.Plugin):
     def on_ui_update(self, ui):
         # update those elements
         if self.voice != "":
-            logging.debug("RSS: Status to %s" % self.voice)
+            logging.info(f"[{self.__class__.__name__}] RSS: Status to %s" % self.voice)
             ui.set("status", self.voice)
             self.voice = ""
 
@@ -218,12 +215,14 @@ class RSS_Voice(plugins.Plugin):
     # called when the agent is waiting for t seconds
     def on_wait(self, agent, t):
         self.voice = "(%ss) %s" % (int(t), self._fetch_rss_message("wait"))
-        logging.debug("[{self.__class__.__name__}] on_wait: %s" % self.voice)
+        logging.debug(
+            f"[{self.__class__.__name__}] [{self.__class__.__name__}] on_wait: %s"
+            % self.voice
+        )
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
-        self.voice = "(%ss zzz) %s" % (
-            int(t), self._fetch_rss_message("sleep"))
+        self.voice = "(%ss zzz) %s" % (int(t), self._fetch_rss_message("sleep"))
 
     # called when an epoch is over (where an epoch is a single loop of the main algorithm)
     def on_epoch(self, agent, epoch, epoch_data):
