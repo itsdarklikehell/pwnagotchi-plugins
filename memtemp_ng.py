@@ -32,8 +32,9 @@ import pwnagotchi
 import logging
 
 
-class MemTemp(plugins.Plugin):
-    __author__ = "https://github.com/xenDE"
+class MemTemp_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/xenDE"
     __version__ = "1.0.2"
     __license__ = "GPL3"
     __description__ = "A plugin that will display memory/cpu usage and temperature"
@@ -45,6 +46,8 @@ class MemTemp(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "scale": "celsius",
+        "orientation": "horizontal",
     }
     ALLOWED_FIELDS = {
         "mem": "mem_usage",

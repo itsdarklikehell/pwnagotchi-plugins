@@ -128,7 +128,7 @@ def _send_to_wigle(lines, api_key, donate=True, timeout=30):
         raise re_e
 
 
-class Wigle(plugins.Plugin):
+class Wigle_ng(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Dadav and updated by Jayofelony"
     __version__ = "3.0.1"

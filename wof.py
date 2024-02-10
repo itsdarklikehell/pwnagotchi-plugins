@@ -465,7 +465,7 @@ class WofBridge:
             return []
 
 
-class WofPlugin(plugins.Plugin):
+class WofPlugin_ng(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), CyberArtemio"
     __version__ = "1.1"

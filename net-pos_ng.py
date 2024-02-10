@@ -8,8 +8,9 @@ import pwnagotchi.plugins as plugins
 from pwnagotchi.utils import StatusFile
 
 
-class NetPos(plugins.Plugin):
-    __author__ = "zenzen san"
+class NetPos_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), zenzen san"
     __version__ = "2.0.3"
     __license__ = "GPL3"
     __description__ = """Saves a json file with the access points with more signal
@@ -29,6 +30,7 @@ class NetPos(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "api_key": "test",
     }
 
     def __init__(self):

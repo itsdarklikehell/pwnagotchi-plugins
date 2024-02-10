@@ -116,8 +116,9 @@ def run_task(name, options):
     systemctl("start", task_service_name)
 
 
-class Switcher(plugins.Plugin):
-    __author__ = "33197631+dadav@users.noreply.github.com"
+class Switcher_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "0.0.1"
     __license__ = "GPL3"
     __description__ = "This plugin is a generic task scheduler."

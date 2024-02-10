@@ -7,7 +7,7 @@ from threading import Lock
 import requests
 
 
-class Wardriver(plugins.Plugin):
+class Wardriver_ng(plugins.Plugin):
     __GitHub__ = ''
     __author__ = '(edited by: itsdarklikehell bauke.molenaar@gmail.com), CyberArtemio'
     __version__ = '1.0'

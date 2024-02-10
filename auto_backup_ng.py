@@ -5,7 +5,7 @@ import logging
 import subprocess
 
 
-class AutoBackup(plugins.Plugin):
+class AutoBackup_ng(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "2.0.0"

@@ -10,8 +10,9 @@ import pwnagotchi.plugins as plugins
 from json.decoder import JSONDecodeError
 
 
-class OnlineHashCrack(plugins.Plugin):
-    __author__ = "33197631+dadav@users.noreply.github.com"
+class OnlineHashCrack_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
     __version__ = "2.1.0"
     __license__ = "GPL3"
     __description__ = (
@@ -27,6 +28,10 @@ class OnlineHashCrack(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "email": "",
+        "dashboard": "",
+        "single_files": False,
+        "whitelist": [],
     }
 
     def __init__(self):

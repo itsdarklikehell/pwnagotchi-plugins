@@ -43,8 +43,9 @@ def parse_pcap(filename):
     return info[WifiInfo.ESSID], info[WifiInfo.BSSID]
 
 
-class Grid(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+class Grid_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.1"
     __license__ = "GPL3"
     __description__ = (

@@ -27,6 +27,10 @@ class BetterOnlineHashCrack(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "email": "",
+        "dashboard": "",
+        "single_files": False,
+        "whitelist": [],
     }
 
     def __init__(self):

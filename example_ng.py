@@ -6,8 +6,9 @@ from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 
 
-class Example(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+class Example_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (

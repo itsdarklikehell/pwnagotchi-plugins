@@ -12,8 +12,9 @@ from pwnagotchi.utils import StatusFile
 import zipfile
 
 
-class GdriveSync(plugins.Plugin):
-    __author__ = "@jayofelony"
+class GdriveSync_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @jayofelony"
     __version__ = "1.2"
     __license__ = "GPL3"
     __description__ = "A plugin to backup various pwnagotchi files and folders to Google Drive. Once every hour from loading plugin."

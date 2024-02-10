@@ -10,8 +10,9 @@ from subprocess import Popen
 # https://gist.github.com/alistar79/785b422ab5de846b27e1770550526bce
 
 
-class Telegram(plugins.Plugin):
-    __author__ = "djerfy@gmail.com"
+class Telegram_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), djerfy@gmail.com"
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Periodically sent messages to Telegram about the recent activity of pwnagotchi."

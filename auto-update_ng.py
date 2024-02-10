@@ -192,8 +192,9 @@ def parse_version(cmd):
         'could not parse version from "%s": output=\n%s' % (cmd, out))
 
 
-class AutoUpdate(plugins.Plugin):
-    __author__ = "evilsocket@gmail.com"
+class AutoUpdate_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
     __version__ = "1.1.1"
     __license__ = "GPL3"
     __description__ = "This plugin checks when updates are available and applies them when internet is available."
@@ -205,6 +206,8 @@ class AutoUpdate(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "install": False,
+        "interval": 1,
     }
 
     def __init__(self):

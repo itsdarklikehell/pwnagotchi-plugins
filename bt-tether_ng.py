@@ -418,13 +418,13 @@ class Device:
         return BTNap.prop_get(self.network, 'Interface')
 
 
-class BTTether(plugins.Plugin):
+class BTTether_ng(plugins.Plugin):
     __GitHub__ = ""
     __author__ = '(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com'
     __version__ = '1.1.0'
     __license__ = 'GPL3'
     __description__ = 'This makes the display reachable over bluetooth'
-    __name__ = "BTTether"
+    __name__ = "BTTether_ng"
     __help__ = "This plugin automatically uploads collected WiFi to wigle.net"
     __dependencies__ = {
         "apt": ["none"],

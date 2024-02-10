@@ -12,8 +12,9 @@ import pwnagotchi.ui.faces as faces
 from pwnagotchi.bettercap import Client
 
 
-class FixServices(plugins.Plugin):
-    __author__ = "jayofelony"
+class FixServices_ng(plugins.Plugin):
+    __GitHub__ = ""
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), jayofelony"
     __version__ = "1.0"
     __license__ = "GPL3"
     __description__ = "Fix blindness, firmware crashes and brain not being loaded"
@@ -29,7 +30,8 @@ class FixServices(plugins.Plugin):
         self.options = dict()
         self.pattern1 = re.compile(r"wifi error while hopping to channel")
         self.pattern2 = re.compile(r"Firmware has halted or crashed")
-        self.pattern3 = re.compile(r"error 400: could not find interface wlan0mon")
+        self.pattern3 = re.compile(
+            r"error 400: could not find interface wlan0mon")
         self.isReloadingMon = False
         self.connection = None
         self.LASTTRY = 0
@@ -44,7 +46,8 @@ class FixServices(plugins.Plugin):
     def on_ready(self, agent):
         last_lines = self.get_last_lines("journalctl", ["-n10", "-k"], 10)
         try:
-            cmd_output = subprocess.check_output("ip link show wlan0mon", shell=True)
+            cmd_output = subprocess.check_output(
+                "ip link show wlan0mon", shell=True)
             logging.debug(
                 f"[{self.__class__.__name__}] [ip link show wlan0mon]: %s"
                 % repr(cmd_output)
@@ -56,12 +59,14 @@ class FixServices(plugins.Plugin):
 
         except Exception as err:
             logging.error(
-                f"[{self.__class__.__name__}] [ip link show wlan0mon]: %s" % repr(err)
+                f"[{self.__class__.__name__}] [ip link show wlan0mon]: %s" % repr(
+                    err)
             )
             try:
                 self._tryTurningItOffAndOnAgain(agent)
             except Exception as err:
-                logging.error(f"[{self.__class__.__name__}] [OffNOn]: %s" % repr(err))
+                logging.error(
+                    f"[{self.__class__.__name__}] [OffNOn]: %s" % repr(err))
 
     # bettercap sys_log event
     # search syslog events for the brcmf channel fail, and reset when it shows up
@@ -72,7 +77,8 @@ class FixServices(plugins.Plugin):
                 f"[{self.__class__.__name__}]SYSLOG MATCH: %s"
                 % event["data"]["Message"]
             )
-            logging.info(f"[{self.__class__.__name__}]**** restarting wifi.recon")
+            logging.info(
+                f"[{self.__class__.__name__}]**** restarting wifi.recon")
             try:
                 result = agent.run("wifi.recon off; wifi.recon on")
                 if result["success"]:
@@ -105,7 +111,8 @@ class FixServices(plugins.Plugin):
 
     def get_last_lines(self, command, args, n):
         try:
-            process = subprocess.Popen([command] + args, stdout=subprocess.PIPE)
+            process = subprocess.Popen(
+                [command] + args, stdout=subprocess.PIPE)
             output = TextIOWrapper(process.stdout)
             lines = output.readlines()
             last_n_lines = "".join(lines[-n:])
@@ -138,7 +145,8 @@ class FixServices(plugins.Plugin):
                 )
                 if hasattr(agent, "view"):
                     display = agent.view()
-                    display.set("status", "Wifi channel stuck. Restarting recon.")
+                    display.set(
+                        "status", "Wifi channel stuck. Restarting recon.")
                     display.update(force=True)
                 logging.info(
                     f"[{self.__class__.__name__}] Wifi channel stuck. Restarting recon."
@@ -168,7 +176,8 @@ class FixServices(plugins.Plugin):
 
                 except Exception as err:
                     logging.error(
-                        f"[{self.__class__.__name__}] [wifi.recon flip] %s" % repr(err)
+                        f"[{self.__class__.__name__}] [wifi.recon flip] %s" % repr(
+                            err)
                     )
 
             # Look for pattern 2
@@ -184,13 +193,16 @@ class FixServices(plugins.Plugin):
                     display.update(force=True)
                 try:
                     # Run the monstart command to restart wlan0mon
-                    cmd_output = subprocess.check_output("monstart", shell=True)
+                    cmd_output = subprocess.check_output(
+                        "monstart", shell=True)
                     logging.debug(
-                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(cmd_output)
+                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(
+                            cmd_output)
                     )
                 except Exception as err:
                     logging.error(
-                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(err)
+                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(
+                            err)
                     )
 
             # Look for pattern 3
@@ -202,13 +214,16 @@ class FixServices(plugins.Plugin):
                     display.update(force=True)
                 try:
                     # Run the monstart command to restart wlan0mon
-                    cmd_output = subprocess.check_output("monstart", shell=True)
+                    cmd_output = subprocess.check_output(
+                        "monstart", shell=True)
                     logging.debug(
-                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(cmd_output)
+                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(
+                            cmd_output)
                     )
                 except Exception as err:
                     logging.error(
-                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(err)
+                        f"[{self.__class__.__name__}] [monstart]: %s" % repr(
+                            err)
                     )
 
             else:
@@ -238,7 +253,8 @@ class FixServices(plugins.Plugin):
         # avoid overlapping restarts, but allow it if it's been a while
         # (in case the last attempt failed before resetting "isReloadingMon")
         if self.isReloadingMon and (time.time() - self.LASTTRY) < 180:
-            logging.info(f"[{self.__class__.__name__}] Duplicate attempt ignored")
+            logging.info(
+                f"[{self.__class__.__name__}] Duplicate attempt ignored")
         else:
             self.isReloadingMon = True
             self.LASTTRY = time.time()
@@ -333,7 +349,8 @@ class FixServices(plugins.Plugin):
                 )
                 pass
 
-            logging.debug(f"[{self.__class__.__name__}] Now trying modprobe -r")
+            logging.debug(
+                f"[{self.__class__.__name__}] Now trying modprobe -r")
 
             # Try this sequence 3 times until it is reloaded
             #
@@ -350,7 +367,8 @@ class FixServices(plugins.Plugin):
                         "info",
                         f"[{self.__class__.__name__}] unloaded brcmfmac",
                         display,
-                        {"status": "Turning it off #%s" % tries, "face": faces.SMART},
+                        {"status": "Turning it off #%s" %
+                            tries, "face": faces.SMART},
                     )
                     time.sleep(1 + tries)
 
@@ -370,7 +388,8 @@ class FixServices(plugins.Plugin):
 
                         # success! now make the mon0
                         try:
-                            cmd_output = subprocess.check_output("monstart", shell=True)
+                            cmd_output = subprocess.check_output(
+                                "monstart", shell=True)
                             self.logPrintView(
                                 "info",
                                 f"[{self.__class__.__name__}] [interface add wlan0mon] worked #%s: %s"
@@ -379,7 +398,8 @@ class FixServices(plugins.Plugin):
                             time.sleep(tries + 5)
                             try:
                                 # try accessing mon0 in bettercap
-                                result = connection.run("set wifi.interface wlan0mon")
+                                result = connection.run(
+                                    "set wifi.interface wlan0mon")
                                 if "success" in result:
                                     logging.info(
                                         f"[{self.__class__.__name__}] [set wifi.interface wlan0mon] worked!"
@@ -475,7 +495,8 @@ class FixServices(plugins.Plugin):
                     else:
                         print("I can see again")
                     logging.debug(f"[{self.__class__.__name__}] wifi.recon on")
-                    self.LASTTRY = time.time() + 120  # 2-minute pause until next time.
+                    # 2-minute pause until next time.
+                    self.LASTTRY = time.time() + 120
                 else:
                     logging.error(
                         f"[{self.__class__.__name__}] wifi.recon did not start up"
@@ -485,7 +506,8 @@ class FixServices(plugins.Plugin):
 
             except Exception as err:
                 logging.error(
-                    f"[{self.__class__.__name__}] [wifi.recon on] %s" % repr(err)
+                    f"[{self.__class__.__name__}] [wifi.recon on] %s" % repr(
+                        err)
                 )
                 pwnagotchi.reboot()
 
@@ -494,7 +516,8 @@ class FixServices(plugins.Plugin):
             try:
                 logging.info(f"[{self.__class__.__name__}] unloaded")
             except Exception as err:
-                logging.error(f"[{self.__class__.__name__}] unload err %s " % repr(err))
+                logging.error(
+                    f"[{self.__class__.__name__}] unload err %s " % repr(err))
             pass
 
 
@@ -508,7 +531,8 @@ if __name__ == "__main__":
     }
     event = {"data": data}
 
-    agent = Client("localhost", port=8081, username="pwnagotchi", password="pwnagotchi")
+    agent = Client("localhost", port=8081,
+                   username="pwnagotchi", password="pwnagotchi")
 
     time.sleep(2)
     print("3 seconds")
