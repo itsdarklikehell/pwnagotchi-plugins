@@ -63,7 +63,7 @@ showerthoughts() {
     sudo curl --silent https://www.reddit.com/r/showerthoughts/.rss --user-agent 'Mozilla' --output /root/showerthoughts.rss
     sudo wget -P /usr/local/bin https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/remove_long_titles.py
     sudo python /usr/local/bin/remove_long_titles.py
-    wget -P /usr/local/lib/python3.7/dist-packages/pwnagotchi/ https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/voice.py
+    sudo wget -P /usr/local/lib/python3.11/dist-packages/pwnagotchi/ https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/voice.py
     sudo mv /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py.old
     sudo mv /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py.1 /usr/local/lib/python3.11/dist-packages/pwnagotchi/voice.py
     (
