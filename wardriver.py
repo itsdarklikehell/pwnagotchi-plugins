@@ -3,6 +3,9 @@ import os
 from datetime import datetime, timezone
 import toml
 import pwnagotchi.plugins as plugins
+from pwnagotchi.ui.components import LabeledValue
+from pwnagotchi.ui.view import BLACK
+import pwnagotchi.ui.fonts as fonts
 from threading import Lock
 import requests
 
@@ -32,6 +35,16 @@ class Wardriver(plugins.Plugin):
         else:
             self.__csv_path = self.DEFAULT_PATH
         
+        if 'ui' in self.options:
+            self.__ui_enabled = self.options['ui']['enabled'] if 'enabled' in self.options['ui'] else False
+            try:
+                self.__ui_position = (self.options['ui']['position']['x'], self.options['ui']['position']['y'])
+            except Exception:
+                self.__ui_position = (5, 95)
+        else:
+            self.__ui_enabled = False
+            self.__ui_position = (0, 0)
+        
         if not os.path.exists(self.__csv_path):
             os.makedirs(self.__csv_path)
             logging.warning('[WARDRIVER] Created CSV directory')
@@ -59,6 +72,26 @@ class Wardriver(plugins.Plugin):
 
         if len(self.__whitelist) > 0:
             logging.info(f'[WARDRIVER] Ignoring {len(self.__whitelist)} networks')
+    
+    def on_ui_setup(self, ui):
+        if self.__ui_enabled:
+            logging.info('[WARDRIVER] Adding status text to ui')
+            ui.add_element('wardriver', LabeledValue(color = BLACK,
+                                               label = 'wardrive:',
+                                               value = "- nets",
+                                               position = self.__ui_position,
+                                               label_font = fonts.Small,
+                                               text_font = fonts.Small))
+
+    def on_ui_update(self, ui):
+        if self.__ui_enabled:
+            ui.set('wardriver', f'{len(self.__session_reported)} net')
+
+    def on_unload(self, ui):
+        if self.__ui_enabled:
+            with ui._lock:
+                ui.remove_element('wardriver')
+        logging.info('[WARDRIVER] Plugin unloaded')
     
     def __clean_csv_directory(self):
         '''
