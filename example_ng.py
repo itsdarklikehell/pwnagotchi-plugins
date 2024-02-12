@@ -8,7 +8,9 @@ import pwnagotchi.ui.fonts as fonts
 
 class Example_ng(plugins.Plugin):
     __GitHub__ = ""
-    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
+    __author__ = (
+        "(edited by: itsdarklikehell bauke.molenaar@gmail.com), evilsocket@gmail.com"
+    )
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = (
@@ -23,6 +25,7 @@ class Example_ng(plugins.Plugin):
     __defaults__ = {
         "enabled": False,
     }
+
     def __init__(self):
         logging.debug(f"[{self.__class__.__name__}] plugin init")
 
@@ -38,8 +41,7 @@ class Example_ng(plugins.Plugin):
             f"[{self.__class__.__name__}] WARNING: this plugin should be disabled! options = "
             % self.options
         )
-                logging.debug(f"[{self.__class__.__name__}] plugin loaded")
-
+        logging.debug(f"[{self.__class__.__name__}] plugin loaded")
 
     # called before the plugin is unloaded
     def on_unload(self, ui):
@@ -48,7 +50,6 @@ class Example_ng(plugins.Plugin):
     # called hen there's internet connectivity
     def on_internet_available(self, agent):
         logging.debug(f"[{self.__class__.__name__}] plugin has internet")
-
 
     # called to setup the ui elements
     def on_ui_setup(self, ui):
