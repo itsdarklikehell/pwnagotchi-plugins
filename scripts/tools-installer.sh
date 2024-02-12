@@ -76,7 +76,7 @@ showerthoughts() {
 enable_all_plugins() {
     echo "Enable all Plugins..."
     cd /usr/local/share/pwnagotchi/available-plugins
-    for i in *_ng.py; do
+    for i in *.py; do
         echo "[ENABLING]: ${i%%.*}"
         sudo pwnagotchi plugins enable ${i%%.*}
     done
