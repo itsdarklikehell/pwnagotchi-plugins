@@ -70,6 +70,14 @@ class crack_house(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "orientation": "vertical",
+        "files": [
+            "/root/handshakes/wpa-sec.cracked.potfile",
+            "/root/handshakes/my.potfile",
+            "/root/handshakes/OnlineHashCrack.cracked",
+        ],
+        "saving_path": "/root/handshakes/crackhouse.potfile",
+        "display_stats": True,
     }
 
     def __init__(self):
@@ -95,10 +103,8 @@ class crack_house(plugins.Plugin):
             elif file_path.lower().endswith(".cracked"):
                 with open(file_path) as f:
                     for line in f:
-                        tmp_first = str(
-                            line.rstrip().split(",")[:3][1:-1])[3:-3]
-                        tmp_last = str(line.rstrip().split(",")
-                                       [3:][1:-1])[3:-3]
+                        tmp_first = str(line.rstrip().split(",")[:3][1:-1])[3:-3]
+                        tmp_last = str(line.rstrip().split(",")[3:][1:-1])[3:-3]
                         tmp_line = "%s:%s" % (tmp_first, tmp_last)
                         tmp_list.append(tmp_line)
             else:
@@ -119,8 +125,7 @@ class crack_house(plugins.Plugin):
         READY = 1
         logging.info(f"[{self.__class__.__name__}] Successfully loaded")
         logging.info(
-            f"[{self.__class__.__name__}] all paths: " +
-            str(self.options["files"])
+            f"[{self.__class__.__name__}] all paths: " + str(self.options["files"])
         )
 
     def on_ui_setup(self, ui):
@@ -242,8 +247,7 @@ class crack_house(plugins.Plugin):
         if BEST_RSSI != -1000:
             if self.options["orientation"] == "vertical":
                 msg_ch = str(
-                    BEST_CRACK[0] + "(" + near_rssi + ")" +
-                    "\n" + BEST_CRACK[1]
+                    BEST_CRACK[0] + "(" + near_rssi + ")" + "\n" + BEST_CRACK[1]
                 )
             else:
                 msg_ch = str(BEST_CRACK[0] + ":" + BEST_CRACK[1])
@@ -253,8 +257,7 @@ class crack_house(plugins.Plugin):
             ui.set("crack_house", "%s" % (os.popen(last_line).read().rstrip()))
 
         if self.options["display_stats"]:
-            msg_stats = "(%s)%d/%d" % (TIME_WIFI_UPDATE,
-                                       TOTAL_CRACK, len(CRACK_MENU))
+            msg_stats = "(%s)%d/%d" % (TIME_WIFI_UPDATE, TOTAL_CRACK, len(CRACK_MENU))
             ui.set("crack_house_stats", "%s" % (msg_stats))
 
     def on_webhook(self, path, request):

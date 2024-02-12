@@ -10,20 +10,26 @@
 # https://github.com/abros0000/pwnagotchi-display-password-plugin/blob/master/display-password.py
 #
 # If their is no cracked network nearby the plugins show the last cracked password by wpa-sec
-# If a cracked networks are nearby it will she the nearest on the screen
+# If cracked networks are nearby it will she the nearest on the screen
+# It can show time from the last wifi update and the number of cracked networks nearby on the total number of cracked networks ('display_stats' option)
 #
-# inside config.toml:
-#
-# main.plugins.crack_house.enabled = true
-# main.plugins.crack_house.orientation = "vertical"
-# main.plugins.crack_house.files = [
+# Inside config.toml:
+# ```
+# main.plugins.crack_house_dev.enabled = true
+# main.plugins.crack_house_dev.orientation = "vertical"
+# main.plugins.crack_house_dev.files = [
 #  '/root/handshakes/wpa-sec.cracked.potfile',
 #  '/root/handshakes/my.potfile',
-#  '/root/handshakes/OnlineHashCrack.potfile',
+#  '/root/handshakes/OnlineHashCrack.cracked',
 # ]
-# main.plugins.crack_house.saving_path = '/root/handshakes/crack_house.potfile'
-# main.plugins.crack_house.display_stats = true
-#
+# main.plugins.crack_house_dev.saving_path = '/root/handshakes/crack_house_dev.potfile'
+# main.plugins.crack_house_dev.display_stats = true
+# ```
+# The plugin manage .potfile from wpa-sec & .cracked from OnlineHashCrack
+# .potfile
+# BSSID:STAMAC:ESSID:password
+# .cracked
+# datetime,ESSID,BSSID,STAMAC,password,note
 
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
@@ -55,7 +61,7 @@ class crack_house(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "A plugin to display closest cracked network & it password."
-    __name__ = "crack_house"
+    __name__ = "crack_house_dev"
     __help__ = "A plugin to display closest cracked network & it password."
     __dependencies__ = {
         "apt": ["none"],
@@ -63,6 +69,14 @@ class crack_house(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
+        "orientation": "vertical",
+        "files": [
+            "/root/handshakes/wpa-sec.cracked.potfile",
+            "/root/handshakes/my.potfile",
+            "/root/handshakes/OnlineHashCrack.cracked",
+        ],
+        "saving_path": "/root/handshakes/crackhouse_dev.potfile",
+        "display_stats": True,
     }
 
     def __init__(self):
@@ -109,8 +123,7 @@ class crack_house(plugins.Plugin):
         READY = 1
         logging.info(f"[{self.__class__.__name__}] Successfully loaded")
         logging.info(
-            f"[{self.__class__.__name__}] all paths: " +
-            str(self.options["files"])
+            f"[{self.__class__.__name__}] all paths: " + str(self.options["files"])
         )
 
     def on_ui_setup(self, ui):
@@ -237,8 +250,7 @@ class crack_house(plugins.Plugin):
         if BEST_RSSI != -1000:
             if self.options["orientation"] == "vertical":
                 msg_ch = str(
-                    BEST_CRACK[0] + "(" + near_rssi + ")" +
-                    "\n" + BEST_CRACK[1]
+                    BEST_CRACK[0] + "(" + near_rssi + ")" + "\n" + BEST_CRACK[1]
                 )
             else:
                 msg_ch = str(BEST_CRACK[0] + ":" + BEST_CRACK[1])
