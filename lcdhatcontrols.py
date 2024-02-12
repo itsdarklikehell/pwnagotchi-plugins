@@ -11,7 +11,7 @@ class lcdhatcontrols(plugins.Plugin):
     __version__ = "0.0.2"
     __license__ = "GPL3"
     __description__ = "lcdhat controls"
-    __name__ = "Age"
+    __name__ = "lcdhatcontrols"
     __help__ = "lcdhat controls"
     __dependencies__ = {
         "apt": ["none"],
@@ -66,16 +66,14 @@ class lcdhatcontrols(plugins.Plugin):
                     last_press_times[0] = current_time
                     if button_states[1]:
                         logging.info("Rebooting (auto)")
-                        subprocess.run(
-                            ["sudo", "touch", "/root/.pwnagotchi-auto"])
+                        subprocess.run(["sudo", "touch", "/root/.pwnagotchi-auto"])
                         subprocess.run(["sudo", "reboot"])
                     elif button_states[2]:
                         logging.info("Shutting down")
                         subprocess.run(["sudo", "shutdown", "-h", "now"])
                     elif button_states[3]:
                         logging.info("Resetting service (auto)")
-                        subprocess.run(
-                            ["sudo", "touch", "/root/.pwnagotchi-auto"])
+                        subprocess.run(["sudo", "touch", "/root/.pwnagotchi-auto"])
                         subprocess.run(
                             ["sudo", "systemctl", "restart", "pwnagotchi.service"]
                         )

@@ -32,7 +32,7 @@ class MqttPlugin(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "MIT"
     __description__ = "A plugin that sends info about your pwnagotchi to MQTT"
-    __name__ = "Age"
+    __name__ = "MqttPlugin"
     __help__ = "A plugin that sends info about your pwnagotchi to MQTT"
     __dependencies__ = {
         "apt": ["none"],

@@ -7,7 +7,7 @@ __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
 __version__ = "1.1.0"
 __license__ = "MIT"
 __description__ = ""
-__name__ = "Age"
+__name__ = "rgb"
 __help__ = ""
 __dependencies__ = {
     "apt": ["none"],

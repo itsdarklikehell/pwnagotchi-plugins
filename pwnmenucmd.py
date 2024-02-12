@@ -15,13 +15,9 @@ __GitHub__ = ""
 __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
 __version__ = "1.1.0"
 __license__ = "MIT"
-__description__ = (
-    "A plugin that will add age and strength stats based on epochs and trained epochs"
-)
-__name__ = "Age"
-__help__ = (
-    "A plugin that will add age and strength stats based on epochs and trained epochs"
-)
+__description__ = ""
+__name__ = "pwnmenucmd"
+__help__ = ""
 __dependencies__ = {
     "apt": ["none"],
     "pip": ["scapy"],

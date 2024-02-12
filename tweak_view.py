@@ -84,8 +84,7 @@ class Tweak_View(plugins.Plugin):
                 # print("********************\n%s JSON %s" % (prefix, item))
                 try:
                     j = json.loads(item)
-                    res += "%sJSON\n" % prefix, json.dumps(
-                        j, sort_keys=True, indent=4)
+                    res += "%sJSON\n" % prefix, json.dumps(j, sort_keys=True, indent=4)
                 except Exception as inst:
                     res += "%s%s = '%s'\n" % (prefix, name, item)
                 else:
@@ -117,32 +116,28 @@ class Tweak_View(plugins.Plugin):
                 self._logger.debug("%s<%i> %s\n" % (prefix, i, key))
                 res += (
                     self.dump_item(
-                        "{%i}" % (i), key, "  %s %s" % (
-                            " " * len(prefix), name)
+                        "{%i}" % (i), key, "  %s %s" % (" " * len(prefix), name)
                     )
                     + "\n"
                 )
 
-            if prefix is "":
+            if prefix == "":
                 res += "%s[%s END]\n" % (prefix, name)
 
         elif type(item) is dict:
             # res += "Dict: [%s] [%s]<ul>\n" % (prefix, name)
             for key in item:
-                self._logger.debug("%s>>> %s:%s" %
-                                   (prefix, key, type(item[key])))
+                self._logger.debug("%s>>> %s:%s" % (prefix, key, type(item[key])))
                 res += (
                     "<li>"
-                    + self.dump_item("%s" %
-                                     (key), item[key], "%s%s" % (prefix, name))
+                    + self.dump_item("%s" % (key), item[key], "%s%s" % (prefix, name))
                     + "\n"
                 )
                 # prefix = " " * len(prefix)
                 # name = " " * len(name)
             res += "</ul>"
         elif type(item) in (Text, LabeledValue, Line):
-            res += "<b>%s:</b> %s\n<ul>" % (
-                html.escape(str(type(item).__name__)), name)
+            res += "<b>%s:</b> %s\n<ul>" % (html.escape(str(type(item).__name__)), name)
             try:
                 for key in dir(item):
                     val = getattr(item, key)
@@ -203,8 +198,7 @@ class Tweak_View(plugins.Plugin):
                                     l,
                                 )
                             else:
-                                res += '  <option value="%s">%s</option>' % (
-                                    l, l)
+                                res += '  <option value="%s">%s</option>' % (l, l)
                         res += "</select>"
                     else:
                         res += '<li>%s["%s"].%s = %s\n' % (
@@ -309,8 +303,7 @@ class Tweak_View(plugins.Plugin):
                         elif type(oldval) in (list, tuple):
                             for i in range(len(oldval)):
                                 new_xy = val.split(",")
-                                new_xy = [int(float(x.strip()))
-                                          for x in new_xy]
+                                new_xy = [int(float(x.strip())) for x in new_xy]
                                 if float(oldval[i]) != new_xy[i]:
                                     res += "<li>LIST %s.%s != %s, %s" % (
                                         key[1],
@@ -320,8 +313,7 @@ class Tweak_View(plugins.Plugin):
                                     )
                                     self._tweaks[k] = val
                                     changed = True
-                                    res += "<li>Tweak %s -> %s" % (
-                                        k, self._tweaks[k])
+                                    res += "<li>Tweak %s -> %s" % (k, self._tweaks[k])
                         elif type(oldval) is int:
                             if oldval != int(float(val)):
                                 res += "<li>*%s.%s != %s, %s" % (
@@ -378,8 +370,7 @@ class Tweak_View(plugins.Plugin):
                     if self._agent:
                         view = self._agent.view()
                         ret += '<h2>Available View Elements</h2><pre><form method=post><input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">'
-                        ret += "%s" % (self.dump_item("VSS",
-                                       view._state._state))
+                        ret += "%s" % (self.dump_item("VSS", view._state._state))
                         ret += '<input type=submit name=submit value="Update View"></form></pre><p>'
                         ret += "</body></html>"
                     return render_template_string(ret)
@@ -394,8 +385,7 @@ class Tweak_View(plugins.Plugin):
                     ret += "<h2>Request</h2><code>%s</code><p>" % self.dump_item(
                         "Request", request.values
                     )
-                    ret += "<h2>Current Mods</h2>%s<p>" % self.show_tweaks(
-                        request)
+                    ret += "<h2>Current Mods</h2>%s<p>" % self.show_tweaks(request)
                     ret += "</body></html>"
                 elif path == "delete_mods":
                     ret = '<html><head><title>Tweak view. Update!</title><meta name="csrf_token" content="{{ csrf_token() }}"></head>'
@@ -415,8 +405,7 @@ class Tweak_View(plugins.Plugin):
                                     ui = self._agent.view()
                                     if hasattr(ui._state._state[element], key):
                                         value = self._untweak[d]
-                                        setattr(
-                                            ui._state._state[element], key, value)
+                                        setattr(ui._state._state[element], key, value)
                                         ret += "<li>Reverted %s %s to %s\n" % (
                                             element,
                                             key,
@@ -435,8 +424,7 @@ class Tweak_View(plugins.Plugin):
                                         )
                                         del self._untweak[d]
                                 except Exception as err:
-                                    ret += "<li>Revert %s failed: %s" % (
-                                        d, repr(err))
+                                    ret += "<li>Revert %s failed: %s" % (d, repr(err))
                             else:
                                 ret += "<li>%s not in backups\n" % d
 
@@ -446,8 +434,7 @@ class Tweak_View(plugins.Plugin):
                                     ret += "<li>Removed mod %s\n" % d
                                     changed = True
                                 except Exception as err:
-                                    ret += "<li>Error deleting %s: %s" % (
-                                        d, repr(err))
+                                    ret += "<li>Error deleting %s: %s" % (d, repr(err))
                         if changed:
                             try:
                                 with open(self._conf_file, "w") as f:
@@ -463,8 +450,7 @@ class Tweak_View(plugins.Plugin):
                     ret += "<h2>Request</h2><code>%s</code><p>" % self.dump_item(
                         "Request", request.values
                     )
-                    ret += "<h2>Current Mods</h2>%s<p>" % self.show_tweaks(
-                        request)
+                    ret += "<h2>Current Mods</h2>%s<p>" % self.show_tweaks(request)
                     ret += "</body></html>"
                 else:
                     ret = '<html><head><title>Tweak view. Result!</title><meta name="csrf_token" content="{{ csrf_token() }}"></head>'
@@ -475,8 +461,7 @@ class Tweak_View(plugins.Plugin):
                     ret += "<h2>Form</h2><code>%s</code><p>" % self.update_from_request(
                         request
                     )
-                    ret += "<h2>Current Mods</h2>%s<p>" % self.show_tweaks(
-                        request)
+                    ret += "<h2>Current Mods</h2>%s<p>" % self.show_tweaks(request)
                     ret += "</body></html>"
                 return render_template_string(ret)
             else:
@@ -517,8 +502,7 @@ class Tweak_View(plugins.Plugin):
             with open(self._conf_file, "r") as f:
                 self._tweaks = json.load(f)
             for i in self._tweaks:
-                self._logger.info("Loaded tweak %s -> %s" %
-                                  (i, self._tweaks[i]))
+                self._logger.info("Loaded tweak %s -> %s" % (i, self._tweaks[i]))
 
         except Exception as err:
             self._logger.info("TweakUI loading failed: %s" % repr(err))
@@ -547,8 +531,7 @@ class Tweak_View(plugins.Plugin):
                                     "Reverted %s xy to %s"
                                     % (
                                         element,
-                                        repr(
-                                            getattr(ui._state._state[element], key)),
+                                        repr(getattr(ui._state._state[element], key)),
                                     )
                                 )
                         except Exception as err:
@@ -581,11 +564,9 @@ class Tweak_View(plugins.Plugin):
                     if element in state and key in dir(state[element]):
                         if tag not in self._untweak:
                             # self._untweak[tag] = eval("ui._state._state[element].%s" % key)
-                            self._untweak[tag] = getattr(
-                                ui._state._state[element], key)
+                            self._untweak[tag] = getattr(ui._state._state[element], key)
                             self._logger.info(
-                                "Saved for unload: %s = %s" % (
-                                    tag, self._untweak[tag])
+                                "Saved for unload: %s = %s" % (tag, self._untweak[tag])
                             )
 
                         if key == "xy":
@@ -613,13 +594,11 @@ class Tweak_View(plugins.Plugin):
                         elif key == "label":
                             ui._state._state[element].label = value
                         elif key == "label_spacing":
-                            ui._state._state[element].label_spacing = int(
-                                value)
+                            ui._state._state[element].label_spacing = int(value)
                         elif key == "max_length":
                             ui._state._state[element].max_length = int(value)
                 except Exception as err:
-                    self._logger.warn(
-                        "tweak failed for key %s: %s" % (tag, repr(err)))
+                    self._logger.warn("tweak failed for key %s: %s" % (tag, repr(err)))
 
         except Exception as err:
             self._logger.warning("ui update: %s, %s" % (repr(err), repr(ui)))

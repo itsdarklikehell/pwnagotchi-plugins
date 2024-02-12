@@ -17,7 +17,7 @@ class AgeV2(plugins.Plugin):
     __version__ = "1.1.0"
     __license__ = "MIT"
     __description__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
-    __name__ = "Age"
+    __name__ = "AgeV2"
     __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
         "pip": ["scapy"],
@@ -142,8 +142,7 @@ class AgeV2(plugins.Plugin):
     def age_checkpoint(self, agent):
         view = agent.view()
         view.set("face", faces.HAPPY)
-        view.set("status", "Wow, I've lived for " +
-                 self.calculate_device_age())
+        view.set("status", "Wow, I've lived for " + self.calculate_device_age())
         view.update(force=True)
 
     def strength_checkpoint(self, agent):
