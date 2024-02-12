@@ -8,7 +8,7 @@ GUIDE HERE: https://community.pwnagotchi.ai/t/setting-up-paw-gps-on-android
 """
 
 
-class PawGPS-ng(plugins.Plugin):
+class PawGPS_ng(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), leont"
     __version__ = "2.0.0"
