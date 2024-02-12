@@ -106,7 +106,7 @@ class Tweak_View(plugins.Plugin):
         elif type(item) is bool:
             res += "%s%s is %s\n" % (prefix, name, item)
         elif type(item) is list:
-            # if (prefix is ""):
+            # if (prefix == ""):
             if len(item) > 1:
                 res += "\n"
             res += "%s[%s]\n" % (prefix, name)
@@ -124,7 +124,7 @@ class Tweak_View(plugins.Plugin):
             if prefix == "":
                 res += "%s[%s END]\n" % (prefix, name)
 
-        elif type(item) is dict:
+        elif type(item) == dict:
             # res += "Dict: [%s] [%s]<ul>\n" % (prefix, name)
             for key in item:
                 self._logger.debug("%s>>> %s:%s" % (prefix, key, type(item[key])))
@@ -143,16 +143,16 @@ class Tweak_View(plugins.Plugin):
                     val = getattr(item, key)
                     if key.startswith("__"):
                         pass
-                    elif key is "value":
+                    elif key == "value":
                         res += '<li>%s.%s = "%s"\n' % (
                             name,
                             html.escape(key),
                             html.escape(str(val)),
                         )
-                    elif key is "draw":
+                    elif key == "draw":
                         pass
                     elif (
-                        key is "xy"
+                        key == "xy"
                     ):  # n-tuple of coordinates, 2 for text & label, 4 for line
                         res += (
                             '<li>%s.xy: <input type=text name="%s.%s.xy" value="%s">'
