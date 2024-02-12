@@ -12,6 +12,25 @@ import speech_recognition as sr
 import pytz
 import subprocess
 
+__GitHub__ = "https://github.com/itsdarklikehell/pwnagotchi-plugins"
+__author__ = "itsdarklikehell bauke.molenaar@gmail.com"
+__version__ = "1.1.0"
+__license__ = "MIT"
+__description__ = (
+    "A plugin that will add voice control commands to a pwnagotchi via a connected mic"
+)
+__name__ = "pwnassistant"
+__help__ = (
+    "A plugin that will add voice control commands to a pwnagotchi via a connected mic"
+)
+__dependencies__ = {
+    "apt": ["none"],
+    "pip": ["scapy"],
+}
+__defaults__ = {
+    "enabled": False,
+}
+
 SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 MONTHS = [
     "january",

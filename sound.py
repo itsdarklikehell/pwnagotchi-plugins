@@ -12,9 +12,17 @@ class Sound(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), https://github.com/xenDE/pwnagotchi-plugin-sound"
     __version__ = "1.2.0"
-    __name__ = "sound"
     __license__ = "GPL3"
     __description__ = "An plugin for pwnagotchi that plays an wav file with aplay on events and uses a text2speech engine. tested with 1.0.0-RC4"
+    __name__ = "Sound"
+    __help__ = "An plugin for pwnagotchi that plays an wav file with aplay on events and uses a text2speech engine. tested with 1.0.0-RC4"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def play_my_sound(self, event, say=""):
         "this function plays the event.wav file and if say is not empt, it talks this with text2speech after playing the event"

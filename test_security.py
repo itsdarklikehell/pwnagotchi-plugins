@@ -19,6 +19,15 @@ class SecurityMonitor(plugins.Plugin):
     __version__ = "1.0.4"
     __license__ = "GPL3"
     __description__ = "LAN Security Monitor Plugin for Pwnagotchi"
+    __name__ = "SecurityMonitor"
+    __help__ = "LAN Security Monitor Plugin for Pwnagotchi"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         logging.debug("Security Monitor plugin created")
@@ -82,8 +91,7 @@ class SecurityMonitor(plugins.Plugin):
 
             # Check for weak passwords (you may need to customize this based on your criteria)
             if ap.get("password") in ["admin", "password", "123456"]:
-                security_warnings.append(
-                    f"Weak password for network - {essid}")
+                security_warnings.append(f"Weak password for network - {essid}")
 
             # Check for open networks
             if "OPN" in encryption:
@@ -103,8 +111,7 @@ class SecurityMonitor(plugins.Plugin):
 
     def on_handshake(self, agent, filename, access_point, client_station):
         # Called when a new handshake is captured
-        logging.info(
-            f"Handshake captured from {access_point} to {client_station}")
+        logging.info(f"Handshake captured from {access_point} to {client_station}")
 
         # Save the handshake file for further analysis or processing
         self.save_handshake(filename)
@@ -131,8 +138,7 @@ class SecurityMonitor(plugins.Plugin):
 
     def analyze_handshake(self, access_point, client_station):
         # Implement logic to analyze the handshake data
-        logging.info(
-            f"Analyzing handshake from {client_station} to {access_point}")
+        logging.info(f"Analyzing handshake from {client_station} to {access_point}")
         # You can perform security checks, extract information, or trigger further actions
 
     def block_client_station(self, client_station):
@@ -159,8 +165,7 @@ class SecurityMonitor(plugins.Plugin):
 
     def on_excited(self, agent):
         # Called when the status is set to excited
-        logging.info(
-            "Pwnagotchi is excited. Performing deep packet inspection.")
+        logging.info("Pwnagotchi is excited. Performing deep packet inspection.")
         deep_packet_result = self.deep_packet_inspection()
         logging.info(f"Deep Packet Inspection Result: {deep_packet_result}")
 
@@ -203,13 +208,11 @@ class SecurityMonitor(plugins.Plugin):
         # You can use the extracted information for further analysis or actions
 
         # Example: Perform additional security checks based on the inspection result
-        security_checks_passed = self.perform_security_checks(
-            deep_packet_result)
+        security_checks_passed = self.perform_security_checks(deep_packet_result)
         if security_checks_passed:
             logging.info("Deep packet inspection passed security checks.")
         else:
-            logging.warn(
-                "Security checks failed. Potential security issues detected.")
+            logging.warn("Security checks failed. Potential security issues detected.")
             # You can take appropriate actions based on the security check results
 
     def extract_info_from_packets(self, deep_packet_result):
@@ -265,8 +268,7 @@ class SecurityMonitor(plugins.Plugin):
         arp_request = scapy.ARP(pdst=f"{local_ip}/24")
         broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
         arp_request_broadcast = broadcast / arp_request
-        answered_list = scapy.srp(
-            arp_request_broadcast, timeout=1, verbose=False)[0]
+        answered_list = scapy.srp(arp_request_broadcast, timeout=1, verbose=False)[0]
 
         # Extract device information from the answered list
         devices_list = []
@@ -280,20 +282,17 @@ class SecurityMonitor(plugins.Plugin):
         # Obtain the local IP address of the device's interface
         try:
             # Get the default gateway interface
-            default_gateway = netifaces.gateways(
-            )["default"][netifaces.AF_INET][1]
+            default_gateway = netifaces.gateways()["default"][netifaces.AF_INET][1]
             # Get the local IP address associated with the default gateway interface
             local_ip = netifaces.ifaddresses(default_gateway)[netifaces.AF_INET][0][
                 "addr"
             ]
             return local_ip
         except KeyError as e:
-            logging.error(
-                f"KeyError: {e}. Unable to determine the local IP address.")
+            logging.error(f"KeyError: {e}. Unable to determine the local IP address.")
             return None
         except IndexError as e:
-            logging.error(
-                f"IndexError: {e}. Unable to determine the local IP address.")
+            logging.error(f"IndexError: {e}. Unable to determine the local IP address.")
             return None
         except netifaces.netifacesError as e:
             logging.error(
@@ -323,8 +322,7 @@ class SecurityMonitor(plugins.Plugin):
                 return "No security issues found."
 
         except scapy.Scapy_Exception as e:
-            logging.error(
-                f"Scapy exception during deep packet inspection: {e}")
+            logging.error(f"Scapy exception during deep packet inspection: {e}")
             return "Scapy exception during deep packet inspection."
         except Exception as e:
             logging.error(f"Error during deep packet inspection: {e}")
@@ -338,15 +336,13 @@ class SecurityMonitor(plugins.Plugin):
         try:
             # Example: Check for a specific pattern or anomaly in the packet
             if "malicious_pattern" in str(packet.payload):
-                logging.warn(
-                    "Malicious pattern detected in the network traffic.")
+                logging.warn("Malicious pattern detected in the network traffic.")
                 self.security_issue_detected = True
                 # You can perform additional actions, such as alerting or blocking
 
             # Example: Extract information from the packet
             extracted_info = self.extract_info_from_packet(packet)
-            logging.info(
-                f"Extracted information from packet: {extracted_info}")
+            logging.info(f"Extracted information from packet: {extracted_info}")
             # You can use the extracted information for further analysis or actions
 
             # Example: Perform additional security checks based on the packet content

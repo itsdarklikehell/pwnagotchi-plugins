@@ -54,6 +54,15 @@ class WebSSH2Plugin(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "WebSSH2 Access"
+    __name__ = "WebSSH2"
+    __help__ = "WebSSH2 Access"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.ready = False
@@ -61,8 +70,7 @@ class WebSSH2Plugin(plugins.Plugin):
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         if not os.path.exists(SERV_PATH):
-            logging.info(
-                f"[{self.__class__.__name__}] creating systemd unit file")
+            logging.info(f"[{self.__class__.__name__}] creating systemd unit file")
             file = open(SERV_PATH, "w")
             file.write(WEBSSH2_SERV)
             file.close()
@@ -84,8 +92,7 @@ class WebSSH2Plugin(plugins.Plugin):
                         return
                 time.sleep(5)
 
-            logging.error(
-                f"[{self.__class__.__name__}] failed to start service")
+            logging.error(f"[{self.__class__.__name__}] failed to start service")
         else:
             logging.info(
                 f"[{self.__class__.__name__}] systemd unit file already exists, skipping creation"

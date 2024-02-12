@@ -2,6 +2,22 @@ import utime
 import ustruct
 
 
+__GitHub__ = ""
+__author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
+__version__ = "1.1.0"
+__license__ = "MIT"
+__description__ = ""
+__name__ = "Age"
+__help__ = ""
+__dependencies__ = {
+    "apt": ["none"],
+    "pip": ["scapy"],
+}
+__defaults__ = {
+    "enabled": False,
+}
+
+
 def color565(r, g, b):
     return (r & 0xF8) << 8 | (g & 0xFC) << 3 | b >> 3
 

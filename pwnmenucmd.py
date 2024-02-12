@@ -10,6 +10,26 @@ import sys
 # If using an active buzzer, change the following line to match your setup.
 # eg. "buzzerpin = 5" for a buzzer attached to GPIO #5
 # Setting this to zero will disable the buzzer.
+
+__GitHub__ = ""
+__author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
+__version__ = "1.1.0"
+__license__ = "MIT"
+__description__ = (
+    "A plugin that will add age and strength stats based on epochs and trained epochs"
+)
+__name__ = "Age"
+__help__ = (
+    "A plugin that will add age and strength stats based on epochs and trained epochs"
+)
+__dependencies__ = {
+    "apt": ["none"],
+    "pip": ["scapy"],
+}
+__defaults__ = {
+    "enabled": False,
+}
+
 buzzerpin = 0
 
 if len(sys.argv) != 2:

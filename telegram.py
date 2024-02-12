@@ -49,6 +49,13 @@ class Telegram(plugins.Plugin):
     __version__ = "0.2.0"
     __license__ = "GPL3"
     __description__ = "Chats to telegram"
+    __name__ = "Telegram"
+    __help__ = "Chats to telegram"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+
     __dependencies__ = ("python-telegram-bot==13.15",)
     __defaults__ = {
         "enabled": False,
@@ -203,7 +210,7 @@ class Telegram(plugins.Plugin):
 
             # Pull the latest changes from the repository
             logging.info(
-                "[TELEGRAM] Pulling latest changes from telegram-bot repository..."
+                f"[{self.__class__.__name__}]  Pulling latest changes from telegram-bot repository..."
             )
             subprocess.run(["git", "pull"], check=True)
 

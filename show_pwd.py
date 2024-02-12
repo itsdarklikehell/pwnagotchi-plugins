@@ -10,9 +10,17 @@ class ShowPwd(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @jayofelony"
     __version__ = "1.0.1"
-    __name__ = "Show Pwd"
     __license__ = "GPL3"
     __description__ = "A plugin to display recently cracked passwords"
+    __name__ = "ShowPwd"
+    __help__ = "A plugin to display recently cracked passwords"
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     def __init__(self):
         self.options = dict()

@@ -125,6 +125,21 @@ WRITE_PAD_SLOWDOWN = 0.01
 # If a test takes longer than this, we deem it to have timed out
 TEST_TIMEOUT = 60
 
+__GitHub__ = ""
+__author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
+__version__ = "1.1.0"
+__license__ = "BSD"
+__description__ = "classes for creating a controlled test environment around gpsd."
+__name__ = "gpsfake"
+__help__ = "classes for creating a controlled test environment around gpsd."
+__dependencies__ = {
+    "apt": ["none"],
+    "pip": ["scapy"],
+}
+__defaults__ = {
+    "enabled": False,
+}
+
 
 def GetDelay(slow=False):
     "Get appropriate per-line delay."

@@ -154,6 +154,15 @@ class Touch_Screen(plugins.Plugin):
     __version__ = "1.0.0"
     __license__ = "GPL3"
     __description__ = "Use touchscreen input to toggle settings."
+    __name__ = "Touch_Screen"
+    __help__ = "Use touchscreen input to toggle settings."
+    __dependencies__ = {
+        "apt": ["none"],
+        "pip": ["scapy"],
+    }
+    __defaults__ = {
+        "enabled": False,
+    }
 
     # Touch screen support
     #
@@ -253,7 +262,7 @@ class Touch_Screen(plugins.Plugin):
             format="%(asctime)-15s %(levelname)s [%(filename)s:%(lineno)d] %(funcName)s: %(message)s"
         )
 
-        logging.debug("plugin created")
+        logging.debug(f"[{self.__class__.__name__}] plugin init")
 
     def touchScreenHandler(self, ts_device=None):
         try:
@@ -273,13 +282,18 @@ class Touch_Screen(plugins.Plugin):
                     if not output:
                         break
                     output.rstrip("\n")
-                    logging.info("Looking for screen: %s" % repr(output))
+                    logging.info(
+                        f"[{self.__class__.__name__}] Looking for screen: %s"
+                        % repr(output)
+                    )
                     try:
                         if "touchscreen" in output.lower():
                             (ts_device, rest) = output.split(":", 2)
                             ts_device = str(ts_device)
                             logging.info(
-                                "Found touchscreen device %s" % ts_device)
+                                f"[{self.__class__.__name__}] Found touchscreen device %s"
+                                % ts_device
+                            )
                             break
                     except Exception as e:
                         logging.error(repr(e))
@@ -301,13 +315,15 @@ class Touch_Screen(plugins.Plugin):
                 )
 
                 if self.touchscreen:
-                    logging.info("ts_print running")
+                    logging.info(f"[{self.__class__.__name__}] s_print running")
                     self.running = True
                     for output in self.touchscreen.stdout:
                         if not output or not self.keepGoing:
                             break
                         output = output.strip()
-                        logging.debug("Touch '%s'" % output)
+                        logging.debug(
+                            f"[{self.__class__.__name__}] Touch '%s'" % output
+                        )
                         (tstamp, y, x, depth) = output.split()
                         x = int(x)
                         y = int(y)
@@ -327,19 +343,22 @@ class Touch_Screen(plugins.Plugin):
 
                         depth = int(depth)
                         if tstamp:
-                            logging.debug("Touch %s at %s, %s" % (depth, x, y))
+                            logging.debug(
+                                f"[{self.__class__.__name__}] Touch %s at %s, %s"
+                                % (depth, x, y)
+                            )
                             self.process_touch([int(x), int(y)], depth)
-                    logging.info("ts_print exited")
+                    logging.info(f"[{self.__class__.__name__}] ts_print exited")
                     self.running = False
                 else:
-                    logging.info("No touchscreen?")
+                    logging.info(f"[{self.__class__.__name__}]  No touchscreen?")
                     self.needsAptPackages = ["evtest", "libts-bin"]
                 time.sleep(1)
 
             # err = self.touchscreen.stderr.read()
             # logging.info(err)
         except Exception as e:
-            logging.info("Handler: %s" % repr(e))
+            logging.info(f"[{self.__class__.__name__}] Handler: %s" % repr(e))
 
     def on_webhook(self, path, request):
         logging.info(f"[{self.__class__.__name__}] webhook pressed")
@@ -347,7 +366,9 @@ class Touch_Screen(plugins.Plugin):
     # called when the plugin is loaded
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        logging.info("loaded with options = " % self.options)
+        logging.info(
+            f"[{self.__class__.__name__}] loaded with options = " % self.options
+        )
 
         # to test pimoroni displayhatmini buttons, uncomment below, or define in your config.toml
         # if 'gpios' not in self.options:
@@ -373,11 +394,13 @@ class Touch_Screen(plugins.Plugin):
             self.keepGoing = False
             if self._ts_thread:
                 if self.touchscreen:
-                    logging.debug("TERM to %s" % self.touchscreen.pid)
+                    logging.debug(
+                        f"[{self.__class__.__name__}] TERM to %s" % self.touchscreen.pid
+                    )
                     os.kill(self.touchscreen.pid, signal.SIGTERM)
-                logging.debug("Waiting for thread to exit")
+                logging.info(f"[{self.__class__.__name__}] Waiting for thread to exit")
                 self._ts_thread.join()
-                logging.info("And its done.")
+                logging.info(f"[{self.__class__.__name__}] And its done.")
         except Exception as e:
             logging.error("%s" % repr(e))
 
@@ -386,10 +409,12 @@ class Touch_Screen(plugins.Plugin):
             i = 0
             for n in self._ui_elements:
                 ui.remove_element(n)
-                logging.info("Removed %s" % repr(n))
+                logging.info(f"[{self.__class__.__name__}] Removed %s" % repr(n))
                 i += 1
             if i:
-                logging.info("plugin unloaded %d elements" % i)
+                logging.info(
+                    f"[{self.__class__.__name__}] plugin unloaded %d elements" % i
+                )
 
         except Exception as e:
             logging.error("%s" % repr(e))
@@ -397,7 +422,9 @@ class Touch_Screen(plugins.Plugin):
         try:
             if "gpios" in self.options:
                 for i in self.options["gpios"].values():
-                    logging.info("Stop detecting GPIO %s" % repr(i))
+                    logging.info(
+                        f"[{self.__class__.__name__}] Stop detecting GPIO %s" % repr(i)
+                    )
                     GPIO.remove_event_detect(i)
 
         except Exception as e:
@@ -406,14 +433,15 @@ class Touch_Screen(plugins.Plugin):
     # called when there's internet connectivity - probably dont need this
     def on_internet_available(self, agent):
         if self.needsAptPackages:
-            check_output(
-                ["apt", "install", "-y"].extend(self.needsAptPackages))
+            check_output(["apt", "install", "-y"].extend(self.needsAptPackages))
             self.needsAptPackages = None
 
     # is this point(x,y) in box (x1, y1, x2, y2), x2>x1, y2>y1
     def pointInBox(self, point, box):
         try:
-            logging.debug("is %s in %s" % (repr(point), repr(box)))
+            logging.info(
+                f"[{self.__class__.__name__}] is %s in %s" % (repr(point), repr(box))
+            )
             return (
                 point[0] >= box[0]
                 and point[0] <= box[2]
@@ -434,7 +462,9 @@ class Touch_Screen(plugins.Plugin):
         pass
 
     def process_touch(self, tpoint, depth):
-        logging.info("PT: %s: %s" % (repr(tpoint), repr(depth)))
+        logging.info(
+            f"[{self.__class__.__name__}] PT: %s: %s" % (repr(tpoint), repr(depth))
+        )
 
         touch_data = {"point": tpoint, "pressure": depth}
 
@@ -442,10 +472,11 @@ class Touch_Screen(plugins.Plugin):
         ui_elements = self._view._state._state
         touch_element = None
         touch_elements = list(
-            filter(lambda x: hasattr(
-                ui_elements[x], "state"), ui_elements.keys())
+            filter(lambda x: hasattr(ui_elements[x], "state"), ui_elements.keys())
         )
-        logging.info("Touchable: %s" % repr(touch_elements))
+        logging.info(
+            f"[{self.__class__.__name__}] Touchable: %s" % repr(touch_elements)
+        )
         try:
             if int(depth) > 0:
                 command = "touch_move" if self._beingTouched else "touch_press"
@@ -457,12 +488,13 @@ class Touch_Screen(plugins.Plugin):
                 command = None
 
             for te in touch_elements:
-                logging.info("Touching %s, %s" %
-                             (te, repr(ui_elements[te].xy)))
+                logging.info(
+                    f"[{self.__class__.__name__}] Touching %s, %s"
+                    % (te, repr(ui_elements[te].xy))
+                )
                 if self.pointInBox(tpoint, ui_elements[te].xy):
                     logging.debug(
-                        "Touch element %s: %s @ %s" % (repr(te),
-                                                       depth, repr(tpoint))
+                        "Touch element %s: %s @ %s" % (repr(te), depth, repr(tpoint))
                     )
                     touch_element = te
                     break  # stop at first match
@@ -511,46 +543,54 @@ class Touch_Screen(plugins.Plugin):
                             repr(touch_data),
                         )
                     )
-                    plugins.on(command, self, self._view,
-                               touch_element, touch_data)
+                    plugins.on(command, self, self._view, touch_element, touch_data)
 
             else:
                 logging.debug(
                     "Touch Command: %s, data: %s" % (command, repr(touch_data))
                 )
-                plugins.on(command, self, self._view,
-                           touch_element, touch_data)
+                plugins.on(command, self, self._view, touch_element, touch_data)
 
     # button handlers to cycle through touch areas and click
     # just detect clicks for now, NOT IMPLEMENTED YET
     def okButtonPress(self, button):
-        logging.info("OK Button pressed: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] OK Button pressed: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # find center, and highlight element
             pass
 
     def okButtonRelease(self, button):
-        logging.info("OK Button released: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] OK Button released: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # find center, and process click
             pass
 
     def backButtonPress(self, button):
-        logging.info("Back Button pressed: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] Back Button pressed: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # remove highlight and unselect
             self.buttonCurrentZone = None
             pass
 
     def backButtonRelease(self, button):
-        logging.info("Back Button released: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] Back Button released: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # remove highlight and unselect
             self.buttonCurrentZone = None
             pass
 
     def nextButtonPress(self, button):
-        logging.info("Next Button pressed: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] Next Button pressed: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # pick the next one
             pass
@@ -559,7 +599,9 @@ class Touch_Screen(plugins.Plugin):
             pass
 
     def nextButtonRelease(self, button):
-        logging.info("Next Button released: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] Next Button released: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # pick the next one
             pass
@@ -568,13 +610,17 @@ class Touch_Screen(plugins.Plugin):
             pass
 
     def prevButtonPress(self, button):
-        logging.info("Prev Button pressed: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] Prev Button pressed: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # pick the previous one
             pass
 
     def prevButtonRelease(self, button):
-        logging.info("Prev Button released: %s" % repr(button))
+        logging.info(
+            f"[{self.__class__.__name__}] Prev Button released: %s" % repr(button)
+        )
         if self.buttonCurrentZone:
             # pick the previous one
             pass
@@ -594,8 +640,7 @@ class Touch_Screen(plugins.Plugin):
             GPIO.setmode(GPIO.BCM)
             if "ok" in self.options["gpios"]:
                 try:
-                    GPIO.setup(
-                        int(self.options["gpios"]["ok"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(int(self.options["gpios"]["ok"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["ok"]),
                         GPIO.FALLING,
@@ -612,8 +657,7 @@ class Touch_Screen(plugins.Plugin):
                     logging.warn("OK button: %s" % repr(err))
             if "next" in self.options["gpios"]:
                 try:
-                    GPIO.setup(
-                        int(self.options["gpios"]["next"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(int(self.options["gpios"]["next"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["next"]),
                         GPIO.FALLING,
@@ -630,8 +674,7 @@ class Touch_Screen(plugins.Plugin):
                     logging.warn("Next button: %s" % repr(err))
             if "back" in self.options["gpios"]:
                 try:
-                    GPIO.setup(
-                        int(self.options["gpios"]["back"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(int(self.options["gpios"]["back"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["back"]),
                         GPIO.FALLING,
@@ -648,8 +691,7 @@ class Touch_Screen(plugins.Plugin):
                     logging.warn("Back button: %s" % repr(err))
             if "prev" in self.options["gpios"]:
                 try:
-                    GPIO.setup(
-                        int(self.options["gpios"]["prev"]), GPIO.IN, GPIO.PUD_UP)
+                    GPIO.setup(int(self.options["gpios"]["prev"]), GPIO.IN, GPIO.PUD_UP)
                     GPIO.add_event_detect(
                         int(self.options["gpios"]["prev"]),
                         GPIO.FALLING,
@@ -668,19 +710,19 @@ class Touch_Screen(plugins.Plugin):
     def init_ts_handler(self):
         # start touchscreen handler thread
         try:
-            logging.debug("starting ts_print thread")
+            logging.info(f"[{self.__class__.__name__}] starting ts_print thread")
             self._ts_thread = threading.Thread(
                 target=self.touchScreenHandler, args=(), daemon=True
             )
             if not self._ts_thread:
-                logging.info("Thread failed?")
+                logging.info(f"[{self.__class__.__name__}] Thread failed?")
 
             # self.touchScreenHandler()
-            logging.debug("starting ts_print thread")
+            logging.info(f"[{self.__class__.__name__}] starting ts_print thread")
             self._ts_thread.start()
-            logging.info("started thread")
+            logging.info(f"[{self.__class__.__name__}] started thread")
 
-            logging.info("unit is ready")
+            logging.info(f"[{self.__class__.__name__}] unit is ready")
         except Exception as e:
             logging.error(repr(e))
 

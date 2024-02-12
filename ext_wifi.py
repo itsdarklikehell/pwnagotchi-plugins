@@ -35,10 +35,10 @@ class ext_wifi(plugins.Plugin):
                 opt in self.options and self.options[opt] is None
             ):
                 logging.error(
-                    f"Set WiFi adapter mode configuration for internal or external."
+                    f"[{self.__class__.__name__}]Set WiFi adapter mode configuration for internal or external."
                 )
                 return
-        _log("plugin loaded")
+        _log(f"[{self.__class__.__name__}] plugin loaded")
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
         self.ready = 1
         mode = self.options["mode"]

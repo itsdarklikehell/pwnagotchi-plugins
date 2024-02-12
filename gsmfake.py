@@ -24,6 +24,27 @@ import time
 import gps_ng
 import gps.fake as gpsfake  # The "as" pacifies pychecker
 
+__GitHub__ = ""
+__author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Kaska"
+__version__ = "1.1.0"
+__license__ = "MIT"
+__description__ = """Real shitty hacks to use the [Waveshare Raspberry Pi GSM/GPRS/GNSS Bluetooth Hat for SIM868](https://amazon.com/Raspberry-Bluetooth-Expansion-Compatible-DataTransfer/dp/B076CPX4NN) with gpsfake, to supply bettercap with better-than-nothing GPS coordinates from the GSM network. Use when stuck in and around glass/steel monoliths that eat GPS signals for breakfast. The provided coordinates are not only inaccurate because they come from second-hand means, but also because said means don't return elevation, so I put a hardcoded 100 in there because I don't know why. Really, I should focus on a more accurate 2d-fix over the 3d-fix, but I didn't. Requires the python gps modules (pip install gps) and pynmea2 for creating nice NMEA strings (pip install pynmea2). Make a backup of '/usr/lib/python2.7/dist-packages/gps/fake.py' and then replace it with the one provided (not totally necessary). Then run 'python prime_gsm_hat.py' to turn on the hat and start the GPRS data service. This only needs to be/should be run once per powering on of the hat. Next, run gsmfake.py using basic parameters used to start gpsfake: 'python gsmfake.py -P 2948 /root/fakegps.data'. Both fake.py and prime_gsm_hat.py have hardcoded paths to the Hat's serial IO, so keep that in mind. This will spit out a path like '/dev/pts/2' that you need to update bettercap with.
+I *think* everything is in a working state, but good luck if it's not. There are very few checks done and errors handled, so everything needs to work 100% perfect to get it running. Once it is running, gsmfake should spit out a special file path. Copy and paste this into bettercap's advanced GPS settings for or directly set 'gps.device' and restart the gps caplet.
+TODO: Figure out how to coalesce multiple GPS sources into a more accurate location, figure out how to replace 3d-fixes with 2d-fixes, and fix the Wiggle plugin, because that shit aint right.
+"""
+__name__ = "gsmfake"
+__help__ = """Real shitty hacks to use the [Waveshare Raspberry Pi GSM/GPRS/GNSS Bluetooth Hat for SIM868](https://amazon.com/Raspberry-Bluetooth-Expansion-Compatible-DataTransfer/dp/B076CPX4NN) with gpsfake, to supply bettercap with better-than-nothing GPS coordinates from the GSM network. Use when stuck in and around glass/steel monoliths that eat GPS signals for breakfast. The provided coordinates are not only inaccurate because they come from second-hand means, but also because said means don't return elevation, so I put a hardcoded 100 in there because I don't know why. Really, I should focus on a more accurate 2d-fix over the 3d-fix, but I didn't. Requires the python gps modules (pip install gps) and pynmea2 for creating nice NMEA strings (pip install pynmea2). Make a backup of '/usr/lib/python2.7/dist-packages/gps/fake.py' and then replace it with the one provided (not totally necessary). Then run 'python prime_gsm_hat.py' to turn on the hat and start the GPRS data service. This only needs to be/should be run once per powering on of the hat. Next, run gsmfake.py using basic parameters used to start gpsfake: 'python gsmfake.py -P 2948 /root/fakegps.data'. Both fake.py and prime_gsm_hat.py have hardcoded paths to the Hat's serial IO, so keep that in mind. This will spit out a path like '/dev/pts/2' that you need to update bettercap with.
+I *think* everything is in a working state, but good luck if it's not. There are very few checks done and errors handled, so everything needs to work 100% perfect to get it running. Once it is running, gsmfake should spit out a special file path. Copy and paste this into bettercap's advanced GPS settings for or directly set 'gps.device' and restart the gps caplet.
+TODO: Figure out how to coalesce multiple GPS sources into a more accurate location, figure out how to replace 3d-fixes with 2d-fixes, and fix the Wiggle plugin, because that shit aint right.
+"""
+__dependencies__ = {
+    "apt": ["none"],
+    "pip": ["scapy"],
+}
+__defaults__ = {
+    "enabled": False,
+}
+
 try:
     my_input = raw_input
 except NameError:
