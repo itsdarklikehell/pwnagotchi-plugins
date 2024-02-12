@@ -75,6 +75,11 @@ showerthoughts() {
 
 enable_all_plugins() {
     echo "Enable all Plugins..."
+    cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default
+    for i in *.py; do
+        echo "[ENABLING]: ${i%%.*}"
+        sudo pwnagotchi plugins enable ${i%%.*}
+    done
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[ENABLING]: ${i%%.*}"
@@ -84,6 +89,11 @@ enable_all_plugins() {
 
 install_all_plugins() {
     echo "Install all Plugins..."
+    cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default
+    for i in *.py; do
+        echo "[INSTALLING]: ${i%%.*}"
+        sudo pwnagotchi plugins install ${i%%.*}
+    done
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[INSTALLING]: ${i%%.*}"
@@ -93,6 +103,11 @@ install_all_plugins() {
 
 uninstall_all_plugins() {
     echo "Uninstall all Plugins..."
+    cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default
+    for i in *.py; do
+        echo "[UNINSTALLING]: ${i%%.*}"
+        sudo pwnagotchi plugins uninstall ${i%%.*}
+    done
     cd /usr/local/share/pwnagotchi/available-plugins
     for i in *.py; do
         echo "[UNINSTALLING]: ${i%%.*}"
