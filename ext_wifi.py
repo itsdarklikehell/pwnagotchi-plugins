@@ -74,7 +74,7 @@ class ext_wifi(plugins.Plugin):
                 ),
                 shell=True,
             ).stdout
-            _log("External adapter activated")
+            _log(f"[{self.__class__.__name__}] External adapter activated")
         else:
             subprocess.run(
                 "sed -i s/{interface}/wlan0mon/g /usr/bin/bettercap-launcher".format(
@@ -106,7 +106,7 @@ class ext_wifi(plugins.Plugin):
                 ),
                 shell=True,
             ).stdout
-            _log("Internal adapter activated")
+            _log(f"[{self.__class__.__name__}] Internal adapter activated")
 
     def on_unload(self, ui):
         with ui._lock:
@@ -129,4 +129,4 @@ def _run(cmd):
 
 
 def _log(message):
-    logging.info(f"[{self.__class__.__name__}] %s" % message)
+    logging.info("%s" % message)

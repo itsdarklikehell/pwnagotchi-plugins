@@ -17,6 +17,7 @@ class BTError(Exception):
     """
     Custom bluetooth exception
     """
+
     pass
 
 
@@ -27,10 +28,10 @@ class BTNap:
     see https://github.com/bablokb/pi-btnap/blob/master/files/usr/local/sbin/btnap.service.py
     """
 
-    IFACE_BASE = 'org.bluez'
-    IFACE_DEV = 'org.bluez.Device1'
-    IFACE_ADAPTER = 'org.bluez.Adapter1'
-    IFACE_PROPS = 'org.freedesktop.DBus.Properties'
+    IFACE_BASE = "org.bluez"
+    IFACE_DEV = "org.bluez.Device1"
+    IFACE_ADAPTER = "org.bluez.Adapter1"
+    IFACE_PROPS = "org.freedesktop.DBus.Properties"
 
     def __init__(self, mac):
         self._mac = mac
@@ -40,7 +41,7 @@ class BTNap:
         """
         Get systembus obj
         """
-        bus = getattr(BTNap.get_bus, 'cached_obj', None)
+        bus = getattr(BTNap.get_bus, "cached_obj", None)
         if not bus:
             bus = BTNap.get_bus.cached_obj = dbus.SystemBus()
         return bus
@@ -50,11 +51,12 @@ class BTNap:
         """
         Get manager obj
         """
-        manager = getattr(BTNap.get_manager, 'cached_obj', None)
+        manager = getattr(BTNap.get_manager, "cached_obj", None)
         if not manager:
             manager = BTNap.get_manager.cached_obj = dbus.Interface(
-                BTNap.get_bus().get_object(BTNap.IFACE_BASE, '/'),
-                'org.freedesktop.DBus.ObjectManager')
+                BTNap.get_bus().get_object(BTNap.IFACE_BASE, "/"),
+                "org.freedesktop.DBus.ObjectManager",
+            )
         return manager
 
     @staticmethod
@@ -81,7 +83,9 @@ class BTNap:
         Find the bt adapter
         """
 
-        return BTNap.find_adapter_in_objects(BTNap.get_manager().GetManagedObjects(), pattern)
+        return BTNap.find_adapter_in_objects(
+            BTNap.get_manager().GetManagedObjects(), pattern
+        )
 
     @staticmethod
     def find_adapter_in_objects(objects, pattern=None):
@@ -93,19 +97,20 @@ class BTNap:
             adapter = ifaces.get(BTNap.IFACE_ADAPTER)
             if adapter is None:
                 continue
-            if not pattern or pattern == adapter['Address'] or path.endswith(pattern):
+            if not pattern or pattern == adapter["Address"] or path.endswith(pattern):
                 obj = bus.get_object(BTNap.IFACE_BASE, path)
                 yield dbus.Interface(obj, BTNap.IFACE_ADAPTER)
         if obj is None:
-            raise BTError('Bluetooth adapter not found')
+            raise BTError("Bluetooth adapter not found")
 
     @staticmethod
     def find_device(device_address, adapter_pattern=None):
         """
         Finds the device
         """
-        return BTNap.find_device_in_objects(BTNap.get_manager().GetManagedObjects(),
-                                            device_address, adapter_pattern)
+        return BTNap.find_device_in_objects(
+            BTNap.get_manager().GetManagedObjects(), device_address, adapter_pattern
+        )
 
     @staticmethod
     def find_device_in_objects(objects, device_address, adapter_pattern=None):
@@ -113,22 +118,23 @@ class BTNap:
         Finds the device in objects
         """
         bus = BTNap.get_bus()
-        path_prefix = ''
+        path_prefix = ""
         if adapter_pattern:
             if not isinstance(adapter_pattern, str):
                 adapter = adapter_pattern
             else:
-                adapter = BTNap.find_adapter_in_objects(
-                    objects, adapter_pattern)
+                adapter = BTNap.find_adapter_in_objects(objects, adapter_pattern)
             path_prefix = adapter.object_path
         for path, ifaces in objects.items():
             device = ifaces.get(BTNap.IFACE_DEV)
             if device is None:
                 continue
-            if str(device['Address']).lower() == device_address.lower() and path.startswith(path_prefix):
+            if str(
+                device["Address"]
+            ).lower() == device_address.lower() and path.startswith(path_prefix):
                 obj = bus.get_object(BTNap.IFACE_BASE, path)
                 return dbus.Interface(obj, BTNap.IFACE_DEV)
-        raise BTError('Bluetooth device not found')
+        raise BTError("Bluetooth device not found")
 
     def power(self, on=True):
         """
@@ -138,15 +144,16 @@ class BTNap:
 
         try:
             devs = list(BTNap.find_adapter())
-            devs = dict((BTNap.prop_get(dev, 'Address'), dev) for dev in devs)
+            devs = dict((BTNap.prop_get(dev, "Address"), dev) for dev in devs)
         except BTError as bt_err:
             logging.error(bt_err)
             return None
 
         for dev_addr, dev in devs.items():
-            BTNap.prop_set(dev, 'Powered', on)
-            logging.debug('Set power of %s (addr %s) to %s',
-                          dev.object_path, dev_addr, str(on))
+            BTNap.prop_set(dev, "Powered", on)
+            logging.debug(
+                "Set power of %s (addr %s) to %s", dev.object_path, dev_addr, str(on)
+            )
 
         if devs:
             return list(devs.values())[0]
@@ -167,7 +174,7 @@ class BTNap:
 
         try:
             dev_remote = BTNap.find_device(self._mac, bt_dev)
-            return bool(BTNap.prop_get(dev_remote, 'Paired'))
+            return bool(BTNap.prop_get(dev_remote, "Paired"))
         except BTError:
             logging.debug("BT-TETHER: Device is not paired.")
         return False
@@ -199,8 +206,11 @@ class BTNap:
         while timeout > -1:
             try:
                 dev_remote = BTNap.find_device(self._mac, bt_dev)
-                logging.debug("BT-TETHER: Using remote device (addr: %s): %s",
-                              BTNap.prop_get(dev_remote, 'Address'), dev_remote.object_path)
+                logging.debug(
+                    "BT-TETHER: Using remote device (addr: %s): %s",
+                    BTNap.prop_get(dev_remote, "Address"),
+                    dev_remote.object_path,
+                )
                 break
             except BTError:
                 logging.debug("BT-TETHER: Not found yet ...")
@@ -219,14 +229,14 @@ class BTNap:
 
     @staticmethod
     def pair(device):
-        logging.debug('BT-TETHER: Trying to pair ...')
+        logging.debug("BT-TETHER: Trying to pair ...")
         try:
             device.Pair()
-            logging.debug('BT-TETHER: Successful paired with device ;)')
+            logging.debug("BT-TETHER: Successful paired with device ;)")
             return True
         except dbus.exceptions.DBusException as err:
-            if err.get_dbus_name() == 'org.bluez.Error.AlreadyExists':
-                logging.debug('BT-TETHER: Already paired ...')
+            if err.get_dbus_name() == "org.bluez.Error.AlreadyExists":
+                logging.debug("BT-TETHER: Already paired ...")
                 return True
         except Exception:
             pass
@@ -234,25 +244,25 @@ class BTNap:
 
     @staticmethod
     def nap(device):
-        logging.debug('BT-TETHER: Trying to nap ...')
+        logging.debug("BT-TETHER: Trying to nap ...")
 
         try:
-            logging.debug('BT-TETHER: Connecting to profile ...')
-            device.ConnectProfile('nap')
+            logging.debug("BT-TETHER: Connecting to profile ...")
+            device.ConnectProfile("nap")
         except Exception:  # raises exception, but still works
             pass
 
-        net = dbus.Interface(device, 'org.bluez.Network1')
+        net = dbus.Interface(device, "org.bluez.Network1")
 
         try:
-            logging.debug('BT-TETHER: Connecting to nap network ...')
-            net.Connect('nap')
+            logging.debug("BT-TETHER: Connecting to nap network ...")
+            net.Connect("nap")
             return net, True
         except dbus.exceptions.DBusException as err:
-            if err.get_dbus_name() == 'org.bluez.Error.AlreadyConnected':
+            if err.get_dbus_name() == "org.bluez.Error.AlreadyConnected":
                 return net, True
 
-            connected = BTNap.prop_get(net, 'Connected')
+            connected = BTNap.prop_get(net, "Connected")
             if not connected:
                 return None, False
             return net, True
@@ -268,8 +278,14 @@ class SystemdUnitWrapper:
 
     @staticmethod
     def _action_on_unit(action, unit):
-        process = subprocess.Popen(f"systemctl {action} {unit}", shell=True, stdin=None,
-                                   stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        process = subprocess.Popen(
+            f"systemctl {action} {unit}",
+            shell=True,
+            stdin=None,
+            stdout=open("/dev/null", "w"),
+            stderr=None,
+            executable="/bin/bash",
+        )
         process.wait()
         if process.returncode > 0:
             return False
@@ -280,8 +296,14 @@ class SystemdUnitWrapper:
         """
         Calls systemctl daemon-reload
         """
-        process = subprocess.Popen("systemctl daemon-reload", shell=True, stdin=None,
-                                   stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        process = subprocess.Popen(
+            "systemctl daemon-reload",
+            shell=True,
+            stdin=None,
+            stdout=open("/dev/null", "w"),
+            stderr=None,
+            executable="/bin/bash",
+        )
         process.wait()
         if process.returncode > 0:
             return False
@@ -291,49 +313,49 @@ class SystemdUnitWrapper:
         """
         Checks if unit is active
         """
-        return SystemdUnitWrapper._action_on_unit('is-active', self.unit)
+        return SystemdUnitWrapper._action_on_unit("is-active", self.unit)
 
     def is_enabled(self):
         """
         Checks if unit is enabled
         """
-        return SystemdUnitWrapper._action_on_unit('is-enabled', self.unit)
+        return SystemdUnitWrapper._action_on_unit("is-enabled", self.unit)
 
     def is_failed(self):
         """
         Checks if unit is failed
         """
-        return SystemdUnitWrapper._action_on_unit('is-failed', self.unit)
+        return SystemdUnitWrapper._action_on_unit("is-failed", self.unit)
 
     def enable(self):
         """
         Enables the unit
         """
-        return SystemdUnitWrapper._action_on_unit('enable', self.unit)
+        return SystemdUnitWrapper._action_on_unit("enable", self.unit)
 
     def disable(self):
         """
         Disables the unit
         """
-        return SystemdUnitWrapper._action_on_unit('disable', self.unit)
+        return SystemdUnitWrapper._action_on_unit("disable", self.unit)
 
     def start(self):
         """
         Starts the unit
         """
-        return SystemdUnitWrapper._action_on_unit('start', self.unit)
+        return SystemdUnitWrapper._action_on_unit("start", self.unit)
 
     def stop(self):
         """
         Stops the unit
         """
-        return SystemdUnitWrapper._action_on_unit('stop', self.unit)
+        return SystemdUnitWrapper._action_on_unit("stop", self.unit)
 
     def restart(self):
         """
         Restarts the unit
         """
-        return SystemdUnitWrapper._action_on_unit('restart', self.unit)
+        return SystemdUnitWrapper._action_on_unit("restart", self.unit)
 
 
 class IfaceWrapper:
@@ -357,14 +379,20 @@ class IfaceWrapper:
         """
         Checks if iface is ip
         """
-        return open(f"{self.path}/operstate", 'r').read().rsplit('\n') == 'up'
+        return open(f"{self.path}/operstate", "r").read().rsplit("\n") == "up"
 
     def set_addr(self, addr):
         """
         Set the netmask
         """
-        process = subprocess.Popen(f"ip addr add {addr} dev {self.iface}", shell=True, stdin=None,
-                                   stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        process = subprocess.Popen(
+            f"ip addr add {addr} dev {self.iface}",
+            shell=True,
+            stdin=None,
+            stdout=open("/dev/null", "w"),
+            stderr=None,
+            executable="/bin/bash",
+        )
         process.wait()
 
         if process.returncode == 2 or process.returncode == 0:  # 2 = already set
@@ -374,8 +402,14 @@ class IfaceWrapper:
 
     @staticmethod
     def set_route(gateway, device):
-        process = subprocess.Popen(f"ip route replace default via {gateway} dev {device}", shell=True, stdin=None,
-                                   stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        process = subprocess.Popen(
+            f"ip route replace default via {gateway} dev {device}",
+            shell=True,
+            stdin=None,
+            stdout=open("/dev/null", "w"),
+            stderr=None,
+            executable="/bin/bash",
+        )
         process.wait()
 
         if process.returncode > 0:
@@ -385,9 +419,23 @@ class IfaceWrapper:
 
 
 class Device:
-    def __init__(self, name, share_internet, mac, ip, netmask, interval, gateway=None, priority=10, scantime=15, search_order=0, max_tries=0, **kwargs):
+    def __init__(
+        self,
+        name,
+        share_internet,
+        mac,
+        ip,
+        netmask,
+        interval,
+        gateway=None,
+        priority=10,
+        scantime=15,
+        search_order=0,
+        max_tries=0,
+        **kwargs,
+    ):
         self.name = name
-        self.status = StatusFile(f'/root/.bt-tether-{name}')
+        self.status = StatusFile(f"/root/.bt-tether-{name}")
         self.status.update()
         self.tries = 0
         self.network = None
@@ -407,7 +455,7 @@ class Device:
         """
         Checks if device is connected
         """
-        return self.network and BTNap.prop_get(self.network, 'Connected')
+        return self.network and BTNap.prop_get(self.network, "Connected")
 
     def interface(self):
         """
@@ -415,15 +463,15 @@ class Device:
         """
         if not self.connected():
             return None
-        return BTNap.prop_get(self.network, 'Interface')
+        return BTNap.prop_get(self.network, "Interface")
 
 
 class BTTether(plugins.Plugin):
     __GitHub__ = ""
-    __author__ = '(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com'
-    __version__ = '1.1.0'
-    __license__ = 'GPL3'
-    __description__ = 'This makes the display reachable over bluetooth'
+    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), 33197631+dadav@users.noreply.github.com"
+    __version__ = "1.1.0"
+    __license__ = "GPL3"
+    __description__ = "This makes the display reachable over bluetooth"
     __name__ = "BTTether"
     __help__ = "This plugin automatically uploads collected WiFi to wigle.net"
     __dependencies__ = {
@@ -432,7 +480,7 @@ class BTTether(plugins.Plugin):
     }
     __defaults__ = {
         "enabled": False,
-        "devices.android-phone.enabled": False,
+        "devices.android-phone.enabled": True,
         "devices.android-phone.search_order": 1,
         "devices.android-phone.mac": "",
         "devices.android-phone.ip": "192.168.44.44",
@@ -460,41 +508,53 @@ class BTTether(plugins.Plugin):
         self.devices = dict()
         self.lock = Lock()
         self.running = True
-        self.status = '-'
+        self.status = "-"
 
     def on_loaded(self):
         # new config
-        if 'devices' in self.options:
-            for device, options in self.options['devices'].items():
-                if 'enabled' in options and options['enabled']:
-                    for device_opt in ['enabled', 'priority', 'scantime', 'search_order',
-                                       'max_tries', 'share_internet', 'mac', 'ip',
-                                       'netmask', 'interval']:
+        if "devices" in self.options:
+            for device, options in self.options["devices"].items():
+                if "enabled" in options and options["enabled"]:
+                    for device_opt in [
+                        "enabled",
+                        "priority",
+                        "scantime",
+                        "search_order",
+                        "max_tries",
+                        "share_internet",
+                        "mac",
+                        "ip",
+                        "netmask",
+                        "interval",
+                    ]:
                         if device_opt not in options or options[device_opt] is None:
-                            logging.error("BT-TETHER: Please specify the %s for device %s.",
-                                          device_opt, device)
+                            logging.error(
+                                "BT-TETHER: Please specify the %s for device %s.",
+                                device_opt,
+                                device,
+                            )
                             break
                     else:
-                        if options['enabled']:
-                            self.devices[device] = Device(
-                                name=device, **options)
+                        if options["enabled"]:
+                            self.devices[device] = Device(name=device, **options)
 
         # legacy
-        if 'mac' in self.options:
-            for opt in ['share_internet', 'mac', 'ip', 'netmask', 'interval']:
+        if "mac" in self.options:
+            for opt in ["share_internet", "mac", "ip", "netmask", "interval"]:
                 if opt not in self.options or self.options[opt] is None:
                     logging.error(
-                        "BT-TETHER: Please specify the %s in your config.toml.", opt)
+                        "BT-TETHER: Please specify the %s in your config.toml.", opt
+                    )
                     return
 
-            self.devices['legacy'] = Device(name='legacy', **self.options)
+            self.devices["legacy"] = Device(name="legacy", **self.options)
 
         if not self.devices:
             logging.error("BT-TETHER: No valid devices found")
             return
 
         # ensure bluetooth is running
-        bt_unit = SystemdUnitWrapper('bluetooth.service')
+        bt_unit = SystemdUnitWrapper("bluetooth.service")
         if not bt_unit.is_active():
             if not bt_unit.start():
                 logging.error("BT-TETHER: Can't start bluetooth.service")
@@ -507,7 +567,9 @@ class BTTether(plugins.Plugin):
 
             devices_to_try = list()
             connected_priorities = list()
-            any_device_connected = False  # if this is true, last status on screen should be C
+            any_device_connected = (
+                False  # if this is true, last status on screen should be C
+            )
 
             for _, device in self.devices.items():
                 if device.connected():
@@ -521,41 +583,47 @@ class BTTether(plugins.Plugin):
                         device.status.update()
                         device.tries += 1
 
-            sorted_devices = sorted(
-                devices_to_try, key=lambda x: x.search_order)
+            sorted_devices = sorted(devices_to_try, key=lambda x: x.search_order)
 
             for device in sorted_devices:
                 bt = BTNap(device.mac)
 
                 try:
                     logging.debug(
-                        'BT-TETHER: Search %d secs for %s ...', device.scantime, device.name)
+                        "BT-TETHER: Search %d secs for %s ...",
+                        device.scantime,
+                        device.name,
+                    )
                     dev_remote = bt.wait_for_device(timeout=device.scantime)
                     if dev_remote is None:
                         logging.debug(
-                            'BT-TETHER: Could not find %s, try again in %d minutes.', device.name, device.interval)
-                        self.status = 'NF'
+                            "BT-TETHER: Could not find %s, try again in %d minutes.",
+                            device.name,
+                            device.interval,
+                        )
+                        self.status = "NF"
                         continue
                 except Exception as bt_ex:
                     logging.error(bt_ex)
-                    self.status = 'NF'
+                    self.status = "NF"
                     continue
 
                 paired = bt.is_paired()
                 if not paired:
                     if BTNap.pair(dev_remote):
-                        logging.debug(
-                            'BT-TETHER: Paired with %s.', device.name)
+                        logging.debug("BT-TETHER: Paired with %s.", device.name)
                     else:
                         logging.debug(
-                            'BT-TETHER: Pairing with %s failed ...', device.name)
-                        self.status = 'PE'
+                            "BT-TETHER: Pairing with %s failed ...", device.name
+                        )
+                        self.status = "PE"
                         continue
                 else:
-                    logging.debug('BT-TETHER: Already paired.')
+                    logging.debug("BT-TETHER: Already paired.")
 
                 logging.debug(
-                    'BT-TETHER: Try to create nap connection with %s ...', device.name)
+                    "BT-TETHER: Try to create nap connection with %s ...", device.name
+                )
                 device.network, success = BTNap.nap(dev_remote)
                 interface = None
 
@@ -564,71 +632,85 @@ class BTTether(plugins.Plugin):
                         interface = device.interface()
                     except Exception:
                         logging.debug(
-                            'BT-TETHER: Could not establish nap connection with %s', device.name)
+                            "BT-TETHER: Could not establish nap connection with %s",
+                            device.name,
+                        )
                         continue
 
                     if interface is None:
-                        self.status = 'BE'
+                        self.status = "BE"
                         logging.debug(
-                            'BT-TETHER: Could not establish nap connection with %s', device.name)
+                            "BT-TETHER: Could not establish nap connection with %s",
+                            device.name,
+                        )
                         continue
 
-                    logging.debug(
-                        'BT-TETHER: Created interface (%s)', interface)
-                    self.status = 'C'
+                    logging.debug("BT-TETHER: Created interface (%s)", interface)
+                    self.status = "C"
                     any_device_connected = True
                     device.tries = 0  # reset tries
                 else:
                     logging.debug(
-                        'BT-TETHER: Could not establish nap connection with %s', device.name)
-                    self.status = 'NF'
+                        "BT-TETHER: Could not establish nap connection with %s",
+                        device.name,
+                    )
+                    self.status = "NF"
                     continue
 
                 addr = f"{device.ip}/{device.netmask}"
                 if device.gateway:
                     gateway = device.gateway
                 else:
-                    gateway = ".".join(device.ip.split('.')[:-1] + ['1'])
+                    gateway = ".".join(device.ip.split(".")[:-1] + ["1"])
 
                 wrapped_interface = IfaceWrapper(interface)
-                logging.debug('BT-TETHER: Add ip to %s', interface)
+                logging.debug("BT-TETHER: Add ip to %s", interface)
                 if not wrapped_interface.set_addr(addr):
-                    self.status = 'AE'
-                    logging.debug(
-                        "BT-TETHER: Could not add ip to %s", interface)
+                    self.status = "AE"
+                    logging.debug("BT-TETHER: Could not add ip to %s", interface)
                     continue
 
                 if device.share_internet:
-                    if not connected_priorities or device.priority > max(connected_priorities):
+                    if not connected_priorities or device.priority > max(
+                        connected_priorities
+                    ):
                         logging.debug(
-                            'BT-TETHER: Set default route to %s via %s', gateway, interface)
+                            "BT-TETHER: Set default route to %s via %s",
+                            gateway,
+                            interface,
+                        )
                         IfaceWrapper.set_route(gateway, interface)
                         connected_priorities.append(device.priority)
 
-                        logging.debug(
-                            'BT-TETHER: Change resolv.conf if necessary ...')
-                        with open('/etc/resolv.conf', 'r+') as resolv:
+                        logging.debug("BT-TETHER: Change resolv.conf if necessary ...")
+                        with open("/etc/resolv.conf", "r+") as resolv:
                             nameserver = resolv.read()
-                            if 'nameserver 9.9.9.9' not in nameserver:
-                                logging.debug('BT-TETHER: Added nameserver')
+                            if "nameserver 9.9.9.9" not in nameserver:
+                                logging.debug("BT-TETHER: Added nameserver")
                                 resolv.seek(0)
-                                resolv.write(
-                                    nameserver + 'nameserver 9.9.9.9\n')
+                                resolv.write(nameserver + "nameserver 9.9.9.9\n")
 
             if any_device_connected:
-                self.status = 'C'
+                self.status = "C"
 
     def on_unload(self, ui):
         self.running = False
         with ui._lock:
-            ui.remove_element('bluetooth')
+            ui.remove_element("bluetooth")
 
     def on_ui_setup(self, ui):
         with ui._lock:
-            ui.add_element('bluetooth', LabeledValue(color=BLACK, label='BT', value='-',
-                                                     position=(
-                                                         ui.width() / 2 - 10, 0),
-                                                     label_font=fonts.Bold, text_font=fonts.Medium))
+            ui.add_element(
+                "bluetooth",
+                LabeledValue(
+                    color=BLACK,
+                    label="BT",
+                    value="-",
+                    position=(ui.width() / 2 - 10, 0),
+                    label_font=fonts.Bold,
+                    text_font=fonts.Medium,
+                ),
+            )
 
     def on_ui_update(self, ui):
-        ui.set('bluetooth', self.status)
+        ui.set("bluetooth", self.status)
