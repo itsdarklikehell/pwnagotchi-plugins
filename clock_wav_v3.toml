@@ -1,0 +1,2 @@
+main.plugins.clock.enabled = false
+main.plugins.clock.date_format = "%d/%m/%y"

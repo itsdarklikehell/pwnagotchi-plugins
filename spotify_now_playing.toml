@@ -1,0 +1,4 @@
+[spotify_now_playing]
+client_id = "YOUR_ACTUAL_CLIENT_ID"
+client_secret = "YOUR_ACTUAL_CLIENT_SECRET"
+redirect_uri = "YOUR_ACTUAL_REDIRECT_URI"

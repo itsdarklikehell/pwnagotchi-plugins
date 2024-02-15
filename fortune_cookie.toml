@@ -1,0 +1,2 @@
+main.plugins.fortune_cookie.enabled = false
+main.plugins.fortune_cookie.orientation = "horizontal"

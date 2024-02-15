@@ -16,12 +16,13 @@ class Wardriver(plugins.Plugin):
     __description__ = 'A wardriving plugin for pwnagotchi. Saves all networks seen and uploads data to WiGLE once internet is available'
 
     DEFAULT_PATH = '/root/wardriver'
+    DATABASE_NAME = 'wardriver_db.csv' # File name where all networks seen will be saved (if sessions mergin is enabled)
 
     def __init__(self):
         logging.debug('[WARDRIVER] Plugin created')
     
     def on_loaded(self):
-        logging.info('[WARDRIVER] Plugin loaded')
+        logging.info('[WARDRIVER] Plugin loaded (join the Discord server: https://discord.gg/5vrJbbW3ve)')
 
         self.__lock = Lock()
         
@@ -45,12 +46,8 @@ class Wardriver(plugins.Plugin):
             self.__ui_enabled = False
             self.__ui_position = (0, 0)
         
-        if not os.path.exists(self.__csv_path):
-            os.makedirs(self.__csv_path)
-            logging.warning('[WARDRIVER] Created CSV directory')
-        else:
-            self.__clean_csv_directory()
-        
+        self.__merge_sessions = self.options['merge_sessions'] if 'merge_sessions' in self.options else False
+                
         if 'wigle' in self.options:
             self.__wigle_enabled = self.options['wigle']['enabled'] if 'enabled' in self.options['wigle'] else False
             self.__wigle_api_key = self.options['wigle']['api_key'] if 'api_key' in self.options['wigle'] else None
@@ -63,6 +60,12 @@ class Wardriver(plugins.Plugin):
             self.__wigle_api_key = None
             self.__wigle_donate = False
         
+        if not os.path.exists(self.__csv_path):
+            os.makedirs(self.__csv_path)
+            logging.warning('[WARDRIVER] Created CSV directory')
+        else:
+            self.__clean_csv_directory()
+
         logging.info(f'[WARDRIVER] Saving session files inside {self.__csv_path}')
         
         if self.__wigle_enabled:
@@ -84,7 +87,7 @@ class Wardriver(plugins.Plugin):
                                                text_font = fonts.Small))
 
     def on_ui_update(self, ui):
-        if self.__ui_enabled:
+        if self.__ui_enabled and self.ready:
             ui.set('wardriver', f'{len(self.__session_reported)} net')
 
     def on_unload(self, ui):
@@ -95,22 +98,55 @@ class Wardriver(plugins.Plugin):
     
     def __clean_csv_directory(self):
         '''
-        Remove empty session files
+        Remove empty session files and, if enabled, merge all previous sessions into one single file
         '''
-        sessions = [ os.path.join(self.__csv_path, file) for file in os.listdir(self.__csv_path) ]
+        if self.__merge_sessions:
+            networks_db = [] # All networks seen so far
+            try:
+                if os.path.exists(os.path.join(self.__csv_path, self.DATABASE_NAME)):
+                    with open(os.path.join(self.__csv_path, self.DATABASE_NAME), 'r') as file:
+                        file.readline() # skip first line (CSV header)
+                        while True:
+                            line = file.readline().strip()
+                            if not line:
+                                break
+                            data = line.split(',')
+                            if len(data) == 11:
+                                network = data[0] + data[1] # Concatenate MAC and SSID
+                                networks_db.append(network)
+                else:
+                    # initialize database file
+                    with open(os.path.join(self.__csv_path, self.DATABASE_NAME), 'w') as file:
+                        file.write('MAC,SSID,AuthMode,FirstSeen,Channel,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,Type\n')
+            except Exception as e:
+                logging.critical(f'[WARDRIVER] Error while opening {self.DATABASE_NAME} file: {e}')
+
+        sessions = [ os.path.join(self.__csv_path, file) for file in os.listdir(self.__csv_path) if os.path.isfile(os.path.join(self.__csv_path, file)) and file.endswith(".csv") and file != self.DATABASE_NAME ]
+        
         if len(sessions) > 0:
-            logging.info('[WARDRIVER] Removing empty session files')
+            logging.info('[WARDRIVER] Cleaning directory...')
             for file in sessions:
                 try:
                     with open(file, 'r') as session_file:
-                        session_data = session_file.read()
-
-                        if len(session_data.split('\n')) <= 3:
+                        session_data = session_file.readlines()
+                        
+                        if len(session_data) <= 3:
                             os.remove(file)
                             logging.info(f'[WARDRIVER] File {file} removed')
-                except Exception as e:
-                    logging.error(f'[WARDRIVER] Error while processing {file}')
+                        elif self.__merge_sessions and (not self.__wigle_enabled or (self.__wigle_enabled and 'uploaded' in os.path.basename(file))):
+                            networks = session_data[2:] # Skip first 2 lines (header)
+                            with open(os.path.join(self.__csv_path, self.DATABASE_NAME), 'a') as database:
+                                for network in networks:
+                                    data = network.strip().split(',')
+                                    if len(data) == 11 and data[0] + data[1] not in networks_db:
+                                        database.write(network)
+                                        networks_db.append(network)
+                            os.remove(file)
+                            logging.info(f'[WARDRIVER] Merged {file} into {os.path.join(self.__csv_path, self.DATABASE_NAME)}')
 
+                except Exception as e:
+                    logging.error(f'[WARDRIVER] Error while processing {file}: {e}')
+        
     def __wigle_info(self):
         '''
         Return info used in CSV pre-header
@@ -259,13 +295,27 @@ class Wardriver(plugins.Plugin):
     def on_internet_available(self, agent):
         if self.__wigle_enabled and not self.__lock.locked():
             with self.__lock:
-                sessions_to_upload = [ os.path.join(self.__csv_path, file) for file in os.listdir(self.__csv_path) if os.path.isfile(os.path.join(self.__csv_path, file)) and file.endswith(".csv") and file != os.path.basename(self.__session_file) and not 'uploaded' in file ]
+                sessions_to_upload = [ os.path.join(self.__csv_path, file) for file in os.listdir(self.__csv_path) if os.path.isfile(os.path.join(self.__csv_path, file)) and file.endswith(".csv") and file != os.path.basename(self.__session_file) and not 'uploaded' in file  and file != self.DATABASE_NAME ]
                 if len(sessions_to_upload) > 0:
                     logging.info(f'[WARDRIVER] Uploading previous sessions on WiGLE ({len(sessions_to_upload)} sessions) - current session will not be uploaded')
                     headers = {
                         'Authorization': f'Basic {self.__wigle_api_key}',
                         'Accept': 'application/json'
                     }
+                    
+                    if self.__merge_sessions:
+                        networks_db = [] # All networks seen so far
+                        with open(os.path.join(self.__csv_path, self.DATABASE_NAME), 'r') as file:
+                            file.readline() # skip first line (CSV header)
+                            while True:
+                                line = file.readline().strip()
+                                if not line:
+                                    break
+                                data = line.split(',')
+                                if len(data) == 11:
+                                    network = data[0] + data[1] # Concatenate MAC and SSID
+                                    networks_db.append(network)
+
                     for file in sessions_to_upload:
                         try:
                             with open(file, 'r') as session_file:
@@ -292,7 +342,18 @@ class Wardriver(plugins.Plugin):
                             )
                             response.raise_for_status()
                             try:
-                                os.rename(file, file.replace('.csv', '_uploaded.csv'))
+                                if not self.__merge_sessions:
+                                    os.rename(file, file.replace('.csv', '_uploaded.csv'))
+                                else:
+                                    session_data = session_data.split('\n')
+                                    networks = session_data[2:] # Skip first 2 lines (header)
+                                    with open(os.path.join(self.__csv_path, self.DATABASE_NAME), 'a') as database:
+                                        for network in networks:
+                                            data = network.strip().split(',')
+                                            if len(data) == 11 and data[0] + data[1] not in networks_db:
+                                                database.write(network)
+                                                networks_db.append(network)
+                                    os.remove(file)
                                 logging.info(f'[WARDRIVER] Uploaded successfully {file} on WiGLE')
                             except Exception as e:
                                 logging.critical(f'[WARDRIVER] Error while marking {file} as uploaded {e}')
