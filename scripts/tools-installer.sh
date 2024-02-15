@@ -83,19 +83,19 @@ create_backup() {
     cd ~
     lsblk
 
-    sudo dd if=/dev/sdc of=Paimon.img bs=4M conv=fsync status=progress
+    sudo dd if=/dev/sdc of=Paimon-$(date +"%Y%m%d").img bs=4M conv=fsync status=progress
     sync
-    md5sum Paimon.img >Paimon.img.md5
+    md5sum Paimon-$(date +"%Y%m%d").img >Paimon-$(date +"%Y%m%d").img.md5
 
     echo "Shrinking Backup..."
     echo "Cecking md5 sum..."
-    if md5sum -c Paimon.img.md5; then
-        sudo pishrink.sh -Za Paimon.img
-        md5sum Paimon.img >Paimon.img.md5
+    if md5sum -c Paimon-$(date +"%Y%m%d").img.md5; then
+        sudo pishrink.sh -Za Paimon-$(date +"%Y%m%d").img
+        md5sum Paimon-$(date +"%Y%m%d").img >Paimon-$(date +"%Y%m%d").img.md5
         echo "Backup done!"
-        sudo chown $USER Paimon.img
-        sudo chown $USER Paimon.img.xz
-        md5sum Paimon.img.xz >Paimon.img.xz.md5
+        sudo chown $USER Paimon-$(date +"%Y%m%d").img
+        sudo chown $USER Paimon-$(date +"%Y%m%d").img.xz
+        md5sum Paimon-$(date +"%Y%m%d").img.xz >Paimon-$(date +"%Y%m%d").img.xz.md5
     else
         echo "MD5 sum does not match!"
         exit
@@ -105,8 +105,8 @@ restore_backup() {
     cd ~
     lsblk
     echo "Cecking md5 sum..."
-    if md5sum -c Paimon.img.md5; then
-        sudo dd if=Paimon.img of=/dev/sdc bs=4M conv=fsync status=progress
+    if md5sum -c Paimon-$(date +"%Y%m%d").img.md5; then
+        sudo dd if=Paimon-$(date +"%Y%m%d").img of=/dev/sdc bs=4M conv=fsync status=progress
         sync
         echo "Restore done!"
     else
