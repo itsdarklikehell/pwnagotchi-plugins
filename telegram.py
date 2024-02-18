@@ -17,11 +17,11 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.botcommand import BotCommand
 from telegram.ext import (
     CommandHandler,
-    MessageHandler,
-    Filters,
     CallbackQueryHandler,
     Updater,
 )
+
+# Variables and constants
 
 home_dir = "/home/pi"
 max_length_message = int(4096 // 2)
@@ -77,6 +77,8 @@ class Telegram(plugins.Plugin):
     __description__ = "Chats to telegram"
     __dependencies__ = ("python-telegram-bot==13.15",)
 
+    # Pwnagotchi methods
+
     def on_loaded(self) -> None:
         logging.info("[TELEGRAM] telegram plugin loaded.")
         self.logger = logging.getLogger("TelegramPlugin")
@@ -100,10 +102,191 @@ class Telegram(plugins.Plugin):
         if "auto_start" in self.options and self.options["auto_start"]:
             self.on_internet_available(agent)
 
+    def on_handshake(self, agent, filename, access_point, client_station):
+        config = agent.config()
+        display = agent.view()
+
+        try:
+            self.logger.info("Connecting to Telegram...")
+
+            bot = telegram.Bot(self.options["bot_token"])
+
+            message = f"🤝 New handshake captured: {access_point['hostname']} - {client_station['mac']}"
+            if self.options["send_message"] is True:
+                bot.sendMessage(
+                    chat_id=int(self.options["chat_id"]),
+                    text=message,
+                    disable_web_page_preview=True,
+                )
+                self.logger.info("telegram: message sent: %s" % message)
+
+            display.set("status", "Telegram notification sent!")
+            display.update(force=True)
+            # TODO: Add button and option to send the handshake file!
+        except Exception:
+            self.logger.exception("Error while sending on Telegram")
+
+    def on_internet_available(self, agent):
+        if hasattr(self, "telegram_connected") and self.telegram_connected:
+            return
+
+        config = agent.config()
+        display = agent.view()
+        last_session = agent.last_session
+
+        try:
+            self.generate_log("Connecting to Telegram...", "INFO")
+            bot = telegram.Bot(self.options["bot_token"])
+            bot.set_my_commands(
+                commands=[
+                    # Add all the buttons actions as commands
+                    BotCommand(command="menu", description="📜 See buttons menu"),
+                    BotCommand(
+                        command="reboot_to_manual",
+                        description="🔄🤖 Reboot the device to manual mode",
+                    ),
+                    BotCommand(
+                        command="reboot_to_auto",
+                        description="🔄🛜 Reboot the device to auto mode",
+                    ),
+                    BotCommand(
+                        command="shutdown", description="📴 Shutdown the device"
+                    ),
+                    BotCommand(
+                        command="uptime", description="⏰ Get the uptime of the device"
+                    ),
+                    BotCommand(
+                        command="handshake_count",
+                        description="🤝 Get the handshake count",
+                    ),
+                    BotCommand(
+                        command="read_potfiles_cracked",
+                        description="🔓 Read the every cracked .potfile",
+                    ),
+                    BotCommand(
+                        command="fetch_pwngrid_inbox",
+                        description="📬 Fetch the Pwngrid inbox",
+                    ),
+                    BotCommand(
+                        command="read_memtemp",
+                        description="🧠 Read memory and temperature",
+                    ),
+                    BotCommand(
+                        command="take_screenshot", description="🎨 Take a screenshot"
+                    ),
+                    BotCommand(
+                        command="create_backup", description="💾 Create a backup"
+                    ),
+                    BotCommand(command="bot_update", description="🔄 Update the bot"),
+                    BotCommand(command="pwnkill", description="🗡️ Kill the daemon"),
+                    BotCommand(
+                        command="soft_restart_to_manual",
+                        description="🔁🤖 Restart the daemon to manual mode",
+                    ),
+                    BotCommand(
+                        command="soft_restart_to_auto",
+                        description="🔁🛜 Restart the daemon to auto mode",
+                    ),
+                    BotCommand(
+                        command="send_backup",
+                        description="📤 Send the backup if it is available",
+                    ),
+                    BotCommand(
+                        command="help",
+                        description="📜 Get the list of available commands and their descriptions",
+                    ),
+                    BotCommand(
+                        command="rot13",
+                        description="🔠 Encode/Decode ROT13",
+                    ),
+                    BotCommand(command="debase64", description="🔠 Decode Base64"),
+                    BotCommand(command="base64", description="🔠 Encode Base64"),
+                    BotCommand(command="cmd", description="> Run a command (As sudo)"),
+                    BotCommand(
+                        command="kill_ps", description="🔪 Kill a process (By id)"
+                    ),
+                    BotCommand(
+                        command="kill_ps_name",
+                        description="🔪 Kill a process (By name)",
+                    ),
+                    BotCommand(
+                        command="turn_led_on", description="💡 Turn the ACT led on"
+                    ),
+                    BotCommand(
+                        command="turn_led_off", description="⛔💡Turn the ACT led off"
+                    ),
+                ],
+                scope=telegram.BotCommandScopeAllPrivateChats(),
+            )
+            if self.updater is None:
+                self.updater = Updater(
+                    token=self.options["bot_token"], use_context=True
+                )
+                self.register_command_handlers(agent, self.updater.dispatcher)
+                self.updater.start_polling()
+
+            if not self.start_menu_sent:
+                try:
+                    self.options["bot_name"]
+                except:
+                    self.options["bot_name"] = "Pwnagotchi"
+
+                bot_name = self.options["bot_name"]
+                response = (
+                    f"🖖 Welcome to <b>{bot_name}!</b>\n\nPlease select an option:"
+                )
+                reply_markup = InlineKeyboardMarkup(main_menu)
+                bot.send_message(
+                    chat_id=int(self.options["chat_id"]),
+                    text=response,
+                    reply_markup=reply_markup,
+                    parse_mode="HTML",
+                )
+                self.start_menu_sent = True
+
+            self.telegram_connected = True
+
+        except Exception as e:
+            self.logger.error("Error while sending on Telegram")
+            self.logger.error(str(e))
+
+        if last_session.is_new() and last_session.handshakes > 0:
+            msg = f"Session started at {last_session.started_at()} and captured {last_session.handshakes} new handshakes"
+            self.send_notification(msg)
+
+            if last_session.is_new() and last_session.handshakes > 0:
+                message = Voice(lang=config["main"]["lang"]).on_last_session_tweet(
+                    last_session
+                )
+                if self.options["send_message"] is True:
+                    bot.sendMessage(
+                        chat_id=int(self.options["chat_id"]),
+                        text=message,
+                        disable_web_page_preview=True,
+                    )
+                    self.logger.info("telegram: message sent: %s" % message)
+
+                picture = "/root/pwnagotchi.png"
+                display.on_manual_mode(last_session)
+                display.image().save(picture, "png")
+                display.update(force=True)
+
+                if self.options["send_picture"] is True:
+                    bot.sendPhoto(
+                        chat_id=int(self.options["chat_id"]), photo=open(picture, "rb")
+                    )
+                    self.logger.info("telegram: picture sent")
+
+                last_session.save_session_id()
+                display.set("status", "Telegram notification sent!")
+                display.update(force=True)
+
+    # Telegram bot methods - Backend functions
+
     def register_command_handlers(self, agent, dispatcher) -> None:
         dispatcher.add_handler(
-            MessageHandler(
-                Filters.regex("^/start$"),
+            CommandHandler(
+                "start",
                 lambda update, context: self.start(agent, update, context),
             )
         )
@@ -273,14 +456,6 @@ class Telegram(plugins.Plugin):
             )
         )
 
-    def start(self, agent, update, context) -> None:
-        # Verify if the user is authorized
-        if update.effective_chat.id == int(self.options.get("chat_id")):
-            bot_name = str(self.options.get("bot_name", "Pwnagotchi"))
-            response = f"🖖 Welcome to <b>{bot_name}</b>\n\nPlease select an option:"
-            self.send_new_message(update, context, response, main_menu)
-        return
-
     def button_handler(self, agent, update, context) -> None:
         if update.effective_chat.id == int(self.options.get("chat_id")):
             query = update.callback_query
@@ -317,7 +492,7 @@ class Telegram(plugins.Plugin):
 
     def handle_exception(self, update, context, e) -> None:
         if update.effective_chat.id == int(self.options.get("chat_id")):
-            error_text = f"⛔ Unexpected error ocurred:\n<code>{e}</code>\nIf this keeps happening, please check the logs and submit an issue with screenshots to https://github.com/wpa-2/telegram.py"
+            error_text = f"⛔ Unexpected error ocurred:\n<code>{e}</code>\nIf this keeps happening, please check the logs and submit an issue to https://github.com/wpa-2/telegram.py/issues/new/choose"
             self.generate_log(error_text, "ERROR")
             self.send_sticker(update, context, random.choice(stickers_exception))
             self.send_new_message(update, context, error_text)
@@ -333,23 +508,6 @@ class Telegram(plugins.Plugin):
         log = log_map.get(type, logging.info)
         log(f"[TELEGRAM] {text}")
 
-    def change_led(self, agent, update, context, mode="on"):
-        # Write 0 or 255 to the led file to turn it off or on
-        if update.effective_chat.id == int(self.options.get("chat_id")):
-            led_map = {
-                "on": "255",
-                "off": "0",
-            }
-            led = led_map.get(mode, "255")
-            try:
-                with open("/sys/class/leds/ACT/brightness", "w") as f:
-                    f.write(led)
-                self.update_existing_message(
-                    update, context, f"✅ LED turned {mode} correctly"
-                )
-            except Exception as e:
-                self.handle_exception(update, context, e)
-
     def send_sticker(self, update, context, fileid):
         if update.effective_chat.id == int(self.options.get("chat_id")):
             user_id = update.effective_message.chat_id
@@ -363,6 +521,16 @@ class Telegram(plugins.Plugin):
             text = text[max_length_message:]
         list_of_messages.append(text)
         return list_of_messages
+
+    def terminate_program(self):
+        self.generate_log("All tasks completed. Terminating program.", "INFO")
+
+    def join_context_args(self, context):
+        args = context.args
+        if args:
+            return " ".join(args[:])
+        else:
+            return None
 
     def send_new_message(
         self,
@@ -457,6 +625,44 @@ class Telegram(plugins.Plugin):
         os.system(cmd)
         os.setuid(0)
         return
+
+    def sanitize_text_to_send(self, text):
+        """Sanitize some characters so we don't break the html format"""
+        return (
+            text.replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("&", "&amp;")
+            .replace("_", "\\_")
+            .replace("*", "\\*")
+            .replace("`", "\\`")
+        )
+
+    # Telegram bot methods - Frontend functions
+
+    def start(self, agent, update, context) -> None:
+        # Verify if the user is authorized
+        if update.effective_chat.id == int(self.options.get("chat_id")):
+            bot_name = str(self.options.get("bot_name", "Pwnagotchi"))
+            response = f"🖖 Welcome to <b>{bot_name}</b>\n\nPlease select an option:"
+            self.send_new_message(update, context, response, main_menu)
+        return
+
+    def change_led(self, agent, update, context, mode="on"):
+        # Write 0 or 255 to the led file to turn it off or on
+        if update.effective_chat.id == int(self.options.get("chat_id")):
+            led_map = {
+                "on": "255",
+                "off": "0",
+            }
+            led = led_map.get(mode, "255")
+            try:
+                with open("/sys/class/leds/ACT/brightness", "w") as f:
+                    f.write(led)
+                self.update_existing_message(
+                    update, context, f"✅ LED turned {mode} correctly"
+                )
+            except Exception as e:
+                self.handle_exception(update, context, e)
 
     def bot_update(self, agent, update, context):
         if update.effective_chat.id == int(self.options.get("chat_id")):
@@ -873,13 +1079,6 @@ class Telegram(plugins.Plugin):
             self.update_existing_message(update, context, response)
             return
 
-    def join_context_args(self, context):
-        args = context.args
-        if args:
-            return " ".join(args[:])
-        else:
-            return None
-
     def rot13(self, agent, update, context):
         """Encode/Decode ROT13"""
         if update.effective_chat.id == int(self.options.get("chat_id")):
@@ -924,17 +1123,6 @@ class Telegram(plugins.Plugin):
             except Exception as e:
                 self.handle_exception(update, context, e)
             return
-
-    def sanitize_text_to_send(self, text):
-        """Sanitize some characters so we don't break the html format"""
-        return (
-            text.replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("&", "&amp;")
-            .replace("_", "\\_")
-            .replace("*", "\\*")
-            .replace("`", "\\`")
-        )
 
     def command_executed(self, update, context):
         """Execute a command on the pwnagotchi"""
@@ -998,197 +1186,41 @@ class Telegram(plugins.Plugin):
 
     def help(self, update, context):
         if update.effective_chat.id == int(self.options.get("chat_id")):
-            list_of_commands_with_descriptions = """
-<b><u> Telegram Bot Commands </u></b>
-
-/start - See buttons menu
-/menu - See buttons menu
-/bot_update - Update the bot
-/help - Show this message
-
-<b><u> Hacker commands </u></b>
-
-/rot13 <code>text</code> - Encode/Decode ROT13
-/debase64 <code>text</code> - Decode Base64
-/base64 <code>text</code> - Encode Base64
-
-<b><u> System commands </u></b>
-
-/reboot_to_manual - Reboot the device to manual mode
-/reboot_to_auto - Reboot the device to auto mode
-/shutdown - Shutdown the device
-/read_memtemp - Read memory and temperature
-/uptime - Get the uptime of the device
-/cmd <code>command</code> - Run a command (As sudo)
-/kill_ps <code>ps</code> - Kill a process (By id)
-/kill_ps_name <code>ps</code> - Kill a process (By name)
-
-<b><u> Pwnagotchi commands </u></b>
-
-/send_backup - Send the backup if it is available
-/fetch_pwngrid_inbox - Fetch the Pwngrid inbox
-/handshake_count - Get the handshake count
-/read_potfiles_cracked - Read the all the cracked .potfile's
-/take_screenshot - Take a screenshot
-/create_backup - Create a backup
-
-<b><u> Daemon commands </u></b>
-
-/pwnkill - Kill the daemon
-/soft_restart_to_manual - Restart the daemon to manual mode
-/soft_restart_to_auto - Restart the daemon to auto mode
-        """
+            list_of_commands_with_descriptions = (
+                "<b><u> Telegram Bot Commands </u></b>"
+                "\n/start - See buttons menu"
+                "\n/menu - See buttons menu"
+                "\n/bot_update - Update the bot"
+                "\n/help - Show this message"
+                "\n<b><u> Hacker commands </u></b>"
+                "\n/rot13 <code>text</code> - Encode/Decode ROT13"
+                "\n/debase64 <code>text</code> - Decode Base64"
+                "\n/base64 <code>text</code> - Encode Base64"
+                "\n<b><u> System commands </u></b>"
+                "\n/reboot_to_manual - Reboot the device to manual mode"
+                "\n/reboot_to_auto - Reboot the device to auto mode"
+                "\n/shutdown - Shutdown the device"
+                "\n/read_memtemp - Read memory and temperature"
+                "\n/uptime - Get the uptime of the device"
+                "\n/cmd <code>command</code> - Run a command (As sudo)"
+                "\n/kill_ps <code>ps</code> - Kill a process (By id)"
+                "\n/kill_ps_name <code>ps</code> - Kill a process (By name)"
+                "\n<b><u> Pwnagotchi commands </u></b>"
+                "\n/send_backup - Send the backup if it is available"
+                "\n/fetch_pwngrid_inbox - Fetch the Pwngrid inbox"
+                "\n/handshake_count - Get the handshake count"
+                "\n/read_potfiles_cracked - Read the all the cracked .potfile's"
+                "\n/take_screenshot - Take a screenshot"
+                "\n/create_backup - Create a backup"
+                "\n<b><u> Daemon commands </u></b>"
+                "\n/pwnkill - Kill the daemon"
+                "\n/soft_restart_to_manual - Restart the daemon to manual mode"
+                "\n/soft_restart_to_auto - Restart the daemon to auto mode"
+            )
             self.update_existing_message(
-                update, context, list_of_commands_with_descriptions
+                update, context, "".join(list_of_commands_with_descriptions)
             )
             return
-
-    def on_internet_available(self, agent):
-        if hasattr(self, "telegram_connected") and self.telegram_connected:
-            return
-
-        config = agent.config()
-        display = agent.view()
-        last_session = agent.last_session
-
-        try:
-            self.generate_log("Connecting to Telegram...", "INFO")
-            bot = telegram.Bot(self.options["bot_token"])
-            bot.set_my_commands(
-                commands=[
-                    # Add all the buttons actions as commands
-                    BotCommand(command="menu", description="See buttons menu"),
-                    BotCommand(
-                        command="reboot_to_manual",
-                        description="Reboot the device to manual mode",
-                    ),
-                    BotCommand(
-                        command="reboot_to_auto",
-                        description="Reboot the device to auto mode",
-                    ),
-                    BotCommand(command="shutdown", description="Shutdown the device"),
-                    BotCommand(
-                        command="uptime", description="Get the uptime of the device"
-                    ),
-                    BotCommand(
-                        command="handshake_count", description="Get the handshake count"
-                    ),
-                    BotCommand(
-                        command="read_potfiles_cracked",
-                        description="Read the every cracked .potfile",
-                    ),
-                    BotCommand(
-                        command="fetch_pwngrid_inbox",
-                        description="Fetch the Pwngrid inbox",
-                    ),
-                    BotCommand(
-                        command="read_memtemp",
-                        description="Read memory and temperature",
-                    ),
-                    BotCommand(
-                        command="take_screenshot", description="Take a screenshot"
-                    ),
-                    BotCommand(command="create_backup", description="Create a backup"),
-                    BotCommand(command="bot_update", description="Update the bot"),
-                    BotCommand(command="pwnkill", description="Kill the daemon"),
-                    BotCommand(
-                        command="soft_restart_to_manual",
-                        description="Restart the daemon to manual mode",
-                    ),
-                    BotCommand(
-                        command="soft_restart_to_auto",
-                        description="Restart the daemon to auto mode",
-                    ),
-                    BotCommand(
-                        command="send_backup",
-                        description="Send the backup if it is available",
-                    ),
-                    BotCommand(
-                        command="help",
-                        description="Get the list of available commands and their descriptions",
-                    ),
-                    BotCommand(
-                        command="rot13",
-                        description="Encode/Decode ROT13",
-                    ),
-                    BotCommand(command="debase64", description="Decode Base64"),
-                    BotCommand(command="base64", description="Encode Base64"),
-                    BotCommand(command="cmd", description="Run a command (As sudo)"),
-                    BotCommand(command="kill_ps", description="Kill a process (By id)"),
-                    BotCommand(
-                        command="kill_ps_name", description="Kill a process (By name)"
-                    ),
-                    BotCommand(
-                        command="turn_led_on", description="Turn the ACT led on"
-                    ),
-                    BotCommand(
-                        command="turn_led_off", description="Turn the ACT led off"
-                    ),
-                ],
-                scope=telegram.BotCommandScopeAllPrivateChats(),
-            )
-            if self.updater is None:
-                self.updater = Updater(
-                    token=self.options["bot_token"], use_context=True
-                )
-                self.register_command_handlers(agent, self.updater.dispatcher)
-                self.updater.start_polling()
-
-            if not self.start_menu_sent:
-                try:
-                    self.options["bot_name"]
-                except:
-                    self.options["bot_name"] = "Pwnagotchi"
-
-                bot_name = self.options["bot_name"]
-                response = (
-                    f"🖖 Welcome to <b>{bot_name}!</b>\n\nPlease select an option:"
-                )
-                reply_markup = InlineKeyboardMarkup(main_menu)
-                bot.send_message(
-                    chat_id=int(self.options["chat_id"]),
-                    text=response,
-                    reply_markup=reply_markup,
-                    parse_mode="HTML",
-                )
-                self.start_menu_sent = True
-
-            self.telegram_connected = True
-
-        except Exception as e:
-            self.logger.error("Error while sending on Telegram")
-            self.logger.error(str(e))
-
-        if last_session.is_new() and last_session.handshakes > 0:
-            msg = f"Session started at {last_session.started_at()} and captured {last_session.handshakes} new handshakes"
-            self.send_notification(msg)
-
-            if last_session.is_new() and last_session.handshakes > 0:
-                message = Voice(lang=config["main"]["lang"]).on_last_session_tweet(
-                    last_session
-                )
-                if self.options["send_message"] is True:
-                    bot.sendMessage(
-                        chat_id=int(self.options["chat_id"]),
-                        text=message,
-                        disable_web_page_preview=True,
-                    )
-                    self.logger.info("telegram: message sent: %s" % message)
-
-                picture = "/root/pwnagotchi.png"
-                display.on_manual_mode(last_session)
-                display.image().save(picture, "png")
-                display.update(force=True)
-
-                if self.options["send_picture"] is True:
-                    bot.sendPhoto(
-                        chat_id=int(self.options["chat_id"]), photo=open(picture, "rb")
-                    )
-                    self.logger.info("telegram: picture sent")
-
-                last_session.save_session_id()
-                display.set("status", "Telegram notification sent!")
-                display.update(force=True)
 
     def handle_memtemp(self, agent, update, context):
         if update.effective_chat.id == int(self.options.get("chat_id")):
@@ -1273,33 +1305,6 @@ class Telegram(plugins.Plugin):
                     update.effective_message.reply_text("No backup file found.")
             except Exception as e:
                 self.handle_exception(update, context, e)
-
-    def on_handshake(self, agent, filename, access_point, client_station):
-        config = agent.config()
-        display = agent.view()
-
-        try:
-            self.logger.info("Connecting to Telegram...")
-
-            bot = telegram.Bot(self.options["bot_token"])
-
-            message = f"🤝 New handshake captured: {access_point['hostname']} - {client_station['mac']}"
-            if self.options["send_message"] is True:
-                bot.sendMessage(
-                    chat_id=int(self.options["chat_id"]),
-                    text=message,
-                    disable_web_page_preview=True,
-                )
-                self.logger.info("telegram: message sent: %s" % message)
-
-            display.set("status", "Telegram notification sent!")
-            display.update(force=True)
-            # TODO: Add button and option to send the handshake file!
-        except Exception:
-            self.logger.exception("Error while sending on Telegram")
-
-    def terminate_program(self):
-        self.generate_log("All tasks completed. Terminating program.", "INFO")
 
 
 if __name__ == "__main__":

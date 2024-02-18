@@ -15,22 +15,27 @@ import pwnagotchi
 import pwnagotchi.plugins as plugins
 from pwnagotchi.grid import call, get_advertisement_data
 
+# Ref: https://stackoverflow.com/a/325528/3562468
+class StoppableThread(threading.Thread):
+    """Thread class with a stop() method. The thread itself has to check
+    regularly for the stopped() condition."""
+
+    def __init__(self,  *args, **kwargs):
+        super(StoppableThread, self).__init__(*args, **kwargs)
+        self._stop_event = threading.Event()
+
+    def stop(self):
+        self._stop_event.set()
+
+    def stopped(self):
+        return self._stop_event.is_set()
 
 class Beaconify(plugins.Plugin):
-    __GitHub__ = ""
-    __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), Artur Oliveira"
-    __version__ = "1.0.6"
-    __license__ = "GPL3"
-    __description__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
-    __name__ = "Beaconify"
-    __help__ = "A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units' beacons."
-    __dependencies__ = {
-        "apt": ["none"],
-        "pip": ["scapy"],
-    }
-    __defaults__ = {
-        "enabled": False,
-    }
+    __author__ = 'Artur Oliveira'
+    __version__ = '1.0.8'
+    __license__ = 'GPL3'
+    __description__ = 'A plugin to send beacon frames more often and restarts pwngrid when it stops listening for other units\' beacons.'
+
     # Define the custom Information Element IDs
     # Taken from:
     # https://github.com/jayofelony/pwngrid/blob/6ff48395fa19257c8296f127f4bbdec1152ba5e1/wifi/defines.go#L21
@@ -40,9 +45,9 @@ class Beaconify(plugins.Plugin):
     ID_WHISPER_SIGNATURE = 225
     ID_WHISPER_STREAM_HEADER = 226
 
-    BroadcastAddr = "ff:ff:ff:ff:ff:ff"
+    BroadcastAddr    = "ff:ff:ff:ff:ff:ff"
     SignatureAddrStr = "de:ad:be:ef:de:ad"
-
+    
     def __init__(self):
         self._lock = threading.Lock()
         self.options = dict()
@@ -60,68 +65,56 @@ class Beaconify(plugins.Plugin):
         self.waiting_pwngrid = False
         self.beacon_thread = None
         self.pwngrid_thread = None
-        logging.debug(f"[{self.__class__.__name__}] plugin init")
-        self.title = ""
 
     def info_element(self, id, info):
         return Dot11Elt(ID=id, info=info)
 
+        
     def on_loaded(self):
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
-        self.iface = pwnagotchi.config["main"]["iface"]
-        self.sleeptime = self.options.get("sleeptime")
+        self.iface = pwnagotchi.config['main']['iface']
+        self.sleeptime = self.options.get('sleeptime')
         if self.sleeptime is None:
             self.sleeptime = 5
-            logging.info(
-                f"[{self.__class__.__name__}] sleeptime not defined in config. Setting to default {self.sleeptime}"
-            )
-        self.beacontime = self.options.get("beacontime")
+            logging.info(f"[Beaconify] sleeptime not defined in config. Setting to default {self.sleeptime}")
+        self.beacontime = self.options.get('beacontime')
         if self.beacontime is None:
             self.beacontime = 0.1
-            logging.info(
-                f"[{self.__class__.__name__}] beacontime not defined in config. Setting to default {self.beacontime}"
-            )
-
+            logging.info(f"[Beaconify] beacontime not defined in config. Setting to default {self.beacontime}")
+    
     def restart_pwngrid(self):
         def inner_func(obj):
             with obj._lock:
                 self.waiting_pwngrid = True
-                retries = obj.restart_pwngrid_retries
-                while retries != 0:
-                    process = subprocess.Popen(
-                        f"systemctl restart pwngrid-peer",
-                        shell=True,
-                        stdin=None,
-                        stdout=open("/dev/null", "w"),
-                        stderr=None,
-                        executable="/bin/bash",
-                    )
-                    process.wait()
-                    if process.returncode > 0:
-                        logging.warn(
-                            f"[{self.__class__.__name__}] pwngrid restarted! Waiting {obj.init_pwngrid_time} for its initialization."
-                        )
-                        time.sleep(obj.init_pwngrid_time)
-                        self.waiting_pwngrid = False
-                        return
-                    else:
-                        logging.warn(
-                            f"[{self.__class__.__name__}] Failed to restart pwngrid! Waiting {obj.restart_pwngrid_time} before trying again."
-                        )
-                        time.sleep(obj.restart_pwngrid_time)
-                        retries -= 1
-                logging.warn(
-                    f"[{self.__class__.__name__}] Failed to restart pwngrid too many times! The unit probably won't send or receive beacons until reboot."
-                )
-                self.waiting_pwngrid = False
+                # retries = obj.restart_pwngrid_retries
+                # while retries != 0:
+                process = subprocess.Popen(
+                    f"systemctl restart pwngrid-peer",
+                    shell=True,
+                    stdin=None,
+                    stdout=open("/dev/null", "w"),
+                    stderr=None, executable="/bin/bash")
+                process.wait()
+                    # if process.returncode > 0:
+                    #     logging.warning(f"[Beaconify] pwngrid restarted! Waiting {obj.init_pwngrid_time} for its initialization.")
+                    #     time.sleep(obj.init_pwngrid_time)
+                    #     self.waiting_pwngrid = False
+                    #     return
+                    # else:
+                    #     logging.warning(f"[Beaconify] Failed to restart pwngrid! Waiting {obj.restart_pwngrid_time} before trying again.")
+                    #     time.sleep(obj.restart_pwngrid_time)
+                    #     retries -= 1
+                # logging.warning(f"[Beaconify] Failed to restart pwngrid too many times! The unit probably won't send or receive beacons until reboot.")
+                # self.waiting_pwngrid = False
 
-        if (self.pwngrid_thread is None) or (not self.pwngrid_thread.is_alive()):
-            self.pwngrid_thread = Thread(target=inner_func, args=(self,))
+        if (self.pwngrid_thread is None) or (not self.pwngrid_thread.is_alive()) :
+            self.pwngrid_thread = StoppableThread(target=inner_func, args=(self,))
             self.pwngrid_thread.start()
         else:
-            logging.info(
-                f"[{self.__class__.__name__}] Skipping pwngrid restart thread because there is one alive yet."
-            )
+            logging.info(f"[Beaconify] Skipping pwngrid restart thread because there is one alive yet.")
+
+        
+        
 
     # called when a known peer is lost
     def on_peer_lost(self, agent, peer):
@@ -130,54 +123,58 @@ class Beaconify(plugins.Plugin):
     # called when a new peer is detected
     def on_peer_detected(self, agent, peer):
         # Checks for self beacons to detect
-        logging.info(
-            f"[{self.__class__.__name__}] I'm {self.identity} and just detect {peer.identity()}."
-        )
+        logging.info(f"[Beaconify] I'm {self.identity} and just detect {peer.identity()}.")
         if peer.identity() == self.identity:
             self.found_self = True
-            logging.info(
-                f"[{self.__class__.__name__}] Hey! I can hear my own echoes!.")
+            logging.info(f"[Beaconify] Hey! I can hear my own echoes!.")
 
     def on_wait(self, agent, t):
         # Start sending beacons for t seconds
-        logging.info(
-            f"[{self.__class__.__name__}] Waiting for {t} seconds. Sending beacons!"
-        )
+        logging.info(f"[Beaconify] Waiting for {t} seconds. Sending beacons!")
         self.send_beacon(agent, t)
 
     # called when the agent is sleeping for t seconds
     def on_sleep(self, agent, t):
         # Start sending beacons for t seconds
-        logging.info(
-            f"[{self.__class__.__name__}] Sleeping for {t} seconds. Sending beacons!"
-        )
+        logging.info(f"[Beaconify] Sleeping for {t} seconds. Sending beacons!")
         self.send_beacon(agent, t)
+
 
     def on_unload(self, ui):
         # Stop sending beacons
-        logging.info(f"[{self.__class__.__name__}] plugin unloaded")
-        pass
+        logging.info("[Beaconify] Unloading. Stopping beacon and pwngrid restart threads.")
+        join_thread = []
+        if self.beacon_thread is not None and\
+            self.beacon_thread.is_alive():
+            self.beacon_thread.stop()
+            join_thread.append(self.beacon_thread)
+            logging.info("[Beaconify] Beacon thread stopped.")
+        if self.pwngrid_thread is not None and\
+            self.pwngrid_thread.is_alive():
+            self.pwngrid_thread.stop()
+            join_thread.append(self.pwngrid_thread)
+            logging.info("[Beaconify] pwngrid restart thread stopped.")
+        for t in join_thread:
+            t.join()
+        logging.info("[Beaconify] All threads joined. Exiting.")
 
     def on_ready(self, agent):
         self.identity = agent.fingerprint()
-        self.mon_iface = pwnagotchi.config["main"]["iface"]
+        self.mon_iface = pwnagotchi.config['main']['iface']
         pass
 
     def on_config_changed(self, config):
-        logging.info(f"[{self.__class__.__name__}] config changed")
-        self.iface = config["main"]["iface"]
-        if self.options.get("sleeptime") is not None:
-            self.sleeptime = self.options.get("sleeptime")
-            logging.info(
-                f"[{self.__class__.__name__}] sleeptime not defined in config. Setting to default {self.sleeptime}"
-            )
-        if self.options.get("beacontime") is not None:
-            self.beacontime = self.options.get("beacontime")
-            logging.info(
-                f"[{self.__class__.__name__}] beacontime not defined in config. Setting to default {self.beacontime}"
-            )
+        logging.info(f"[Beaconify] config changed")
+        self.iface = config['main']['iface']
+        if self.options.get('sleeptime') is not None:
+            self.sleeptime = self.options.get('sleeptime')
+            logging.info(f"[Beaconify] sleeptime not defined in config. Setting to default {self.sleeptime}")
+        if self.options.get('beacontime') is not None:
+            self.beacontime = self.options.get('beacontime')
+            logging.info(f"[Beaconify] beacontime not defined in config. Setting to default {self.beacontime}")
 
-    # def pack_one_of(from_addr, to_addr, peer_id, signature, stream_id, seq_num, seq_tot, payload, compress):
+
+    #def pack_one_of(from_addr, to_addr, peer_id, signature, stream_id, seq_num, seq_tot, payload, compress):
     def pack_one_of(self, payload):
         layers = [
             RadioTap(),
@@ -185,44 +182,38 @@ class Beaconify(plugins.Plugin):
                 addr1=Beaconify.BroadcastAddr,
                 addr2=Beaconify.SignatureAddrStr,
                 addr3=Beaconify.SignatureAddrStr,
-                type=0,
-                subtype=8,
-            ),
-            Dot11Beacon(),
+                type=0, subtype=8),
+            Dot11Beacon()
         ]
 
         if self.peer_id is not None:
             layers.append(
-                self.info_element(Beaconify.ID_WHISPER_IDENTITY, self.peer_id)
-            )
+                self.info_element(Beaconify.ID_WHISPER_IDENTITY, self.peer_id))
 
         if self.signature is not None:
             layers.append(
-                self.info_element(
-                    Beaconify.ID_WHISPER_SIGNATURE, self.signature)
-            )
+                self.info_element(Beaconify.ID_WHISPER_SIGNATURE, self.signature))
 
         if self.stream_id > 0:
             stream_header = struct.pack(
-                "<QQQ", self.stream_id, self.seq_num, self.seq_tot
-            )
-            layers.append(
-                self.info_element(
-                    Beaconify.ID_WHISPER_STREAM_HEADER, stream_header)
-            )
+                '<QQQ',
+                self.stream_id, self.seq_num, self.seq_tot)
+            layers.append(self.info_element(
+                Beaconify.ID_WHISPER_STREAM_HEADER, stream_header))
 
         # Compress if needed
-        # if compress:
+        #if compress:
         #    compressed_payload = compress_payload(payload)  # Implement this function as needed
         #    layers.append(info_element(ID_WHISPER_COMPRESSION, b'\x01'))
         #    payload = compressed_payload
 
         # Add payload in chunks
-        chunk_size = 0xFF
+        chunk_size = 0xff
         for i in range(0, len(payload), chunk_size):
-            chunk = payload[i: i + chunk_size]
-            layers.append(self.info_element(
-                Beaconify.ID_WHISPER_PAYLOAD, chunk))
+            chunk = payload[i:i + chunk_size]
+            layers.append(
+                self.info_element(
+                    Beaconify.ID_WHISPER_PAYLOAD, chunk))
 
         # Combine all layers into a single packet
         packet = layers[0]
@@ -238,13 +229,9 @@ class Beaconify(plugins.Plugin):
             while time.perf_counter() - starting_time < time_duration:
                 try:
                     if obj.waiting_pwngrid:
-                        logging.info(
-                            f"[{self.__class__.__name__}] Can't send beacon. Waiting pwngrid cooldown. Sleeping {obj.sleeptime} seconds."
-                        )
+                        logging.info(f"[Beaconify] Can't send beacon. Waiting pwngrid cooldown. Sleeping {obj.sleeptime} seconds.")
                         time.sleep(obj.sleeptime)
-                        logging.info(
-                            f"[{self.__class__.__name__}] Restarting cooldown of {obj.init_pwngrid_time} sending beacons without checking self encounters."
-                        )
+                        logging.info(f"[Beaconify] Restarting cooldown of {obj.init_pwngrid_time} sending beacons without checking self encounters.")
                         obj.cooldown_pwngrid_check = time.perf_counter()
                         continue
                     payload = json.dumps(get_advertisement_data()).encode()
@@ -252,43 +239,28 @@ class Beaconify(plugins.Plugin):
                     sendp(packet, iface=obj.iface, verbose=0)
                     time.sleep(obj.beacontime)
                 except Exception as e:
-                    logging.warn(
-                        f"[{self.__class__.__name__}] Interface {obj.iface} down? Sleeping {obj.sleeptime} seconds and retrying..."
-                    )
+                    logging.warn(f"[Beaconify] Interface {obj.iface} down? Sleeping {obj.sleeptime} seconds and retrying...")
                     logging.debug(e, exc_info=True)
                     time.sleep(obj.sleeptime)
-                    logging.warn(
-                        f"[{self.__class__.__name__}] Slept {obj.sleeptime}. Retrying now."
-                    )
-            # Check for deafness
+                    logging.warn(f"[Beaconify] Slept {obj.sleeptime}. Retrying now.")
+            #Check for deafness
             # If the unit stops hearing itself (and consequently other units),
             # we can fix it by restarting pwngrid.
             pwngrid_check_cooldown = time.perf_counter() - obj.cooldown_pwngrid_check
             if pwngrid_check_cooldown > obj.init_pwngrid_time:
                 grid_peers = grid.peers()
                 if len(grid_peers) == 0:
-                    logging.info(
-                        f"[{self.__class__.__name__}] No peers (not even myself!) Restarting pwngrid!"
-                    )
+                    logging.info(f"[Beaconify] No peers (not even myself!) Restarting pwngrid!")
                     self.restart_pwngrid()
                 else:
-                    logging.info(
-                        f"[{self.__class__.__name__}] Found {len(grid_peers)} peers (including myself!)"
-                    )
+                    logging.info(f"[Beaconify] Found {len(grid_peers)} peers (including myself!)")
             else:
-                logging.info(
-                    f"[{self.__class__.__name__}] Cooldown of {pwngrid_check_cooldown} before checking pwngrid again."
-                )
+                logging.info(f"[Beaconify] Cooldown of {pwngrid_check_cooldown} before checking pwngrid again.")
 
-        if (self.beacon_thread is None) or (not self.beacon_thread.is_alive()):
-            self.beacon_thread = Thread(
-                target=inner_func, args=(self, time_duration, agent)
-            )
+        if (self.beacon_thread is None) or (not self.beacon_thread.is_alive()) :
+            self.beacon_thread = StoppableThread(target=inner_func, args=(self,time_duration, agent))
             self.beacon_thread.start()
         else:
-            logging.info(
-                f"[{self.__class__.__name__}] Skipping beacon thread because there is one alive yet."
-            )
+            logging.info(f"[Beaconify] Skipping beacon thread because there is one alive yet.")
+        
 
-    def on_webhook(self, path, request):
-        logging.info(f"[{self.__class__.__name__}] webhook pressed")
