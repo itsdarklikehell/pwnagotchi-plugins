@@ -25,7 +25,7 @@ edit_interfaces() {
 install_tools() {
     echo "Installing Tools..."
     #sudo apt update && sudo apt upgrade -y
-    sudo apt install -y byobu aircrack-ng nmap libttspico0 libttspico-utils macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd python3-buttonshim python3-nmea2 python3-qrcode python3-psutil python3-feedparser python3-netifaces python3-paramiko python3-plotly python3-serial python3-geopy python3-discord python3-dotenv
+    sudo apt install -y raspberrypi-ui-mods byobu aircrack-ng nmap expect speedtest-cli libttspico0 libttspico-utils macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd python3-buttonshim python3-nmea2 python3-qrcode python3-psutil python3-feedparser python3-netifaces python3-paramiko python3-plotly python3-serial python3-geopy python3-discord python3-dotenv
     wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     chmod +x pishrink.sh
     sudo mv pishrink.sh /usr/local/bin
@@ -43,6 +43,23 @@ dns_fix() {
     echo nameserver 1.1.1.1 | sudo tee -a /etc/resolv.conf
 }
 
+lcd_show() {
+    sudo rm -rf LCD-show
+    git clone https://github.com/goodtft/LCD-show.git
+    chmod -R 755 LCD-show
+    cd LCD-show/
+    sudo ./LCD35-show # or sudo ./LCD35-show 90
+}
+hdmi_screen() {
+    cd /tmp
+    git clone https://github.com/solution-libre/pwnagotchi-hdmi-viewer.git
+    cd pwnagotchi-hdmi-viewer
+    sudo mv pwnagotchi-launcher-pre pwnagotchi-viewer pwnagotchi-viewer-next /usr/local/sbin
+
+    sudo sed -i 's/ui.web.on_frame = \"\"/ui.web.on_frame = \"pwnagotchi-viewer-next\"/g' /etc/pwnagotchi/config.toml
+
+    sudo systemctl daemon-reload
+}
 showerthoughts() {
     sudo curl --silent https://www.reddit.com/r/showerthoughts/.rss --user-agent 'Mozilla' --output /root/showerthoughts.rss
     sudo wget -P /usr/local/bin https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/remove_long_titles.py
@@ -68,8 +85,8 @@ enable_scripts() {
     cd ~
     ln -s /usr/local/share/pwnagotchi/custom-plugins/scripts .
     mkdir bin
-    cd /usr/local/share/pwnagotchi/custom-plugins/scripts
-    ln -s * ~/bin
+    cd ~/bin
+    ln -s /usr/local/share/pwnagotchi/custom-plugins/scripts/* .
 }
 enable_lcd() {
     cd ~
@@ -113,6 +130,72 @@ restore_backup() {
         echo "MD5 sum does not match!"
         exit
     fi
+}
+
+bt_tether() {
+    export PWNTETHER=94:45:60:5D:84:11
+    git clone https://github.com/bablokb/pi-btnap.git
+    sudo pi-btnap/tools/install-btnap client
+
+    sudo sed -i "s@REMOTE_DEV=\"\"@REMOTE_DEV=\"$PWNTETHER\"@g" /etc/btnap.conf
+
+    cat <<-EOFF >/home/pi/bluetooth-pair.sh
+#!/usr/bin/expect -f
+
+set prompt "#"
+set address [lindex \$argv 0]
+
+spawn bluetoothctl
+expect -re \$prompt
+send "remove \$address\r"
+sleep 1
+expect -re \$prompt
+send "scan on\r"
+send_user "\nSleeping\r"
+sleep 10
+send_user "\nDone sleeping\r"
+send "scan off\r"
+expect "Controller"
+send "trust \$address\r"
+sleep 2
+send "pair \$address\r"
+sleep 2
+expect "Confirm passkey"
+send "yes\r"
+sleep 3
+send_user "\nShould be paired now.\r"
+send "quit\r"
+expect eof
+EOFF
+    chmod +x /home/pi/bluetooth-pair.sh
+
+    cat <<-EOFF >/home/pi/tether-restart.sh
+#!/bin/sh
+
+SCRIPT=\$(readlink -f \$0)
+SCRIPTPATH=\`dirname \$SCRIPT\`
+
+/sbin/ifconfig bnep0 > /dev/null 2>&1
+status=\$?
+if [ \$status -ne 0 ]; then
+	echo "Connecting to bluetooth"
+	sudo systemctl restart btnap
+fi
+sleep 10
+	sudo ifconfig bnep0 192.168.44.100 netmask 255.255.255.0
+	sudo sed -i "s@127.0.0.1@8.8.8.8@g" /etc/resolv.conf
+	sudo route del -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.1
+	sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.44.1
+EOFF
+    chmod +x /home/pi/tether-restart.sh
+
+    sudo /home/pi/bluetooth-pair.sh $PWNTETHER
+    sudo systemctl restart btnap
+    sleep 10
+    sudo ifconfig bnep0 192.168.44.100 netmask 255.255.255.0
+    sudo sed -i "s@127.0.0.1@8.8.8.8@g" /etc/resolv.conf
+    sudo route del -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.1
+    sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.44.1
 }
 
 plugins() {
@@ -194,6 +277,7 @@ update_apt
 update_pwnagotchi
 # bettercaplets
 # edit_pwnlib
+# lcd_show
 # edit_interfaces
 # install_sounds
 # plugins
