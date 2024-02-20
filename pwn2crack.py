@@ -61,7 +61,7 @@ class Pwn2Crack(plugins.Plugin):
     __license__ = "GPL3"
     __description__ = "This Pwnagotchi plugin will evaluate captured handshakes from pcap files, clean and convert complete handshakes to Hashcat-compatible 22000 hashes, and then create a new hashlist within Hashtopolis."
     # 6.2.7 is Working as 11/2023, later version will not work on Pwnagotchi 1.5.5 because the OS is too old to support OpenSSL 3.0 EVP API.
-    hcxtools_version_supported = "6.3.2-51-g0377777"
+    hcxtools_version_supported = "6.3.2-53-g2836d94"
     __name__ = "Pwn2Crack"
     __help__ = "A plugin that will add age and strength stats based on epochs and trained epochs"
     __dependencies__ = {
