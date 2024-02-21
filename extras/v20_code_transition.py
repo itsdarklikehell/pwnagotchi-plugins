@@ -25,9 +25,7 @@ def callback_signature_transition(_: Path, contents: str) -> str:
         contents,
     )
     contents = re.sub(
-        JOB_TRANSITION_PATTERN,
-        r"async def \1(\2: \4ContextTypes.DEFAULT_TYPE)",
-        contents,
+        JOB_TRANSITION_PATTERN, r"async def \1(\2: \4ContextTypes.DEFAULT_TYPE)", contents
     )
     # this line is for users transitioning from v20.0a0 to 20.0a1
     return contents.replace("CallbackContext.DEFAULT_TYPE", "ContextTypes.DEFAULT_TYPE")
@@ -36,9 +34,7 @@ def callback_signature_transition(_: Path, contents: str) -> str:
 AWAIT_BOT_METHODS_PATTERNS: Sequence[Tuple[Pattern, str]] = [
     (re.compile(r"(?<!await) (\w+\.|)bot\.([\w\.]+)\("), r" await \1bot.\2("),
     (
-        re.compile(
-            r"(?<!await) (message|update|callback_query|inline_query|query)\.([\w\.]+)\("
-        ),
+        re.compile(r"(?<!await) (message|update|callback_query|inline_query|query)\.([\w\.]+)\("),
         r" await \1.\2(",
     ),
 ]
@@ -71,9 +67,7 @@ def init_transition(_: Path, contents: str) -> str:
 
 
 def updater_transition(_: Path, contents: str) -> str:
-    return re.sub(
-        r"updater\.start_(polling|webhook)\(", r"application.run_\1(", contents
-    )
+    return re.sub(r"updater\.start_(polling|webhook)\(", r"application.run_\1(", contents)
 
 
 def dispatcher_transition(_: Path, contents: str) -> str:
@@ -127,16 +121,12 @@ def filters_transition(_: Path, contents: str) -> str:
 
 
 def job_pass_data_transition(_: Path, contents: str) -> str:
-    return re.sub(
-        r"context=context.(user|chat)_data", r"\1_id=update.effective_\1.id", contents
-    )
+    return re.sub(r"context=context.(user|chat)_data", r"\1_id=update.effective_\1.id", contents)
 
 
 def job_context_to_data_rename_transition(_: Path, contents: str) -> str:
     contents = re.sub(
-        r"run_(\w+)\(([\w,].*)?(context=)(\w+)([\w,].*)\)",
-        r"run_\1\(\2data=\4\5\)",
-        contents,
+        r"run_(\w+)\(([\w,].*)?(context=)(\w+)([\w,].*)\)", r"run_\1\(\2data=\4\5\)", contents
     )
     return contents.replace("context.job.context", "context.job.data")
 
@@ -169,9 +159,7 @@ def renamed_bot_methods_transition(_: Path, contents: str) -> str:
 
 
 def rename_handler_to_base_handler(_: Path, contents: str) -> str:
-    return re.sub(
-        r"(class \w+)\((telegram\.ext\.|)Handler\)", r"\1\(\2BaseHandler)\)", contents
-    )
+    return re.sub(r"(class \w+)\((telegram\.ext\.|)Handler\)", r"\1\(\2BaseHandler)\)", contents)
 
 
 TRANSITIONS: Sequence[Callable[[Path, str], str]] = [

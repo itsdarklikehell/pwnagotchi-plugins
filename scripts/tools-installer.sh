@@ -29,7 +29,6 @@ install_tools() {
     wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     chmod +x pishrink.sh
     sudo mv pishrink.sh /usr/local/bin
-
 }
 
 install_seclists() {
@@ -43,13 +42,6 @@ dns_fix() {
     echo nameserver 1.1.1.1 | sudo tee -a /etc/resolv.conf
 }
 
-lcd_show() {
-    sudo rm -rf LCD-show
-    git clone https://github.com/goodtft/LCD-show.git
-    chmod -R 755 LCD-show
-    cd LCD-show/
-    sudo ./LCD35-show # or sudo ./LCD35-show 90
-}
 hdmi_screen() {
     cd /tmp
     git clone https://github.com/solution-libre/pwnagotchi-hdmi-viewer.git
@@ -60,6 +52,7 @@ hdmi_screen() {
 
     sudo systemctl daemon-reload
 }
+
 showerthoughts() {
     sudo curl --silent https://www.reddit.com/r/showerthoughts/.rss --user-agent 'Mozilla' --output /root/showerthoughts.rss
     sudo wget -P /usr/local/bin https://raw.githubusercontent.com/NoxiousKarn/Showerthoughts/main/remove_long_titles.py
@@ -71,8 +64,10 @@ showerthoughts() {
         echo "0 */4 * * * curl --silent https://www.reddit.com/r/showerthoughts.rss --user-agent 'Mozilla' --output showerthoughts.rss"
         echo "0 */4 * * * curl --silent https://www.reddit.com/r/worldnews.rss --user-agent 'Mozilla' --output worldnews.rss"
         echo "0 */4 * * * /usr/bin/python3 /usr/local/bin/remove_long_titles.py >/dev/null 2>&1"
+        echo "* * * * * /home/pi/tether-restart.sh"
     ) | sudo crontab -
 }
+
 copy_tomls() {
     echo "Copy all configs to conf.d..."
     cd /usr/local/share/pwnagotchi/available-plugins/configs
@@ -81,6 +76,7 @@ copy_tomls() {
         sudo cp ${i%%.*}.toml /etc/pwnagotchi/conf.d/
     done
 }
+
 enable_scripts() {
     cd ~
     ln -s /usr/local/share/pwnagotchi/custom-plugins/scripts .
@@ -88,14 +84,16 @@ enable_scripts() {
     cd ~/bin
     ln -s /usr/local/share/pwnagotchi/custom-plugins/scripts/* .
 }
+
 enable_lcd() {
     cd ~
     sudo rm -rf LCD-show
     git clone https://github.com/goodtft/LCD-show.git
     chmod -R 755 LCD-show
     cd LCD-show/
-    sudo ./LCD35-show
+    sudo ./LCD35-show # or sudo ./LCD35-show 90
 }
+
 create_backup() {
     cd ~
     lsblk
@@ -118,6 +116,7 @@ create_backup() {
         exit
     fi
 }
+
 restore_backup() {
     cd ~
     lsblk
@@ -196,6 +195,9 @@ EOFF
     sudo sed -i "s@127.0.0.1@8.8.8.8@g" /etc/resolv.conf
     sudo route del -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.1
     sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.44.1
+    (
+        echo "* * * * * /home/pi/tether-restart.sh"
+    ) | sudo crontab -
 }
 
 plugins() {
@@ -262,7 +264,7 @@ plugins() {
             sudo rm -f /usr/local/share/pwnagotchi/custom-plugins/${i%%.*}.py
         done
     }
-
+    update_plugins
     # install_all_plugins
     # uninstall_all_plugins
     # disable_all_plugins
@@ -280,7 +282,6 @@ update_pwnagotchi
 # lcd_show
 # edit_interfaces
 # install_sounds
-# plugins
 # copy_tomls
 enable_scripts
 enable_lcd
