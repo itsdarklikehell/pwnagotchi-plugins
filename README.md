@@ -4,7 +4,7 @@ Special thanks go to to:
 [Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
 
 [pwnagotchi.org](https://pwnagotchi.org/)
-
+gdr
 [evilsocket](https://github.com/evilsocket)
 
 [NeonLightning](https://github.com/NeonLightning)
