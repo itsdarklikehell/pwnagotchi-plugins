@@ -1,15 +1,15 @@
 # This is a reference list to / collection of plugins for the pwnagotchi.
 Special thanks go to to:
 
-NeonLightning
+[NeonLightning](https://github.com/NeonLightning)
 
-V0rT3x
+[V0rT3x](https://github.com/V0r-T3x)
 
-Jayofellony
+[Jayofellony](https://github.com/jayofelony)
 
-Alumium-Ice
+[Alumium-Ice](https://github.com/aluminum-ice)
 
-Talking Sasquach
+[Talking Sasquach](https://github.com/skizzophrenic/Talking-Sasquach)
 
 NurseJackass
 
