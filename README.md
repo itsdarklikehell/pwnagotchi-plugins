@@ -1,4 +1,4 @@
-# This is a list / collection of plugins for the pwnagotchi.
+# This is a reference list to / collection of plugins for the pwnagotchi.
 
 | | | | | | | | |
 |-|-|-|-|-|-|-|-|
