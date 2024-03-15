@@ -1,6 +1,12 @@
 # This is a reference list to / collection of plugins for the pwnagotchi.
 Special thanks go to to:
 
+[Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
+
+[pwnagotchi.org](https://pwnagotchi.org/)
+
+[evilsocket](https://github.com/evilsocket)
+
 [NeonLightning](https://github.com/NeonLightning)
 
 [V0rT3x](https://github.com/V0r-T3x)
@@ -11,21 +17,21 @@ Special thanks go to to:
 
 [Talking Sasquach](https://github.com/skizzophrenic/Talking-Sasquach)
 
-NurseJackass
+[NurseJackass / Sniffleupagus](https://github.com/Sniffleupagus)
 
-WPA2
+[WPA2](https://github.com/wpa-2)
 
 S4ntr3ri4
 
-DylanJava
+[DylanJava](https://github.com/DylanJava)
 
-Aleda
+[Aleda](https://www.twitch.tv/aleda2112)
 
 Dal
 
-Rai
+[Rai](https://github.com/rai68)
 
-Dj1ch
+[Dj1ch](https://github.com/dj1ch)
 
 and many others…
 
