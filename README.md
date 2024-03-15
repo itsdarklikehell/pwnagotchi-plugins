@@ -1,4 +1,33 @@
 # This is a reference list to / collection of plugins for the pwnagotchi.
+Special thanks go to to:
+
+NeonLightning
+
+V0rT3x
+
+Jayofellony
+
+Alumium-Ice
+
+Talking Sasquach
+
+NurseJackass
+
+WPA2
+
+S4ntr3ri4
+
+DylanJava
+
+Aleda
+
+Dal
+
+Rai
+
+Dj1ch
+
+and many others…
 
 | | | | | | | | |
 |-|-|-|-|-|-|-|-|
