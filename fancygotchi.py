@@ -27,277 +27,10 @@ ROOT_PATH = "/usr/local/lib/python3.7/dist-packages/pwnagotchi"
 FANCY_ROOT = os.path.dirname(os.path.realpath(__file__))
 setattr(pwnagotchi, "fancy_root", FANCY_ROOT)
 
-with open("%s/fancygotchi/mod/files.csv" % (FANCY_ROOT), newline="") as csvfile:
-    reader = csv.DictReader(csvfile)
-    data_dict = {}
-    for row in reader:
-        for key, value in row.items():
-            if key in data_dict:
-                data_dict[key].append(value)
-            else:
-                data_dict[key] = [value]
-    FILES_TO_MOD = data_dict
-
-for i in range(len(FILES_TO_MOD["path"])):
-    path = data_dict["path"][i]
-    file = data_dict["file"][i]
-
-COMPATIBLE_PLUGINS = [
-    "bt-tether",
-    "memtemp",
-    "clock",
-    "display-password",
-    "crack_house",
-    "pisugar2",
-    "pisugar3",
-]
-
-with open("%s/fancygotchi/mod/index.html" % (FANCY_ROOT), "r") as file:
-    html_contents = file.read()
-INDEX = html_contents
-
-
-def serializer(obj):
-    if isinstance(obj, set):
-        return list(obj)
-    raise TypeError
-
-
-# replace one or many line with a specific keywork in the line
-def replace_line(file_path, pattern, subst):
-    line_skip = 0
-    fh, abs_path = mkstemp()
-    with fdopen(fh, "w") as new_file:
-        with open(file_path) as old_file:
-            for line in old_file:
-                # logging.info('%s -- %s' % (line, pattern))
-                # logging.info(len(subst))
-                if pattern in line:
-                    line_skip = len(subst) - 1
-                    # logging.info(line_skip)
-                    for su in subst:
-                        new_file.write("%s\n" % (su))
-                elif line_skip == 0:
-                    new_file.write(line)
-                else:
-                    line_skip -= 1
-    copymode(file_path, abs_path)
-    remove(file_path)
-    move(abs_path, file_path)
-
-
-# function to backup all actual modified files to make a new install update
-def dev_backup(file_paths, dest_fold):
-    for i in range(len(file_paths["path"])):
-        path = data_dict["path"][i]
-        file = data_dict["file"][i]
-        if path[0] != "/":
-            back_path = "%s%s" % (dest_fold, path)
-            path = "%s/%s" % (ROOT_PATH, path)
-        else:
-            back_path = "%s%s" % (dest_fold, path)
-        # logging.warn('%s%s' % (path, file))
-        folders = os.path.split(back_path)[0]
-        if not os.path.exists(folders):
-            os.makedirs(folders)
-        replace_file(
-            [
-                file,
-            ],
-            [back_path, path],
-            False,
-            False,
-            False,
-        )
-
-
-# function to replace a file
-# name = [target name, source name]
-# path = [target path, source path]
-def replace_file(name, path, backup, force, hidden, extension="bak"):
-    # definition of the backup name
-    path_backup = path[0]
-    if hidden:
-        path_backup += "."
-    path_backup += "%s.%s" % (name[0], extension)
-    # definition of the target and source paths
-    if len(name) == 1:
-        path_source = "%s%s" % (path[1], name[0])
-    elif (len(name) == 2) and (len(path) == 2):
-        path_source = "%s%s" % (path[1], name[1])
-    path_target = "%s%s" % (path[0], name[0])
-    if backup:
-        if (force) or (not force and not os.path.exists(path_backup)):
-            logging.warn("%s ~~bak~~> %s" % (path_target, path_backup))
-            shutil.copyfile(path_target, path_backup)
-    if len(path) == 2:
-        logging.warn("%s --mod--> %s" % (path_source, path_target))
-        shutil.copyfile(path_source, path_target)
-
-
-# function to verify if a new version is available
-def check_update(vers, online):
-    # logging.warn(("check update, online: %s") % (online))
-    # logging.warn(FANCY_ROOT)
-    nofile = False
-    online_version = ""
-    if online:
-        URL = (
-            "https://raw.githubusercontent.com/V0r-T3x/fancygotchi/main/fancygotchi.py"
-        )
-        response = requests.get(URL)
-        lines = str(response.content)
-        lines = lines.split("\\n")
-        count = 0
-        for line in lines:
-            if "__version__ =" in line:
-                count += 1
-                if count == 3:
-                    online_version = line.split("= ")[-1]
-                    online_version = online_version[2:-2]
-    elif not online:
-        URL = "%s/fancygotchi/update/fancygotchi.py" % (FANCY_ROOT)
-        if os.path.exists(URL):
-            with open(URL, "r") as f:
-                lines = f.read()
-            lines = lines.splitlines()
-            count = 0
-            for line in lines:
-                # logging.warn(line)
-                if "__version__ =" in line:
-                    # logging.warn(line)
-                    count += 1
-                    if count == 3:
-                        online_version = line.split("= ")[-1]
-                        # logging.warn(online_version)
-                        online_version = online_version[1:-1]
-                        # logging.warn(online_version)
-        else:
-            nofile = True
-
-    if not nofile:
-        online_v = online_version.split(".")
-        local_v = vers.split(".")
-        if online_v[0] > local_v[0]:
-            upd = True
-        elif online_v[0] == local_v[0]:
-            if online_v[1] > local_v[1]:
-                upd = True
-            elif online_v[1] == local_v[1]:
-                if online_v[2] > local_v[2]:
-                    upd = True
-                else:
-                    upd = False
-            else:
-                upd = False
-        else:
-            upd = False
-    else:
-        upd = 2
-
-    # logging.info('%s - %s' % (str(upd), online_version))
-    return [upd, online_version]
-
-
-def update(online):
-    logging.warn("The updater is starting, online: %s" % (online))
-    if online:  # <-- Download from the Git & define the update path
-        URL = "https://github.com/V0r-T3x/fancygotchi/archive/refs/heads/main.zip"
-        response = requests.get(URL)
-        path_upd_src = "%s/fancygotchi/tmp" % (FANCY_ROOT)
-        filename = "%s/%s" % (path_upd_src, URL.split("/")[-1])
-        os.system("mkdir %s" % (path_upd_src))
-        with open(filename, "wb") as output_file:
-            output_file.write(response.content)
-        shutil.unpack_archive(filename, path_upd_src)
-        path_upd = "%s/fancygotchi-main" % (path_upd_src)
-    if not online:  # <-- Define the update local path
-        path_upd = "%s/fancygotchi/update" % (FANCY_ROOT)
-
-    logging.warn("%s/fancygotchi.py ====> %s/fancygotchi.py" %
-                 (path_upd, FANCY_ROOT))
-    # replace_file(['/fancygotchi.py'], [path_upd, FANCY_ROOT], False, False, False)
-    shutil.copyfile(
-        "%s/fancygotchi.py" % (path_upd), "%s/fancygotchi.py" % (FANCY_ROOT)
-    )
-
-    uninstall(True)
-
-    mod_path = "%s/fancygotchi/mod" % (FANCY_ROOT)
-    logging.warn("removing mod folder: %s" % (mod_path))
-    os.system("rm -R %s" % (mod_path))
-    deftheme_path = "%s/fancygotchi/theme/.default" % (FANCY_ROOT)
-    logging.warn("removing mod folder: %s" % (deftheme_path))
-    os.system("rm -R %s" % (deftheme_path))
-
-    path_upd = "%s/fancygotchi" % (path_upd)
-    logging.warn(path_upd)
-    for root, dirs, files in os.walk(path_upd):
-        # logging.warn('%s %s %s' % (root, dirs, files))
-        for name in files:
-            # logging.warn(name)
-            if not name in ["README.md", "readme.md"]:
-                src_file = os.path.join(root, name)
-                logging.warn(src_file)
-                dst_path = "%s/%s" % (FANCY_ROOT,
-                                      root.split("fancygotchi-main/")[-1])
-                dst_file = "%s/%s" % (dst_path, name)
-                logging.warn(dst_file)
-                logging.warn("%s ~~~~>%s" % (src_file, dst_file))
-                logging.warn(dst_path)
-                if not os.path.exists(dst_path):
-                    os.makedirs(dst_path)
-                shutil.copyfile(src_file, dst_file)
-
-            # Check if the destination path exists and create it if it doesn't
-            if not os.path.exists(dst_path):
-                os.makedirs(dst_path)
-
-            # Copy the file to the destination path
-            shutil.copyfile(src_file, dst_file)
-    if online:
-        logging.warn("removing the update temporary folder: %s" %
-                     (path_upd_src))
-        os.system("rm -R %s" % (path_upd_src))
-
-
-def uninstall(soft=False):
-    # deleting the sym link for the img file
-    dest = "%s/ui/web/static/img/" % (ROOT_PATH)
-    logging.warn(dest)
-    os.system("rm %s" % (dest))
-
-    for i in range(len(FILES_TO_MOD["path"])):
-        path = data_dict["path"][i]
-        file = data_dict["file"][i]
-        if path[0] != "/":
-            path = "%s/%s" % (ROOT_PATH, path)
-        # logging.warn(path)
-        # logging.warn('%s.%s.original' % (path, file))
-        logging.warn("%s%s" % (path, file))
-        shutil.copyfile("%s.%s.original" % (path, file), "%s%s" % (path, file))
-        os.system("rm %s" % ("%s.%s.original" % (path, file)))
-        # disable the fancygotchi inside the config.toml
-    if not soft:
-        logging.warn("config.toml disable")
-        replace_line(
-            "/etc/pwnagotchi/config.toml",
-            "fancygotchi.enabled",
-            ["main.plugins.fancygotchi.enabled = false"],
-        )
-    else:
-        logging.warn("config.toml enable")
-        replace_line(
-            "/etc/pwnagotchi/config.toml",
-            "fancygotchi.enabled",
-            ["main.plugins.fancygotchi.enabled = true"],
-        )
-
-
 class Fancygotchi(plugins.Plugin):
     __GitHub__ = ""
     __author__ = "(edited by: itsdarklikehell bauke.molenaar@gmail.com), @V0rT3x https://github.com/V0r-T3x"
-    __version__ = "2023.03.2"
+    __version__ = "2023.3.2"
     __license__ = "GPL3"
     __description__ = "A theme manager for the Pwnagotchi [cannot be disabled, need to be uninstalled from inside the plugin]"
     __name__ = "Fancygotchi"
@@ -572,3 +305,272 @@ class Fancygotchi(plugins.Plugin):
     def on_unload(self, ui):
         with ui._lock:
             logging.info(f"[{self.__class__.__name__}] plugin unloaded")
+
+
+with open("%s/fancygotchi/mod/files.csv" % (FANCY_ROOT), newline="") as csvfile:
+    reader = csv.DictReader(csvfile)
+    data_dict = {}
+    for row in reader:
+        for key, value in row.items():
+            if key in data_dict:
+                data_dict[key].append(value)
+            else:
+                data_dict[key] = [value]
+    FILES_TO_MOD = data_dict
+
+for i in range(len(FILES_TO_MOD["path"])):
+    path = data_dict["path"][i]
+    file = data_dict["file"][i]
+
+COMPATIBLE_PLUGINS = [
+    "bt-tether",
+    "memtemp",
+    "clock",
+    "display-password",
+    "crack_house",
+    "pisugar2",
+    "pisugar3",
+]
+
+with open("%s/fancygotchi/mod/index.html" % (FANCY_ROOT), "r") as file:
+    html_contents = file.read()
+INDEX = html_contents
+
+
+def serializer(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError
+
+
+# replace one or many line with a specific keywork in the line
+def replace_line(file_path, pattern, subst):
+    line_skip = 0
+    fh, abs_path = mkstemp()
+    with fdopen(fh, "w") as new_file:
+        with open(file_path) as old_file:
+            for line in old_file:
+                # logging.info('%s -- %s' % (line, pattern))
+                # logging.info(len(subst))
+                if pattern in line:
+                    line_skip = len(subst) - 1
+                    # logging.info(line_skip)
+                    for su in subst:
+                        new_file.write("%s\n" % (su))
+                elif line_skip == 0:
+                    new_file.write(line)
+                else:
+                    line_skip -= 1
+    copymode(file_path, abs_path)
+    remove(file_path)
+    move(abs_path, file_path)
+
+
+# function to backup all actual modified files to make a new install update
+def dev_backup(file_paths, dest_fold):
+    for i in range(len(file_paths["path"])):
+        path = data_dict["path"][i]
+        file = data_dict["file"][i]
+        if path[0] != "/":
+            back_path = "%s%s" % (dest_fold, path)
+            path = "%s/%s" % (ROOT_PATH, path)
+        else:
+            back_path = "%s%s" % (dest_fold, path)
+        # logging.warn('%s%s' % (path, file))
+        folders = os.path.split(back_path)[0]
+        if not os.path.exists(folders):
+            os.makedirs(folders)
+        replace_file(
+            [
+                file,
+            ],
+            [back_path, path],
+            False,
+            False,
+            False,
+        )
+
+
+# function to replace a file
+# name = [target name, source name]
+# path = [target path, source path]
+def replace_file(name, path, backup, force, hidden, extension="bak"):
+    # definition of the backup name
+    path_backup = path[0]
+    if hidden:
+        path_backup += "."
+    path_backup += "%s.%s" % (name[0], extension)
+    # definition of the target and source paths
+    if len(name) == 1:
+        path_source = "%s%s" % (path[1], name[0])
+    elif (len(name) == 2) and (len(path) == 2):
+        path_source = "%s%s" % (path[1], name[1])
+    path_target = "%s%s" % (path[0], name[0])
+    if backup:
+        if (force) or (not force and not os.path.exists(path_backup)):
+            logging.warn("%s ~~bak~~> %s" % (path_target, path_backup))
+            shutil.copyfile(path_target, path_backup)
+    if len(path) == 2:
+        logging.warn("%s --mod--> %s" % (path_source, path_target))
+        shutil.copyfile(path_source, path_target)
+
+
+# function to verify if a new version is available
+def check_update(vers, online):
+    # logging.warn(("check update, online: %s") % (online))
+    # logging.warn(FANCY_ROOT)
+    nofile = False
+    online_version = ""
+    if online:
+        URL = (
+            "https://raw.githubusercontent.com/V0r-T3x/fancygotchi/main/fancygotchi.py"
+        )
+        response = requests.get(URL)
+        lines = str(response.content)
+        lines = lines.split("\\n")
+        count = 0
+        for line in lines:
+            if "__version__ =" in line:
+                count += 1
+                if count == 3:
+                    online_version = line.split("= ")[-1]
+                    online_version = online_version[2:-2]
+    elif not online:
+        URL = "%s/fancygotchi/update/fancygotchi.py" % (FANCY_ROOT)
+        if os.path.exists(URL):
+            with open(URL, "r") as f:
+                lines = f.read()
+            lines = lines.splitlines()
+            count = 0
+            for line in lines:
+                # logging.warn(line)
+                if "__version__ =" in line:
+                    # logging.warn(line)
+                    count += 1
+                    if count == 3:
+                        online_version = line.split("= ")[-1]
+                        # logging.warn(online_version)
+                        online_version = online_version[1:-1]
+                        # logging.warn(online_version)
+        else:
+            nofile = True
+
+    if not nofile:
+        online_v = online_version.split(".")
+        local_v = vers.split(".")
+        if online_v[0] > local_v[0]:
+            upd = True
+        elif online_v[0] == local_v[0]:
+            if online_v[1] > local_v[1]:
+                upd = True
+            elif online_v[1] == local_v[1]:
+                if online_v[2] > local_v[2]:
+                    upd = True
+                else:
+                    upd = False
+            else:
+                upd = False
+        else:
+            upd = False
+    else:
+        upd = 2
+
+    # logging.info('%s - %s' % (str(upd), online_version))
+    return [upd, online_version]
+
+
+def update(online):
+    logging.warn("The updater is starting, online: %s" % (online))
+    if online:  # <-- Download from the Git & define the update path
+        URL = "https://github.com/V0r-T3x/fancygotchi/archive/refs/heads/main.zip"
+        response = requests.get(URL)
+        path_upd_src = "%s/fancygotchi/tmp" % (FANCY_ROOT)
+        filename = "%s/%s" % (path_upd_src, URL.split("/")[-1])
+        os.system("mkdir %s" % (path_upd_src))
+        with open(filename, "wb") as output_file:
+            output_file.write(response.content)
+        shutil.unpack_archive(filename, path_upd_src)
+        path_upd = "%s/fancygotchi-main" % (path_upd_src)
+    if not online:  # <-- Define the update local path
+        path_upd = "%s/fancygotchi/update" % (FANCY_ROOT)
+
+    logging.warn("%s/fancygotchi.py ====> %s/fancygotchi.py" %
+                 (path_upd, FANCY_ROOT))
+    # replace_file(['/fancygotchi.py'], [path_upd, FANCY_ROOT], False, False, False)
+    shutil.copyfile(
+        "%s/fancygotchi.py" % (path_upd), "%s/fancygotchi.py" % (FANCY_ROOT)
+    )
+
+    uninstall(True)
+
+    mod_path = "%s/fancygotchi/mod" % (FANCY_ROOT)
+    logging.warn("removing mod folder: %s" % (mod_path))
+    os.system("rm -R %s" % (mod_path))
+    deftheme_path = "%s/fancygotchi/theme/.default" % (FANCY_ROOT)
+    logging.warn("removing mod folder: %s" % (deftheme_path))
+    os.system("rm -R %s" % (deftheme_path))
+
+    path_upd = "%s/fancygotchi" % (path_upd)
+    logging.warn(path_upd)
+    for root, dirs, files in os.walk(path_upd):
+        # logging.warn('%s %s %s' % (root, dirs, files))
+        for name in files:
+            # logging.warn(name)
+            if not name in ["README.md", "readme.md"]:
+                src_file = os.path.join(root, name)
+                logging.warn(src_file)
+                dst_path = "%s/%s" % (FANCY_ROOT,
+                                      root.split("fancygotchi-main/")[-1])
+                dst_file = "%s/%s" % (dst_path, name)
+                logging.warn(dst_file)
+                logging.warn("%s ~~~~>%s" % (src_file, dst_file))
+                logging.warn(dst_path)
+                if not os.path.exists(dst_path):
+                    os.makedirs(dst_path)
+                shutil.copyfile(src_file, dst_file)
+
+            # Check if the destination path exists and create it if it doesn't
+            if not os.path.exists(dst_path):
+                os.makedirs(dst_path)
+
+            # Copy the file to the destination path
+            shutil.copyfile(src_file, dst_file)
+    if online:
+        logging.warn("removing the update temporary folder: %s" %
+                     (path_upd_src))
+        os.system("rm -R %s" % (path_upd_src))
+
+
+def uninstall(soft=False):
+    # deleting the sym link for the img file
+    dest = "%s/ui/web/static/img/" % (ROOT_PATH)
+    logging.warn(dest)
+    os.system("rm %s" % (dest))
+
+    for i in range(len(FILES_TO_MOD["path"])):
+        path = data_dict["path"][i]
+        file = data_dict["file"][i]
+        if path[0] != "/":
+            path = "%s/%s" % (ROOT_PATH, path)
+        # logging.warn(path)
+        # logging.warn('%s.%s.original' % (path, file))
+        logging.warn("%s%s" % (path, file))
+        shutil.copyfile("%s.%s.original" % (path, file), "%s%s" % (path, file))
+        os.system("rm %s" % ("%s.%s.original" % (path, file)))
+        # disable the fancygotchi inside the config.toml
+    if not soft:
+        logging.warn("config.toml disable")
+        replace_line(
+            "/etc/pwnagotchi/config.toml",
+            "fancygotchi.enabled",
+            ["main.plugins.fancygotchi.enabled = false"],
+        )
+    else:
+        logging.warn("config.toml enable")
+        replace_line(
+            "/etc/pwnagotchi/config.toml",
+            "fancygotchi.enabled",
+            ["main.plugins.fancygotchi.enabled = true"],
+        )
+
+
