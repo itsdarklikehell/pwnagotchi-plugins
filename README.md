@@ -1,5 +1,7 @@
 # This is a reference list to / collection of plugins for the pwnagotchi
 
+(Removed fancygotchi as it is not working properly)
+
 Special thanks go to to:
 
 [Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
