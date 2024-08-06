@@ -10,6 +10,13 @@ My changes (in the fork)
 
 * Still trying to fix issues with the subset of plugins that I am using in this repo...
 
+To add:
+
+via webcfg or config.toml itself
+
+add the repo: https://github.com/avipars/pwnagotchi-plugins/archive/master.zip
+
+then run sudo systemctl restart pwnagotchi
 Special thanks go to to:
 
 [Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
