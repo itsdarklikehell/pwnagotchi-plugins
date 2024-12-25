@@ -28,7 +28,7 @@ class MyGPS(plugins.Plugin):
 
     LINE_SPACING = 10
     LABEL_SPACING = 0
-    SAVE_FILE = "/root/gpstracks/%Y/mygps_%Y%m%d.gps.json"
+    SAVE_FILE = "/home/pi/gpstracks/%Y/mygps_%Y%m%d.gps.json"
 
     def __init__(self):
         self.timestamp = 0
