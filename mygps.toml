@@ -1,0 +1,4 @@
+main.plugins.mygps.enabled = false
+main.plugins.mygps.linespacing = 12
+main.plugins.mygps.position = "122,70"
+main.plugins.mygps.save_file = "/root/gpstracks/%Y/mygps_%Y%m%d.gps.json"
