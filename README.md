@@ -1,5 +1,22 @@
 # This is a reference list to / collection of plugins for the pwnagotchi
 
+My changes (in the fork)
+
+* Running my pi0w with Jayofelony's 2.8.9 build 
+
+* Removed fancygotchi as it is not working properly - original auther nuked repo
+
+* Removed fancytools to try to diagnose an issue with the plugins repo
+
+* Still trying to fix issues with the subset of plugins that I am using in this repo...
+
+To add:
+
+via webcfg or config.toml itself
+
+add the repo: https://github.com/avipars/pwnagotchi-plugins/archive/master.zip
+
+then run sudo systemctl restart pwnagotchi
 Special thanks go to to:
 
 [Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
