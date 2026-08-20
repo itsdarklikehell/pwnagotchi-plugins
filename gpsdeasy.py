@@ -78,7 +78,7 @@ class GPSD:
             self.socket.connect((host, port))
             self.stream = self.socket.makefile(mode="rw")
         except Exception as e:
-            logging.warning(f"[gpseasy] error occured during socket setup, try power cycle the device. Err was: {e}")
+            logging.warning(f"[gpseasy] error occurred during socket setup, try power cycle the device. Err was: {e}")
 
         self.stream.write('?WATCH={"enable":true}\n')
         self.stream.flush()

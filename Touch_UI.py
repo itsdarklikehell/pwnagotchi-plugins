@@ -192,7 +192,7 @@ class Touch_Screen(plugins.Plugin):
     # on_touch_release(self, ts, ui, ui_element, touch_data)
     #
     # # simplified button-like interface. on_touch_press is the initial touch,
-    # # then supress all the wiggling, and on_touchs_release is the "0" when
+    # # then suppress all the wiggling, and on_touchs_release is the "0" when
     # # your finger comes off the screen. Much more efficient, if you are just pressing
     # # something to do an action
     #

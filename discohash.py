@@ -153,7 +153,7 @@ class discohash(plugins.Plugin):
             )
         except Exception as e:
             logging.warn(
-                "[!] DiscoHash: An error occured while analysing the hash: {}".format(
+                "[!] DiscoHash: An error occurred while analysing the hash: {}".format(
                     e)
             )
         try:
@@ -204,7 +204,7 @@ class discohash(plugins.Plugin):
             logging.debug("[*] DiscoHash: Webhook sent!")
         except Exception as e:
             logging.warn(
-                "[!] DiscoHash: An error occured with the plugin!{}".format(e))
+                "[!] DiscoHash: An error occurred with the plugin!{}".format(e))
 
     def on_unload(self, ui):
         with ui._lock:
