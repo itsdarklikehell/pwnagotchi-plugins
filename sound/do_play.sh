@@ -22,7 +22,7 @@ fi
 aplay -q "$sndfile"
 
 if [ $do_talk -ne 0 ]; then
-    cd $(dirname $0)
+    cd $(dirname "$0") || exit
     pico2wave -l "$talk_lang" -w stdout.wav "$talk_words" | aplay -q --
 fi
 

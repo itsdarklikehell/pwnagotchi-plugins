@@ -2,7 +2,7 @@
 
 update_plugins() {
     if [[ $LOCAL == true ]]; then
-        cd pwnagotchi-plugins
+        cd pwnagotchi-plugins || exit
         git pull origin master
         mkdir -p ~/scripts
         cp pwnmenu.txt ~/scripts/
@@ -17,7 +17,7 @@ update_plugins() {
 
 install_tools() {
     if [[ $LOCAL == true ]]; then
-        cd ~
+        cd ~ || exit
         sudo apt install -y raspberrypi-ui-mods aircrack-ng nmap macchanger espeak python3-pytzdata python3-googleapi python3-google-auth-oauthlib python3-speechd python3-buttonshim python3-nmea2 python3-qrcode python3-psutil python3-feedparser python3-netifaces python3-paramiko python3-plotly python3-serial python3-geopy python3-discord python3-dotenv
         sudo rm -rf LCD-show
         git clone https://github.com/goodtft/LCD-show.git

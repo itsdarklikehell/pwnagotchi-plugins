@@ -3,21 +3,21 @@
 set -e
 
 TEMPDIR=$(mktemp -d /tmp/pisugar-update.XXXXXXX)
-mkdir -p $TEMPDIR
+mkdir -p "$TEMPDIR"
 
 function cleanup() {
-    rm -rf $TEMPDIR
+    rm -rf "$TEMPDIR"
 }
 trap cleanup ERR
 
 if which dpkg > /dev/null; then
     # Download fireware and programmer
-    wget -O $TEMPDIR/pisugar-3-application.bin https://cdn.pisugar.com/release/PiSugar3Firmware/fm33lc023n/pisugar-3-application.bin
+    wget -O "$TEMPDIR"/pisugar-3-application.bin https://cdn.pisugar.com/release/PiSugar3Firmware/fm33lc023n/pisugar-3-application.bin
 
     # Install programmer
     if ! which pisugar-programmer > /dev/null; then
-        wget -O $TEMPDIR/pisugar-programmer_1.6.4_armhf.deb https://cdn.pisugar.com/release/pisugar-programmer_1.6.4_armhf.deb
-        sudo dpkg -i $TEMPDIR/pisugar-programmer_1.6.4_armhf.deb
+        wget -O "$TEMPDIR"/pisugar-programmer_1.6.4_armhf.deb https://cdn.pisugar.com/release/pisugar-programmer_1.6.4_armhf.deb
+        sudo dpkg -i "$TEMPDIR"/pisugar-programmer_1.6.4_armhf.deb
     fi
 
     # Stop pisugar-server
@@ -27,7 +27,7 @@ if which dpkg > /dev/null; then
     fi
 
     # Upgrade firmware
-    echo y | pisugar-programmer -r $TEMPDIR/pisugar-3-application.bin
+    echo y | pisugar-programmer -r "$TEMPDIR"/pisugar-3-application.bin
     
     # Wait until pisugar is ready
     echo "Wait for 10 seconds"

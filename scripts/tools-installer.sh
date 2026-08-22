@@ -33,7 +33,7 @@ install_tools() {
 
 install_seclists() {
     echo "Installing SecLists..."
-    cd ~
+    cd ~ || exit
     git clone https://github.com/danielmiessler/SecLists
     ln -s /etc/pwnagotchi/wordlists
 }
@@ -43,9 +43,9 @@ dns_fix() {
 }
 
 hdmi_screen() {
-    cd /tmp
+    cd /tmp || exit
     git clone https://github.com/solution-libre/pwnagotchi-hdmi-viewer.git
-    cd pwnagotchi-hdmi-viewer
+    cd pwnagotchi-hdmi-viewer || exit
     sudo mv pwnagotchi-launcher-pre pwnagotchi-viewer pwnagotchi-viewer-next /usr/local/sbin
 
     sudo sed -i 's/ui.web.on_frame = \"\"/ui.web.on_frame = \"pwnagotchi-viewer-next\"/g' /etc/pwnagotchi/config.toml
@@ -70,32 +70,32 @@ showerthoughts() {
 
 copy_tomls() {
     echo "Copy all configs to conf.d..."
-    cd /usr/local/share/pwnagotchi/available-plugins/configs
+    cd /usr/local/share/pwnagotchi/available-plugins/configs || exit
     for i in *.toml; do
         echo "[COPYING CONFIG]: ${i%%.*}.toml"
-        sudo cp ${i%%.*}.toml /etc/pwnagotchi/conf.d/
+        sudo cp "${i%%.*}".toml /etc/pwnagotchi/conf.d/
     done
 }
 
 enable_scripts() {
-    cd ~
+    cd ~ || exit
     ln -s /usr/local/share/pwnagotchi/custom-plugins/scripts .
     mkdir bin
-    cd ~/bin
+    cd ~/bin || exit
     ln -s /usr/local/share/pwnagotchi/custom-plugins/scripts/* .
 }
 
 enable_lcd() {
-    cd ~
+    cd ~ || exit
     sudo rm -rf LCD-show
     git clone https://github.com/goodtft/LCD-show.git
     chmod -R 755 LCD-show
-    cd LCD-show/
+    cd LCD-show/ || exit
     sudo ./LCD35-show # or sudo ./LCD35-show 90
 }
 
 create_backup() {
-    cd ~
+    cd ~ || exit
     lsblk
 
     sudo dd if=/dev/sdc of=Paimon-$(date +"%Y%m%d").img bs=4M conv=fsync status=progress
@@ -108,8 +108,8 @@ create_backup() {
         sudo pishrink.sh -Za Paimon-$(date +"%Y%m%d").img
         md5sum Paimon-$(date +"%Y%m%d").img >Paimon-$(date +"%Y%m%d").img.md5
         echo "Backup done!"
-        sudo chown $USER Paimon-$(date +"%Y%m%d").img
-        sudo chown $USER Paimon-$(date +"%Y%m%d").img.xz
+        sudo chown "$USER" Paimon-$(date +"%Y%m%d").img
+        sudo chown "$USER" Paimon-$(date +"%Y%m%d").img.xz
         md5sum Paimon-$(date +"%Y%m%d").img.xz >Paimon-$(date +"%Y%m%d").img.xz.md5
     else
         echo "MD5 sum does not match!"
@@ -118,7 +118,7 @@ create_backup() {
 }
 
 restore_backup() {
-    cd ~
+    cd ~ || exit
     lsblk
     echo "Cecking md5 sum..."
     if md5sum -c Paimon-$(date +"%Y%m%d").img.md5; then
@@ -203,24 +203,24 @@ EOFF
 plugins() {
     update_plugins() {
         echo "Updating Plugins..."
-        cd ~
+        cd ~ || exit
         sudo pwnagotchi plugins update
         sudo pwnagotchi plugins upgrade
     }
     disable_all_plugins() {
         echo "Disable all Plugins..."
-        cd /usr/local/share/pwnagotchi/custom-plugins
+        cd /usr/local/share/pwnagotchi/custom-plugins || exit
         for i in *.py; do
             echo "[DISABLE]: ${i%%.*}"
-            sudo pwnagotchi plugins disable ${i%%.*}
+            sudo pwnagotchi plugins disable "${i%%.*}"
         done
     }
     enable_default_plugins() {
         echo "Enable default Plugins..."
-        cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default
+        cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default || exit
         for i in *.py; do
             echo "[ENABLE]: ${i%%.*}"
-            sudo pwnagotchi plugins enable ${i%%.*}
+            sudo pwnagotchi plugins enable "${i%%.*}"
             sudo pwnagotchi plugins enable bt-tether
             sudo pwnagotchi plugins enable telegram
             sudo pwnagotchi plugins disable example
@@ -228,40 +228,40 @@ plugins() {
     }
     enable_custom_plugins() {
         echo "Enable custom Plugins..."
-        cd /usr/local/share/pwnagotchi/available-plugins
+        cd /usr/local/share/pwnagotchi/available-plugins || exit
         for i in *.py; do
             echo "[ENABLING]: ${i%%.*}"
-            sudo pwnagotchi plugins enable ${i%%.*}
+            sudo pwnagotchi plugins enable "${i%%.*}"
             sudo pwnagotchi plugins disable example_ng
         done
     }
     install_all_plugins() {
         echo "Install all Plugins..."
-        cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default
+        cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default || exit
         for i in *.py; do
             echo "[INSTALLING]: ${i%%.*}"
-            sudo pwnagotchi plugins install ${i%%.*}
+            sudo pwnagotchi plugins install "${i%%.*}"
         done
-        cd /usr/local/share/pwnagotchi/available-plugins
+        cd /usr/local/share/pwnagotchi/available-plugins || exit
         for i in *.py; do
             echo "[INSTALLING]: ${i%%.*}"
-            sudo pwnagotchi plugins install ${i%%.*}
+            sudo pwnagotchi plugins install "${i%%.*}"
         done
     }
     uninstall_all_plugins() {
         echo "Uninstall all Plugins..."
-        cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default
+        cd /usr/local/lib/python3.11/dist-packages/pwnagotchi/plugins/default || exit
         for i in *.py; do
             echo "[UNINSTALLING]: ${i%%.*}"
-            sudo pwnagotchi plugins uninstall ${i%%.*}
+            sudo pwnagotchi plugins uninstall "${i%%.*}"
         done
-        cd /usr/local/share/pwnagotchi/available-plugins
+        cd /usr/local/share/pwnagotchi/available-plugins || exit
         for i in *.py; do
             echo "[UNINSTALLING]: ${i%%.*}"
-            sudo pwnagotchi plugins disable ${i%%.*}
-            sudo pwnagotchi plugins uninstall ${i%%.*}
-            sudo rm -f /usr/local/share/pwnagotchi/available-plugins/${i%%.*}.py
-            sudo rm -f /usr/local/share/pwnagotchi/custom-plugins/${i%%.*}.py
+            sudo pwnagotchi plugins disable "${i%%.*}"
+            sudo pwnagotchi plugins uninstall "${i%%.*}"
+            sudo rm -f /usr/local/share/pwnagotchi/available-plugins/"${i%%.*}".py
+            sudo rm -f /usr/local/share/pwnagotchi/custom-plugins/"${i%%.*}".py
         done
     }
     update_plugins
