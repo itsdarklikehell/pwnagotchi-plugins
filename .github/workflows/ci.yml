@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  python-syntax:
+    name: Python syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile every .py file
+        run: |
+          set -e
+          error=0
+          while IFS= read -r f; do
+            python -m py_compile "$f" || { echo "BROKEN: $f"; error=1; }
+          done < <(find . -name '*.py' -not -path './.git/*' -not -path './venv/*')
+          exit $error
+
+  shellcheck:
+    name: Shell script lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run shellcheck on .sh files
+        run: |
+          set -e
+          if ! command -v shellcheck >/dev/null; then sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck; fi
+          found=0
+          while IFS= read -r f; do
+            found=1
+            shellcheck -S warning "$f" || echo "::warning file=$f::shellcheck reported issues"
+          done < <(find . -name '*.sh' -not -path './.git/*')
+          [ "$found" = "1" ] || echo "No shell scripts found — skipping."
+
+  repo-hygiene:
+    name: Repo hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for committed junk
+        run: |
+          problems=0
+          for bad in venv .idea __pycache__; do
+            if git ls-files | grep -q "^${bad}/"; then
+              echo "::error::Directory '${bad}/' is tracked in git but should be ignored"
+              problems=$((problems+1))
+            fi
+          done
+          # secrets scan (basic patterns)
+          if git ls-files | grep -E '\.(py|sh|yml|yaml|toml|json|md)$' | xargs grep -lIE "(api_key|password|token)\s*=\s*['\"][A-Za-z0-9+/_-]{20,}['\"]" 2>/dev/null | grep -v example; then
+            echo "::error::Possible hardcoded secret(s) found"
+            problems=$((problems+1))
+          fi
+          exit $problems
