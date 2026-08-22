@@ -84,7 +84,7 @@ class PiVoyager(plugins.Plugin):
         status = self.get_status()
         charge_mapping = {
                 "charging": "▲",
-                "discharging": "▼"
+                "discharging": "▼",
                 "charge": "■",
                 "fault": "×"
                 }
