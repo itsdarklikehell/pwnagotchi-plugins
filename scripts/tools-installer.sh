@@ -35,7 +35,7 @@ install_seclists() {
     echo "Installing SecLists..."
     cd ~ || exit
     git clone https://github.com/danielmiessler/SecLists
-    ln -s /etc/pwnagotchi/wordlists
+    ln -s /etc/pwnagotchi/wordlists .
 }
 
 dns_fix() {
@@ -98,19 +98,19 @@ create_backup() {
     cd ~ || exit
     lsblk
 
-    sudo dd if=/dev/sdc of=Paimon-$(date +"%Y%m%d").img bs=4M conv=fsync status=progress
+    sudo dd if=/dev/sdc of="Paimon-$(date +%Y%m%d).img" bs=4M conv=fsync status=progress
     sync
-    md5sum Paimon-$(date +"%Y%m%d").img >Paimon-$(date +"%Y%m%d").img.md5
+    md5sum "Paimon-$(date +%Y%m%d).img" >"Paimon-$(date +%Y%m%d).img".md5
 
     echo "Shrinking Backup..."
     echo "Cecking md5 sum..."
-    if md5sum -c Paimon-$(date +"%Y%m%d").img.md5; then
-        sudo pishrink.sh -Za Paimon-$(date +"%Y%m%d").img
-        md5sum Paimon-$(date +"%Y%m%d").img >Paimon-$(date +"%Y%m%d").img.md5
+    if md5sum -c "Paimon-$(date +%Y%m%d).img".md5; then
+        sudo pishrink.sh -Za "Paimon-$(date +%Y%m%d).img"
+        md5sum "Paimon-$(date +%Y%m%d).img" >"Paimon-$(date +%Y%m%d).img".md5
         echo "Backup done!"
-        sudo chown "$USER" Paimon-$(date +"%Y%m%d").img
-        sudo chown "$USER" Paimon-$(date +"%Y%m%d").img.xz
-        md5sum Paimon-$(date +"%Y%m%d").img.xz >Paimon-$(date +"%Y%m%d").img.xz.md5
+        sudo chown "$USER" "Paimon-$(date +%Y%m%d).img"
+        sudo chown "$USER" "Paimon-$(date +%Y%m%d).img".xz
+        md5sum "Paimon-$(date +%Y%m%d).img".xz >"Paimon-$(date +%Y%m%d).img".xz.md5
     else
         echo "MD5 sum does not match!"
         exit
@@ -121,8 +121,8 @@ restore_backup() {
     cd ~ || exit
     lsblk
     echo "Cecking md5 sum..."
-    if md5sum -c Paimon-$(date +"%Y%m%d").img.md5; then
-        sudo dd if=Paimon-$(date +"%Y%m%d").img of=/dev/sdc bs=4M conv=fsync status=progress
+    if md5sum -c "Paimon-$(date +%Y%m%d).img".md5; then
+        sudo dd if="Paimon-$(date +%Y%m%d).img" of=/dev/sdc bs=4M conv=fsync status=progress
         sync
         echo "Restore done!"
     else
