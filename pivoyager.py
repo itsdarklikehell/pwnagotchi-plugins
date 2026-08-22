@@ -84,9 +84,9 @@ class PiVoyager(plugins.Plugin):
         status = self.get_status()
         charge_mapping = {
                 "charging": "▲",
-                "discharging": "▼"
+                "discharging": "▼",
                 "charge": "■",
-                "fault": "×"
+                "fault": "×",
                 }
         ui.set('pivoyager', "{sbat}ups:{voltage}".format(sbat=charge_mapping[status["bat"]], voltage=status["vbat"]))
 

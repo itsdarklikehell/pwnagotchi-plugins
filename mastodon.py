@@ -15,10 +15,8 @@ class MastodonStatus(plugins.Plugin):
     __version__ = "2.0.0"
     __license__ = "GPL3"
     __description__ = "Periodically post status updates. Based on twitter plugin by evilsocket."
-    )
     __name__ = "Mastodon"
     __help__ = "Periodically post status updates. Based on twitter plugin by evilsocket."
-    )
     __dependencies__ = {
         "pip": ["Mastodon.py"],
     }

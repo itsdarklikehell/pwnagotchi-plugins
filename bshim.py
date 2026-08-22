@@ -30,14 +30,6 @@ class Buttonshim(plugins.Plugin):
         "enabled": False,
     }
 
-
-print(
-    """
-Button SHIM: Control Panel
-Press Ctrl+C to exit.
-"""
-)
-
     def __init__(self):
         self.ready = False
         logging.debug(f"[{self.__class__.__name__}] plugin init")
