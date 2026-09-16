@@ -1,0 +1,42 @@
+name: Gource visualization
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  gource:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Gource
+        run: sudo apt-get update && sudo apt-get install -y gource ffmpeg
+
+      - name: Generate Gource video
+        run: |
+          gource --max-files 1000 --key -800x600 \
+            --highlight-users --filename-time 3 --output-framerate 25 \
+            -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
+            --stop-at-end --hide mouse,progress -o gource.ppm
+
+          ffmpeg -y -r 15 -f image2pipe -vcodec ppm -i gource.ppm \
+            -vcodec libx264 -preset medium -pix_fmt yuv420p \
+            -crf 1 -threads 0 -bf 0 gource.mp4
+
+          ffmpeg -i gource.mp4 -c:v libx264 -crf 19 -level 3.1 \
+            -preset slow -tune film -filter:v scale=-1:720 \
+            -sws_flags lanczos -c:a libfdk_aac -vbr 5 output.mp4
+
+      - name: Upload Gource video
+        uses: actions/upload-artifact@v4
+        with:
+          name: gource-visualization
+          path: output.mp4
+          retention-days: 30
