@@ -5,44 +5,61 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+concurrency:
+  group: gource-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   gource:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install Gource
-        run: sudo apt-get update && sudo apt-get install -y gource ffmpeg
+      - name: Gource Action
+        uses: nbprojekt/gource-action@57256d303c5a9a5e72ed92ba13e3e83c5ec8b257 # v1.3.0
+        with:
+          gource_title: "$(echo $repo | sed 's/-/ /g; s/_/ /g' | sed 's/^[a-z]/\U&/g') development timeline"
+          gource_resolution: 1080p
+          gource_fps: 60
+          gource_filename_time: 3
+          gource_hide_items: "mouse,date,filenames"
+          gource_max_files: 1500
+          gource_highlight_users: true
+          gource_output_framerate: 30
+          gource_stop_at_end: true
+          gource_auto_skip_seconds: 0.1
+          gource_multi_sampling: true
+          gource_seconds_per_day: 0.4
 
-      - name: Generate Gource video
+      - name: Install ffmpeg (runner)
         run: |
-          gource --max-files 1000 --key -800x600 \
-            --highlight-users --filename-time 3 --output-framerate 25 \
-            -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
-            --stop-at-end --hide mouse,progress -o gource.ppm
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
 
-          ffmpeg -y -r 15 -f image2pipe -vcodec ppm -i gource.ppm \
-            -vcodec libx264 -preset medium -pix_fmt yuv420p \
-            -crf 1 -threads 0 -bf 0 gource.mp4
+      - name: Upscale + re-encode
+        run: |
+          ffmpeg -y -i ./gource/gource.mp4 \
+            -c:v libx264 -crf 18 -level 4.1 -preset medium -tune film \
+            -filter:v "scale=-1:1080" -sws_flags lanczos \
+            -c:a aac -b:a 192k -ar 48000 \
+            -movflags +faststart \
+            ./gource.mp4
 
-          ffmpeg -i gource.mp4 -c:v libx264 -crf 19 -level 3.1 \
-            -preset slow -tune film -filter:v scale=-1:720 \
-            -sws_flags lanczos -c:a libfdk_aac -vbr 5 output.mp4
-
-      - name: Upload Gource video
+      - name: Upload gource video
         uses: actions/upload-artifact@v4
         with:
           name: gource-visualization
-          path: output.mp4
+          path: ./gource.mp4
           retention-days: 30
 
-
-      - name: Commit gource.mp4 to repo
+      - name: Commit gource video
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
