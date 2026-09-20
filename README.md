@@ -1,8 +1,33 @@
-# This is a reference list to / collection of plugins for the pwnagotchi
+# pwnagotchi-plugins
 
-My changes (in the fork)
+Collectie van Pwnagotchi-plugins voor Wi-Fi auditing en pentesting op Raspberry Pi.
 
-* Running my pi0w with Jayofelony's 2.8.9 build 
+De Pwnagotchi is een AI-geoptimaliseerde Wi-Fi analyse tool die bettercap gebruikt voor
+handshake capture, monitor mode, en automatische aanvallen. Deze plugin-collectie breidt
+de standaard functionaliteit uit met extra features voor GPS-tracking, handshake upload,
+weergaves, en systeembeheer.
+
+## Installatie
+
+Zie de [Pwnagotchi-documentatie](https://pwnagotchi.org/) voor de basisinstallatie.
+Plugins worden geladen vanuit `/usr/local/share/pwnagotchi/available-plugins/`.
+
+### Snelle setup
+
+```bash
+git clone https://github.com/itsdarklikehell/pwnagotchi-plugins.git
+cd pwnagotchi-plugins
+
+# Kopieer plugins naar de Pwnagotchi plugin directory
+sudo cp *.py /usr/local/share/pwnagotchi/available-plugins/
+
+# Activeer gewenste plugins
+sudo pwnagotchi plugins enable <plugin-naam>
+```
+
+## plugins
+
+Zie de plugin-tabel onderaan dit document voor een overzicht van beschikbare plugins. 
 
 * Removed fancygotchi as it is not working properly - original auther nuked repo
 
