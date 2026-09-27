@@ -25,6 +25,10 @@ sudo cp *.py /usr/local/share/pwnagotchi/available-plugins/
 sudo pwnagotchi plugins enable <plugin-naam>
 ```
 
+## Ontwikkeltijdlijn
+
+<video src="https://raw.githubusercontent.com/itsdarklikehell/pwnagotchi-plugins/master/gource.mp4" controls width="100%"></video>
+
 ## plugins
 
 Zie de plugin-tabel onderaan dit document voor een overzicht van beschikbare plugins. 
