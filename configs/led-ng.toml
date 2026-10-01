@@ -1,4 +1,4 @@
-main.plugins.led-ng.led = PWR
+main.plugins.led-ng.led = "PWR"
 main.plugins.led-ng.delay = 200
 main.plugins.led-ng.enabled = true
 main.plugins.led-ng.patterns.ai_best_reward = "oo  oo  oo oo  oo  oo  oo"

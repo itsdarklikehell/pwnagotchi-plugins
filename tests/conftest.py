@@ -203,7 +203,7 @@ def get_plugin_files():
     plugins = []
     for d in PLUGIN_DIRS:
         for f in d.glob("*.py"):
-            if f.name.startswith("test_") or f.name == "conftest.py":
+            if f.name == "conftest.py":
                 continue
             if f.parent.name in EXCLUDE_DIRS:
                 continue

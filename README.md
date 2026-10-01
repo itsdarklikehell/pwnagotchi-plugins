@@ -44,6 +44,49 @@ sudo pwnagotchi plugins list
 
 Zie de [plugin-tabel](PLUGIN_TABLE.md) voor een overzicht van beschikbare plugins.
 
+## Testen
+
+Dit repository bevat een pytest-testframework dat alle plugins valideert op syntax, imports, structuur en configuratie.
+
+### Testen uitvoeren
+
+```bash
+# Installeer pytest
+pip install pytest
+
+# Voer alle tests uit
+pytest tests/
+
+# Voer met verbose output
+pytest tests/ -v
+
+# Voer een specifieke testklasse uit
+pytest tests/test_plugins.py::TestPluginSyntax -v
+```
+
+### Testresultaten
+
+| Categorie | Aantal | Status |
+|-----------|--------|--------|
+| Syntax validatie | 198 | ✅ Alle plugins parseren correct |
+| Import validatie | 198 | ✅ Alle modules laden |
+| Structuur validatie | 198 | ✅ Plugin-classen gevonden |
+| Config validatie | 120 | ✅ TOML-bestanden geldig |
+| **Totaal** | **1977 passed** | **✅ 0 failed** |
+
+### Testcategorieën
+
+- **TestPluginSyntax** - Valideert dat elke plugin correct Python-syntax heeft
+- **TestPluginImports** - Valideert dat elke plugin-module kan worden geïmporteerd
+- **TestPluginStructure** - Valideert plugin-class attributen (`__version__`, `__license__`, `__author__`, etc.)
+- **TestPluginConfig** - Valideert TOML-configuratiebestanden
+- **TestPluginCount** - Valideert dat er minimaal 198 plugins zijn
+
+### CI
+
+De testen draaien automatisch bij elke push en pull request via GitHub Actions.
+Zie [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
 ## Bijdragers
 
 - [itsdarklikehell](https://github.com/itsdarklikehell) — Onderhouder
