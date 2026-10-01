@@ -275,7 +275,7 @@ plugins() {
 plugins
 
 # dns_fix
-update_apt
+# update_apt
 update_pwnagotchi
 # bettercaplets
 # edit_pwnlib
