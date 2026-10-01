@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -53,7 +53,7 @@ jobs:
             ./gource.mp4
 
       - name: Upload gource video
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v5
         with:
           name: gource-visualization
           path: ./gource.mp4
