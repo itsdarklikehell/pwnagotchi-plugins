@@ -1,0 +1,203 @@
+name: Release
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'VERSION'
+      - '.github/workflows/release.yml'
+      - 'gource.mp4'
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Type of version bump'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Read current version
+        id: current_version
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Calculate new version
+        id: new_version
+        run: |
+          CURRENT=${{ steps.current_version.outputs.version }}
+          
+          # Determine bump type
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BUMP_TYPE="${{ github.event.inputs.bump_type }}"
+          else
+            # Auto-detect from commit messages
+            if git log -1 --pretty=%s | grep -qE '^feat(\(.+\))?!:'; then
+              BUMP_TYPE="minor"
+            elif git log -1 --pretty=%s | grep -qE '^BREAKING CHANGE'; then
+              BUMP_TYPE="major"
+            else
+              BUMP_TYPE="patch"
+            fi
+          fi
+          
+          # Parse version components
+          MAJOR=$(echo $CURRENT | cut -d. -f1)
+          MINOR=$(echo $CURRENT | cut -d. -f2)
+          PATCH=$(echo $CURRENT | cut -d. -f3)
+          
+          # Bump version
+          case $BUMP_TYPE in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+          
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION (bump: $BUMP_TYPE)"
+
+      - name: Update VERSION file
+        run: |
+          echo "${{ steps.new_version.outputs.version }}" > VERSION
+          echo "Updated VERSION to ${{ steps.new_version.outputs.version }}"
+
+      - name: Generate changelog
+        run: |
+          pip install -q python-dateutil
+          python scripts/generate-changelog.py \
+            --version "${{ steps.new_version.outputs.version }}" \
+            --output CHANGELOG.md
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          # Generate release notes from changelog
+          VERSION="${{ steps.new_version.outputs.version }}"
+          BUMP_TYPE="${{ steps.new_version.outputs.bump_type }}"
+          
+          # Extract the latest version section from CHANGELOG
+          NOTES=$(awk "/^## \[$VERSION\]/,/^## \[/" CHANGELOG.md | head -n -1)
+          
+          # Add header
+          HEADER="## Release v$VERSION\n\n"
+          case $BUMP_TYPE in
+            major) HEADER+="### ⚠️ Breaking Changes\n\n" ;;
+            minor) HEADER+="### 🎉 New Features\n\n" ;;
+            patch) HEADER+="### 🔧 Improvements\n\n" ;;
+          esac
+          
+          FULL_NOTES="$HEADER$NOTES"
+          
+          # Save to output
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$FULL_NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          # Also save to file for the release step
+          echo "$FULL_NOTES" > RELEASE_NOTES.md
+
+      - name: Commit version bump and changelog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add VERSION CHANGELOG.md
+          git commit -m "chore(release): bump version to ${{ steps.new_version.outputs.version }}"
+          git push
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.new_version.outputs.version }}"
+          name: "Release v${{ steps.new_version.outputs.version }}"
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+          files: |
+            VERSION
+            CHANGELOG.md
+            LICENSE
+            PLUGIN_TABLE.md
+            scripts/*.sh
+            scripts/*.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create plugin bundle
+        run: |
+          VERSION="${{ steps.new_version.outputs.version }}"
+          mkdir -p dist
+          
+          # Create a zip with all plugins
+          zip -r "dist/pwnagotchi-plugins-v${VERSION}.zip" \
+            *.py \
+            defaults/ \
+            extras/ \
+            sound/ \
+            scripts/ \
+            LICENSE \
+            README.md \
+            PLUGIN_TABLE.md \
+            CHANGELOG.md \
+            VERSION \
+            -x "*.pyc" -x "__pycache__/*" -x "*.egg-info/*"
+          
+          # Create a tar.gz as well
+          tar -czf "dist/pwnagotchi-plugins-v${VERSION}.tar.gz" \
+            *.py \
+            defaults/ \
+            extras/ \
+            sound/ \
+            scripts/ \
+            LICENSE \
+            README.md \
+            PLUGIN_TABLE.md \
+            CHANGELOG.md \
+            VERSION \
+            --exclude="*.pyc" --exclude="__pycache__" --exclude="*.egg-info"
+          
+          echo "Created release bundles:"
+          ls -la dist/
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.new_version.outputs.version }}"
+          files: |
+            dist/pwnagotchi-plugins-v${{ steps.new_version.outputs.version }}.zip
+            dist/pwnagotchi-plugins-v${{ steps.new_version.outputs.version }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
