@@ -3,13 +3,11 @@
 <img src="https://img.shields.io/github/stars/itsdarklikehell/pwnagotchi-plugins?style=flat-square&color=blue" alt="Stars">
 <img src="https://img.shields.io/github/forks/itsdarklikehell/pwnagotchi-plugins?style=flat-square&color=green" alt="Forks">
 <img src="https://img.shields.io/github/license/itsdarklikehell/pwnagotchi-plugins?style=flat-square" alt="License">
+<img src="https://img.shields.io/github/actions/workflow/status/itsdarklikehell/pwnagotchi-plugins/ci.yml?branch=main&label=CI&style=flat-square" alt="CI Status">
 
 Collectie van Pwnagotchi-plugins voor Wi-Fi auditing en pentesting op Raspberry Pi.
 
-De Pwnagotchi is een AI-geoptimaliseerde Wi-Fi analyse tool die bettercap gebruikt voor
-handshake capture, monitor mode, en automatische aanvallen. Deze plugin-collectie breidt
-de standaard functionaliteit uit met extra features voor GPS-tracking, handshake upload,
-weergaves, en systeembeheer.
+De Pwnagotchi is een AI-geoptimaliseerde Wi-Fi analyse tool die bettercap gebruikt voor handshake capture, monitor mode, en automatische aanvallen. Deze plugin-collectie breidt de standaard functionaliteit uit met extra features voor GPS-tracking, handshake upload, weergaves, en systeembeheer.
 
 ## Installatie
 
@@ -48,23 +46,10 @@ Zie de [plugin-tabel](PLUGIN_TABLE.md) voor een overzicht van beschikbare plugin
 
 Dit repository bevat een pytest-testframework dat alle plugins valideert op syntax, imports, structuur en configuratie.
 
-### Testen uitvoeren
-
 ```bash
-# Installeer pytest
 pip install pytest
-
-# Voer alle tests uit
-pytest tests/
-
-# Voer met verbose output
 pytest tests/ -v
-
-# Voer een specifieke testklasse uit
-pytest tests/test_plugins.py::TestPluginSyntax -v
 ```
-
-### Testresultaten
 
 | Categorie | Aantal | Status |
 |-----------|--------|--------|
@@ -73,19 +58,6 @@ pytest tests/test_plugins.py::TestPluginSyntax -v
 | Structuur validatie | 198 | ✅ Plugin-classen gevonden |
 | Config validatie | 120 | ✅ TOML-bestanden geldig |
 | **Totaal** | **1977 passed** | **✅ 0 failed** |
-
-### Testcategorieën
-
-- **TestPluginSyntax** - Valideert dat elke plugin correct Python-syntax heeft
-- **TestPluginImports** - Valideert dat elke plugin-module kan worden geïmporteerd
-- **TestPluginStructure** - Valideert plugin-class attributen (`__version__`, `__license__`, `__author__`, etc.)
-- **TestPluginConfig** - Valideert TOML-configuratiebestanden
-- **TestPluginCount** - Valideert dat er minimaal 198 plugins zijn
-
-### CI
-
-De testen draaien automatisch bij elke push en pull request via GitHub Actions.
-Zie [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Bijdragers
 
