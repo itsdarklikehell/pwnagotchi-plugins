@@ -25,7 +25,7 @@ jobs:
       - name: Gource Action
         uses: nbprojekt/gource-action@57256d303c5a9a5e72ed92ba13e3e83c5ec8b257 # v1.3.0
         with:
-          gource_title: "$(echo $repo | sed 's/-/ /g; s/_/ /g' | sed 's/^[a-z]/\U&/g') development timeline"
+          gource_title: "${{ github.event.repository.name }} development timeline"
           gource_resolution: 1080p
           gource_fps: 60
           gource_filename_time: 3
