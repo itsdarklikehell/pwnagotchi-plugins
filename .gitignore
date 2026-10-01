@@ -1,5 +1,47 @@
-__pycache__
-.idea
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
-build
-dist
+Thumbs.db
+
+# Pwnagotchi
+*.log
+*.pcap
+*.cap
+*.hccapx
+*.pmkid
+*.22000
+*.25000
+*.16800
+*.kismet
+*.csv
+*.json
+*.toml.local
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
