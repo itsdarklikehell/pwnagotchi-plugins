@@ -1,5 +1,9 @@
 # pwnagotchi-plugins
 
+<img src="https://img.shields.io/github/stars/itsdarklikehell/pwnagotchi-plugins?style=flat-square&color=blue" alt="Stars">
+<img src="https://img.shields.io/github/forks/itsdarklikehell/pwnagotchi-plugins?style=flat-square&color=green" alt="Forks">
+<img src="https://img.shields.io/github/license/itsdarklikehell/pwnagotchi-plugins?style=flat-square" alt="License">
+
 Collectie van Pwnagotchi-plugins voor Wi-Fi auditing en pentesting op Raspberry Pi.
 
 De Pwnagotchi is een AI-geoptimaliseerde Wi-Fi analyse tool die bettercap gebruikt voor
@@ -8,11 +12,6 @@ de standaard functionaliteit uit met extra features voor GPS-tracking, handshake
 weergaves, en systeembeheer.
 
 ## Installatie
-
-Zie de [Pwnagotchi-documentatie](https://pwnagotchi.org/) voor de basisinstallatie.
-Plugins worden geladen vanuit `/usr/local/share/pwnagotchi/available-plugins/`.
-
-### Snelle setup
 
 ```bash
 git clone https://github.com/itsdarklikehell/pwnagotchi-plugins.git
@@ -33,29 +32,22 @@ sudo ./scripts/install-plugins.sh gps
 sudo ./scripts/install-plugins.sh all
 ```
 
-## Ontwikkeltijdlijn
+## Gebruik
 
-<video src="https://raw.githubusercontent.com/itsdarklikehell/pwnagotchi-plugins/master/gource.mp4" controls width="100%"></video>
+Na installatie kunnen plugins geactiveerd worden via:
 
-## Plugins
+```bash
+sudo pwnagotchi plugins enable <plugin-naam>
+sudo pwnagotchi plugins disable <plugin-naam>
+sudo pwnagotchi plugins list
+```
 
 Zie de [plugin-tabel](PLUGIN_TABLE.md) voor een overzicht van beschikbare plugins.
 
-## Bijdragen
+## Bijdragers
 
-Zie [CONTRIBUTING.md](CONTRIBUTING.md) voor richtlijnen.
-
-## Licentie
-
-Zie [LICENSE](LICENSE) voor details.
-
-## Credits
-
-Special thanks go to:
-
-- [Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
-- [pwnagotchi.org](https://pwnagotchi.org/)
-- [evilsocket](https://github.com/evilsocket)
+- [itsdarklikehell](https://github.com/itsdarklikehell) — Onderhouder
+- [evilsocket](https://github.com/evilsocket) — Pwnagotchi creator
 - [NeonLightning](https://github.com/NeonLightning)
 - [V0rT3x](https://github.com/V0r-T3x)
 - [Jayofellony](https://github.com/jayofelony)
@@ -70,4 +62,17 @@ Special thanks go to:
 - [Rai](https://github.com/rai68)
 - [Dj1ch](https://github.com/dj1ch)
 
-and many others.
+## Licentie
+
+MIT — zie [LICENSE](LICENSE) voor details.
+
+## Ontwikkeltijdlijn
+
+<video src="https://raw.githubusercontent.com/itsdarklikehell/pwnagotchi-plugins/master/gource.mp4" controls width="100%"></video>
+
+## Credits
+
+Special thanks go to:
+
+- [Pwnagotchi Unofficial](https://github.com/Pwnagotchi-Unofficial)
+- [pwnagotchi.org](https://pwnagotchi.org/)
