@@ -228,7 +228,7 @@ class BLEMon(plugins.Plugin):
             display.set("face", self.options["face"])
             display.set("blemon_count", "%d/%d" %
                         (self.blecount, self.blemaxcount))
-            if name is "":
+            if name == "":
                 display.set("status", "Something blue!!!")
                 if mac:
                     # enqueue an enum. run one per epoch
@@ -292,7 +292,7 @@ class BLEMon(plugins.Plugin):
             ui = agent.view()
             ui.set("blecount", "%d/%d" % (self.blecount, self.blemaxcount))
 
-            if name is "":
+            if name == "":
                 ui.set("status", "So long blue!!!")
             else:
                 ui.set("status", "Bye %s" % name)
