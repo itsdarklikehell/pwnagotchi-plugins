@@ -482,7 +482,7 @@ class PositionFile:
         Returns the mac from filename
         """
         parsed_mac = re.search(
-            r".*_?([a-zA-Z0-9]{12})\.(?:gps|geo|paw-gps)\.json", self._filename
+            r".*_?([a-zA-Z0-9]{12})\\.(?:gps|geo|paw-gps)\\.json", self._filename
         )
         if parsed_mac:
             mac = parsed_mac.groups()[0]
@@ -494,7 +494,7 @@ class PositionFile:
         Returns the ssid from filename
         """
         parsed_ssid = re.search(
-            r"(.+)_[a-zA-Z0-9]{12}\.(?:gps|geo|paw-gps)\.json", self._filename
+            r"(.+)_[a-zA-Z0-9]{12}\\.(?:gps|geo|paw-gps)\\.json", self._filename
         )
         if parsed_ssid:
             return parsed_ssid.groups()[0]
@@ -535,7 +535,7 @@ class PositionFile:
         """
         return_pass = None
         # 2do: make better filename split/remove extension because this one has problems with "." in path
-        base_filename, ext1, ext2 = re.split("\.", self._file)
+        base_filename, ext1, ext2 = re.split("\\.", self._file)
         password_file_path = base_filename + ".pcap.cracked"
         if os.path.isfile(password_file_path):
             try:

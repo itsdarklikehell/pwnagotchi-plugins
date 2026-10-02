@@ -527,7 +527,7 @@ def get_gps():
             data += ser.read(ser.inWaiting())
         if data != "":
             m = re.search(
-                "\+CIPGSMLOC:\s+\d+,(?P<longitude>-?\d+\.\d+),(?P<latitude>-?\d+\.\d+),(?P<date>\d+/\d+/\d+),(?P<time>\d+:\d+:\d+)",
+                "\\\\+CIPGSMLOC:\\\\s+\\\\d+,(?P<longitude>-?\\\\d+\\\\.\\\\d+),(?P<latitude>-?\\\\d+\\\\.\\\\d+),(?P<date>\\\\d+/\\\\d+/\\\\d+),(?P<time>\\\\d+:\\\\d+:\\\\d+)",
                 data,
             )
             if m:

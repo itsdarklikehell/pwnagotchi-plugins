@@ -146,9 +146,9 @@ class MorseCode(plugins.Plugin):
             )
 
     def _led(self, on):
-        if on is "on":
+        if on == "on":
             on = 1
-        elif on is "off":
+        elif on == "off":
             on = 0
 
         # invert if LED brightness=1 is off, 0 is on
@@ -166,7 +166,7 @@ class MorseCode(plugins.Plugin):
             self._event.wait()
             self._event.clear()
 
-            if self._message is "QUITXXXQUIT":
+            if self._message == "QUITXXXQUIT":
                 break
 
             self._is_busy = True
