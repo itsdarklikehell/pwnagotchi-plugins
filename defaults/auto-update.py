@@ -259,7 +259,7 @@ class AutoUpdate(plugins.Plugin):
                     if info["url"] is not None:
 
                         logging.warning(
-                            "update for %s available (local version is '%s'): %s"
+                            "update for %s available (local version == '%s'): %s"
                             % (repo, info["current"], info["url"])
                         )
                         info["service"] = svc_name

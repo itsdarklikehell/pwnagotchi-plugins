@@ -174,7 +174,7 @@ class Touch_Screen(plugins.Plugin):
     #
     # Tested with Waveshare Touch 2.13 E-paper HAT
     # - add to /boot/config.txt:  dtoverlay=goodix,interrupt=27,reset=22
-    # - pwnagotchi display is "waveshare_v3"
+    # - pwnagotchi display == "waveshare_v3"
     #
     # Tested with Inland 3.5" TFT touchscreen, 26-pin connector
     # - install https://github.com/goodtft/LCD-show

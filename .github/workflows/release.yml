@@ -2,245 +2,32 @@ name: Release
 
 on:
   push:
-    branches: ["master", "main"]
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: false
+    tags:
+      - 'v*'
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
-      version: ${{ steps.version.outputs.version }}
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
 
-      - name: Determine version
-        id: version
-        run: |
-          # Get the latest tag, default to v0.0.0 if none exists
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "Latest tag: $LATEST_TAG"
-          
-          # Parse version components
-          VERSION=${LATEST_TAG#v}
-          MAJOR=$(echo $VERSION | cut -d. -f1)
-          MINOR=$(echo $VERSION | cut -d. -f2)
-          PATCH=$(echo $VERSION | cut -d. -f3)
-          
-          # Determine bump type from commits since last tag
-          if [ "$LATEST_TAG" = "v0.0.0" ]; then
-            # First release
-            NEW_VERSION="v1.0.0"
-          else
-            # Check commit messages for version bump hints
-            BUMP_TYPE="patch"
-            COMMITS=$(git log ${LATEST_TAG}..HEAD --pretty=format:"%s" 2>/dev/null || git log --pretty=format:"%s" -10)
-            
-            if echo "$COMMITS" | grep -qE "^(feat|feature)(\(.+\))?:"; then
-              BUMP_TYPE="minor"
-            fi
-            if echo "$COMMITS" | grep -qE "BREAKING CHANGE|^[a-z]+(\(.+\))?!:"; then
-              BUMP_TYPE="major"
-            fi
-            
-            case $BUMP_TYPE in
-              major)
-                MAJOR=$((MAJOR + 1))
-                MINOR=0
-                PATCH=0
-                ;;
-              minor)
-                MINOR=$((MINOR + 1))
-                PATCH=0
-                ;;
-              patch)
-                PATCH=$((PATCH + 1))
-                ;;
-            esac
-            
-            NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
-          fi
-          
-          echo "New version: $NEW_VERSION"
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          
-          # Create and push tag (only if it doesn't exist)
-          if ! git rev-parse "$NEW_VERSION" >/dev/null 2>&1; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git tag -a "$NEW_VERSION" -m "Release $NEW_VERSION"
-            git push origin "$NEW_VERSION"
-          else
-            echo "Tag $NEW_VERSION already exists, skipping tag creation"
-          fi
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
 
-      - name: Generate changelog
-        id: changelog
-        run: |
-          VERSION=${{ steps.version.outputs.version }}
-          LATEST_TAG=$(git describe --tags --abbrev=0 "$VERSION^" 2>/dev/null || echo "")
-          
-          # Generate changelog from commits
-          CHANGELOG=""
-          if [ -n "$LATEST_TAG" ]; then
-            COMMITS=$(git log ${LATEST_TAG}..${VERSION} --pretty=format:"%h %s" --no-merges)
-          else
-            COMMITS=$(git log --pretty=format:"%h %s" --no-merges -20)
-          fi
-          
-          # Categorize commits
-          FEATURES=$(echo "$COMMITS" | grep -iE "^[a-f0-9]+ (feat|feature)" || echo "")
-          FIXES=$(echo "$COMMITS" | grep -iE "^[a-f0-9]+ (fix|bugfix|patch)" || echo "")
-          DOCS=$(echo "$COMMITS" | grep -iE "^[a-f0-9]+ docs" || echo "")
-          CI=$(echo "$COMMITS" | grep -iE "^[a-f0-9]+ ci" || echo "")
-          CHORES=$(echo "$COMMITS" | grep -iE "^[a-f0-9]+ chore" || echo "")
-          OTHER=$(echo "$COMMITS" | grep -ivE "^[a-f0-9]+ (feat|feature|fix|bugfix|patch|docs|ci|chore)" || echo "")
-          
-          CHANGELOG="## What's Changed in ${VERSION}\n\n"
-          
-          if [ -n "$FEATURES" ]; then
-            CHANGELOG+="### ✨ New Features\n"
-            echo "$FEATURES" | while read -r line; do
-              CHANGELOG+="- $line\n"
-            done
-            CHANGELOG+="\n"
-          fi
-          
-          if [ -n "$FIXES" ]; then
-            CHANGELOG+="### 🐛 Bug Fixes\n"
-            echo "$FIXES" | while read -r line; do
-              CHANGELOG+="- $line\n"
-            done
-            CHANGELOG+="\n"
-          fi
-          
-          if [ -n "$DOCS" ]; then
-            CHANGELOG+="### 📚 Documentation\n"
-            echo "$DOCS" | while read -r line; do
-              CHANGELOG+="- $line\n"
-            done
-            CHANGELOG+="\n"
-          fi
-          
-          if [ -n "$CI" ]; then
-            CHANGELOG+="### 🔧 CI/CD\n"
-            echo "$CI" | while read -r line; do
-              CHANGELOG+="- $line\n"
-            done
-            CHANGELOG+="\n"
-          fi
-          
-          if [ -n "$CHORES" ]; then
-            CHANGELOG+="### 🧹 Chores\n"
-            echo "$CHORES" | while read -r line; do
-              CHANGELOG+="- $line\n"
-            done
-            CHANGELOG+="\n"
-          fi
-          
-          if [ -n "$OTHER" ]; then
-            CHANGELOG+="### 📦 Other Changes\n"
-            echo "$OTHER" | while read -r line; do
-              CHANGELOG+="- $line\n"
-            done
-            CHANGELOG+="\n"
-          fi
-          
-          # Add contributors
-          CONTRIBUTORS=$(git log ${LATEST_TAG}..${VERSION} --pretty=format:"%an" 2>/dev/null | sort -u | tr '\n' ', ' | sed 's/,$//' || echo "")
-          if [ -n "$CONTRIBUTORS" ]; then
-            CHANGELOG+="### 👥 Contributors\n"
-            CHANGELOG+="$CONTRIBUTORS\n\n"
-          fi
-          
-          CHANGELOG+="---\n"
-          
-          # Save changelog to file
-          printf '%b' "$CHANGELOG" > CHANGELOG.md
-          
-          # Set output for release notes
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          printf '%b' "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          
-          echo "Changelog generated"
+    - name: Generate release notes
+      run: |
+        echo "## What's Changed" > RELEASE_NOTES.md
+        git log --pretty=format:"* %s (%h)" $(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo HEAD~10)..HEAD >> RELEASE_NOTES.md || true
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
-
-      - name: Create plugin archive
-        run: |
-          VERSION=${{ steps.version.outputs.version }}
-          # Create a zip archive of all plugins
-          zip -r "pwnagotchi-plugins-${VERSION}.zip" . \
-            -x ".git/*" \
-            -x ".github/*" \
-            -x "__pycache__/*" \
-            -x "*.pyc" \
-            -x ".pytest_cache/*" \
-            -x "tests/*" \
-            -x "gource/*" \
-            -x "gource.mp4" \
-            -x "*.mp4" \
-            -x ".gitignore" \
-            -x "CHANGELOG.md"
-          
-          echo "Archive created: pwnagotchi-plugins-${VERSION}.zip"
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pwnagotchi-plugins-${{ steps.version.outputs.version }}.zip
-          asset_name: pwnagotchi-plugins-${{ steps.version.outputs.version }}.zip
-          asset_content_type: application/zip
-
-      - name: Upload PLUGIN_TABLE.md as asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./PLUGIN_TABLE.md
-          asset_name: PLUGIN_TABLE.md
-          asset_content_type: text/markdown
-
-      - name: Upload README.md as asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./README.md
-          asset_name: README.md
-          asset_content_type: text/markdown
-
-      - name: Commit changelog
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          git commit -m "docs: update CHANGELOG.md for ${{ steps.version.outputs.version }}" || echo "No changes to commit"
-          git push origin HEAD:${{ github.ref_name }} || echo "Nothing to push"
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body_path: RELEASE_NOTES.md
+        files: |
+          *.py
+          *.sh

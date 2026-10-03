@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 update_plugins() {
     if [[ $LOCAL == true ]]; then

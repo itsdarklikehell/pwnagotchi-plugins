@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 UPSTREAM_IFACE=${1:-en0}
 USB_IFACE=''
