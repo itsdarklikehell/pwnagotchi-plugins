@@ -39,9 +39,9 @@ REPORT = StatusFile("/root/.aircracked_pcaps", data_format="json")
 TEXT_TO_SET = ""
 
 PwndNetwork = namedtuple("PwndNetwork", "ssid bssid password")
-handshake_file_re = re.compile("^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\.pcap\.cracked$")
+handshake_file_re = re.compile("^(?P<ssid>.+?)_(?P<bssid>[a-f0-9]{12})\\.pcap\\.cracked$")
 crackable_handshake_re = re.compile(
-    "\s+\d+\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\s+(?P<ssid>.+?)\s+((\([1-9][0-9]* handshake(, with PMKID)?\))|(\(\d+ handshake, with PMKID\)))"
+    "\\\\s+\\\\d+\\\\s+(?P<bssid>([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2})\\\\s+(?P<ssid>.+?)\\\\s+((\\\\([1-9][0-9]* handshake(, with PMKID)?\\\\))|(\\\\(\\\\d+ handshake, with PMKID\\\\)))"
 )
 
 
@@ -181,7 +181,7 @@ class quick_rides_to_jail(plugins.Plugin):
                 (
                     "aircrack-ng -w `echo "
                     + os.path.join(OPTIONS["wordlist_folder"], "*.txt")
-                    + " | sed 's/\ /,/g'` -l "
+                    + " | sed 's/\\ /,/g'` -l "
                     + filename
                     + ".cracked -q "
                     + filename
@@ -202,7 +202,7 @@ class quick_rides_to_jail(plugins.Plugin):
 
         # logging.info('[thePolice] Aircrack output: '+crack_result)
         if crack_result != "KEY NOT FOUND":
-            key = re.search("\[(.*)\]", crack_result)
+            key = re.search("\\\\[(.*)\\\\]", crack_result)
             _do_the_illegal_thing(config["bettercap"]["handshakes"])
             set_text("Cracked password: " + str(key.group(1)))
             display.update(force=True)

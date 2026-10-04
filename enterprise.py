@@ -130,34 +130,34 @@ def update_hostapd_config(interface, config, password):
 
     # Update hostapd-wpe configuration
     os.system(
-        "sed -i 's/^\(private_key_passwd=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(private_key_passwd=\).*$/\\1{1}/' {0}".format(
             confFilepath, password
         )
     )
     os.system(
-        "sed -i 's/^\(wpa_key_mgmt=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(wpa_key_mgmt=\).*$/\\1{1}/' {0}".format(
             confFilepath, "WPA-EAP")
     )
     os.system(
-        "sed -i 's/^\(interface=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(interface=\).*$/\\1{1}/' {0}".format(
             confFilepath, interface)
     )
     os.system(
-        "sed -i 's/^\(ssid=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(ssid=\).*$/\\1{1}/' {0}".format(
             confFilepath, config["ssid"])
     )
     os.system(
-        "sed -i 's/^\(channel=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(channel=\).*$/\\1{1}/' {0}".format(
             confFilepath, config["channel"]
         )
     )
     os.system(
-        "sed -i 's/^\(wpa_pairwise=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(wpa_pairwise=\).*$/\\1{1}/' {0}".format(
             confFilepath, config["cipher"]
         )
     )
     os.system(
-        "sed -i 's/^\(rsn_pairwise=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(rsn_pairwise=\).*$/\\1{1}/' {0}".format(
             confFilepath, config["cipher"]
         )
     )
@@ -165,21 +165,21 @@ def update_hostapd_config(interface, config, password):
     if int(config["channel"]) <= 14:
         mode = "g"
     os.system(
-        "sed -i 's/^\(hw_mode=\).*$/\\1{1}/' {0}".format(confFilepath, mode))
+        "sed -i 's/^\\(hw_mode=\).*$/\\1{1}/' {0}".format(confFilepath, mode))
     # Get last digit(s) from enc method
     os.system(
-        "sed -i 's/^\(wpa=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^\\(wpa=\).*$/\\1{1}/' {0}".format(
             confFilepath, re.sub(".*?([0-9]*)$", r"\1", config["enc"])
         )
     )
     # May need to find commented out line also if first run
     os.system(
-        "sed -i 's/^#*\(bssid=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^#*\\(bssid=\).*$/\\1{1}/' {0}".format(
             confFilepath, config["bssid"])
     )
     # May need to find commented out line also if first run
     os.system(
-        "sed -i 's/^#*\(country_code=\).*$/\\1{1}/' {0}".format(
+        "sed -i 's/^#*\\(country_code=\).*$/\\1{1}/' {0}".format(
             confFilepath, config["certificate"]["country"]
         )
     )
@@ -192,84 +192,84 @@ def generate_certificates(config, password):
 
     # Update CA Certificate
     os.system(
-        "sed -i '/\[req\]/,/^\[/ s/^\(input_password=\).*$/\\1{1}/' {0}".format(
+        "sed -i '/\\[req\]/,/^\\[/ s/^\\(input_password=\).*$/\\1{1}/' {0}".format(
             caFilepath, password
         )
     )
     os.system(
-        "sed -i '/\[req\]/,/^\[/ s/^\(output_password=\).*$/\\1{1}/' {0}".format(
+        "sed -i '/\\[req\]/,/^\\[/ s/^\\(output_password=\).*$/\\1{1}/' {0}".format(
             caFilepath, password
         )
     )
     os.system(
-        "sed -i '/\[certificate_authority\]/,/^\[/ s/^\(countryName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[certificate_authority\]/,/^\\[/ s/^\\(countryName\s*=\).*$/\\1 {1}/' {0}".format(
             caFilepath, config["certificate"]["country"]
         )
     )
     os.system(
-        "sed -i '/\[certificate_authority\]/,/^\[/ s/^\(stateOrProvinceName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[certificate_authority\]/,/^\\[/ s/^\\(stateOrProvinceName\s*=\).*$/\\1 {1}/' {0}".format(
             caFilepath, config["certificate"]["state"]
         )
     )
     os.system(
-        "sed -i '/\[certificate_authority\]/,/^\[/ s/^\(localityName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[certificate_authority\]/,/^\\[/ s/^\\(localityName\s*=\).*$/\\1 {1}/' {0}".format(
             caFilepath, config["certificate"]["city"]
         )
     )
     os.system(
-        "sed -i '/\[certificate_authority\]/,/^\[/ s/^\(organizationName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[certificate_authority\]/,/^\\[/ s/^\\(organizationName\s*=\).*$/\\1 {1}/' {0}".format(
             caFilepath, config["certificate"]["organisation"]
         )
     )
     os.system(
-        "sed -i '/\[certificate_authority\]/,/^\[/ s/^\(emailAddress\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[certificate_authority\]/,/^\\[/ s/^\\(emailAddress\s*=\).*$/\\1 {1}/' {0}".format(
             caFilepath, config["certificate"]["email"]
         )
     )
     os.system(
-        "sed -i '/\[certificate_authority\]/,/^\[/ s/^\(commonName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[certificate_authority\]/,/^\\[/ s/^\\(commonName\s*=\).*$/\\1 {1}/' {0}".format(
             caFilepath, config["certificate"]["commonName"]
         )
     )
 
     # Update Server Certificate
     os.system(
-        "sed -i '/\[req\]/,/^\[/ s/^\(input_password=\).*$/\\1{1}/' {0}".format(
+        "sed -i '/\\[req\]/,/^\\[/ s/^\\(input_password=\).*$/\\1{1}/' {0}".format(
             serverFilepath, password
         )
     )
     os.system(
-        "sed -i '/\[req\]/,/^\[/ s/^\(output_password=\).*$/\\1{1}/' {0}".format(
+        "sed -i '/\\[req\]/,/^\\[/ s/^\\(output_password=\).*$/\\1{1}/' {0}".format(
             serverFilepath, password
         )
     )
     os.system(
-        "sed -i '/\[server\]/,/^\[/ s/^\(countryName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[server\]/,/^\\[/ s/^\\(countryName\s*=\).*$/\\1 {1}/' {0}".format(
             serverFilepath, config["certificate"]["country"]
         )
     )
     os.system(
-        "sed -i '/\[server\]/,/^\[/ s/^\(stateOrProvinceName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[server\]/,/^\\[/ s/^\\(stateOrProvinceName\s*=\).*$/\\1 {1}/' {0}".format(
             serverFilepath, config["certificate"]["state"]
         )
     )
     os.system(
-        "sed -i '/\[server\]/,/^\[/ s/^\(localityName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[server\]/,/^\\[/ s/^\\(localityName\s*=\).*$/\\1 {1}/' {0}".format(
             serverFilepath, config["certificate"]["city"]
         )
     )
     os.system(
-        "sed -i '/\[server\]/,/^\[/ s/^\(organizationName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[server\]/,/^\\[/ s/^\\(organizationName\s*=\).*$/\\1 {1}/' {0}".format(
             serverFilepath, config["certificate"]["organisation"]
         )
     )
     os.system(
-        "sed -i '/\[server\]/,/^\[/ s/^\(emailAddress\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[server\]/,/^\\[/ s/^\\(emailAddress\s*=\).*$/\\1 {1}/' {0}".format(
             serverFilepath, config["certificate"]["email"]
         )
     )
     os.system(
-        "sed -i '/\[server\]/,/^\[/ s/^\(commonName\s*=\).*$/\\1 {1}/' {0}".format(
+        "sed -i '/\\[server\]/,/^\\[/ s/^\\(commonName\s*=\).*$/\\1 {1}/' {0}".format(
             serverFilepath, config["certificate"]["commonName"]
         )
     )
