@@ -90,7 +90,7 @@ def _transform_wigle_entry(gps_data, pcap_data, plugin_version):
     return dummy.getvalue()
 
 
-def _send_to_wigle(lines, api_key, donate=Truetimeout=30):
+def _send_to_wigle(lines, api_key, donate=True, timeout=30):
     """
     Uploads the file to wigle-net
     """
