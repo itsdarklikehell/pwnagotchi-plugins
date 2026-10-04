@@ -643,7 +643,7 @@ def runCommand(button, pressed, plugin):
         logging.debug(f"[buttonshim] Process create: {command}")
         process = subprocess.Popen(
             command,
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,

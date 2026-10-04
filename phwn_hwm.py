@@ -97,7 +97,7 @@ class PhwnHwm(plugins.Plugin):
         agent.run("wifi.recon off")
         subprocess.run(
             "systemctl stop wpa_supplicant; killall wpa_supplicant",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -105,7 +105,7 @@ class PhwnHwm(plugins.Plugin):
         )
         subprocess.run(
             "modprobe --remove brcmfmac; modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -113,23 +113,21 @@ class PhwnHwm(plugins.Plugin):
         )
         subprocess.run(
             "modprobe --remove brcmfmac; modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
         )
         subprocess.run(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
         )
         subprocess.run(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -138,8 +136,7 @@ class PhwnHwm(plugins.Plugin):
         time.sleep(3)
         self.status = "phwning_hwm"
         subprocess.run(
-            "iwconfig wlan0 channel %d" % channel,
-            shell=True,
+            ['iwconfig', 'wlan0', 'channel', '%d'] % channel,
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -152,23 +149,21 @@ class PhwnHwm(plugins.Plugin):
             )
         subprocess.run(
             "wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
         )
         subprocess.run(
-            "wpa_cli -i wlan0 reconfigure",
-            shell=True,
+            ['wpa_cli', '-i', 'wlan0', 'reconfigure'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
         )
         subprocess.run(
-            "dhclient wlan0",
-            shell=True,
+            ['dhclient', 'wlan0'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -187,7 +182,7 @@ class PhwnHwm(plugins.Plugin):
     def run(self, cmd):
         result = subprocess.run(
             cmd,
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stderr=None,
             stdout=subprocess.PIPE,

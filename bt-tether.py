@@ -280,7 +280,7 @@ class SystemdUnitWrapper:
     def _action_on_unit(action, unit):
         process = subprocess.Popen(
             f"systemctl {action} {unit}",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -297,8 +297,7 @@ timeout=30)
         Calls systemctl daemon-reload
         """
         process = subprocess.Popen(
-            "systemctl daemon-reload",
-            shell=True,
+            ['systemctl', 'daemon-reload'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -387,7 +386,7 @@ class IfaceWrapper:
         """
         process = subprocess.Popen(
             f"ip addr add {addr} dev {self.iface}",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -404,7 +403,7 @@ timeout=30)
     def set_route(gateway, device):
         process = subprocess.Popen(
             f"ip route replace default via {gateway} dev {device}",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,

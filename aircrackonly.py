@@ -20,7 +20,7 @@ class AircrackOnly(plugins.Plugin):
     def on_loaded(self):
         logging.info("aircrackonly plugin loaded")
         check = subprocess.run(
-            ('/usr/bin/dpkg -l aircrack-ng | grep aircrack-ng | awk \'{print $2, $3}\''), shell=True, stdout=subprocess.PIPE)
+            ('/usr/bin/dpkg -l aircrack-ng | grep aircrack-ng | awk \'{print $2, $3}\''), shell=True, stdout=subprocess.PIPE)  # shell=True required for pipes/redirects
         check = check.stdout.decode('utf-8').strip()
         if check != "aircrack-ng <none>":
             logging.info("aircrackonly: Found " + check)
@@ -32,7 +32,7 @@ class AircrackOnly(plugins.Plugin):
         handshakeFound = 0
 
         result = subprocess.run(('/usr/bin/aircrack-ng ' + filename + ' | grep "1 handshake" | awk \'{print $2}\''),
-                                shell=True, stdout=subprocess.PIPE)
+                                shell=True, stdout=subprocess.PIPE)  # shell=True required for pipes/redirects
         result = result.stdout.decode('utf-8').translate({ord(c): None for c in string.whitespace})
         if result:
             handshakeFound = 1
@@ -40,7 +40,7 @@ class AircrackOnly(plugins.Plugin):
 
         if handshakeFound == 0:
             result = subprocess.run(('/usr/bin/aircrack-ng ' + filename + ' | grep "PMKID" | awk \'{print $2}\''),
-                                    shell=True, stdout=subprocess.PIPE)
+                                    shell=True, stdout=subprocess.PIPE)  # shell=True required for pipes/redirects
             result = result.stdout.decode('utf-8').translate({ord(c): None for c in string.whitespace})
             if result:
                 logging.info("[AircrackOnly] contains PMKID")

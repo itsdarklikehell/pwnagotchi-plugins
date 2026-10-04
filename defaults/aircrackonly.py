@@ -33,7 +33,7 @@ class AircrackOnly(plugins.Plugin):
 
         check = subprocess.run(
             "/usr/bin/dpkg -l aircrack-ng | grep aircrack-ng | awk '{print $2, $3}'",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdout=subprocess.PIPE,
         )
         check = check.stdout.decode("utf-8").strip()
@@ -53,7 +53,7 @@ class AircrackOnly(plugins.Plugin):
                 + filename
                 + " | grep \"1 handshake\" | awk '{print $2}'"
             ),
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdout=subprocess.PIPE,
         )
         result = result.stdout.decode("utf-8").translate(
@@ -70,7 +70,7 @@ class AircrackOnly(plugins.Plugin):
                     + filename
                     + " | grep \"PMKID\" | awk '{print $2}'"
                 ),
-                shell=True,
+                shell=True,  # shell=True required for pipes/redirects
                 stdout=subprocess.PIPE,
             )
             result = result.stdout.decode("utf-8").translate(

@@ -90,7 +90,7 @@ class Beaconify(plugins.Plugin):
                 # while retries != 0:
                 process = subprocess.Popen(
                     f"systemctl restart pwngrid-peer",
-                    shell=True,
+                    shell=True,  # shell=True required for pipes/redirects
                     stdin=None,
                     stdout=open("/dev/null", "w"),
                     stderr=None, executable="/bin/bash", timeout=30)

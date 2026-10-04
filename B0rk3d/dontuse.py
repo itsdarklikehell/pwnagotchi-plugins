@@ -31,14 +31,14 @@ class dangerwillrobinson(plugins.Plugin):
         todelete = 0
         handshakeFound = 0
         result = subprocess.run(('/usr/bin/aircrack-ng ' + filename + ' | grep "1 handshake" | awk \'{print $2}\''),
-                                shell=True, stdout=subprocess.PIPE)
+                                shell=True, stdout=subprocess.PIPE)  # shell=True required for pipes/redirects
         result = result.stdout.decode('utf-8').translate({ord(c): None for c in string.whitespace})
         if result:
             handshakeFound = 1
             logging.info("[DWR] contains handshake")
         if handshakeFound == 0:
             result = subprocess.run(('/usr/bin/aircrack-ng ' + filename + ' | grep "PMKID" | awk \'{print $2}\''),
-                                    shell=True, stdout=subprocess.PIPE)
+                                    shell=True, stdout=subprocess.PIPE)  # shell=True required for pipes/redirects
             result = result.stdout.decode('utf-8').translate({ord(c): None for c in string.whitespace})
             if result:
                 logging.info("[DWR] contains PMKID")
@@ -59,7 +59,7 @@ class dangerwillrobinson(plugins.Plugin):
     def check_handshake(self, filename):
         result = subprocess.run(
             '/usr/bin/aircrack-ng /root/handshakes/' + filename + ' | grep "1 handshake" | awk \'{print $2}\'',
-            shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8'
+            shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8'  # shell=True required for pipes/redirects
         )
         result = result.stdout.strip()
         return result
@@ -73,8 +73,8 @@ class dangerwillrobinson(plugins.Plugin):
             wordlist_path = os.path.join(self.wordlist_folder, 'cracked.txt')
             if os.path.exists(wordlist_path):
                 result2 = subprocess.run(
-                    'aircrack-ng -w ' + wordlist_path + ' -l ' + filename + '.cracked -q -b ' + result + ' ' + filename + ' | grep KEY',
-                    shell=True, capture_output=True, text=True
+                    ['aircrack-ng', '-w'] + wordlist_path + ' -l ' + filename + '.cracked -q -b ' + result + ' ' + filename + ' | grep KEY',
+                    capture_output=True, text=True
                 )
                 result2 = result2.stdout.strip()
                 logging.info('[DWR] %s' % result2)
@@ -97,8 +97,8 @@ class dangerwillrobinson(plugins.Plugin):
         for wordlist_file in wordlist_files:
             wordlist_path = os.path.join(wordlist_folder, wordlist_file)
             result2 = subprocess.run(
-                'aircrack-ng -w ' + wordlist_path + ' -l ' + filename + '.cracked -q -b ' + handshake_result + ' ' + filename + ' | grep KEY',
-                shell=True, capture_output=True, text=True
+                ['aircrack-ng', '-w'] + wordlist_path + ' -l ' + filename + '.cracked -q -b ' + handshake_result + ' ' + filename + ' | grep KEY',
+                capture_output=True, text=True
             )
             result2 = result2.stdout.strip()
             if result2 != "KEY NOT FOUND":

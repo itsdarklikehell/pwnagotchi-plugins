@@ -1037,7 +1037,7 @@ class Telegram(plugins.Plugin):
 
     def fetch_inbox(self):
         command = "sudo pwngrid -inbox"
-        output = subprocess.check_output(command, shell=True).decode("utf-8")
+        output = subprocess.check_output(command, shell=True).decode("utf-8")  # shell=True required for pipes/redirects
         lines = output.split("\n")
         formatted_output = []
         for line in lines:
@@ -1133,7 +1133,7 @@ class Telegram(plugins.Plugin):
                     chat_id = update.effective_user["id"]
                     context.bot.send_chat_action(chat_id, "typing")
                     # Execute the  args provided and send the output to the chat
-                    output = subprocess.check_output(args, shell=True).decode("utf-8")
+                    output = subprocess.check_output(args, shell=True).decode("utf-8")  # shell=True required for pipes/redirects
                     response = f"🔠 ~>$: <code>{args}</code>\n\n📜 ~>$: <code>{self.sanitize_text_to_send(output)}</code>"
                 else:
                     response = "⛔ No command provided to execute.\nUsage: /cmd <code>command</code>"

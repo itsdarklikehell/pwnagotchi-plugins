@@ -78,7 +78,7 @@ class AutoBackup_ng(plugins.Plugin):
                 )
                 process = subprocess.Popen(
                     cmd.format(files=files_to_backup),
-                    shell=True,
+                    shell=True,  # shell=True required for pipes/redirects
                     stdin=None,
                     stdout=open("/dev/null", "w"),
                     stderr=None,

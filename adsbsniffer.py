@@ -56,7 +56,7 @@ class ADSBSniffer(plugins.Plugin):
         logging.info("[ADSB] Scanning for ADS-B signals...")
         cmd = "timeout 10s rtl_adsb"
         try:
-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)  # shell=True required for pipes/redirects
             aircrafts = self.parse_output(output.decode('utf-8'))
             return f"{len(aircrafts)} aircrafts detected"
         except subprocess.CalledProcessError as e:

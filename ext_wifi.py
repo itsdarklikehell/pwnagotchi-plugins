@@ -45,66 +45,56 @@ class ext_wifi(plugins.Plugin):
         interface = self.options["interface"]
         if mode == "external":
             subprocess.run(
-                "sed -i s/wlan0mon/{interface}/g /usr/bin/bettercap-launcher".format(
+                ['sed', '-i', 's/wlan0mon/{interface}/g', '/usr/bin/bettercap-launcher'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/wlan0mon/{interface}/g /usr/local/share/bettercap/caplets/pwnagotchi-auto.cap".format(
+                ['sed', '-i', 's/wlan0mon/{interface}/g', '/usr/local/share/bettercap/caplets/pwnagotchi-auto.cap'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/wlan0mon/{interface}/g /usr/local/share/bettercap/caplets/pwnagotchi-manual.cap".format(
+                ['sed', '-i', 's/wlan0mon/{interface}/g', '/usr/local/share/bettercap/caplets/pwnagotchi-manual.cap'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/wlan0mon/{interface}/g /etc/pwnagotchi/config.toml".format(
+                ['sed', '-i', 's/wlan0mon/{interface}/g', '/etc/pwnagotchi/config.toml'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/wlan0mon/{interface}/g /usr/bin/pwnlib".format(
+                ['sed', '-i', 's/wlan0mon/{interface}/g', '/usr/bin/pwnlib'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             _log(f"[{self.__class__.__name__}] External adapter activated")
         else:
             subprocess.run(
-                "sed -i s/{interface}/wlan0mon/g /usr/bin/bettercap-launcher".format(
+                ['sed', '-i', 's/{interface}/wlan0mon/g', '/usr/bin/bettercap-launcher'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/{interface}/wlan0mon/g /usr/local/share/bettercap/caplets/pwnagotchi-auto.cap".format(
+                ['sed', '-i', 's/{interface}/wlan0mon/g', '/usr/local/share/bettercap/caplets/pwnagotchi-auto.cap'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/{interface}/wlan0mon/g /usr/local/share/bettercap/caplets/pwnagotchi-manual.cap".format(
+                ['sed', '-i', 's/{interface}/wlan0mon/g', '/usr/local/share/bettercap/caplets/pwnagotchi-manual.cap'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/{interface}/wlan0mon/g /etc/pwnagotchi/config.toml".format(
+                ['sed', '-i', 's/{interface}/wlan0mon/g', '/etc/pwnagotchi/config.toml'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             subprocess.run(
-                "sed -i s/{interface}/wlan0mon/g /usr/bin/pwnlib".format(
+                ['sed', '-i', 's/{interface}/wlan0mon/g', '/usr/bin/pwnlib'].format(
                     interface=interface
                 ),
-                shell=True,
             ).stdout
             _log(f"[{self.__class__.__name__}] Internal adapter activated")
 
@@ -119,7 +109,7 @@ class ext_wifi(plugins.Plugin):
 def _run(cmd):
     result = subprocess.run(
         cmd,
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stderr=None,
         stdout=subprocess.PIPE,

@@ -32,7 +32,7 @@ class GPIOButtons_ng(plugins.Plugin):
         )
         process = subprocess.Popen(
             command,
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,

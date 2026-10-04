@@ -55,7 +55,7 @@ class Fix_BRCMF(plugins.Plugin):
 
     def on_ready(self, agent):
         try:
-            cmd_output = subprocess.check_output("ip link show wlan0mon", shell=True)
+            cmd_output = subprocess.check_output(['ip', 'link', 'show', 'wlan0mon'])
             logging.info(
                 f"[{self.__class__.__name__}] ip link show wlan0mon]: %s"
                 % repr(cmd_output)
@@ -279,7 +279,7 @@ timeout=30).stdout
             # is it up?
             try:
                 cmd_output = subprocess.check_output(
-                    "ip link show wlan0mon", shell=True
+                    ['ip', 'link', 'show', 'wlan0mon']
                 )
                 logging.info(
                     f"[{self.__class__.__name__}] ip link show wlan0mon]: %s"
@@ -332,8 +332,8 @@ timeout=30).stdout
             try:
                 cmd_output = subprocess.check_output(
                     "sudo ifconfig wlan0mon down && sudo iw dev wlan0mon del",
-                    shell=True,
-                )
+                    shell=True,  # shell=True required for pipes/redirects
+                    timeout=30)
                 self._status = "dn"
                 self.logPrintView(
                     "info",
@@ -357,7 +357,7 @@ timeout=30).stdout
                 try:
                     # unload the module
                     cmd_output = subprocess.check_output(
-                        "sudo modprobe -r brcmfmac", shell=True
+                        ['sudo', 'modprobe', '-r', 'brcmfmac']
                     )
                     self.logPrintView(
                         "info",
@@ -372,7 +372,7 @@ timeout=30).stdout
                     try:
                         # reload the brcmfmac kernel module
                         cmd_output = subprocess.check_output(
-                            "sudo modprobe brcmfmac", shell=True
+                            ['sudo', 'modprobe', 'brcmfmac']
                         )
 
                         self.logPrintView(

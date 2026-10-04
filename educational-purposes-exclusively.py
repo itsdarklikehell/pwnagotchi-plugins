@@ -111,7 +111,7 @@ class EducationalPurposesOnly(Plugin):
         logging.info("ensuring all wpa_supplicant processes are terminated...")
         subprocess.Popen(
             f"systemctl stop wpa_supplicant; killall wpa_supplicant",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -121,7 +121,7 @@ timeout=30)
         logging.info(f"disabling monitor mode on {interface}...")
         subprocess.Popen(
             f"modprobe --remove brcmfmac; modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -131,7 +131,7 @@ timeout=30)
         # Runs this driver reload command again because sometimes it gets stuck the first time:
         subprocess.Popen(
             f"modprobe --remove brcmfmac; modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -143,7 +143,7 @@ timeout=30)
         STATUS = "scrambling_mac"
         subprocess.Popen(
             f"macchanger -A {interface}",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -165,7 +165,7 @@ timeout=30)
         logging.info(f"starting up {interface} again...")
         subprocess.Popen(
             f"ifconfig {interface} up",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -175,7 +175,7 @@ timeout=30)
         # This command runs multiple times because it sometimes doesn't work the first time:
         subprocess.Popen(
             f"ifconfig {interface} up",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -186,7 +186,7 @@ timeout=30)
         STATUS = "associating"
         subprocess.Popen(
             f"iwconfig {interface} channel {channel}",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -194,7 +194,7 @@ timeout=30)
 timeout=30)
         subprocess.Popen(
             f"ifconfig {interface} up",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -211,7 +211,7 @@ timeout=30)
             f"starting wpa_supplicant background process on {interface}...")
         subprocess.Popen(
             f"ifconfig {interface} up",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -219,7 +219,7 @@ timeout=30)
 timeout=30)
         subprocess.Popen(
             f"wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i {interface} &",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -229,7 +229,7 @@ timeout=30)
         logging.info(f"connecting to wifi on {interface}...")
         subprocess.Popen(
             f"ifconfig {interface} up",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -237,7 +237,7 @@ timeout=30)
 timeout=30)
         subprocess.Popen(
             f"wpa_cli -i {interface} reconfigure",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -249,7 +249,7 @@ timeout=30)
         )
         subprocess.Popen(
             f"dhclient {interface}",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -358,7 +358,7 @@ timeout=30)
         for port in range(1, 1025):  # Rango común de puertos
             command = f"timeout 1 bash -c 'echo >/dev/tcp/{target_ip}/{port}'"
             try:
-                subprocess.run(command, shell=True, check=True)
+                subprocess.run(command, shell=True, check=True)  # shell=True required for pipes/redirects
                 open_ports.append(port)
             except subprocess.CalledProcessError:
                 pass
