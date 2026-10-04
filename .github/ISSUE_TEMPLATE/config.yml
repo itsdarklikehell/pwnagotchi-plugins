@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/itsdarklikehell/pwnagotchi-plugins/discussions
+    about: Stel vragen en discussieer ideeën
+  - name: Pwnagotchi Community
+    url: https://pwnagotchi.org/
+    about: Algemene Pwnagotchi vragen

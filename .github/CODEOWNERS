@@ -1,0 +1,10 @@
+
+<longcat_arg_value># Code owners for pwnagotchi-plugins
+# These owners are automatically requested for review when someone opens a pull request
+
+# Default owners for everything in the repo
+* @itsdarklikehell
+
+# Plugin-specific owners (add as needed)
+# /B0rk3d/ @itsdarklikehell
+# /weather/ @itsdarklikehell

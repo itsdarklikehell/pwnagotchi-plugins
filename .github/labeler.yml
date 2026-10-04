@@ -1,0 +1,22 @@
+# Add a label to PRs that change Python files
+python:
+  - changed-files:
+      - any-glob-to-any-file: '**/*.py'
+
+# Add a label to PRs that change documentation
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: '**/*.md'
+
+# Add a label to PRs that change workflow files
+github-actions:
+  - changed-files:
+      - any-glob-to-any-file: '.github/workflows/*.yml'
+      - any-glob-to-any-file: '.github/workflows/*.yaml'
+
+# Add a label to PRs that change configuration
+config:
+  - changed-files:
+      - any-glob-to-any-file: '**/*.toml'
+      - any-glob-to-any-file: '**/*.yaml'
+      - any-glob-to-any-file: '**/*.yml'
