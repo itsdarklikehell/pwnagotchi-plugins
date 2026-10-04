@@ -60,7 +60,7 @@ class Watchdog(plugins.Plugin):
                             f"{epoch_duration} seconds ago",
                         ],
                         stdout=subprocess.PIPE,
-                    timeout=30).stdout
+timeout=30).stdout
                 )
             )[-10:]
         )

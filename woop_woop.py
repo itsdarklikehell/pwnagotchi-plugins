@@ -206,7 +206,7 @@ class EducationalPurposesOnly(plugins.Plugin):
     def on_wifi_update(self, agent, access_points):
         self.access_points = access_points
         # If not connected to a wireless network and mon0 doesn't exist, run _restart_monitor_mode function
-        if "Monitor" not in subprocess.Popen('iwconfig mon0').read(timeout=30):
+        if "Monitor" not in subprocess.Popen('iwconfig mon0', timeout=30).read():
             self._restart_monitor_mode()
         else:
           pass

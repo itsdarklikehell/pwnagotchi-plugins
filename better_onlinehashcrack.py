@@ -60,7 +60,7 @@ class BetterOnlineHashCrack(plugins.Plugin):
         self.ready = True
         logging.info(f"[{self.__class__.__name__}] plugin loaded")
 
-    def _upload_to_ohc(self, pathtimeout=30):
+    def _upload_to_ohc(self, path, timeout=30):
         with open(path, "rb") as file_to_upload:
             data = {"email": self.options["email"]}
             payload = {"file": file_to_upload}

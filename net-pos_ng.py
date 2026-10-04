@@ -174,7 +174,7 @@ class NetPos_ng(plugins.Plugin):
             )
         return netpos
 
-    def _get_geo_data(self, pathtimeout=30):
+    def _get_geo_data(self, path, timeout=30):
         geourl = self.API_URL.format(api=self.options["api_key"])
 
         try:

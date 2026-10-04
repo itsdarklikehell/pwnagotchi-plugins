@@ -93,7 +93,7 @@ class Beaconify(plugins.Plugin):
                     shell=True,
                     stdin=None,
                     stdout=open("/dev/null", "w"),
-                    stderr=None, executable="/bin/bash"timeout=30)
+                    stderr=None, executable="/bin/bash", timeout=30)
                 process.wait()
                     # if process.returncode > 0:
                     #     logging.warning(f"[Beaconify] pwngrid restarted! Waiting {obj.init_pwngrid_time} for its initialization.")

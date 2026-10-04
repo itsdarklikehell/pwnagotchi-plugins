@@ -100,7 +100,7 @@ class nextcloud(plugins.Plugin):
                 "nextcloud: Got an exception while checking if a dir exists.")
             raise e
 
-    def _upload_to_nextcloud(self, pathtimeout=30):
+    def _upload_to_nextcloud(self, path, timeout=30):
         head, tail = os.path.split(path)
         destFile = self.full_url + "/" + tail
 

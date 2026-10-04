@@ -83,7 +83,7 @@ def button_c(button):
 
 @buttonshim.on_press(buttonshim.BUTTON_D)
 def button_d(button, pressing):
-    acstat = subprocess.call(["systemctl", "is-active", "--quiet", "pwnagotchi"]timeout=30)
+    acstat = subprocess.call(["systemctl", "is-active", "--quiet", "pwnagotchi"], timeout=30)
     if acstat == 0:
         buttonshim.set_pixel(0, 255, 0)
     else:
