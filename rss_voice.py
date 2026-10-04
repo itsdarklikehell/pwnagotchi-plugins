@@ -68,7 +68,7 @@ class RSS_Voice(plugins.Plugin):
                     else:
                         try:
                             return html.unescape(
-                                re.sub("<[^>]+>", "", eval("article[%s]" % ele))
+                                re.sub("<[^>]+>", "", article[ele])
                             )
 
                         except Exception as e:

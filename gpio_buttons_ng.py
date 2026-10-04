@@ -37,7 +37,7 @@ class GPIOButtons_ng(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         process.wait()
 
     def on_loaded(self):

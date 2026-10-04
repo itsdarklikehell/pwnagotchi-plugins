@@ -116,7 +116,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(f"disabling monitor mode on {interface}...")
         subprocess.Popen(
@@ -126,7 +126,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         # Runs this driver reload command again because sometimes it gets stuck the first time:
         subprocess.Popen(
@@ -136,7 +136,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(
             f"randomizing {interface} MAC address prior to connecting...")
@@ -148,7 +148,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(
             f"setting hostname to a ^work dictionary word prior to connecting (for added stealth since their DHCP server will see this name)..."
@@ -160,7 +160,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(5)
         logging.info(f"starting up {interface} again...")
         subprocess.Popen(
@@ -170,7 +170,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(3)
         # This command runs multiple times because it sometimes doesn't work the first time:
         subprocess.Popen(
@@ -180,7 +180,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(f"setting {interface} channel to match the target...")
         STATUS = "associating"
@@ -191,7 +191,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         subprocess.Popen(
             f"ifconfig {interface} up",
             shell=True,
@@ -199,7 +199,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(f"writing to wpa_supplicant.conf file...")
         with open("/tmp/wpa_supplicant.conf", "w") as wpa_supplicant_conf:
@@ -216,7 +216,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         subprocess.Popen(
             f"wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i {interface} &",
             shell=True,
@@ -224,7 +224,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(f"connecting to wifi on {interface}...")
         subprocess.Popen(
@@ -234,7 +234,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         subprocess.Popen(
             f"wpa_cli -i {interface} reconfigure",
             shell=True,
@@ -242,7 +242,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
         logging.info(
             f"trying to get an IP address on the network via DHCP on {interface}..."
@@ -254,7 +254,7 @@ class EducationalPurposesOnly(Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+        , timeout=30)
         time.sleep(10)
 
         # Nueva mejora: Registrar la conexión exitosa

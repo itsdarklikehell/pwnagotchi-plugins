@@ -1,0 +1,24 @@
+# pwnagotchi plugins dependencies
+# Core dependencies
+flask>=2.0.0
+requests>=2.25.0
+pyyaml>=5.4.0
+numpy>=1.19.0
+
+# UI dependencies
+pillow>=8.0.0
+matplotlib>=3.3.0
+
+# Network tools
+scapy>=2.4.5
+netifaces>=0.11.0
+
+# Utilities
+psutil>=5.8.0
+gpiozero>=1.6.0
+spidev>=3.5
+
+# Optional: for specific plugins
+# pyserial>=3.5
+# bluepy>=1.3.0
+# dbus-python>=1.2.18

@@ -128,7 +128,7 @@ class Wardrive(plugins.Plugin):
         ):
             subprocess.call(
                 ["rclone", "copy", "/root/custom_plugins/wardrive.json", "Gdrive:"]
-            )
+            , timeout=30)
             logging.info("Pwnagotchi [Wardrive] Sync complete")
 
     def on_ui_update(self, ui):

@@ -61,7 +61,7 @@ class Watchdog(plugins.Plugin):
                         ],
                         stdout=subprocess.PIPE,
                     ).stdout
-                )
+                , timeout=30)
             )[-10:]
         )
 

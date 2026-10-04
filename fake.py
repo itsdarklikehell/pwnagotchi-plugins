@@ -146,7 +146,7 @@ def GetDelay(slow=False):
     delay = WRITE_PAD
     # Make it easier to test pad values
     if os.getenv("WRITE_PAD"):
-        delay = eval(os.getenv("WRITE_PAD"))
+        delay = int(os.getenv("WRITE_PAD", "0"))
     if slow:
         delay += WRITE_PAD_SLOWDOWN
     return delay
@@ -709,7 +709,7 @@ class SubprogramInstance(object):
         if env:
             self.env = os.environ.copy()
             self.env.update(env)
-        self.process = subprocess.Popen(self.spawncmd, env=self.env)
+        self.process = subprocess.Popen(self.spawncmd, env=self.env, timeout=30)
         if not background:
             self.returncode = status = self.process.wait()
             if os.WIFSIGNALED(status) or os.WEXITSTATUS(status):
