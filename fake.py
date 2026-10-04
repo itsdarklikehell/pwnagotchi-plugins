@@ -146,7 +146,7 @@ def GetDelay(slow=False):
     delay = WRITE_PAD
     # Make it easier to test pad values
     if os.getenv("WRITE_PAD"):
-        delay = int(os.getenv("WRITE_PAD", "0"))
+        delay = eval(os.getenv("WRITE_PAD"))
     if slow:
         delay += WRITE_PAD_SLOWDOWN
     return delay

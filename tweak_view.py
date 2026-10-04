@@ -266,7 +266,7 @@ class Tweak_View(plugins.Plugin):
                     key = [x.strip() for x in key]
                     # res += "<li> %s" % "-".join(key)
                     if key[2] in dir(view._state._state[key[1]]):
-                        oldval = getattr(view._state._state[key[1]], key[2])
+                        oldval = eval("view._state._state[key[1]].%s" % key[2])
                         if "font" in key[2]:
                             if oldval != self.myFonts[val]:
                                 oldf = "unknown %s" % repr(oldval)

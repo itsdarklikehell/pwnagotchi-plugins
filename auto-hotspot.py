@@ -134,13 +134,13 @@ class AutoHotSpot(plugins.Plugin):
             "setting hostname to a ^work dictionary word prior to connecting (for added stealth since their DHCP server will see this name)..."
         )
         subprocess.Popen(
-            'hostnamectl set-hostname $(grep "^work" /usr/share/dict/words | grep -v "s$" | sort -u | shuf -n 1))',
+            'hostnamectl set-hostname $(grep "^work" /usr/share/dict/words | grep -v "s$" | sort -u | shuf -n 1)timeout=30)',
             shell=True,
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        timeout=30)
+        )
         time.sleep(5)
         logging.info("starting up wlan0 again...")
         subprocess.Popen(
