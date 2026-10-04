@@ -127,8 +127,8 @@ class Wardrive(plugins.Plugin):
             [self.coordinates["Latitude"], self.coordinates["Longitude"]]
         ):
             subprocess.call(
-                ["rclone", "copy", "/root/custom_plugins/wardrive.json", "Gdrive:"]
-            )
+                ["rclone", "copy", "/root/custom_plugins/wardrive.json", "Gdrive:"],
+timeout=30)
             logging.info("Pwnagotchi [Wardrive] Sync complete")
 
     def on_ui_update(self, ui):

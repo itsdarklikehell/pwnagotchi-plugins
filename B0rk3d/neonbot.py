@@ -348,7 +348,7 @@ class neonbot(plugins.Plugin):
                     text=True,
                     bufsize=1,
                     universal_newlines=True,
-                )
+timeout=30)
                 output_lines = []
                 max_lines = 1000
                 line_count = 0

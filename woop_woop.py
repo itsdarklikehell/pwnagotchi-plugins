@@ -64,65 +64,65 @@ class EducationalPurposesOnly(plugins.Plugin):
         STATUS = 'switching_mon_off'
         requests.post('http://127.0.0.1:8081/api/session', data='{"cmd":"wifi.recon off"}', auth=('pwnagotchi', 'pwnagotchi'))
         logging.info('[woop-woop] ensuring all wpa_supplicant processes are terminated...')
-        subprocess.Popen('systemctl stop wpa_supplicant; killall wpa_supplicant', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('systemctl stop wpa_supplicant; killall wpa_supplicant', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] disabling monitor mode...')
-        subprocess.Popen('modprobe --remove brcmfmac; modprobe brcmfmac', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('modprobe --remove brcmfmac; modprobe brcmfmac', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         # Runs this driver reload command again because sometimes it gets stuck the first time:
-        subprocess.Popen('modprobe --remove brcmfmac; modprobe brcmfmac', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('modprobe --remove brcmfmac; modprobe brcmfmac', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] randomizing wlan0 MAC address prior to connecting...')
         STATUS = 'scrambling_mac'
-        subprocess.Popen('macchanger -A wlan0', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('macchanger -A wlan0', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] setting hostname to a ^work dictionary word prior to connecting (for added stealth since their DHCP server will see this name)...')
-        subprocess.Popen('hostnamectl set-hostname $(grep "^work" /usr/share/dict/words | grep -v "s$" | sort -u | shuf -n 1))', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('hostnamectl set-hostname $(grep "^work" /usr/share/dict/words | grep -v "s$" | sort -u | shuf -n 1))', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(5)
         logging.info('[woop-woop] starting up wlan0 again...')
-        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(3)
         # This command runs multiple times because it sometimes doesn't work the first time:
-        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] setting wlan0 channel to match the target...')
         STATUS = 'associating'
-        subprocess.Popen('iwconfig wlan0 channel %d' % channel, shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
-        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('iwconfig wlan0 channel %d' % channel, shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
+        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] writing to wpa_supplicant.conf file...')
         with open('/tmp/wpa_supplicant.conf', 'a') as wpa_supplicant_conf:
             wpa_supplicant_conf.write("ctrl_interface=DIR=/var/run/wpa_supplicant\nupdate_config=1\n\nnetwork={\n\tssid=\"%s\"\n\tpsk=\"%s\"\n}\n" % (network_name, self.options['home-password']))
         logging.info('[woop-woop] starting wpa_supplicant background process...')
-        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
-        subprocess.Popen('wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
+        subprocess.Popen('wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] connecting to wifi...')
-        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
-        subprocess.Popen('wpa_cli -i wlan0 reconfigure', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
+        subprocess.Popen('wpa_cli -i wlan0 reconfigure', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] trying to get an IP address on the network via DHCP...')
         with open("/home/ips.txt", "a") as output_file:
-            subprocess.Popen('dhclient wlan0', shell=True, stdin=None, stdout=output_file, stderr=subprocess.PIPE, executable="/bin/bash")
+            subprocess.Popen('dhclient wlan0', shell=True, stdin=None, stdout=output_file, stderr=subprocess.PIPE, executable="/bin/bash", timeout=30)
             output_file.write(network_name)
-        subprocess.Popen('dhclient wlan0', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('dhclient wlan0', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         STATUS = 'associated'
         
     def _restart_monitor_mode(self):
         logging.info('[woop-woop] resuming wifi recon and monitor mode...')
         logging.info('[woop-woop] stopping wpa_supplicant...')
-        subprocess.Popen('systemctl stop wpa_supplicant; killall wpa_supplicant', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('systemctl stop wpa_supplicant; killall wpa_supplicant', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] reloading brcmfmac driver...')
-        subprocess.Popen('modprobe --remove brcmfmac && modprobe brcmfmac', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('modprobe --remove brcmfmac && modprobe brcmfmac', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
         logging.info('[woop-woop] randomizing MAC address of wlan0...')
-        subprocess.Popen('macchanger -A wlan0', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('macchanger -A wlan0', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         time.sleep(10)
-        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('ifconfig wlan0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         logging.info('[woop-woop] starting monitor mode...')
-        subprocess.Popen('iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add mon0 type monitor && ifconfig mon0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
+        subprocess.Popen('iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add mon0 type monitor && ifconfig mon0 up', shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash", timeout=30)
         logging.info('[woop-woop] telling Bettercap to resume wifi recon...')
         requests.post('http://127.0.0.1:8081/api/session', data='{"cmd":"wifi.recon on"}', auth=('pwnagotchi', 'pwnagotchi'))
         
@@ -206,7 +206,7 @@ class EducationalPurposesOnly(plugins.Plugin):
     def on_wifi_update(self, agent, access_points):
         self.access_points = access_points
         # If not connected to a wireless network and mon0 doesn't exist, run _restart_monitor_mode function
-        if "Monitor" not in subprocess.Popen('iwconfig mon0').read():
+        if "Monitor" not in subprocess.Popen('iwconfig mon0', timeout=30).read():
             self._restart_monitor_mode()
         else:
           pass

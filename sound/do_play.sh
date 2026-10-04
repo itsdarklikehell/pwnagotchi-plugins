@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 sndfile="$1"
 shift

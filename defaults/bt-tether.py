@@ -287,7 +287,7 @@ class SystemdUnitWrapper:
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+timeout=30)
         process.wait()
         if process.returncode > 0:
             return False
@@ -305,7 +305,7 @@ class SystemdUnitWrapper:
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+timeout=30)
         process.wait()
         if process.returncode > 0:
             return False
@@ -394,7 +394,7 @@ class IfaceWrapper:
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+timeout=30)
         process.wait()
 
         if process.returncode == 2 or process.returncode == 0:  # 2 = already set
@@ -411,7 +411,7 @@ class IfaceWrapper:
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        )
+timeout=30)
         process.wait()
 
         if process.returncode > 0:

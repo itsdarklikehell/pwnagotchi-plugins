@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 SWAP_FILE="/swap"
 SWAP_SIZE="2G"

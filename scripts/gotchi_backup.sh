@@ -1,4 +1,5 @@
 #!/bin/sh
+set -euo pipefail
 
 usage() {
 	echo "Usage: backup.sh [-honu] [-h] [-u user] [-n host name or ip] [-o output]"

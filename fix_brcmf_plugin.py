@@ -67,8 +67,8 @@ class Fix_BRCMF(plugins.Plugin):
                 list(
                     TextIOWrapper(
                         subprocess.Popen(
-                            ["journalctl", "-n10", "-k"], stdout=subprocess.PIPE
-                        ).stdout
+                            ["journalctl", "-n10", "-k"], stdout=subprocess.PIPE,
+timeout=30).stdout
                     )
                 )[-10:]
             )
@@ -153,8 +153,8 @@ class Fix_BRCMF(plugins.Plugin):
                 list(
                     TextIOWrapper(
                         subprocess.Popen(
-                            ["journalctl", "-n10", "-k"], stdout=subprocess.PIPE
-                        ).stdout
+                            ["journalctl", "-n10", "-k"], stdout=subprocess.PIPE,
+timeout=30).stdout
                     )
                 )[-10:]
             )
@@ -162,8 +162,7 @@ class Fix_BRCMF(plugins.Plugin):
                 list(
                     TextIOWrapper(
                         subprocess.Popen(
-                            ["journalctl", "-n10"], stdout=subprocess.PIPE
-                        ).stdout
+                            ["journalctl", "-n10"], stdout=subprocess.PIPE, timeout=30).stdout
                     )
                 )[-10:]
             )

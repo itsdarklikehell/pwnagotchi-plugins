@@ -33,7 +33,7 @@ class Sound(plugins.Plugin):
             + "/"
         )
         soundfile = sounddir + event + ".wav"
-        if say is not "":
+        if say != "":
             #          https://stackoverflow.com/questions/199059/a-pythonic-way-to-insert-a-space-before-capital-letters
             #      say = re.sub(r"(\w)([A-Z])", r"\1 \2", say)
             re_outer = re.compile(r"([^A-Z ])([A-Z])")

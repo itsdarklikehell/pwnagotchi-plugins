@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 echo "[=] Stopping pwnagtochi service"
 sudo systemctl stop pwnagotchi.service
 echo "[-] Erasing past life"

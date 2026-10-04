@@ -31,7 +31,7 @@ identified by the string naming its slave device.
 
 TestSession also has methods to start and end client sessions.  Daemon
 responses to a client are fed to a hook function which, by default,
-discards them.  Note that this data is 'bytes' to accommodate possible
+discards them.  Note that this data == 'bytes' to accommodate possible
 binary data in Python 3; use polystr() if you need a str.  You can
 change the hook to misc.get_bytes_stream(sys.stdout).write to dump
 responses to standard output (this is what the gpsfake executable does)
@@ -709,7 +709,7 @@ class SubprogramInstance(object):
         if env:
             self.env = os.environ.copy()
             self.env.update(env)
-        self.process = subprocess.Popen(self.spawncmd, env=self.env)
+        self.process = subprocess.Popen(self.spawncmd, env=self.env, timeout=30)
         if not background:
             self.returncode = status = self.process.wait()
             if os.WIFSIGNALED(status) or os.WEXITSTATUS(status):

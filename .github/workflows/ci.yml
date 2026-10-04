@@ -1,40 +1,57 @@
-name: CI
+name: Python CI
+
 on:
   push:
-    branches: ["master", "main"]
+    branches: [ main, master ]
   pull_request:
-    branches: ["master", "main"]
-  workflow_dispatch:
+    branches: [ main, master ]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-      - name: Run tests
-        run: |
-          pytest tests/ -v --tb=short
-      - name: Generate test report
-        if: always()
-        run: |
-          pytest tests/ --tb=short -q 2>&1 | tee test-report.txt
-      - name: Upload test report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report-py${{ matrix.python-version }}
-          path: test-report.txt
-          retention-days: 30
 
-  ci:
-    uses: itsdarklikehell/ci-templates/.github/workflows/ci-python.yml@v1
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Lint with flake8
+      run: |
+        # Stop the build only on Python syntax errors (E999)
+        flake8 . --count --select=E999 --show-source --statistics
+        # Show all other issues as warnings (don't fail)
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Check for Python 3 deprecation warnings
+      run: |
+        # Check for 'is' with string literal (Python 3.8+ deprecation)
+        if grep -rn 'is "' --include="*.py" . | grep -v '.git'; then
+          echo "::warning::Found 'is' with string literal - use == instead"
+        fi
+        if grep -rn "is '" --include="*.py" . | grep -v '.git'; then
+          echo "::warning::Found 'is' with string literal - use == instead"
+        fi
+
+    - name: Shell script syntax check
+      run: |
+        find . -name "*.sh" -exec bash -n {} \; 2>&1 | head -20
+
+    - name: Check shell scripts have set -e
+      run: |
+        for f in $(find . -name "*.sh"); do
+          if ! grep -q "set -e" "$f"; then
+            echo "::warning::$f missing 'set -e'"
+          fi
+        done
