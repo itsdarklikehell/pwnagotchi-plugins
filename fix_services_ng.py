@@ -112,7 +112,7 @@ class FixServices_ng(plugins.Plugin):
     def get_last_lines(self, command, args, n):
         try:
             process = subprocess.Popen(
-                [command] + args, stdout=subprocess.PIPE, timeout=30)
+                [command] + args, stdout=subprocess.PIPEtimeout=30)
             output = TextIOWrapper(process.stdout)
             lines = output.readlines()
             last_n_lines = "".join(lines[-n:])

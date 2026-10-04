@@ -83,7 +83,7 @@ class AutoBackup_ng(plugins.Plugin):
                     stdout=open("/dev/null", "w"),
                     stderr=None,
                     executable="/bin/bash",
-                , timeout=30)
+                timeout=30)
                 process.wait()
                 if process.returncode > 0:
                     raise OSError(f"Command failed (rc: {process.returncode})")

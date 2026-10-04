@@ -58,7 +58,7 @@ class Banthex(plugins.Plugin):
         self.skip = list()
         logging.debug(f"[{self.__class__.__name__}] plugin init")
 
-    def _upload_to_wpasec(self, path, timeout=30):
+    def _upload_to_wpasec(self, pathtimeout=30):
         with open(path, "rb") as file_to_upload:
             cookie = {"key": self.options["api_key"]}
             payload = {"file": file_to_upload}
@@ -75,7 +75,7 @@ class Banthex(plugins.Plugin):
             except requests.exceptions.RequestException as req_e:
                 raise req_e
 
-    def _download_from_wpasec(self, output, timeout=30):
+    def _download_from_wpasec(self, outputtimeout=30):
         api_url = self.options["api_url"]
         if not api_url.endswith("/"):
             api_url = f"{api_url}/"

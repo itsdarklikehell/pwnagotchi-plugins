@@ -648,7 +648,7 @@ def runCommand(button, pressed, plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         process.wait()
         process = None
         logging.debug("[buttonshim] Process end")

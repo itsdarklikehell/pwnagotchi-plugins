@@ -69,7 +69,7 @@ class Fix_BRCMF(plugins.Plugin):
                         subprocess.Popen(
                             ["journalctl", "-n10", "-k"], stdout=subprocess.PIPE
                         ).stdout
-                    , timeout=30)
+                    timeout=30)
                 )[-10:]
             )
             if len(self.pattern.findall(last_lines)) >= 3:
@@ -155,7 +155,7 @@ class Fix_BRCMF(plugins.Plugin):
                         subprocess.Popen(
                             ["journalctl", "-n10", "-k"], stdout=subprocess.PIPE
                         ).stdout
-                    , timeout=30)
+                    timeout=30)
                 )[-10:]
             )
             other_last_lines = "".join(
@@ -164,7 +164,7 @@ class Fix_BRCMF(plugins.Plugin):
                         subprocess.Popen(
                             ["journalctl", "-n10"], stdout=subprocess.PIPE
                         ).stdout
-                    , timeout=30)
+                    timeout=30)
                 )[-10:]
             )
             logging.debug(f"[{self.__class__.__name__}] **** checking")

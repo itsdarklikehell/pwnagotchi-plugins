@@ -41,7 +41,7 @@ class dropbox(plugins.Plugin):
         self.options = dict()
         self.skip = list()
 
-    def _upload_to_dropbox(self, path, timeout=30):
+    def _upload_to_dropbox(self, pathtimeout=30):
         head, tail = os.path.split(path)
         destFile = self.options["path"] + "/" + tail
         dbOpts = {

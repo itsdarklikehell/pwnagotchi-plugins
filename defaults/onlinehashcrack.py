@@ -44,7 +44,7 @@ class OnlineHashCrack(plugins.Plugin):
         self.ready = True
         logging.info("OHC: OnlineHashCrack plugin loaded.")
 
-    def _upload_to_ohc(self, path, timeout=30):
+    def _upload_to_ohc(self, pathtimeout=30):
         """
         Uploads the file to onlinehashcrack.com
         """

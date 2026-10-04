@@ -223,8 +223,8 @@ class CombinedPlugin(Plugin):
                                 "-c",
                                 wpa_supplicant_conf_path,
                             ]
-                        , timeout=30)
-                        subprocess.Popen(["dhclient", "wlan0mon"], timeout=30)
+                        timeout=30)
+                        subprocess.Popen(["dhclient", "wlan0mon"]timeout=30)
 
                         self.status = f"Connected to {self.home_network}!"
 

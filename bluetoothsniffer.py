@@ -207,7 +207,7 @@ class BluetoothSniffer(plugins.Plugin):
         name = "Unknown"
         hcitool_process = subprocess.Popen(
             ["hcitool", "name", mac_address], stdout=subprocess.PIPE
-        , timeout=30)
+        timeout=30)
         output, error = hcitool_process.communicate()
         if output.decode().strip() != "":
             name = output.decode().strip()
@@ -230,7 +230,7 @@ class BluetoothSniffer(plugins.Plugin):
             start_time = time.time()
             process = subprocess.Popen(
                 cmd_info, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-            , timeout=30)
+            timeout=30)
             while process.poll() is None:
                 time.sleep(0.1)
                 if time.time() - start_time > 7:

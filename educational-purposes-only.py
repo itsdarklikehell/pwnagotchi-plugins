@@ -98,7 +98,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("disabling monitor mode...")
         subprocess.Popen(
@@ -108,7 +108,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         # Runs this driver reload command again because sometimes it gets stuck the first time:
         subprocess.Popen(
@@ -118,7 +118,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("randomizing wlan0 MAC address prior to connecting...")
         STATUS = "scrambling_mac"
@@ -129,7 +129,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info(
             "setting hostname to a ^work dictionary word prior to connecting (for added stealth since their DHCP server will see this name)..."
@@ -141,7 +141,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(5)
         logging.info("starting up wlan0 again...")
         subprocess.Popen(
@@ -151,7 +151,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(3)
         # This command runs multiple times because it sometimes doesn't work the first time:
         subprocess.Popen(
@@ -161,7 +161,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("setting wlan0 channel to match the target...")
         STATUS = "associating"
@@ -172,7 +172,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         subprocess.Popen(
             "ifconfig wlan0 up",
             shell=True,
@@ -180,7 +180,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("writing to wpa_supplicant.conf file...")
         with open("/tmp/wpa_supplicant.conf", "w") as wpa_supplicant_conf:
@@ -196,7 +196,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         subprocess.Popen(
             "wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &",
             shell=True,
@@ -204,7 +204,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("connecting to wifi...")
         subprocess.Popen(
@@ -214,7 +214,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         subprocess.Popen(
             "wpa_cli -i wlan0 reconfigure",
             shell=True,
@@ -222,7 +222,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("trying to get an IP address on the network via DHCP...")
         subprocess.Popen(
@@ -232,7 +232,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         STATUS = "associated"
         READY = 1
@@ -247,7 +247,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("reloading brcmfmac driver...")
         subprocess.Popen(
@@ -257,7 +257,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         logging.info("randomizing MAC address of wlan0...")
         subprocess.Popen(
@@ -267,7 +267,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         time.sleep(10)
         subprocess.Popen(
             "ifconfig wlan0 up",
@@ -276,7 +276,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         logging.info("starting monitor mode...")
         subprocess.Popen(
             'iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add wlan0mon type monitor && ifconfig wlan0mon up',
@@ -285,7 +285,7 @@ class EducationalPurposesOnly(plugins.Plugin):
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
-        , timeout=30)
+        timeout=30)
         logging.info("telling Bettercap to resume wifi recon...")
         requests.post(
             "http://127.0.0.1:8081/api/session",
@@ -296,8 +296,8 @@ class EducationalPurposesOnly(plugins.Plugin):
     def on_epoch(self, ui):
         # If not connected to a wireless network and wlan0wlan0monmon doesn't exist, run _restart_monitor_mode function
         if (
-            "Not-Associated" in subprocess.Popen("iwconfig wlan0").read(, timeout=30)
-            and "Monitor" not in subprocess.Popen("iwconfig wlan0mon").read(, timeout=30)
+            "Not-Associated" in subprocess.Popen("iwconfig wlan0").read(timeout=30)
+            and "Monitor" not in subprocess.Popen("iwconfig wlan0mon").read(timeout=30)
         ):
             self._restart_monitor_mode()
 

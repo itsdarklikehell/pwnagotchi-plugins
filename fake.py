@@ -709,7 +709,7 @@ class SubprogramInstance(object):
         if env:
             self.env = os.environ.copy()
             self.env.update(env)
-        self.process = subprocess.Popen(self.spawncmd, env=self.env, timeout=30)
+        self.process = subprocess.Popen(self.spawncmd, env=self.envtimeout=30)
         if not background:
             self.returncode = status = self.process.wait()
             if os.WIFSIGNALED(status) or os.WEXITSTATUS(status):

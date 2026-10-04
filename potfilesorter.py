@@ -109,7 +109,7 @@ class potfilesorter(plugins.Plugin):
             except OSError as os_e:
                 logging.debug("[wpasec] %s", os_e)
 
-    def _download_from_wpasec(self, output, timeout=30):
+    def _download_from_wpasec(self, outputtimeout=30):
         """
         Downloads the results from wpasec and safes them to output
 

@@ -43,7 +43,7 @@ class WpaSec_ng(plugins.Plugin):
         self.options = dict()
         self.skip = list()
 
-    def _upload_to_wpasec(self, path, timeout=30):
+    def _upload_to_wpasec(self, pathtimeout=30):
         """
         Uploads the file to https://wpa-sec.stanev.org, or another endpoint.
         """
@@ -63,7 +63,7 @@ class WpaSec_ng(plugins.Plugin):
             except requests.exceptions.RequestException as req_e:
                 raise req_e
 
-    def _download_from_wpasec(self, output, timeout=30):
+    def _download_from_wpasec(self, outputtimeout=30):
         """
         Downloads the results from wpasec and safes them to output
 
