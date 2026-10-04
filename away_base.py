@@ -136,7 +136,7 @@ class AwayBase(plugins.Plugin):
 def _run(cmd):
     result = subprocess.run(
         cmd,
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stderr=None,
         stdout=subprocess.PIPE,
@@ -153,7 +153,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     _log("ensuring all wpa_supplicant processes are terminated...")
     subprocess.run(
         "systemctl stop wpa_supplicant; killall wpa_supplicant",
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -163,7 +163,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     _log("disabling monitor mode...")
     subprocess.run(
         "modprobe --remove brcmfmac; modprobe brcmfmac",
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -173,7 +173,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     # Runs this driver reload command again because sometimes it gets stuck the first time:
     subprocess.run(
         "modprobe --remove brcmfmac; modprobe brcmfmac",
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -183,8 +183,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     _log("randomizing wlan0 MAC address prior to connecting...")
     self.status = "scrambling_mac"
     subprocess.run(
-        "macchanger -A wlan0",
-        shell=True,
+        ['macchanger', '-A', 'wlan0'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -193,8 +192,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     time.sleep(5)
     _log("starting up wlan0 again...")
     subprocess.run(
-        "ifconfig wlan0 up",
-        shell=True,
+        ['ifconfig', 'wlan0', 'up'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -203,8 +201,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     time.sleep(3)
     # This command runs multiple times because it sometimes doesn't work the first time:
     subprocess.run(
-        "ifconfig wlan0 up",
-        shell=True,
+        ['ifconfig', 'wlan0', 'up'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -214,16 +211,14 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     _log("setting wlan0 channel to match the target...")
     self.status = "associating"
     subprocess.run(
-        "iwconfig wlan0 channel %d" % channel,
-        shell=True,
+        ['iwconfig', 'wlan0', 'channel', '%d'] % channel,
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
         executable="/bin/bash",
     )
     subprocess.run(
-        "ifconfig wlan0 up",
-        shell=True,
+        ['ifconfig', 'wlan0', 'up'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -238,8 +233,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
         )
     _log("starting wpa_supplicant background process...")
     subprocess.run(
-        "ifconfig wlan0 up",
-        shell=True,
+        ['ifconfig', 'wlan0', 'up'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -247,7 +241,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     )
     subprocess.run(
         "wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &",
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -256,16 +250,14 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     time.sleep(5)
     _log("connecting to wifi...")
     subprocess.run(
-        "ifconfig wlan0 up",
-        shell=True,
+        ['ifconfig', 'wlan0', 'up'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
         executable="/bin/bash",
     )
     subprocess.run(
-        "wpa_cli -i wlan0 reconfigure",
-        shell=True,
+        ['wpa_cli', '-i', 'wlan0', 'reconfigure'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -274,8 +266,7 @@ def _connect_to_target_network(self, agent, network_name, channel, password):
     time.sleep(5)
     _log("trying to get an IP address on the network via DHCP...")
     subprocess.run(
-        "dhclient wlan0",
-        shell=True,
+        ['dhclient', 'wlan0'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -293,7 +284,7 @@ def _restart_monitor_mode(self, agent):
     _log("stopping wpa_supplicant...")
     subprocess.run(
         "systemctl stop wpa_supplicant; killall wpa_supplicant",
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -303,7 +294,7 @@ def _restart_monitor_mode(self, agent):
     _log("reloading brcmfmac driver...")
     subprocess.run(
         "modprobe --remove brcmfmac && modprobe brcmfmac",
-        shell=True,
+        shell=True,  # shell=True required for pipes/redirects
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -312,8 +303,7 @@ def _restart_monitor_mode(self, agent):
     time.sleep(5)
     _log("randomizing MAC address of wlan0...")
     subprocess.run(
-        "macchanger -A wlan0",
-        shell=True,
+        ['macchanger', '-A', 'wlan0'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -321,8 +311,7 @@ def _restart_monitor_mode(self, agent):
     )
     time.sleep(5)
     subprocess.run(
-        "ifconfig wlan0 up",
-        shell=True,
+        ['ifconfig', 'wlan0', 'up'],
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,
@@ -331,7 +320,6 @@ def _restart_monitor_mode(self, agent):
     _log("starting monitor mode...")
     subprocess.run(
         'iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add wlan0mon type monitor && ifconfig wlan0mon up',
-        shell=True,
         stdin=None,
         stdout=open("/dev/null", "w"),
         stderr=None,

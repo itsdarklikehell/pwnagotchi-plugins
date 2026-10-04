@@ -150,7 +150,7 @@ def _do_crack(agent, filename):
 
     try:
         aircrack_execution = subprocess.run(
-            "/usr/bin/aircrack-ng %s" % (filename), shell=True, stdout=subprocess.PIPE
+            "/usr/bin/aircrack-ng %s" % (filename), shell=True, stdout=subprocess.PIPE  # shell=True required for pipes/redirects
         )
         result = aircrack_execution.stdout.decode("utf-8").strip()
     except Exception as e:
@@ -182,7 +182,7 @@ def _do_crack(agent, filename):
                 + crackable_handshake.group("bssid")
                 + " -p 1 | grep KEY"
             ),
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdout=subprocess.PIPE,
         )
         crack_result = aircrack_execution_2.stdout.decode("utf-8").strip()
@@ -204,7 +204,7 @@ def _do_crack(agent, filename):
 def _reconfigure_wpa_supplicant():
     try:
         command = "wpa_cli -i {} reconfigure".format(OPTIONS["interface"])
-        result = subprocess.check_output(command, shell=True)
+        result = subprocess.check_output(command, shell=True)  # shell=True required for pipes/redirects
 
         if result.strip() == "OK":
             logging.info(

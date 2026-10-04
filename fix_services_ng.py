@@ -47,7 +47,7 @@ class FixServices_ng(plugins.Plugin):
         last_lines = self.get_last_lines("journalctl", ["-n10", "-k"], 10)
         try:
             cmd_output = subprocess.check_output(
-                "ip link show wlan0mon", shell=True)
+                ['ip', 'link', 'show', 'wlan0mon'])
             logging.debug(
                 f"[{self.__class__.__name__}] [ip link show wlan0mon]: %s"
                 % repr(cmd_output)
@@ -194,7 +194,7 @@ class FixServices_ng(plugins.Plugin):
                 try:
                     # Run the monstart command to restart wlan0mon
                     cmd_output = subprocess.check_output(
-                        "monstart", shell=True)
+                        ['monstart'])
                     logging.debug(
                         f"[{self.__class__.__name__}] [monstart]: %s" % repr(
                             cmd_output)
@@ -215,7 +215,7 @@ class FixServices_ng(plugins.Plugin):
                 try:
                     # Run the monstart command to restart wlan0mon
                     cmd_output = subprocess.check_output(
-                        "monstart", shell=True)
+                        ['monstart'])
                     logging.debug(
                         f"[{self.__class__.__name__}] [monstart]: %s" % repr(
                             cmd_output)
@@ -284,7 +284,7 @@ class FixServices_ng(plugins.Plugin):
             # is it up?
             try:
                 cmd_output = subprocess.check_output(
-                    "ip link show wlan0mon", shell=True
+                    ['ip', 'link', 'show', 'wlan0mon']
                 )
                 logging.debug(
                     f"[{self.__class__.__name__}] [ip link show wlan0mon]: %s"
@@ -335,7 +335,7 @@ class FixServices_ng(plugins.Plugin):
             )
 
             try:
-                cmd_output = subprocess.check_output("monstop", shell=True)
+                cmd_output = subprocess.check_output(['monstop'])
                 self.logPrintView(
                     "info",
                     f"[{self.__class__.__name__}] wlan0mon down and deleted: %s"
@@ -361,7 +361,7 @@ class FixServices_ng(plugins.Plugin):
                 try:
                     # unload the module
                     cmd_output = subprocess.check_output(
-                        "sudo modprobe -r brcmfmac", shell=True
+                        ['sudo', 'modprobe', '-r', 'brcmfmac']
                     )
                     self.logPrintView(
                         "info",
@@ -376,7 +376,7 @@ class FixServices_ng(plugins.Plugin):
                     try:
                         # reload the brcmfmac kernel module
                         cmd_output = subprocess.check_output(
-                            "sudo modprobe brcmfmac", shell=True
+                            ['sudo', 'modprobe', 'brcmfmac']
                         )
 
                         self.logPrintView(
@@ -389,7 +389,7 @@ class FixServices_ng(plugins.Plugin):
                         # success! now make the mon0
                         try:
                             cmd_output = subprocess.check_output(
-                                "monstart", shell=True)
+                                ['monstart'])
                             self.logPrintView(
                                 "info",
                                 f"[{self.__class__.__name__}] [interface add wlan0mon] worked #%s: %s"

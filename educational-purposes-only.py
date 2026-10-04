@@ -93,7 +93,7 @@ class EducationalPurposesOnly(plugins.Plugin):
         logging.info("ensuring all wpa_supplicant processes are terminated...")
         subprocess.Popen(
             "systemctl stop wpa_supplicant; killall wpa_supplicant",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -103,7 +103,7 @@ timeout=30)
         logging.info("disabling monitor mode...")
         subprocess.Popen(
             "modprobe --remove brcmfmac; modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -113,7 +113,7 @@ timeout=30)
         # Runs this driver reload command again because sometimes it gets stuck the first time:
         subprocess.Popen(
             "modprobe --remove brcmfmac; modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -123,8 +123,7 @@ timeout=30)
         logging.info("randomizing wlan0 MAC address prior to connecting...")
         STATUS = "scrambling_mac"
         subprocess.Popen(
-            "macchanger -A wlan0",
-            shell=True,
+            ['macchanger', '-A', 'wlan0'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -145,8 +144,7 @@ timeout=30)
         time.sleep(5)
         logging.info("starting up wlan0 again...")
         subprocess.Popen(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -155,8 +153,7 @@ timeout=30)
         time.sleep(3)
         # This command runs multiple times because it sometimes doesn't work the first time:
         subprocess.Popen(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -166,16 +163,14 @@ timeout=30)
         logging.info("setting wlan0 channel to match the target...")
         STATUS = "associating"
         subprocess.Popen(
-            "iwconfig wlan0 channel %d" % channel,
-            shell=True,
+            ['iwconfig', 'wlan0', 'channel', '%d'] % channel,
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
 timeout=30)
         subprocess.Popen(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -190,8 +185,7 @@ timeout=30)
             )
         logging.info("starting wpa_supplicant background process...")
         subprocess.Popen(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -199,7 +193,7 @@ timeout=30)
 timeout=30)
         subprocess.Popen(
             "wpa_supplicant -u -s -c /tmp/wpa_supplicant.conf -i wlan0 &",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -208,16 +202,14 @@ timeout=30)
         time.sleep(10)
         logging.info("connecting to wifi...")
         subprocess.Popen(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
             executable="/bin/bash",
 timeout=30)
         subprocess.Popen(
-            "wpa_cli -i wlan0 reconfigure",
-            shell=True,
+            ['wpa_cli', '-i', 'wlan0', 'reconfigure'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -226,8 +218,7 @@ timeout=30)
         time.sleep(10)
         logging.info("trying to get an IP address on the network via DHCP...")
         subprocess.Popen(
-            "dhclient wlan0",
-            shell=True,
+            ['dhclient', 'wlan0'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -242,7 +233,7 @@ timeout=30)
         logging.info("stopping wpa_supplicant...")
         subprocess.Popen(
             "systemctl stop wpa_supplicant; killall wpa_supplicant",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -252,7 +243,7 @@ timeout=30)
         logging.info("reloading brcmfmac driver...")
         subprocess.Popen(
             "modprobe --remove brcmfmac && modprobe brcmfmac",
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -261,8 +252,7 @@ timeout=30)
         time.sleep(10)
         logging.info("randomizing MAC address of wlan0...")
         subprocess.Popen(
-            "macchanger -A wlan0",
-            shell=True,
+            ['macchanger', '-A', 'wlan0'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -270,8 +260,7 @@ timeout=30)
 timeout=30)
         time.sleep(10)
         subprocess.Popen(
-            "ifconfig wlan0 up",
-            shell=True,
+            ['ifconfig', 'wlan0', 'up'],
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,
@@ -280,7 +269,6 @@ timeout=30)
         logging.info("starting monitor mode...")
         subprocess.Popen(
             'iw phy "$(iw phy | head -1 | cut -d" " -f2)" interface add wlan0mon type monitor && ifconfig wlan0mon up',
-            shell=True,
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,

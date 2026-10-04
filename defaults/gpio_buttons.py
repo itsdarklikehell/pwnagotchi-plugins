@@ -21,7 +21,7 @@ class GPIOButtons(plugins.Plugin):
         logging.info(f"Button Pressed! Running command: {command}")
         process = subprocess.Popen(
             command,
-            shell=True,
+            shell=True,  # shell=True required for pipes/redirects
             stdin=None,
             stdout=open("/dev/null", "w"),
             stderr=None,

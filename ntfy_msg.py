@@ -20,7 +20,7 @@ class ntfy_msg(plugins.Plugin):
         cmd = f"curl -d 'Your {self.name} has a new handshake for you' {self.serverlink}"
 
         try:
-            subprocess.run(cmd, shell=True, check=True)
+            subprocess.run(cmd, shell=True, check=True)  # shell=True required for pipes/redirects
             self._log.info("Command executed successfully")
         except subprocess.CalledProcessError as e:
             self._log.error(f"Command failed with error: {e}")

@@ -229,7 +229,7 @@ timeout=30)
             )
             start_time = time.time()
             process = subprocess.Popen(
-                cmd_info, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, timeout=30)
+                cmd_info, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, timeout=30)  # shell=True required for pipes/redirects
             while process.poll() is None:
                 time.sleep(0.1)
                 if time.time() - start_time > 7:

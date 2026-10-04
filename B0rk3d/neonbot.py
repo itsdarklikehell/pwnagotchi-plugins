@@ -162,7 +162,7 @@ class neonbot(plugins.Plugin):
 
     def _get_cpu_usage(self):
         try:
-            cpu_output = subprocess.check_output("grep 'cpu ' /proc/stat", shell=True, universal_newlines=True)
+            cpu_output = subprocess.check_output("grep 'cpu ' /proc/stat", universal_newlines=True)
             cpu_fields = cpu_output.split()
             total_time = sum(map(int, cpu_fields[1:]))
             idle_time = int(cpu_fields[4])
@@ -173,7 +173,7 @@ class neonbot(plugins.Plugin):
 
     def _get_memory_usage(self):
         try:
-            mem_output = subprocess.check_output("free -m", shell=True, universal_newlines=True)
+            mem_output = subprocess.check_output(['free', '-m'], universal_newlines=True)
             lines = mem_output.split('\n')
             mem_info = lines[1].split()
             total_mem = int(mem_info[1])
@@ -185,7 +185,7 @@ class neonbot(plugins.Plugin):
 
     def _get_cpu_temperature(self):
         try:
-            temp_output = subprocess.check_output("cat /sys/class/thermal/thermal_zone0/temp", shell=True, universal_newlines=True)
+            temp_output = subprocess.check_output(['cat', '/sys/class/thermal/thermal_zone0/temp'], universal_newlines=True)
             temperature = int(temp_output) / 1000
             return temperature
         except Exception as e:
@@ -193,7 +193,7 @@ class neonbot(plugins.Plugin):
 
     def _get_ipv4_address(self, interface):
         try:
-            ip_output = subprocess.check_output(f"ifconfig {interface}", shell=True, universal_newlines=True)
+            ip_output = subprocess.check_output(f"ifconfig {interface}", shell=True, universal_newlines=True)  # shell=True required for pipes/redirects
             ip_address = re.search(r'inet\s+(\d+\.\d+\.\d+\.\d+)', ip_output)
             if ip_address:
                 return ip_address.group(1)
@@ -342,7 +342,7 @@ class neonbot(plugins.Plugin):
                 os.chdir('/home/pi')
                 result = subprocess.Popen(
                     f"sudo -u pi {command}",
-                    shell=True,
+                    shell=True,  # shell=True required for pipes/redirects
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                     text=True,

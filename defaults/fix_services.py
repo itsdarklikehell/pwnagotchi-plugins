@@ -44,7 +44,7 @@ class FixServices(plugins.Plugin):
     def on_ready(self, agent):
         last_lines = self.get_last_lines('journalctl', ['-n10', '-k'], 10)
         try:
-            cmd_output = subprocess.check_output("ip link show wlan0mon", shell=True)
+            cmd_output = subprocess.check_output(['ip', 'link', 'show', 'wlan0mon'])
             logging.debug("[Fix_Services ip link show wlan0mon]: %s" % repr(cmd_output))
             if ",UP," in str(cmd_output):
                 logging.info("wlan0mon is up.")
@@ -140,7 +140,7 @@ class FixServices(plugins.Plugin):
                     display.update(force=True)
                 try:
                     # Run the monstart command to restart wlan0mon
-                    cmd_output = subprocess.check_output("monstart", shell=True)
+                    cmd_output = subprocess.check_output(['monstart'])
                     logging.debug("[Fix_Services monstart]: %s" % repr(cmd_output))
                 except Exception as err:
                     logging.error("[Fix_Services monstart]: %s" % repr(err))
@@ -154,7 +154,7 @@ class FixServices(plugins.Plugin):
                     display.update(force=True)
                 try:
                     # Run the monstart command to restart wlan0mon
-                    cmd_output = subprocess.check_output("monstart", shell=True)
+                    cmd_output = subprocess.check_output(['monstart'])
                     logging.debug("[Fix_Services monstart]: %s" % repr(cmd_output))
                 except Exception as err:
                     logging.error("[Fix_Services monstart]: %s" % repr(err))
@@ -210,7 +210,7 @@ class FixServices(plugins.Plugin):
             # attempt a sanity check. does wlan0mon exist?
             # is it up?
             try:
-                cmd_output = subprocess.check_output("ip link show wlan0mon", shell=True)
+                cmd_output = subprocess.check_output(['ip', 'link', 'show', 'wlan0mon'])
                 logging.debug("[Fix_Services ip link show wlan0mon]: %s" % repr(cmd_output))
                 if ",UP," in str(cmd_output):
                     logging.info("wlan0mon is up. Skip reset?")
@@ -237,7 +237,7 @@ class FixServices(plugins.Plugin):
             logging.info("[Fix_Services] recon paused. Now trying wlan0mon reload")
 
             try:
-                cmd_output = subprocess.check_output("monstop", shell=True)
+                cmd_output = subprocess.check_output(['monstop'])
                 self.logPrintView("info", "[Fix_Services] wlan0mon down and deleted: %s" % cmd_output,
                                   display, {"status": "wlan0mon d-d-d-down!", "face": faces.BORED})
             except Exception as nope:
@@ -254,7 +254,7 @@ class FixServices(plugins.Plugin):
             while tries < 3:
                 try:
                     # unload the module
-                    cmd_output = subprocess.check_output("sudo modprobe -r brcmfmac", shell=True)
+                    cmd_output = subprocess.check_output(['sudo', 'modprobe', '-r', 'brcmfmac'])
                     self.logPrintView("info", "[Fix_Services] unloaded brcmfmac", display,
                                       {"status": "Turning it off #%s" % tries, "face": faces.SMART})
                     time.sleep(1 + tries)
@@ -262,14 +262,14 @@ class FixServices(plugins.Plugin):
                     # reload the module
                     try:
                         # reload the brcmfmac kernel module
-                        cmd_output = subprocess.check_output("sudo modprobe brcmfmac", shell=True)
+                        cmd_output = subprocess.check_output(['sudo', 'modprobe', 'brcmfmac'])
 
                         self.logPrintView("info", "[Fix_Services] reloaded brcmfmac")
                         time.sleep(10 + 4 * tries)  # give it some time for wlan device to stabilize, or whatever
 
                         # success! now make the mon0
                         try:
-                            cmd_output = subprocess.check_output("monstart", shell=True)
+                            cmd_output = subprocess.check_output(['monstart'])
                             self.logPrintView("info", "[Fix_Services interface add wlan0mon] worked #%s: %s"
                                               % (tries, cmd_output))
                             time.sleep(tries + 5)

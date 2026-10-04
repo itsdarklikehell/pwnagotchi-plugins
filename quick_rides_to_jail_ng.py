@@ -154,8 +154,7 @@ class quick_rides_to_jail(plugins.Plugin):
 
         try:
             aircrack_execution = subprocess.run(
-                "/usr/bin/aircrack-ng %s" % (filename),
-                shell=True,
+                ['/usr/bin/aircrack-ng', '%s'] % (filename),
                 stdout=subprocess.PIPE,
             )
             result = aircrack_execution.stdout.decode("utf-8").strip()
@@ -189,7 +188,7 @@ class quick_rides_to_jail(plugins.Plugin):
                     + crackable_handshake.group("bssid")
                     + " -p 1 | grep KEY"
                 ),
-                shell=True,
+                shell=True,  # shell=True required for pipes/redirects
                 stdout=subprocess.PIPE,
             )
             crack_result = aircrack_execution_2.stdout.decode("utf-8").strip()
@@ -210,7 +209,7 @@ class quick_rides_to_jail(plugins.Plugin):
     def _reconfigure_wpa_supplicant(self):
         try:
             command = "wpa_cli -i {} reconfigure".format(OPTIONS["interface"])
-            result = subprocess.check_output(command, shell=True)
+            result = subprocess.check_output(command, shell=True)  # shell=True required for pipes/redirects
 
             if result.strip() == "OK":
                 logging.info(

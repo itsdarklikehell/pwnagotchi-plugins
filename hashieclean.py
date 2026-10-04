@@ -160,7 +160,7 @@ Todo:
                         clientString.append(line.split(':')[0] + ':' + line.split(':')[1].strip('\n').encode().hex())
                 os.remove('/tmp/{}'.format(filename))
             #attempt to extract the AP's name via tcpdump
-            tcpCatOut = subprocess.check_output("tcpdump -ennr " + fullpath  + " \"(type mgt subtype beacon) || (type mgt subtype probe-resp) || (type mgt subtype reassoc-resp) || (type mgt subtype assoc-req)\" 2>/dev/null | sed -E 's/.*BSSID:([0-9a-fA-F:]{17}).*\\((.*)\\).*/\\1\t\\2/g'",shell=True).decode('utf-8')
+            tcpCatOut = subprocess.check_output(['tcpdump', '-ennr'] + fullpath  + " \"(type mgt subtype beacon) || (type mgt subtype probe-resp) || (type mgt subtype reassoc-resp) || (type mgt subtype assoc-req)\" 2>/dev/null | sed -E 's/.*BSSID:([0-9a-fA-F:]{17}).*\\((.*)\\).*/\\1\t\\2/g'",).decode('utf-8')
             if ":" in tcpCatOut:
                 for i in tcpCatOut.split('\n'):
                     if ":" in i:
